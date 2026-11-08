@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.4.7";
+const CARD_VERSION = "0.5.0";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen

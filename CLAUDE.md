@@ -111,3 +111,13 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
 - Geplante Hardware des Nutzers: Echo Dot 2 mit Kiosk Satellite (LineageOS) oder TECHO5, dazu ein Zigbee-Knopf.
   Ob `ask_question` auf dem echten Gerät funktioniert, ist noch nicht getestet.
 - GitHub: öffentliches Repo `Calmageddon/TrainingAssistant` (Installation per HACS). Keine Zugangsdaten committen.
+
+## Versionen und Releases
+
+- Versionen nach Major.Minor.Patch (Patch = Korrektur, Minor = neue Funktion, Major = stabil). Steht in `const.py`,
+  `manifest.json` und `CARD_VERSION` der Karte – alle drei gleich halten.
+- Jede ausgelieferte Version: Eintrag in `CHANGELOG.md` (en + de), Commit, Tag `vX.Y.Z` und GitHub-Release mit den
+  Notizen (`gh release create`). Ohne Release zeigt HACS nur ein Commit-Kürzel. Kleine Änderungen sammeln.
+- Das Repo ist öffentlich: Release erst nach ausdrücklicher Freigabe.
+- Keine „Co-Authored-By: Claude“-Zeilen in Commits oder PRs.
+
