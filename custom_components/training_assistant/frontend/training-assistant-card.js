@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.4.6";
+const CARD_VERSION = "0.4.7";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -868,14 +868,10 @@ class TrainingAssistantCard extends HTMLElement {
     } else if (step.type === "interval" && step.block_type === "flow") {
       // Flow: aktuelle Haltung groß, Countdown, beim Wechsel die nächste Haltung
       main = `<div class="ex">${esc(iv ? iv.exercise || "" : [...new Set(step.exercise_names)].join(" · "))}</div>
-        ${iv ? `<div class="iv flow ${iv.phase}"><span class="iv-lbl">${iv.phase === "work" ? `${iv.round}/${iv.rounds}` : t("flow_switch")}</span>
-                <span class="iv-time" data-until="${esc(iv.ends_at)}"></span></div>`
-             : `<div class="tgt big">${esc(t("pv_flow", { n: (step.segments || []).length, m: Math.max(1, Math.round((step.total_s || 0) / 60)) }))}</div>`}`;
+        ${iv ? "" : `<div class="tgt big">${esc(t("pv_flow", { n: (step.segments || []).length, m: Math.max(1, Math.round((step.total_s || 0) / 60)) }))}</div>`}`;
     } else if (step.type === "interval") {
       main = `<div class="ex">${esc(iv ? iv.exercise || "" : step.exercise_names.join(" / "))}</div>
-        ${iv ? `<div class="iv ${iv.phase}"><span class="iv-lbl">${iv.phase === "work" ? t("iv_work") : t("iv_rest")} · ${t("pos_round_of", { r: iv.round, n: iv.rounds })}</span>
-                <span class="iv-time" data-until="${esc(iv.ends_at)}"></span></div>`
-             : `<div class="tgt big">${step.rounds}× ${step.work_s} s / ${step.rest_s} s</div>`}`;
+        ${iv ? "" : `<div class="tgt big">${step.rounds}× ${step.work_s} s / ${step.rest_s} s</div>`}`;
     } else {
       // Aufwärmen / Cool Down: nur ein großer Titel, kein zusätzliches Etikett
       main = `<div class="ex">${esc(blockTitle(step.block_type, step.block_name))}</div>${step.duration_s ? `<div class="muted">${mmss(step.duration_s)} min</div>` : ""}`;
@@ -889,6 +885,13 @@ class TrainingAssistantCard extends HTMLElement {
     // Zustandsfeld: rot = wartet auf „Los“, gelb = Satzpause läuft, grün = Satz läuft, grau = pausiert
     const stateChip = a.paused
       ? `<div class="timer st st-paused">${t("ph_paused")}</div>`
+      : a.phase === "interval" && iv && iv.ends_at
+        ? (() => {
+            const pos = step.block_type === "flow" ? `${iv.round}/${iv.rounds}` : t("pos_round_of", { r: iv.round, n: iv.rounds });
+            return iv.phase === "work"
+              ? `<div class="timer st st-go st-iv"><span>${t("st_go")} · ${esc(pos)}</span><span class="st-time" data-until="${esc(iv.ends_at)}"></span></div>`
+              : `<div class="timer st st-rest st-iv"><span class="grow">${step.block_type === "flow" ? t("flow_switch") : t("t_rest")} <span class="st-time" data-until="${esc(iv.ends_at)}"></span></span></div>`;
+          })()
       : a.rest_until
         ? `<div class="timer st st-rest"><button class="tbtn" data-a="rest" data-d="-15" aria-label="${t("rest_less")}">−15</button>
           <span class="grow">${t("t_rest")} <span data-until="${esc(a.rest_until)}"></span></span>
@@ -1804,6 +1807,8 @@ const STYLE = `
   .timer.st-rest .tbtn { text-transform: none; letter-spacing: 0; }
   .trophy { font-size: .95em; }
   :host { --ta-gold: #e8b44f; }
+  /* HIIT/Flow in der Statusleiste: Countdown etwas größer */
+  .timer.st-iv .st-time { font-size: 1.35em; margin-left: 4px; font-variant-numeric: tabular-nums; letter-spacing: 0; }
   /* Laufendes Intervall/Flow: Phase und Runde klein, Countdown groß */
   .iv { display: flex; flex-direction: column; align-items: center; gap: 0; line-height: 1.15; }
   .iv-lbl { font-size: .8em; letter-spacing: .03em; }
