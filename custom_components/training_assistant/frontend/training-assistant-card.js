@@ -1568,6 +1568,18 @@ const STYLE = `
                box-shadow: 0 1px 3px rgba(0,0,0,.25); }
   .subtab .cnt { font-size: .8em; color: var(--secondary-text-color); margin-left: 4px; }
   .subtab ha-icon { --mdc-icon-size: 18px; margin-right: 2px; }
+
+  /* Schmale Ansicht (Handy oder schmale Spalte): Reiter auf ganzer Breite, Symbol über dem Text */
+  :host { container-type: inline-size; }
+  .subtabs { max-width: 100%; }
+  @container (max-width: 560px) {
+    .subtabs { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); align-self: stretch; }
+    .subtab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+              padding: 7px 4px; font-size: .78em; line-height: 1.15; text-align: center; min-width: 0;
+              hyphens: auto; }
+    .subtab ha-icon { margin: 0; --mdc-icon-size: 20px; }
+    .subtab .cnt { display: none; }
+  }
   .empty { padding: 24px; text-align: center; color: var(--secondary-text-color); display: flex; flex-direction: column;
            gap: 12px; align-items: center; }
   .tpls summary { cursor: pointer; }
