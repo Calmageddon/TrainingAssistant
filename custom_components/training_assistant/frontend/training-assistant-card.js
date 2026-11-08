@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.5.1";
+const CARD_VERSION = "0.5.2";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -83,8 +83,8 @@ const I18N = {
     "tg.yoga": "Yoga & mobility",
     "tg.yoga.about": "Flows, stretching and balance – runs on its own, every pose is announced. A mat is enough.",
     "tg.other": "More",
-    wk_title: "This week", wk_goal: "Goal (number of workouts)", wk_aria: "{d} of {n} workouts this week", wk_streak: "🔥 {n} weeks in a row",
-    wk_streak1: "🔥 1 week", wk_bars: "Sets per day", wk_left: "{n} to go", wk_reached: "Weekly goal reached",
+    wk_title: "This week", wk_goal: "Goal (number of workouts)", wk_goal_short: "workouts per week", wk_aria: "{d} of {n} workouts this week", wk_streak: "🔥 Streak: {n} weeks",
+    wk_streak1: "🔥 Streak: 1 week", wk_streak_lbl: "🔥 Streak", wk_bars: "Sets per day", wk_left: "{n} to go", wk_reached: "Goal reached",
     wk_total: "{n} workouts logged in total", wk_goal_less: "Lower weekly goal", wk_goal_more: "Raise weekly goal",
     "mg.chest": "Chest", "mg.back": "Back", "mg.shoulders": "Shoulders", "mg.biceps": "Biceps", "mg.triceps": "Triceps",
     "mg.core": "Abs", "mg.quads": "Quads", "mg.hamstrings": "Hamstrings", "mg.glutes": "Glutes", "mg.calves": "Calves",
@@ -185,12 +185,12 @@ const I18N = {
     "tg.yoga": "Yoga & Mobilität",
     "tg.yoga.about": "Flows, Dehnen und Gleichgewicht – läuft von selbst, jede Haltung wird angesagt. Eine Matte genügt.",
     "tg.other": "Weitere",
-    wk_title: "Diese Woche", wk_goal: "Ziel (Anzahl der Workouts)", wk_aria: "{d} von {n} Trainings diese Woche", wk_streak: "🔥 {n} Wochen am Stück",
-    wk_streak1: "🔥 1 Woche", wk_bars: "Sätze pro Tag", wk_left: "noch {n}", wk_reached: "Wochenziel erreicht",
+    wk_title: "Diese Woche", wk_goal: "Ziel (Anzahl der Workouts)", wk_goal_short: "Workouts pro Woche", wk_aria: "{d} von {n} Trainings diese Woche", wk_streak: "🔥 Streak: {n} Wochen",
+    wk_streak1: "🔥 Streak: 1 Woche", wk_streak_lbl: "🔥 Streak", wk_bars: "Sätze pro Tag", wk_left: "noch {n}", wk_reached: "Ziel erreicht",
     wk_total: "{n} Trainings insgesamt", wk_goal_less: "Wochenziel senken", wk_goal_more: "Wochenziel erhöhen",
     "mg.chest": "Brust", "mg.back": "Rücken", "mg.shoulders": "Schultern", "mg.biceps": "Bizeps", "mg.triceps": "Trizeps",
     "mg.core": "Bauch", "mg.quads": "Oberschenkel vorn", "mg.hamstrings": "Oberschenkel hinten", "mg.glutes": "Po", "mg.calves": "Waden",
-    h_tab_over: "Übersicht", tile_week: "Diese Woche", tile_streak: "Serie", tile_weeks: "{n} Wochen", tile_week1: "1 Woche",
+    h_tab_over: "Übersicht", tile_week: "Diese Woche", tile_streak: "Streak", tile_weeks: "{n} Wochen", tile_week1: "1 Woche",
     tile_total: "Trainings gesamt", tile_since: "seit {d}", tile_time: "Zeit diese Woche", tile_time_avg: "Ø {m} min/Woche",
     rec_title: "Letzte Rekorde", rec_none: "Noch keine Rekorde – sie kommen ab dem zweiten Training mit einer Übung.",
     rec_weight: "{v} kg", rec_e1rm: "geschätztes Max. {v} kg", rec_reps: "{v} Wdh.", rec_duration: "{v} s", rec_prev: "vorher {v}",
@@ -782,13 +782,14 @@ class TrainingAssistantCard extends HTMLElement {
     return `
       <div class="pad live">
         ${people}
+        ${this._stats ? weekCard(this._stats) : ""}
         <div class="startrow">
-          <button class="btn primary" data-a="start">${t("start")}</button>
           <label class="sel"><span class="lbl">${t("program")}</span><select data-field="program-select">${progOpts}</select></label>
           <label class="sel"><span class="lbl">${t("workout")}</span><select data-field="workout-select">${woOpts}</select></label>
+          ${cur ? `<div class="wo-hint muted small"><span class="wo-pos">${t("wo_pos", { p: cur.position, n: cur.count })}</span>${pw.length > 1 && after
+            ? `<span class="wo-sep"> · </span><span>${esc(t("wo_after", { name: after.name }).replace(/^\s*·\s*/, ""))}</span>` : ""}<span class="wo-auto">${t("wo_auto")}</span></div>` : ""}
+          <button class="btn primary" data-a="start">${t("start")}</button>
         </div>
-        ${cur ? `<div class="muted small">${t("wo_pos", { p: cur.position, n: cur.count })}${pw.length > 1 && after ? esc(t("wo_after", { name: after.name })) : ""}${t("wo_auto")}</div>` : ""}
-        ${this._stats ? weekCard(this._stats) : ""}
         ${this._renderPreview()}
         ${st.default_satellite ? `<div class="muted small">${esc(t("voice_via", { sat: st.default_satellite }))}</div>` : `<div class="muted small">${t("no_sat")}</div>`}
       </div>`;
@@ -1423,18 +1424,20 @@ function weekCard(stats) {
   const groups = Object.keys(vol).filter((g) => vol[g].week).sort((a, b) => vol[b].week - vol[a].week);
   const streak = stats.streak_weeks
     ? ` · ${stats.streak_weeks === 1 ? t("wk_streak1") : t("wk_streak", { n: stats.streak_weeks })}` : "";
-  const status = wk.left ? t("wk_left", { n: wk.left }) : `✓ ${t("wk_reached")}`;
   return `<div class="week">
+    <div class="wk-label">${t("wk_title")}</div>
     <div class="wk-head">
       <div class="wr">
         <svg viewBox="0 0 100 100" class="wr-svg" role="img" aria-label="${esc(t("wk_aria", { d: wk.done, n: wk.goal }))}">${ring}</svg>
         <div class="wr-c"><b>${wk.done}</b><span>/${wk.goal}</span>${extra}</div>
       </div>
       <div class="wk-info">
-        <div class="wk-title">${t("wk_title")}</div>
-        <div class="wk-status">${status}${streak}</div>
-        <div class="wk-goal"><span class="wk-goal-l">${t("wk_goal")}</span>
-          <span class="wk-step"><button class="tbtn" data-a="goal" data-d="-1" aria-label="${t("wk_goal_less")}">−</button><b>${wk.goal}</b><button class="tbtn" data-a="goal" data-d="1" aria-label="${t("wk_goal_more")}">+</button></span></div>
+        ${stats.streak_weeks ? `<div class="wk-streak"><span class="wk-streak-l">${t("wk_streak_lbl")}</span>
+          <b>${stats.streak_weeks === 1 ? t("tile_week1") : t("tile_weeks", { n: stats.streak_weeks })}</b></div>` : ""}
+      </div>
+      <div class="wk-goal" title="${esc(t("wk_goal"))}">
+        <span class="wk-step"><button class="tbtn" data-a="goal" data-d="-1" aria-label="${t("wk_goal_less")}">−</button><b>${wk.goal}</b><button class="tbtn" data-a="goal" data-d="1" aria-label="${t("wk_goal_more")}">+</button></span>
+        <span class="wk-goal-l">${t("wk_goal_short")}</span>
       </div>
     </div>
     <div class="wk-body">
@@ -1666,7 +1669,9 @@ const STYLE = `
          border-bottom: 1px solid var(--divider-color); }
   .tpl-txt { min-width: 0; }
   .tpl .btn { flex: none; }
-  .startrow { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 10px; align-items: end; }
+  .startrow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
+  .startrow .btn, .startrow .wo-hint { grid-column: 1 / -1; }
+  .wo-hint { margin-top: -4px; }
   .startrow .sel { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .startrow .sel .lbl { margin: 0; }
   /* Programm/Workout-Auswahl: etwas kleiner, damit lange Namen hineinpassen */
@@ -1715,12 +1720,20 @@ const STYLE = `
           padding: 14px 16px; }
   .wr { position: relative; width: 104px; height: 104px; flex: none; }
   .week { background: var(--secondary-background-color); }
-  .wk-head { display: flex; align-items: center; gap: 16px; min-width: 0; }
+  .wk-label { grid-column: 1 / -1; margin-bottom: -6px; font-size: .75em; text-transform: uppercase;
+               letter-spacing: .06em; color: var(--secondary-text-color); }
+  .wk-head { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; min-width: 0; }
   .wk-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
   .wk-title { font-weight: 700; font-size: 1.1em; }
-  .wk-status { font-size: .85em; color: var(--secondary-text-color); }
-  .wk-goal { display: flex; align-items: center; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
-  .wk-goal-l { font-size: .78em; color: var(--secondary-text-color); line-height: 1.2; white-space: nowrap; }
+  .wk-streak { display: flex; flex-direction: column; gap: 1px; line-height: 1.2; }
+  .wk-streak-l { font-size: .75em; color: var(--secondary-text-color); white-space: nowrap; }
+  .wk-streak b { font-size: 1.05em; white-space: nowrap; }
+  .wk-streak .pi { color: var(--primary-color); }
+  .wk-status { font-size: .85em; color: var(--secondary-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Ziel oben rechts: Beschriftung über dem Regler, bündig mit „Diese Woche“ */
+  .wk-goal { display: flex; flex-direction: column; align-items: center; gap: 4px; align-self: start; margin-top: -18px; }
+  .wk-goal-l { order: -1; }
+  .wk-goal-l { font-size: .72em; color: var(--secondary-text-color); line-height: 1.2; white-space: nowrap; }
   .wk-step { display: inline-flex; align-items: center; gap: 4px; padding: 2px; border-radius: 10px;
              background: var(--card-background-color); border: 1px solid var(--divider-color); }
   .wk-step b { min-width: 1.6em; text-align: center; font-size: 1.05em; }
@@ -1831,6 +1844,24 @@ const STYLE = `
   .timer.st-rest .tbtn { text-transform: none; letter-spacing: 0; }
   .trophy { font-size: .95em; }
   :host { --ta-gold: #e8b44f; }
+  /* Startseite auf dem Handy: Woche kompakt, Hinweis kurz – damit „Training starten“ ohne Scrollen sichtbar ist */
+  @container (max-width: 560px) {
+    .week { gap: 10px; padding: 12px 14px; }
+    .wk-head { gap: 8px; }
+    .wr { width: 68px; height: 68px; }
+    .wr-c b { font-size: 1.4em; }
+    .wr-c span { font-size: .9em; }
+    .wr-extra { bottom: 12px; }
+    .wk-title { font-size: 1em; }
+    .wk-status { font-size: .8em; line-height: 1.3; }
+    .wk-step .tbtn { width: 26px; height: 26px; }
+    .wk-cap { display: none; }
+    .wb-col { height: 30px; }
+    .wb-n { height: .9em; }
+    .wb-d { width: 18px; height: 18px; font-size: .72em; }
+    .wk-foot { display: none; }
+    .wo-pos, .wo-sep, .wo-auto { display: none; }
+  }
   /* HIIT/Flow in der Statusleiste: Countdown etwas größer */
   .timer.st-iv .st-time { font-size: 1.35em; margin-left: 4px; font-variant-numeric: tabular-nums; letter-spacing: 0; }
   /* Laufendes Intervall/Flow: Phase und Runde klein, Countdown groß */

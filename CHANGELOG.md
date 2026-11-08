@@ -4,6 +4,20 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.5.2 – 2026-11-08
+
+- Start page reordered: week overview first, then program and workout, then *Start workout* (choose, then start).
+  On phones the week card and the hint are more compact so the start button stays visible without scrolling.
+  *Deutsch:* Startseite neu geordnet – erst die Woche, dann Programm/Workout, dann „Training starten“; auf dem Handy
+  kompakter, damit der Start-Knopf ohne Scrollen sichtbar bleibt.
+- Week card header: ring, "This week" with status and streak on separate lines, goal stepper on the right
+  ("workouts per week").
+  *Deutsch:* Kopf der Wochen-Karte – Ring, „Diese Woche“ mit Stand und Serie, rechts der Regler „Workouts pro Woche“.
+- Week card: "This week" as a small label top left, ring and streak ("Streak" / "1 week") next to each other,
+  "workouts per week" above the goal stepper in the top right; "to go" and "goal reached" removed (the ring shows it).
+  *Deutsch:* Wochen-Karte: „Diese Woche“ klein oben links, Ring und Streak nebeneinander, „Workouts pro Woche“ über dem
+  Regler oben rechts; „noch 2“ und „Ziel erreicht“ entfallen (zeigt der Ring).
+
 ## 0.5.1 – 2026-11-08
 
 - Phone: workout header shows the workout name with the program below and the clock with "last time" on the right;
