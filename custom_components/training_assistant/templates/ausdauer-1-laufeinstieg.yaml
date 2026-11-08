@@ -1,0 +1,436 @@
+# Template: run starter – from walking to 30 minutes of running in 9 weeks, 3 runs per week.
+# Run/walk intervals inspired by the NHS "Couch to 5K" plan (nhs.uk). 27 runs in order: the rotation
+# always suggests the next run. Every run starts and ends with 5 minutes of brisk walking.
+# Generated – one workout per run so the rotation follows the plan exactly.
+schema_version: 1
+name: Run Starter 9 Weeks
+description: >-
+  From walking to 30 minutes of running in 9 weeks: 3 runs per week with a rest day in between,
+  about 30–40 minutes each. Runs on its own with a beep at every change between running and walking.
+  If a run felt too hard, simply repeat it. Inspired by the NHS Couch to 5K plan.
+goal: endurance
+defaults:
+  progression: { type: none }
+exercises:
+  brisk_walk: { name: Brisk Walk, aliases: [Zügiges Gehen], equipment: other, image: Walking_Treadmill, muscles: [] }
+  run: { name: Easy Run, aliases: [Lockeres Laufen, Joggen], equipment: other, image: Jogging_Treadmill,
+         muscles: [quads, hamstrings, calves] }
+  walk: { name: Walk, aliases: [Gehen], equipment: other, image: Walking_Treadmill, muscles: [] }
+workouts:
+  - id: week1_run1
+    name: Week 1 · Run 1
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 28 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week1_run2
+    name: Week 1 · Run 2
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 28 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week1_run3
+    name: Week 1 · Run 3
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 28 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 60 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week2_run1
+    name: Week 2 · Run 1
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 29 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week2_run2
+    name: Week 2 · Run 2
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 29 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week2_run3
+    name: Week 2 · Run 3
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 29 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 120 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week3_run1
+    name: Week 3 · Run 1
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 25 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: walk, duration_s: 180 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week3_run2
+    name: Week 3 · Run 2
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 25 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: walk, duration_s: 180 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week3_run3
+    name: Week 3 · Run 3
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 25 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: walk, duration_s: 180 }
+          - { exercise: run, duration_s: 90 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week4_run1
+    name: Week 4 · Run 1
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 31 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: walk, duration_s: 150 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week4_run2
+    name: Week 4 · Run 2
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 31 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: walk, duration_s: 150 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week4_run3
+    name: Week 4 · Run 3
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 31 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: walk, duration_s: 150 }
+          - { exercise: run, duration_s: 180 }
+          - { exercise: walk, duration_s: 90 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week5_run1
+    name: Week 5 · Run 1
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 31 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: walk, duration_s: 180 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: walk, duration_s: 180 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week5_run2
+    name: Week 5 · Run 2
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 31 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 480 }
+          - { exercise: walk, duration_s: 300 }
+          - { exercise: run, duration_s: 480 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week5_run3
+    name: Week 5 · Run 3
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 30 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1200 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week6_run1
+    name: Week 6 · Run 1
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 34 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: walk, duration_s: 180 }
+          - { exercise: run, duration_s: 480 }
+          - { exercise: walk, duration_s: 180 }
+          - { exercise: run, duration_s: 300 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week6_run2
+    name: Week 6 · Run 2
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 33 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 600 }
+          - { exercise: walk, duration_s: 180 }
+          - { exercise: run, duration_s: 600 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week6_run3
+    name: Week 6 · Run 3
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 35 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1500 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week7_run1
+    name: Week 7 · Run 1
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 35 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1500 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week7_run2
+    name: Week 7 · Run 2
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 35 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1500 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week7_run3
+    name: Week 7 · Run 3
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 35 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1500 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week8_run1
+    name: Week 8 · Run 1
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 38 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1680 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week8_run2
+    name: Week 8 · Run 2
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 38 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1680 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week8_run3
+    name: Week 8 · Run 3
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 38 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1680 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week9_run1
+    name: Week 9 · Run 1
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 40 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1800 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week9_run2
+    name: Week 9 · Run 2
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 40 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1800 }
+          - { exercise: brisk_walk, duration_s: 300 }
+  - id: week9_run3
+    name: Week 9 · Run 3
+    blocks:
+      - type: flow
+        name: Run & Walk
+        rest_s: 0
+        note: "Slow enough that you could still talk. About 40 minutes."
+        exercises:
+          - { exercise: brisk_walk, duration_s: 300 }
+          - { exercise: run, duration_s: 1800 }
+          - { exercise: brisk_walk, duration_s: 300 }

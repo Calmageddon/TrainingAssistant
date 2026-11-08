@@ -220,6 +220,8 @@ class TrainingManager:
                        "One or two bells – strength, muscular endurance and conditioning in little time."),
         "hiit": ("HIIT & Tabata", "mdi:timer-outline",
                  "Short, hard intervals – timed, with beeps or announcements. Bodyweight, kettlebell, bike, rower or running."),
+        "ausdauer": ("Endurance", "mdi:run",
+                     "Running and steady cardio – step by step to more stamina. Timed, runs on its own."),
         "yoga": ("Yoga & mobility", "mdi:yoga",
                  "Flows, stretching and balance – runs on its own, every pose is announced. A mat is enough."),
     }

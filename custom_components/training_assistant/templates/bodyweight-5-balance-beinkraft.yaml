@@ -1,0 +1,60 @@
+# Template: balance and leg strength for older adults and after long breaks. Inspired by the Otago
+# Exercise Programme (Campbell et al. 1997), whose leg-strength and balance exercises reduce falls.
+# Cochrane review: exercise lowers the rate of falls by about a quarter (Sherrington et al. 2019).
+schema_version: 1
+name: Balance & Leg Strength
+description: >-
+  About 30 minutes, 3×/week: chair stands, calf and toe raises, side leg raises, then balance
+  exercises on a timer. Always stand next to a sturdy chair or worktop. Inspired by the Otago
+  Exercise Programme for fall prevention.
+goal: general
+defaults:
+  rest_s: 60
+  progression: { type: reps, increment: 1, max_reps: 15 }
+exercises:
+  sit_to_stand: { name: Sit to Stand, aliases: [Aufstehen vom Stuhl], equipment: bodyweight, image: Chair_Squat,
+                  note: Arms crossed – use your hands only if you need to. }
+  calf_raise: { name: Calf Raise, aliases: [Wadenheben], equipment: bodyweight, image: Standing_Calf_Raises }
+  toe_raise: { name: Toe Raise, aliases: [Zehenheben], equipment: bodyweight, image: false, muscles: [] }
+  side_leg_raise: { name: Standing Side Leg Raise, aliases: [Bein seitlich heben im Stand], equipment: bodyweight,
+                    image: false, muscles: [glutes] }
+  knee_extension: { name: Seated Knee Extension, aliases: [Knie strecken im Sitzen], equipment: bodyweight,
+                    image: false, muscles: [quads] }
+  standing_knee_curl: { name: Standing Knee Curl, aliases: [Knie beugen im Stand], equipment: bodyweight,
+                        image: false, muscles: [hamstrings] }
+  tandem_stand: { name: Tandem Stand, aliases: [Fuß vor Fuß stehen], equipment: bodyweight, image: false, muscles: [] }
+  single_leg_stand: { name: Single-Leg Stand, aliases: [Einbeinstand], equipment: bodyweight, image: false, muscles: [] }
+  heel_toe_walk: { name: Heel-to-Toe Walk, aliases: [Seiltänzergang], equipment: bodyweight, image: false, muscles: [] }
+  backwards_walk: { name: Walking Backwards, aliases: [Rückwärtsgehen], equipment: bodyweight, image: false, muscles: [] }
+  sideways_walk: { name: Sideways Walk, aliases: [Seitwärtsgehen], equipment: bodyweight, image: false, muscles: [] }
+workouts:
+  - id: balance
+    name: Strength & Balance
+    blocks:
+      - { type: warmup, duration_s: 300, note: "March on the spot, circle your shoulders and ankles, turn your head slowly – holding on to the chair." }
+      - { type: sets, exercise: sit_to_stand, sets: 2, reps: { min: 5, max: 15 } }
+      - type: circuit
+        name: Legs
+        rounds: 2
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: Hold on to the chair. Move slowly – about 3 seconds up and 3 seconds down.
+        exercises:
+          - { exercise: calf_raise, reps: { min: 8, max: 15 } }
+          - { exercise: toe_raise, reps: { min: 8, max: 15 } }
+          - { exercise: side_leg_raise, reps: { min: 8, max: 15 }, per_side: true }
+          - { exercise: knee_extension, reps: { min: 8, max: 15 }, per_side: true }
+          - { exercise: standing_knee_curl, reps: { min: 8, max: 15 }, per_side: true }
+      - type: flow
+        name: Balance
+        rounds: 2
+        rest_s: 5
+        rest_after_round_s: 30
+        note: "Stay next to the chair. Easier: hold on with both hands. Harder: one hand, then fingertips, then no hands."
+        exercises:
+          - { exercise: tandem_stand, duration_s: 20, per_side: true }
+          - { exercise: single_leg_stand, duration_s: 20, per_side: true }
+          - { exercise: heel_toe_walk, duration_s: 30 }
+          - { exercise: backwards_walk, duration_s: 30 }
+          - { exercise: sideways_walk, duration_s: 30 }
+      - { type: cooldown, note: Walk around calmly for a few minutes. }

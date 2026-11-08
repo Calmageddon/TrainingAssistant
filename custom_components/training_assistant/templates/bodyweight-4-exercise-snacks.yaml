@@ -1,0 +1,59 @@
+# Template: exercise snacks – very short, brisk bouts spread over the day instead of one long workout.
+# Stair-climbing snacks (3 × 20 s, several times a day) improved fitness in inactive adults
+# (Jenkins et al. 2019, Allison et al. 2017). Short vigorous bouts in daily life are linked to lower
+# mortality (Stamatakis et al., Nature Medicine 2022, observational).
+schema_version: 1
+name: Exercise Snacks
+description: >-
+  Three mini workouts of 2–5 minutes – stairs, legs, upper body. No changing, no equipment:
+  do one or more of them spread over the day, e.g. before lunch or after long sitting.
+  Ideal for days without time for a real workout.
+goal: general
+defaults:
+  rest_s: 30
+  progression: { type: reps, increment: 1 }
+exercises:
+  stair_climb: { name: Stair Climbing (brisk), aliases: [Treppensteigen zügig], equipment: bodyweight, image: Stairmaster,
+                 muscles: [quads, glutes] }
+  bodyweight_squat: { name: Bodyweight Squat, aliases: [Kniebeugen, Air Squat], equipment: bodyweight, image: Bodyweight_Squat }
+  reverse_lunge: { name: Reverse Lunge, aliases: [Ausfallschritt rückwärts], equipment: bodyweight, image: Crossover_Reverse_Lunge }
+  calf_raise: { name: Calf Raise, aliases: [Wadenheben], equipment: bodyweight, image: Standing_Calf_Raises }
+  incline_push_up: { name: Incline Push-Up, aliases: [Liegestütze erhöht], equipment: bodyweight, image: Incline_Push-Up,
+                     note: Hands on a table or windowsill. }
+  superman: { name: Superman, aliases: [Rückenstrecker liegend], equipment: bodyweight, image: Superman }
+  plank: { name: Plank, aliases: [Unterarmstütz], equipment: bodyweight }
+workouts:
+  - id: stairs
+    name: Stair Snack
+    blocks:
+      - type: interval
+        name: Stairs
+        rounds: 3
+        work_s: 20
+        rest_s: 60
+        note: "Climb briskly, two steps at a time if you can – walk back down in the rest."
+        exercises: [stair_climb]
+  - id: legs
+    name: Leg Snack
+    blocks:
+      - type: circuit
+        name: Legs
+        rounds: 2
+        rest_after_exercise_s: 0
+        rest_after_round_s: 30
+        exercises:
+          - { exercise: bodyweight_squat, reps: { min: 10, max: 20 } }
+          - { exercise: reverse_lunge, reps: { min: 6, max: 12 }, per_side: true }
+          - { exercise: calf_raise, reps: { min: 15, max: 25 } }
+  - id: upper
+    name: Upper Body Snack
+    blocks:
+      - type: circuit
+        name: Upper Body
+        rounds: 2
+        rest_after_exercise_s: 0
+        rest_after_round_s: 30
+        exercises:
+          - { exercise: incline_push_up, reps: { min: 8, max: 15 } }
+          - { exercise: superman, reps: { min: 8, max: 15 } }
+          - { exercise: plank, duration_s: 30, progression: { type: none } }

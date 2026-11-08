@@ -1,0 +1,78 @@
+# Template: full body 3 days in the gym – every muscle group 3×/week with 2–3 hard sets per session,
+# i.e. about 6–12 sets per muscle per week. Based on research on frequency and volume
+# (Schoenfeld et al. 2016/2017), double progression in the 6–15 rep range.
+schema_version: 1
+name: Full Body 3 Days (Gym)
+description: >-
+  Three different full-body workouts (A, B, C), 3×/week with a day off in between, about 60 minutes.
+  Barbell, dumbbells and machines. Every muscle group is trained in every session – good for
+  beginners and anyone who can only train on three days.
+goal: hypertrophy
+defaults:
+  rest_s: 120
+  progression: { type: double, increment_kg: 2.5 }
+exercises:
+  back_squat: { name: Back Squat, aliases: [Kniebeuge], equipment: barbell, image: Barbell_Squat }
+  bench_press: { name: Bench Press, aliases: [Bankdrücken], equipment: barbell }
+  cable_row: { name: Seated Cable Row, aliases: [Rudern am Kabel], equipment: cable, image: Seated_Cable_Rows }
+  romanian_deadlift: { name: Romanian Deadlift, aliases: [Rumänisches Kreuzheben], equipment: barbell, image: Romanian_Deadlift }
+  lateral_raise: { name: Lateral Raise, aliases: [Seitheben], equipment: dumbbell, image: Side_Lateral_Raise }
+  plank: { name: Plank, aliases: [Unterarmstütz], equipment: bodyweight }
+  leg_press: { name: Leg Press, aliases: [Beinpresse], equipment: machine, image: Leg_Press }
+  incline_db_press: { name: Incline Dumbbell Press, aliases: [Schrägbankdrücken Kurzhantel], equipment: dumbbell, image: Incline_Dumbbell_Press }
+  lat_pulldown: { name: Lat Pulldown, aliases: [Latziehen], equipment: cable, image: Wide-Grip_Lat_Pulldown }
+  leg_curl: { name: Leg Curl, aliases: [Beinbeuger], equipment: machine, image: Lying_Leg_Curls }
+  db_curl: { name: Dumbbell Curl, aliases: [Bizepscurls Kurzhantel], equipment: dumbbell, image: Dumbbell_Bicep_Curl }
+  triceps_pushdown: { name: Triceps Pushdown, aliases: [Trizepsdrücken am Kabel], equipment: cable, image: Triceps_Pushdown }
+  split_squat: { name: Split Squat, aliases: [Ausfallschritt stehend], equipment: dumbbell, image: Split_Squat_with_Dumbbells }
+  db_shoulder_press: { name: Dumbbell Shoulder Press, aliases: [Schulterdrücken Kurzhantel], equipment: dumbbell, image: Dumbbell_Shoulder_Press }
+  dumbbell_row: { name: One-Arm Dumbbell Row, aliases: [Kurzhantelrudern einarmig], equipment: dumbbell, image: One-Arm_Dumbbell_Row }
+  hip_thrust: { name: Hip Thrust, equipment: barbell, image: Barbell_Hip_Thrust }
+  face_pull: { name: Face Pulls, equipment: cable, image: Face_Pull }
+  calf_raise: { name: Calf Raise, aliases: [Wadenheben], equipment: machine, image: Standing_Calf_Raises }
+workouts:
+  - id: full_a
+    name: Full Body A
+    blocks:
+      - { type: warmup, note: "5 easy minutes, then 2 light warm-up sets of squats." }
+      - { type: sets, exercise: back_squat, sets: 3, reps: { min: 6, max: 8 }, weight_kg: 40, rest_s: 150 }
+      - { type: sets, exercise: bench_press, sets: 3, reps: { min: 6, max: 8 }, weight_kg: 35, rest_s: 150 }
+      - { type: sets, exercise: cable_row, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 35 }
+      - { type: sets, exercise: lateral_raise, sets: 2, reps: { min: 12, max: 15 }, weight_kg: 5, rest_s: 60, progression: { type: double, increment_kg: 1 } }
+      - { type: sets, exercise: plank, sets: 2, duration_s: { min: 30, max: 60 }, rest_s: 60 }
+      - { type: cooldown }
+  - id: full_b
+    name: Full Body B
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: leg_press, sets: 3, reps: { min: 10, max: 15 }, weight_kg: 60 }
+      - { type: sets, exercise: incline_db_press, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 14, progression: { type: double, increment_kg: 2 } }
+      - { type: sets, exercise: lat_pulldown, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 35 }
+      - { type: sets, exercise: leg_curl, sets: 3, reps: { min: 10, max: 15 }, weight_kg: 25 }
+      - type: circuit
+        name: Arms
+        rounds: 2
+        rest_after_exercise_s: 30
+        rest_after_round_s: 60
+        exercises:
+          - { exercise: db_curl, reps: { min: 10, max: 15 }, weight_kg: 8, progression: { type: double, increment_kg: 2 } }
+          - { exercise: triceps_pushdown, reps: { min: 10, max: 15 }, weight_kg: 15 }
+      - { type: cooldown }
+  - id: full_c
+    name: Full Body C
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: romanian_deadlift, sets: 3, reps: { min: 8, max: 10 }, weight_kg: 40, rest_s: 150 }
+      - { type: sets, exercise: db_shoulder_press, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 12, progression: { type: double, increment_kg: 2 } }
+      - { type: sets, exercise: dumbbell_row, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 16, per_side: true, progression: { type: double, increment_kg: 2 } }
+      - { type: sets, exercise: split_squat, sets: 2, reps: { min: 8, max: 12 }, weight_kg: 10, per_side: true, progression: { type: double, increment_kg: 2 } }
+      - { type: sets, exercise: hip_thrust, sets: 2, reps: { min: 8, max: 12 }, weight_kg: 40 }
+      - type: circuit
+        name: Shoulders & Calves
+        rounds: 2
+        rest_after_exercise_s: 30
+        rest_after_round_s: 60
+        exercises:
+          - { exercise: face_pull, reps: { min: 12, max: 15 }, weight_kg: 15 }
+          - { exercise: calf_raise, reps: { min: 10, max: 15 }, weight_kg: 40 }
+      - { type: cooldown }

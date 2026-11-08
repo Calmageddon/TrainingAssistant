@@ -15,7 +15,7 @@ CAT = Catalog.load()
 def test_templates_exist():
     assert len(TEMPLATES) >= 27
     groups = {p.stem.split("-", 1)[0] for p in TEMPLATES}
-    assert groups == {"kraft", "bodyweight", "calisthenics", "kettlebell", "hiit", "yoga"}
+    assert groups == {"kraft", "bodyweight", "calisthenics", "kettlebell", "hiit", "ausdauer", "yoga"}
 
 
 def test_groups_known_to_card_and_manager():

@@ -21,6 +21,8 @@ read the respective source.
 | Push/Pull/Legs | up to 6×/week | hypertrophy, lots of time | r/Fitness "PPL for beginners" |
 | Upper/Lower 4 Days | 4×/week | hypertrophy, intermediates | research (see below) |
 | Full Body at Home (Dumbbells) | 3×/week | at home, little equipment | research (see below) |
+| Full Body 3 Days (Gym) | 3×/week, A/B/C | gym, beginners, 3 days | frequency/volume research (Schoenfeld et al.) |
+| Minimal Strength 2 Days | 2×/week, ~30 min | little time, 1–2 hard sets per exercise | minimal-dose reviews (Androulakis-Korakakis 2020, Nuzzo 2024) |
 
 **Research in short:** For muscle growth, **weekly volume** is what matters. About 10 or more
 hard sets per muscle per week bring more than fewer, but even ≤ 4 sets work. **Frequency**
@@ -40,6 +42,9 @@ Difference to calisthenics: there you need a bar and dip bars and work towards s
 | 7-Minute Circuit | conditioning, 12 exercises of 30 s, 2 rounds | Klika & Jordan, ACSM's Health & Fitness Journal 2013 |
 | Full-Body Strength, No Equipment | strength/muscle, 3×/week | push-up ≈ bench press at equal effort (Kikuchi & Nakazato 2017) |
 | 20-Minute Travel Circuit | as many rounds as possible in 20 min | common circuit format |
+| Exercise Snacks | 3 mini workouts of 2–5 min spread over the day | stair snacks (Jenkins et al. 2019, Allison et al. 2017), VILPA (Stamatakis et al. 2022) |
+| Balance & Leg Strength | fall prevention, older adults, 3×/week | inspired by the Otago Exercise Programme (Campbell et al. 1997); Cochrane review Sherrington et al. 2019 |
+| Core Stability Trio | back-friendly core, ~10 min, daily | inspired by Stuart McGill's "Big 3" |
 
 ## Calisthenics
 
@@ -78,6 +83,14 @@ Every interval is stored as a set, so HIIT counts in the history and weekly view
 | Sprint Intervals 30/4 | 5 × 30 s all-out, 4 min easy | Burgomaster, Gibala et al. 2005–2008 |
 
 The kettlebell swing intervals stay in the kettlebell group.
+
+## Endurance
+
+Running and steady cardio, timed: the switches between running and walking are marked by a beep (or an announcement).
+
+| Template | Purpose | Basis |
+|---|---|---|
+| Run Starter 9 Weeks | from walking to 30 min running, 27 runs in order | inspired by the NHS Couch to 5K plan |
 
 ## Yoga & mobility
 
@@ -118,3 +131,10 @@ common, safe foundation sequences.
 - Gunnarsson & Bangsbo (2012): *The 10-20-30 training concept improves performance and health profile in moderately trained runners*, J Appl Physiol
 - Burgomaster, Gibala et al. (2005, 2008): sprint interval training studies, J Appl Physiol / J Physiol
 - Back to Health (Saper et al.): [Teacher manual, Boston Medical Center](https://media.defense.gov/2019/Oct/22/2002198487/-1/-1/0/YOGA%20FOR%20CHRONIC%20LOW%20BACK%20PAIN%20STUDY.PDF), [protocol](https://d-scholarship.pitt.edu/29589/)
+- Androulakis-Korakakis et al. (2020): *The minimum effective training dose required to increase 1RM strength in resistance-trained men*, Sports Med
+- Nuzzo et al. (2024): *Resistance Exercise Minimal Dose Strategies for Increasing Muscle Strength in the General Population: an Overview*, [Sports Med / PMC](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11127831/)
+- Jenkins et al. (2019): stair-climbing exercise snacks, Appl Physiol Nutr Metab; Allison et al. (2017): brief intense stair climbing, PLOS ONE
+- Stamatakis et al. (2022): *Association of wearable device-measured vigorous intermittent lifestyle physical activity with mortality*, Nature Medicine
+- Otago Exercise Programme (Campbell et al. 1997): [Physiopedia](https://www.physio-pedia.com/Otago_Exercise_Programme); Sherrington et al. (2019): *Exercise for preventing falls in older people living in the community*, Cochrane
+- McGill "Big 3": Stuart McGill, *Low Back Disorders* / *Back Mechanic*
+- NHS Couch to 5K: [running plan](https://www.nhs.uk/better-health/get-active/get-running-with-couch-to-5k/couch-to-5k-running-plan/)

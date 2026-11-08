@@ -22,6 +22,8 @@ sollte die jeweilige Quelle lesen.
 | Push/Pull/Legs | bis 6×/Woche | Hypertrophie, viel Zeit | r/Fitness „PPL for beginners“ |
 | Upper/Lower 4 Days | 4×/Woche | Hypertrophie, Fortgeschrittene | Studienlage (s. u.) |
 | Full Body at Home (Dumbbells) | 3×/Woche | zu Hause, wenig Equipment | Studienlage (s. u.) |
+| Full Body 3 Days (Gym) | 3×/Woche, A/B/C | Studio, Einsteiger, 3 Tage | Studien zu Frequenz/Volumen (Schoenfeld u. a.) |
+| Minimal Strength 2 Days | 2×/Woche, ~30 min | wenig Zeit, 1–2 harte Sätze pro Übung | Übersichtsarbeiten zur Mindestdosis (Androulakis-Korakakis 2020, Nuzzo 2024) |
 
 **Studienlage in Kürze:** Für Muskelaufbau ist das **Wochenvolumen** entscheidend. Etwa
 10 oder mehr harte Sätze pro Muskel und Woche bringen mehr als weniger, schon ≤ 4 Sätze
@@ -42,6 +44,9 @@ Abgrenzung zu Calisthenics: dort braucht man Stange und Barren und arbeitet auf 
 | 7-Minute Circuit | Kondition, 12 Übungen à 30 s, 2 Durchgänge | Klika & Jordan, ACSM's Health & Fitness Journal 2013 |
 | Full-Body Strength, No Equipment | Kraft/Muskelaufbau, 3×/Woche | Liegestütz ≈ Bankdrücken bei gleicher Anstrengung (Kikuchi & Nakazato 2017) |
 | 20-Minute Travel Circuit | so viele Runden wie möglich in 20 min | gängiges Zirkelformat |
+| Exercise Snacks | 3 Mini-Workouts à 2–5 min über den Tag verteilt | Treppen-Snacks (Jenkins u. a. 2019, Allison u. a. 2017), VILPA (Stamatakis u. a. 2022) |
+| Balance & Leg Strength | Sturzvorbeugung, Ältere, 3×/Woche | angelehnt an das Otago-Programm (Campbell u. a. 1997); Cochrane-Review Sherrington u. a. 2019 |
+| Core Stability Trio | rückenfreundlicher Rumpf, ~10 min, täglich | angelehnt an die „Big 3“ von Stuart McGill |
 
 ## Calisthenics
 
@@ -80,6 +85,14 @@ Wechsel. Jedes Intervall wird als Satz gespeichert, HIIT zählt also im Verlauf 
 | Sprint Intervals 30/4 | 5 × 30 s Vollgas, 4 min locker | Burgomaster, Gibala et al. 2005–2008 |
 
 Die Kettlebell-Swing-Intervalle bleiben in der Kettlebell-Gruppe.
+
+## Ausdauer
+
+Laufen und Ausdauertraining, zeitgesteuert: Ein Signalton (oder eine Ansage) markiert jeden Wechsel zwischen Laufen und Gehen.
+
+| Vorlage | Wofür | Grundlage |
+|---|---|---|
+| Run Starter 9 Weeks | vom Gehen zu 30 min Laufen, 27 Läufe der Reihe nach | angelehnt an den NHS-Plan „Couch to 5K“ |
 
 ## Yoga & Mobilität
 
@@ -120,3 +133,10 @@ es sind verbreitete, sichere Grundabfolgen.
 - Gunnarsson & Bangsbo (2012): *The 10-20-30 training concept improves performance and health profile in moderately trained runners*, J Appl Physiol
 - Burgomaster, Gibala et al. (2005, 2008): Studien zu Sprint-Intervalltraining, J Appl Physiol / J Physiol
 - Back to Health (Saper et al.): [Kursleiter-Handbuch, Boston Medical Center](https://media.defense.gov/2019/Oct/22/2002198487/-1/-1/0/YOGA%20FOR%20CHRONIC%20LOW%20BACK%20PAIN%20STUDY.PDF), [Protokoll](https://d-scholarship.pitt.edu/29589/)
+- Androulakis-Korakakis et al. (2020): *The minimum effective training dose required to increase 1RM strength in resistance-trained men*, Sports Med
+- Nuzzo et al. (2024): *Resistance Exercise Minimal Dose Strategies for Increasing Muscle Strength in the General Population: an Overview*, [Sports Med / PMC](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11127831/)
+- Jenkins et al. (2019): stair-climbing exercise snacks, Appl Physiol Nutr Metab; Allison et al. (2017): brief intense stair climbing, PLOS ONE
+- Stamatakis et al. (2022): *Association of wearable device-measured vigorous intermittent lifestyle physical activity with mortality*, Nature Medicine
+- Otago Exercise Programme (Campbell et al. 1997): [Physiopedia](https://www.physio-pedia.com/Otago_Exercise_Programme); Sherrington et al. (2019): *Exercise for preventing falls in older people living in the community*, Cochrane
+- McGill "Big 3": Stuart McGill, *Low Back Disorders* / *Back Mechanic*
+- NHS Couch to 5K: [running plan](https://www.nhs.uk/better-health/get-active/get-running-with-couch-to-5k/couch-to-5k-running-plan/)

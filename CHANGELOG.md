@@ -4,6 +4,15 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.6.0 – 2026-11-08
+
+- Six new templates: Full Body 3 Days (Gym), Minimal Strength 2 Days, Exercise Snacks, Balance & Leg Strength
+  (inspired by the Otago programme), Core Stability Trio (inspired by McGill's "Big 3") and Run Starter 9 Weeks
+  (inspired by NHS Couch to 5K, 27 runs in order) in the new group "Endurance".
+  *Deutsch:* Sechs neue Vorlagen: Ganzkörper 3 Tage (Studio), Minimal-Kraft 2 Tage, Bewegungs-Snacks, Gleichgewicht &
+  Beinkraft (angelehnt an das Otago-Programm), Rumpf-Trio (angelehnt an McGills „Big 3“) und Laufeinstieg in 9 Wochen
+  (angelehnt an NHS „Couch to 5K“, 27 Läufe der Reihe nach) in der neuen Gruppe „Ausdauer“.
+
 ## 0.5.4 – 2026-11-08
 
 - Phone: the exercise tile grows with its content instead of cutting off the name, target or note; reps and target in one

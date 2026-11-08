@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.5.4";
+const CARD_VERSION = "0.6.0";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -80,6 +80,8 @@ const I18N = {
     "tg.kettlebell.about": "One or two bells – strength, muscular endurance and conditioning in little time.",
     "tg.hiit": "HIIT & Tabata",
     "tg.hiit.about": "Short, hard intervals – timed, with beeps or announcements. Bodyweight, kettlebell, bike, rower or running.",
+    "tg.ausdauer": "Endurance",
+    "tg.ausdauer.about": "Running and steady cardio – step by step to more stamina. Timed, runs on its own.",
     "tg.yoga": "Yoga & mobility",
     "tg.yoga.about": "Flows, stretching and balance – runs on its own, every pose is announced. A mat is enough.",
     "tg.other": "More",
@@ -182,6 +184,8 @@ const I18N = {
     "tg.kettlebell.about": "Eine oder zwei Kugeln – Kraft, Kraftausdauer und Kondition in kurzer Zeit.",
     "tg.hiit": "HIIT & Tabata",
     "tg.hiit.about": "Kurze, harte Intervalle – zeitgesteuert, mit Signaltönen oder Ansagen. Körpergewicht, Kettlebell, Rad, Rudergerät oder Laufen.",
+    "tg.ausdauer": "Ausdauer",
+    "tg.ausdauer.about": "Laufen und Ausdauertraining – Schritt für Schritt zu mehr Kondition. Zeitgesteuert, läuft von selbst.",
     "tg.yoga": "Yoga & Mobilität",
     "tg.yoga.about": "Flows, Dehnen und Gleichgewicht – läuft von selbst, jede Haltung wird angesagt. Eine Matte genügt.",
     "tg.other": "Weitere",

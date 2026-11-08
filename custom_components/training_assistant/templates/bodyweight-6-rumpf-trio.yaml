@@ -1,0 +1,51 @@
+# Template: core stability trio – curl-up, side plank and bird dog with short holds instead of long ones.
+# Inspired by the "Big 3" of spine researcher Stuart McGill: they train trunk endurance with low load on
+# the lower back. Reps fall from round to round (here 6-4-2), every rep is held for about 10 seconds.
+schema_version: 1
+name: Core Stability Trio
+description: >-
+  Three back-friendly core exercises in about 10 minutes – daily or as a warm-up before strength
+  training. Short holds of about 10 seconds, three rounds with fewer reps each time.
+  Inspired by Stuart McGill's "Big 3".
+goal: general
+defaults:
+  rest_s: 30
+  progression: { type: none }
+exercises:
+  curl_up: { name: McGill Curl-Up, aliases: [Curl-up], equipment: bodyweight, image: false, muscles: [core],
+             note: "One leg bent, hands under the lower back. Lift head and shoulders only slightly." }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge }
+  bird_dog: { name: Bird Dog, aliases: [Vierfüßlerstand diagonal], equipment: bodyweight, image: false,
+              muscles: [core, glutes, back] }
+workouts:
+  - id: trio
+    name: Core Trio
+    blocks:
+      - { type: warmup, duration_s: 120, note: "Cat-cow on all fours and a few easy steps." }
+      - type: circuit
+        name: Round 1
+        rounds: 1
+        rest_after_exercise_s: 20
+        rest_after_s: 30
+        note: Hold every rep for about 10 seconds – then relax briefly.
+        exercises:
+          - { exercise: curl_up, reps: 6 }
+          - { exercise: side_plank, reps: 6, per_side: true, note: Knees bent is fine. }
+          - { exercise: bird_dog, reps: 6, per_side: true }
+      - type: circuit
+        name: Round 2
+        rounds: 1
+        rest_after_exercise_s: 20
+        rest_after_s: 30
+        exercises:
+          - { exercise: curl_up, reps: 4 }
+          - { exercise: side_plank, reps: 4, per_side: true }
+          - { exercise: bird_dog, reps: 4, per_side: true }
+      - type: circuit
+        name: Round 3
+        rounds: 1
+        rest_after_exercise_s: 20
+        exercises:
+          - { exercise: curl_up, reps: 2 }
+          - { exercise: side_plank, reps: 2, per_side: true }
+          - { exercise: bird_dog, reps: 2, per_side: true }
