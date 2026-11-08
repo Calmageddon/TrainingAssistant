@@ -308,7 +308,9 @@ class Engine:
             return None
         pseudo = {
             "idx": step["idx"], "block": step["block"], "block_name": step.get("block_name"),
-            "exercise": seg["exercise"], "exercise_name": seg["name"], "round": seg.get("index"),
+            "exercise": seg["exercise"], "exercise_name": seg["name"],
+            # HIIT: „Runde 3“; im Flow keine Runde (Haltungen zählen nicht als Runden)
+            "round": None if step.get("block_type") == "flow" else seg.get("index"),
             "sets": None, "set_no": None, "rounds": seg.get("count"), "rep_range": None, "target_reps": None,
             "target_weight": None, "target_duration": seg["work_s"], "per_side": bool(seg.get("side")),
         }

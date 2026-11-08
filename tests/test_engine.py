@@ -247,6 +247,7 @@ def test_flow_segments_logged_as_sets():
     assert [(x["exercise"], x["duration_s"], x.get("side")) for x in sets] == [
         ("dog", 30, None), ("tree", 20, "left"), ("tree", 20, "right")]
     assert Speech("de").segment_name(eng.step["segments"][1]) == "Baum, linke Seite"
+    assert all(x["round"] is None for x in sets)  # im Flow keine „Runde“
     effects = eng.interval_done()
     assert any(e["kind"] == "announce" and "Flow geschafft" in e["text"] for e in effects)
     assert eng.step["type"] == "cooldown"

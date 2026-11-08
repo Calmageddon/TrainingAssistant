@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.4.0";
+const CARD_VERSION = "0.4.1";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -835,7 +835,8 @@ class TrainingAssistantCard extends HTMLElement {
     const total = a.steps.length;
     const pct = Math.round((100 * a.idx) / Math.max(1, total));
     const iv = a.interval;
-    const phase = a.paused ? t("ph_paused") : t(`ph_${a.phase}`);
+    const phase = a.paused ? t("ph_paused")
+      : a.phase === "interval" && step.block_type === "flow" ? t("ty_flow") : t(`ph_${a.phase}`);
     let main;
     if (step.type === "set") {
       main = `<div class="ex">${esc(step.exercise_name)}</div>
@@ -924,7 +925,7 @@ class TrainingAssistantCard extends HTMLElement {
         <div class="status">${timers}</div>
         <div class="controls">
           ${adjust}
-          ${this._renderEffort(lastSet)}
+          ${this._renderEffort(step.type === "interval" ? null : lastSet)}
           <button class="btn primary big" data-a="next">${nextLabel}</button>
         <div class="row btns">
           <button class="btn" data-a="svc" data-svc="undo">${t("b_back")}</button>
