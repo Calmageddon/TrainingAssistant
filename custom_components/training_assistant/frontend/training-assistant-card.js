@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.4.4";
+const CARD_VERSION = "0.4.5";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -1041,9 +1041,9 @@ class TrainingAssistantCard extends HTMLElement {
         const s = e.suggestion;
         const next = s ? `${s.reps ? t("reps_n", { n: s.reps }) : ""}${s.weight_kg !== null && s.weight_kg !== undefined ? ` · ${kg(s.weight_kg)}` : ""}` : "";
         return `<tr><td><div class="exn">${img(e.image, "thumb lg")}<div><b>${esc(e.name)}</b><div class="muted small">${esc(t("h_ex_meta", { n: e.sessions, d: date(e.last_date) }))}${bestText(e.bests)}</div></div></div></td>
-          <td>${spark(e.points)}</td>
-          <td class="small">${esc(last)}</td>
-          <td class="small">${s ? `<b class="${s.increased ? "up" : ""}">${esc(next)}</b><div class="muted">${esc(reasonSug(s))}</div>` : ""}</td></tr>`;
+          <td data-label="${esc(t("h_th_hist"))}">${spark(e.points)}</td>
+          <td class="small" data-label="${esc(t("h_th_last"))}">${esc(last)}</td>
+          <td class="small" data-label="${esc(t("h_th_next"))}">${s ? `<b class="${s.increased ? "up" : ""}">${esc(next)}</b><div class="muted">${esc(reasonSug(s))}</div>` : ""}</td></tr>`;
       })
       .join("");
     const sessRows = h.sessions
@@ -1800,6 +1800,17 @@ const STYLE = `
   .timer.st-rest .tbtn { text-transform: none; letter-spacing: 0; }
   .trophy { font-size: .95em; }
   :host { --ta-gold: #e8b44f; }
+  /* Übungsverlauf auf schmalen Bildschirmen: eine Karte pro Übung statt vier Spalten */
+  @container (max-width: 560px) {
+    .ex-table, .ex-table tbody, .ex-table tr, .ex-table td { display: block; width: 100%; box-sizing: border-box; }
+    .ex-table tr:first-child { display: none; }
+    .ex-table tr { padding: 12px 0; border-bottom: 1px solid var(--divider-color); }
+    .ex-table td { border: 0; padding: 4px 0; }
+    .ex-table td[data-label]::before { content: attr(data-label); display: block; margin-bottom: 2px; font-size: .7em;
+                                       text-transform: uppercase; letter-spacing: .05em; color: var(--secondary-text-color); }
+    .ex-table td[data-label]:empty { display: none; }
+    .ex-table .chart svg { width: 100%; height: auto; }
+  }
   /* „Wie war's?“-Dialog nach einem Satz */
   .efp { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom)); transform: translateX(-50%);
          width: min(440px, calc(100vw - 24px)); z-index: 20; box-sizing: border-box; padding: 12px 14px 0;
