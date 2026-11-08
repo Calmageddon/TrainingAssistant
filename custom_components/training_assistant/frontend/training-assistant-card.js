@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.4.3";
+const CARD_VERSION = "0.4.4";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -231,6 +231,7 @@ const sugText = (o) => (o && o.key ? t(`sug.${o.key}`, o.params || {}) : (o && o
 const stepSug = (s) => sugText({ key: s.suggestion_key, params: s.suggestion_params, text: s.suggestion });
 const reasonSug = (s) => sugText({ key: s.reason_key, params: s.reason_params, text: s.reason });
 
+const EFFORT_PROMPT_MS = 5000; // so lange bleibt „Wie war's?“ nach einem Satz
 const STATUS = { planned: "neutral", pending: "info", confirmed: "ok", corrected: "ok", edited: "ok", unconfirmed: "warn", skipped: "muted" };
 const typeLabel = (type) => (type ? t(`ty_${type}`) : "");
 // „Zirkel“ + „Zirkel A“ → nur „Zirkel A“; „Zirkel“ + „Hauptteil“ → „Zirkel · Hauptteil“
@@ -407,6 +408,7 @@ class TrainingAssistantCard extends HTMLElement {
           this._previewKey = null;
         }
         this._state = state;
+      this._watchLogged(prev, state);
         this._error = null;
         this._autoSelectProfile(state);
         if (this._tab === "history" && (lastChanged || !this._history)) this._loadHistory();
@@ -598,6 +600,7 @@ class TrainingAssistantCard extends HTMLElement {
       const msg = { type: "edit_set", set_id: Number(d.set), effort: d.v };
       if (d.session) msg.session_id = d.session;
       await this._ws(msg).catch(() => {});
+      if (this._prompt && this._prompt.setId === Number(d.set)) this._closePrompt();
     } else if (a === "ed-effort") {
       this._editing.effort = d.v;
       this._render();
@@ -745,7 +748,7 @@ class TrainingAssistantCard extends HTMLElement {
       <style>${STYLE}</style>
       <ha-card>
         <div class="tabs">${tab("training", t("tab_training"))}${tab("history", t("tab_history"))}${tab("plans", t("tab_plans"))}</div>
-        <div class="body">${body}</div>
+        <div class="body">${body}</div>${this._renderEffortPrompt()}
       </ha-card>`;
     if (this._armed) this._applyArmed();
     // Scrollposition halten (Handy-Browser springen sonst nach oben, wenn der angetippte Knopf ersetzt wird)
@@ -943,7 +946,6 @@ class TrainingAssistantCard extends HTMLElement {
         <div class="status">${timers}</div>
         <div class="controls">
           ${adjust}
-          ${this._renderEffort(step.type === "interval" ? null : lastSet)}
           <button class="btn primary big" data-a="next">${nextLabel}</button>
         <div class="row btns">
           <button class="btn" data-a="svc" data-svc="undo">${t("b_back")}</button>
@@ -1153,15 +1155,48 @@ class TrainingAssistantCard extends HTMLElement {
       });
   }
 
-  /* „Wie war's?“ für den zuletzt erfassten Satz – feste Höhe, damit nichts springt */
-  _renderEffort(rec) {
-    const ok = rec && rec.status !== "skipped" && rec.status !== "pending";
-    const cur = ok ? rec.effort || "normal" : null;
-    return `<div class="effort-row ${ok ? "" : "ghost"}">
-      <span class="muted small">${t("ef_last")}${ok ? ` <b>${esc(rec.exercise_name)}</b>` : ""}</span>
-      ${["easy", "normal", "hard"]
-        .map((v) => `<button class="chip-btn ef-${v} ${cur === v ? "on" : ""}" ${ok ? `data-a="effort" data-set="${rec.id}" data-v="${v}"` : "disabled"}>${t(`ef_${v}`)}</button>`)
-        .join("")}</div>`;
+  /* „Wie war's?“: kurzer Dialog direkt nach „Satz fertig“ – nennt den Satz, verschwindet nach 5 Sekunden
+     (die Linie unten schrumpft mit). Verpasst? In der Liste der erfassten Sätze bzw. im Verlauf änderbar. */
+  _watchLogged(prev, state) {
+    // Zuletzt gesehene Satz-Nummer selbst merken (der Zustand kann dasselbe, veränderte Objekt sein)
+    const a = state && state.active;
+    const last = a && a.sets.length ? a.sets[a.sets.length - 1].id : 0;
+    const seen = this._seenSet;
+    this._seenSet = a ? { session: a.id, last } : null;
+    if (!a || !seen || seen.session !== a.id || last <= seen.last) return;
+    const rec = a.sets[a.sets.length - 1];
+    if (!rec || rec.status === "skipped") return;
+    const step = a.steps[rec.step];
+    if (!step || step.type !== "set") return; // HIIT/Flow-Abschnitte nicht abfragen
+    this._prompt = { setId: rec.id, until: Date.now() + EFFORT_PROMPT_MS };
+    clearTimeout(this._promptTimer);
+    this._promptTimer = setTimeout(() => this._closePrompt(), EFFORT_PROMPT_MS);
+  }
+
+  _closePrompt() {
+    clearTimeout(this._promptTimer);
+    this._prompt = null;
+    const el = this.shadowRoot.querySelector(".efp");
+    if (el) el.remove(); // ohne Neuzeichnen – nichts springt
+  }
+
+  _renderEffortPrompt() {
+    const p = this._prompt;
+    const a = this._state && this._state.active;
+    if (!p || !a) return "";
+    const rec = a.sets.find((x) => x.id === p.setId);
+    if (!rec) return "";
+    const left = Math.max(0, p.until - Date.now());
+    const cur = rec.effort || null;
+    return `<div class="efp" role="dialog" aria-label="${esc(t("ef_last"))}">
+      <div class="efp-head"><span class="muted small">${esc(t("ef_last"))}</span>
+        <b>${esc(rec.exercise_name)}</b>
+        <span class="muted small">${position(rec) ? `${esc(position(rec))} · ` : ""}${esc(setValue(rec))}</span></div>
+      <div class="efp-btns">${["easy", "normal", "hard"]
+        .map((v) => `<button class="chip-btn ef-${v} ${cur === v ? "on" : ""}" data-a="effort" data-set="${rec.id}" data-v="${v}">${t(`ef_${v}`)}</button>`)
+        .join("")}</div>
+      <div class="efp-bar"><i style="animation-duration:${EFFORT_PROMPT_MS}ms;animation-delay:-${EFFORT_PROMPT_MS - left}ms"></i></div>
+    </div>`;
   }
 
   _renderOverview() {
@@ -1765,6 +1800,21 @@ const STYLE = `
   .timer.st-rest .tbtn { text-transform: none; letter-spacing: 0; }
   .trophy { font-size: .95em; }
   :host { --ta-gold: #e8b44f; }
+  /* „Wie war's?“-Dialog nach einem Satz */
+  .efp { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+         width: min(440px, calc(100vw - 24px)); z-index: 20; box-sizing: border-box; padding: 12px 14px 0;
+         background: var(--card-background-color); color: var(--primary-text-color); border: 1px solid var(--divider-color);
+         border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.45); overflow: hidden; animation: efp-in .18s ease-out; }
+  .efp-head { display: flex; flex-direction: column; gap: 2px; margin-bottom: 10px; }
+  .efp-head b { font-size: 1.05em; }
+  .efp-btns { display: flex; gap: 8px; margin-bottom: 12px; }
+  .efp-btns .chip-btn { flex: 1; padding: 11px 6px; font-size: 1em; text-align: center; }
+  .efp-bar { height: 4px; margin: 0 -14px; background: var(--divider-color); }
+  .efp-bar i { display: block; height: 100%; background: var(--primary-color); transform-origin: left center;
+               animation-name: efp-shrink; animation-timing-function: linear; animation-fill-mode: forwards; }
+  @keyframes efp-shrink { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+  @keyframes efp-in { from { opacity: 0; transform: translate(-50%, 12px); } }
+  @media (prefers-reduced-motion: reduce) { .efp { animation: none; } }
 
   /* Kleine Bildschirme im Training: alles Wichtige ohne Scrollen – Übung, Pause, Plus/Minus,
      „Wie war's?“ und der große Knopf passen auf ein Handy (ab ca. 640 px Höhe). */
