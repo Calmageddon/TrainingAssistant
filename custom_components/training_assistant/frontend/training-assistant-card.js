@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.5.3";
+const CARD_VERSION = "0.5.4";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -478,7 +478,9 @@ class TrainingAssistantCard extends HTMLElement {
     // Gefährliche Aktionen: erst antippen = „Wirklich …?“, nochmal antippen = ausführen.
     // (Browser-Dialoge wie confirm() werden in Apps/Kiosk-Browsern oft still unterdrückt.)
     if (d.confirm && !this._confirmed(d.ck)) return;
-    if (a === "tab") {
+    if (a === "note") {
+      el.classList.toggle("open"); // Hinweis auf dem Handy auf- und zuklappen, ohne neu zu zeichnen
+    } else if (a === "tab") {
       this._tab = d.tab;
       this._editing = null;
       if (this._tab === "history") this._loadHistory();
@@ -947,13 +949,13 @@ class TrainingAssistantCard extends HTMLElement {
               <span class="el-bar"><i data-since-of="${esc(a.started_at)}" data-paused-s="${a.paused_s || 0}" data-paused-at="${esc(a.paused_at || "")}" data-ref="${this._state.last_same_duration_s}"></i></span>` : ""}
           </span></span></div>
         <div class="bar"><div style="width:${pct}%"></div></div>
-        <div class="muted small">${t("step", { i: Math.min(a.idx + 1, total), n: total })}</div>
+        <div class="blk-line"><span class="blk-info">${showLabel || step.block_name ? esc(blockTitle(step.block_type, step.block_name)) : ""}${step.type === "set" && position(step) ? ` · ${esc(position(step))}` : ""}</span>
+          <span class="blk-step">${t("step", { i: Math.min(a.idx + 1, total), n: total })}</span></div>
         <div class="stage">
           <div class="current t-${esc(step.block_type || "")} ${curImg ? "has-img" : ""}">
             ${curImg ? `<div class="cur-img">${img(curImg, "pic")}${img(curImg, "pic alt", 1)}</div>` : ""}
             <div class="cur-txt">
-              ${showLabel ? `<div class="ptype">${esc(blockTitle(step.block_type, step.block_name))}${step.type === "set" && position(step) ? ` · ${esc(position(step))}` : ""}</div>` : ""}
-              ${main}${note ? `<div class="note">${esc(note)}</div>` : ""}
+              ${main}${note ? `<div class="note" data-a="note" title="${esc(note)}">${esc(note)}</div>` : ""}
               ${history}
             </div></div>
           ${upnext}
@@ -1850,6 +1852,12 @@ const STYLE = `
   .timer.st-rest .tbtn { text-transform: none; letter-spacing: 0; }
   .trophy { font-size: .95em; }
   :host { --ta-gold: #e8b44f; }
+  /* Unter dem Fortschrittsbalken: Block und Position (wie der Programmname, klein), rechts der Schritt */
+  .blk-line { display: flex; justify-content: space-between; gap: 8px; margin-top: -4px; font-size: .85em;
+              color: var(--secondary-text-color); }
+  .blk-info { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .blk-step { white-space: nowrap; flex: none; }
+  .current .note.open { -webkit-line-clamp: unset; display: block; overflow: visible; }
   /* Startseite auf dem Handy: Woche kompakt, Hinweis kurz – damit „Training starten“ ohne Scrollen sichtbar ist */
   @container (max-width: 560px) {
     .week { gap: 10px; padding: 12px 14px; }
@@ -1936,14 +1944,22 @@ const STYLE = `
     .live > .row.between:first-child .sep { display: none; }
     .elapsed.over .el-ref { color: #fbc02d; font-weight: 600; }
     .live > .row.between:first-child .badge { display: none; }
-    .live > .bar + .muted.small { display: none; }
+    .blk-step { display: none; }
     .el-time { font-size: 1.4em; }
-    .current { height: 132px; }
+    .current { height: auto; min-height: 132px; } /* wächst mit, statt Text abzuschneiden */
+    .current.has-img { align-items: center; }
+    .current.has-img .cur-img { align-self: stretch; min-height: 116px; max-height: 150px; }
+    .current .note { white-space: normal; cursor: pointer; }
+    .mtags { margin: 0; }
+    /* Zielwert kompakt: Zahl groß, darunter „Wdh. · Ziel 15–30“ in einer Zeile */
+    .tg-v { display: grid; grid-template-columns: auto auto; justify-content: center; column-gap: 4px; }
+    .tg-v b { grid-column: 1 / -1; justify-self: center; }
+    .tg-v em::before { content: "· "; }
     .current.has-img { gap: 10px; padding: 8px; }
     .cur-img { width: 32%; }
-    .current .ex { font-size: 1.35em; }
+    .current .ex { font-size: 1.15em; }
     .current .sug { display: none; }
-    .current .note { font-size: .8em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .current .note { font-size: .8em; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
     .upnext { height: auto; min-height: 44px; padding: 5px 10px; row-gap: 0; }
     .un-lbl { font-size: .62em; }
     .status { height: 36px; }

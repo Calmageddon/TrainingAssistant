@@ -4,6 +4,19 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.5.4 – 2026-11-08
+
+- Phone: the exercise tile grows with its content instead of cutting off the name, target or note; reps and target in one
+  line ("Reps · goal 15–30"); the exercise note shows one line and expands on tap.
+  *Deutsch:* Handy: Die Übungskarte wächst mit statt Name, Ziel oder Hinweis abzuschneiden; „Wdh. · Ziel 15–30“ in einer
+  Zeile; der Hinweis ist einzeilig und klappt beim Antippen auf.
+- Block and position (e.g. "Circuit · Strength circuit A · Round 1/3") moved from the exercise tile to a small line under
+  the progress bar; the tile only shows the exercise.
+  *Deutsch:* Block und Position („Zirkel · Kraftzirkel A · Runde 1/3“) stehen jetzt klein unter dem Fortschrittsbalken statt
+  in der Übungskarte.
+- Phone: smaller exercise name in the exercise tile.
+  *Deutsch:* Handy: kleinerer Übungsname in der Übungskarte.
+
 ## 0.5.3 – 2026-11-08
 
 - The workout clock stops while the workout is paused; pauses no longer count towards the workout duration,
