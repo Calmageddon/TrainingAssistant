@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.5.0";
+const CARD_VERSION = "0.5.1";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -1423,18 +1423,25 @@ function weekCard(stats) {
   const groups = Object.keys(vol).filter((g) => vol[g].week).sort((a, b) => vol[b].week - vol[a].week);
   const streak = stats.streak_weeks
     ? ` · ${stats.streak_weeks === 1 ? t("wk_streak1") : t("wk_streak", { n: stats.streak_weeks })}` : "";
+  const status = wk.left ? t("wk_left", { n: wk.left }) : `✓ ${t("wk_reached")}`;
   return `<div class="week">
-    <div class="wr">
-      <svg viewBox="0 0 100 100" class="wr-svg" role="img" aria-label="${esc(t("wk_aria", { d: wk.done, n: wk.goal }))}">${ring}</svg>
-      <div class="wr-c"><b>${wk.done}</b><span>/${wk.goal}</span>${extra}</div>
+    <div class="wk-head">
+      <div class="wr">
+        <svg viewBox="0 0 100 100" class="wr-svg" role="img" aria-label="${esc(t("wk_aria", { d: wk.done, n: wk.goal }))}">${ring}</svg>
+        <div class="wr-c"><b>${wk.done}</b><span>/${wk.goal}</span>${extra}</div>
+      </div>
+      <div class="wk-info">
+        <div class="wk-title">${t("wk_title")}</div>
+        <div class="wk-status">${status}${streak}</div>
+        <div class="wk-goal"><span class="wk-goal-l">${t("wk_goal")}</span>
+          <span class="wk-step"><button class="tbtn" data-a="goal" data-d="-1" aria-label="${t("wk_goal_less")}">−</button><b>${wk.goal}</b><button class="tbtn" data-a="goal" data-d="1" aria-label="${t("wk_goal_more")}">+</button></span></div>
+      </div>
     </div>
-    <div class="wk-main">
-      <div class="wk-top"><span class="wk-title">${t("wk_title")}</span>
-        <span class="wk-goal"><button class="tbtn" data-a="goal" data-d="-1" aria-label="${t("wk_goal_less")}">−</button><span class="muted small">${t("wk_goal")}</span><button class="tbtn" data-a="goal" data-d="1" aria-label="${t("wk_goal_more")}">+</button></span></div>
+    <div class="wk-body">
       <div class="wk-cap">${t("wk_bars")}</div>
       <div class="wk-bars">${bars}</div>
-      <div class="wk-sub">${wk.left ? t("wk_left", { n: wk.left }) : `✓ ${t("wk_reached")}`}${streak} · ${t("wk_total", { n: stats.total })}</div>
-      ${groups.length ? `<div class="wk-tags">${groups.map((g) => `<span>${esc(t(`mg.${g}`))}</span>`).join("")}</div>` : ""}
+      <div class="wk-foot"><span>${t("wk_total", { n: stats.total })}</span>
+        ${groups.length ? `<span class="wk-tags">${groups.map((g) => `<span>${esc(t(`mg.${g}`))}</span>`).join("")}</span>` : ""}</div>
     </div></div>`;
 }
 
@@ -1704,9 +1711,27 @@ const STYLE = `
   .chart-lbl { font-size: .75em; color: var(--secondary-text-color); margin-top: 2px; }
   .chart-lbl.up { color: var(--success-color, #2e7d32); }
   /* Wochenansicht: Zielring + Balken */
-  .week { display: flex; gap: 18px; align-items: center; border-radius: 16px; padding: 14px 16px;
-          background: var(--secondary-background-color); }
-  .wr { position: relative; width: 112px; height: 112px; flex: none; }
+  .week { display: grid; grid-template-columns: auto 1fr; gap: 14px 24px; align-items: center; border-radius: 16px;
+          padding: 14px 16px; }
+  .wr { position: relative; width: 104px; height: 104px; flex: none; }
+  .week { background: var(--secondary-background-color); }
+  .wk-head { display: flex; align-items: center; gap: 16px; min-width: 0; }
+  .wk-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .wk-title { font-weight: 700; font-size: 1.1em; }
+  .wk-status { font-size: .85em; color: var(--secondary-text-color); }
+  .wk-goal { display: flex; align-items: center; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
+  .wk-goal-l { font-size: .78em; color: var(--secondary-text-color); line-height: 1.2; white-space: nowrap; }
+  .wk-step { display: inline-flex; align-items: center; gap: 4px; padding: 2px; border-radius: 10px;
+             background: var(--card-background-color); border: 1px solid var(--divider-color); }
+  .wk-step b { min-width: 1.6em; text-align: center; font-size: 1.05em; }
+  .wk-step .tbtn { width: 30px; height: 30px; }
+  .wk-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .wk-foot { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: .8em; color: var(--secondary-text-color); }
+  @container (max-width: 560px) {
+    .week { grid-template-columns: 1fr; gap: 14px; }
+    .wr { width: 88px; height: 88px; }
+    .wr-c b { font-size: 1.8em; }
+  }
   .wr-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
   .wr-svg circle { fill: none; stroke: var(--divider-color); stroke-width: 9; stroke-linecap: butt; }
   .wr-svg circle.on { stroke: var(--primary-color); }
@@ -1714,10 +1739,6 @@ const STYLE = `
   .wr-c b { font-size: 2.1em; font-weight: 700; }
   .wr-c span { font-size: 1.1em; color: var(--secondary-text-color); margin-left: 1px; }
   .wr-extra { position: absolute; bottom: 22px; font-size: .75em !important; color: var(--primary-color) !important; }
-  .wk-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
-  .wk-top { display: flex; align-items: center; gap: 8px; }
-  .wk-title { font-weight: 600; }
-  .wk-goal { margin-left: auto; display: flex; align-items: center; gap: 6px; }
   .wk-cap { font-size: .75em; color: var(--secondary-text-color); margin-bottom: -4px; }
   .wk-bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; align-items: end; }
   .wb { display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 0; }
@@ -1731,11 +1752,9 @@ const STYLE = `
   .wb-d { font-size: .8em; color: var(--secondary-text-color); width: 22px; height: 22px; display: flex; align-items: center;
           justify-content: center; border-radius: 50%; }
   .wb.today .wb-d { background: var(--primary-color); color: var(--text-primary-color, #fff); font-weight: 700; }
-  .wk-sub { font-size: .85em; color: var(--secondary-text-color); }
   .wk-tags { display: flex; flex-wrap: wrap; gap: 4px; }
   .wk-tags span { font-size: .75em; padding: 2px 8px; border-radius: 10px; background: var(--card-background-color);
                   border: 1px solid var(--divider-color); color: var(--secondary-text-color); }
-  @container (max-width: 480px) { .week { flex-direction: column; align-items: stretch; } .wr { align-self: center; } }
   .tbtn { border: 1px solid var(--divider-color); background: var(--card-background-color); color: var(--primary-text-color);
           border-radius: 8px; min-width: 32px; height: 28px; font: inherit; cursor: pointer; }
   /* Kacheln, Rekorde, Volumen, Erholung */

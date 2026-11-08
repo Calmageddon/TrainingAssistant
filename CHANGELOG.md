@@ -4,13 +4,16 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
-## Unreleased
+## 0.5.1 – 2026-11-08
 
 - Phone: workout header shows the workout name with the program below and the clock with "last time" on the right;
   the comparison bar is replaced by "last time" turning yellow once you take longer.
   *Deutsch:* Kopfzeile auf dem Handy aufgeräumt – „letztes Mal“ wird gelb statt eines zweiten Balkens.
 - Program and workout selection uses a smaller font so long names fit.
   *Deutsch:* Programm- und Workout-Auswahl mit kleinerer Schrift, damit lange Namen passen.
+- Week card reorganised: ring with "This week", status and a goal stepper (− 3 +) on top, daily bars below
+  (side by side on wide screens).
+  *Deutsch:* Wochen-Karte aufgeräumt – Ring, Stand und Ziel-Regler oben, Balken darunter.
 
 ## 0.5.0 – 2026-11-08
 
