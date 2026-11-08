@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.4.2";
+const CARD_VERSION = "0.4.3";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -633,14 +633,35 @@ class TrainingAssistantCard extends HTMLElement {
       clearTimeout(this._armTimer);
       return true;
     }
+    // Nur den Knopf umbeschriften, nicht alles neu zeichnen – sonst springen Handy-Browser nach oben
+    this._disarm();
     this._armed = { key, until: Date.now() + 4000 };
     clearTimeout(this._armTimer);
-    this._armTimer = setTimeout(() => {
-      this._armed = null;
-      this._render();
-    }, 4000);
-    this._render();
+    this._armTimer = setTimeout(() => this._disarm(), 4000);
+    this._applyArmed();
     return false;
+  }
+
+  _armedButton() {
+    return this._armed ? this.shadowRoot.querySelector(`[data-ck="${CSS.escape(this._armed.key)}"]`) : null;
+  }
+
+  _applyArmed() {
+    const btn = this._armedButton();
+    if (!btn) return;
+    if (btn.dataset.label === undefined) btn.dataset.label = btn.innerHTML;
+    btn.classList.add("armed");
+    btn.textContent = btn.dataset.confirm;
+  }
+
+  _disarm() {
+    const btn = this._armedButton();
+    this._armed = null;
+    if (btn && btn.dataset.label !== undefined) {
+      btn.innerHTML = btn.dataset.label;
+      delete btn.dataset.label;
+      btn.classList.remove("armed");
+    }
   }
 
   _onInput(e) {
@@ -710,6 +731,7 @@ class TrainingAssistantCard extends HTMLElement {
     }
     this._dirty = false;
     this._rendered = true;
+    const scrollY0 = window.scrollY;
     let body;
     if (this._error) body = `<div class="msg err">${esc(this._error)}</div>`;
     else if (!this._state) body = `<div class="muted pad">${t("loading")}</div>`;
@@ -725,13 +747,9 @@ class TrainingAssistantCard extends HTMLElement {
         <div class="tabs">${tab("training", t("tab_training"))}${tab("history", t("tab_history"))}${tab("plans", t("tab_plans"))}</div>
         <div class="body">${body}</div>
       </ha-card>`;
-    if (this._armed) {
-      const btn = this.shadowRoot.querySelector(`[data-ck="${CSS.escape(this._armed.key)}"]`);
-      if (btn) {
-        btn.classList.add("armed");
-        btn.textContent = btn.dataset.confirm;
-      }
-    }
+    if (this._armed) this._applyArmed();
+    // Scrollposition halten (Handy-Browser springen sonst nach oben, wenn der angetippte Knopf ersetzt wird)
+    if (window.scrollY !== scrollY0) window.scrollTo(0, scrollY0);
     this._tickTimers();
   }
 
@@ -1747,6 +1765,46 @@ const STYLE = `
   .timer.st-rest .tbtn { text-transform: none; letter-spacing: 0; }
   .trophy { font-size: .95em; }
   :host { --ta-gold: #e8b44f; }
+
+  /* Kleine Bildschirme im Training: alles Wichtige ohne Scrollen – Übung, Pause, Plus/Minus,
+     „Wie war's?“ und der große Knopf passen auf ein Handy (ab ca. 640 px Höhe). */
+  @container (max-width: 560px) {
+    .live { gap: 8px; }
+    /* Kopfzeile: Workout-Name (gekürzt) und Uhr in einer Zeile; Phase zeigt die Statusleiste */
+    .live > .row.between:first-child { flex-wrap: nowrap; }
+    .live > .row.between:first-child > div { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .live > .row.between:first-child .badge { display: none; }
+    .live > .bar + .muted.small { display: none; }
+    .el-time { font-size: 1.4em; }
+    .current { height: 132px; }
+    .current.has-img { gap: 10px; padding: 8px; }
+    .cur-img { width: 32%; }
+    .current .ex { font-size: 1.35em; }
+    .current .sug { display: none; }
+    .current .note { font-size: .8em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .upnext { height: auto; min-height: 44px; padding: 5px 10px; row-gap: 0; }
+    .un-lbl { font-size: .62em; }
+    .status { height: 36px; }
+    /* Plus/Minus: Wiederholungen und Gewicht nebeneinander, Beschriftung klein darüber */
+    .adj { flex-direction: row; gap: 10px; min-height: 66px; }
+    .adj-row { flex: 1; min-width: 0; grid-template-columns: 40px 1fr 40px; column-gap: 4px; row-gap: 2px; }
+    .adj-row.ghost { height: auto; }
+    .adj-lbl { grid-column: 1 / -1; font-size: .75em; text-align: center; white-space: nowrap; overflow: hidden;
+               text-overflow: ellipsis; }
+    .btn.round { height: 40px; font-size: 1.3em; }
+    .adj-val { font-size: 1.3em; white-space: nowrap; }
+    /* „Wie war's?“: drei gleich breite Knöpfe in einer Zeile, ohne Übungsnamen */
+    .effort-row { flex-wrap: nowrap; gap: 4px; min-height: 34px; }
+    .effort-row > span { flex: none; min-width: 0; font-size: .78em; }
+    .effort-row > span b { display: none; }
+    .effort-row .chip-btn { flex: 1; min-width: 0; padding: 6px 4px; text-align: center; }
+    .btn.big { padding: 14px; font-size: 1.15em; }
+    .controls { gap: 8px; }
+    .controls .btns { gap: 6px; flex-wrap: nowrap; }
+    .controls .btns > .btn[data-svc="skip"] { flex: 1.4; }
+    .controls .btns > .btn { padding: 9px 4px; font-size: .84em; white-space: nowrap; min-width: 0; overflow: hidden;
+                             text-overflow: ellipsis; }
+  }
 `;
 
 if (!customElements.get("training-assistant-card")) {
