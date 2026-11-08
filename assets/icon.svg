@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="512" height="512">
+  <!-- TrainingAssistant: Zielring (3 von 4 Trainings) mit Hantel -->
+  <rect width="120" height="120" rx="28" fill="#0D2B45"/>
+  <g fill="none" stroke-width="10" stroke-linecap="butt">
+    <path d="M24.0 57.2 A38 38 0 0 1 57.2 24.0" stroke="#2E4A66"/>
+    <path d="M62.8 24.0 A38 38 0 0 1 96.0 57.2" stroke="#E8B44F"/>
+    <path d="M96.0 62.8 A38 38 0 0 1 62.8 96.0" stroke="#E8B44F"/>
+    <path d="M57.2 96.0 A38 38 0 0 1 24.0 62.8" stroke="#E8B44F"/>
+  </g>
+  <g fill="#FFFFFF">
+    <rect x="40" y="55" width="40" height="10" rx="2"/>
+    <rect x="34" y="46" width="9" height="28" rx="2"/>
+    <rect x="77" y="46" width="9" height="28" rx="2"/>
+  </g>
+</svg>

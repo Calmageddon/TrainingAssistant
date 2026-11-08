@@ -1,0 +1,86 @@
+# Template: Back care yoga – gentle, slowly progressing hatha practice for the lower back.
+# Inspired by the 12-week "Back to Health" programme of Boston Medical Center / Boston University
+# (Saper et al.), in which weekly yoga helped about as much as physical therapy for chronic low back
+# pain. Own sequence, not the original protocol: start with "Gentle" for the first weeks
+# (choose it as next workout), then alternate with "Building". Not a substitute for medical advice.
+schema_version: 1
+name: Back Care Yoga
+description: >-
+  Gentle yoga for the lower back (~20 min), 1–2×/week. "Gentle" for the first weeks, later "Building"
+  with standing poses. Inspired by the Back to Health study programme. Pain is a stop signal.
+goal: general
+exercises:
+  knee_to_chest: { name: Knee to Chest, aliases: [Knie zur Brust], equipment: bodyweight, image: One_Knee_To_Chest }
+  pelvic_tilt: { name: Pelvic Tilt, aliases: [Beckenkippen], equipment: bodyweight, image: Pelvic_Tilt_Into_Bridge }
+  cat_cow: { name: Cat-Cow, aliases: [Katze-Kuh], equipment: bodyweight, image: Cat_Stretch }
+  child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
+  sphinx: { name: Sphinx, aliases: [Sphinx], equipment: bodyweight, image: false, muscles: [back] }
+  bird_dog: { name: Bird Dog, aliases: [Vierfüßlerstand diagonal], equipment: bodyweight, image: false,
+              muscles: [core, back, glutes] }
+  bridge: { name: Bridge Pose, aliases: [Brücke], equipment: bodyweight, image: Butt_Lift_Bridge }
+  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover }
+  legs_up_wall: { name: Legs Up the Wall, aliases: [Beine an der Wand], equipment: bodyweight, image: false, muscles: [] }
+  savasana: { name: Final Relaxation, aliases: [Endentspannung, Savasana], equipment: bodyweight, image: false, muscles: [] }
+  mountain_pose: { name: Mountain Pose, aliases: [Berg], equipment: bodyweight, image: false, muscles: [] }
+  low_lunge: { name: Low Lunge, aliases: [Tiefer Ausfallschritt], equipment: bodyweight, image: Kneeling_Hip_Flexor }
+  warrior_2: { name: Warrior II, aliases: [Krieger II], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders] }
+  triangle: { name: Triangle Pose, aliases: [Dreieck], equipment: bodyweight, image: false, muscles: [hamstrings, core] }
+  locust: { name: Locust, aliases: [Heuschrecke], equipment: bodyweight, image: Superman }
+workouts:
+  - id: gentle
+    name: Gentle
+    blocks:
+      - type: flow
+        name: Lying
+        rest_s: 10
+        note: "Move slowly, breathe calmly. Stop if anything hurts."
+        exercises:
+          - { exercise: knee_to_chest, duration_s: 45, per_side: true }
+          - { exercise: pelvic_tilt, duration_s: 60 }
+          - { exercise: supine_twist, duration_s: 45, per_side: true }
+          - { exercise: bridge, duration_s: 20 }
+          - { exercise: bridge, duration_s: 20 }
+      - type: flow
+        name: Hands and knees
+        rest_s: 10
+        exercises:
+          - { exercise: cat_cow, duration_s: 60 }
+          - { exercise: bird_dog, duration_s: 20, per_side: true }
+          - { exercise: child_pose, duration_s: 60 }
+          - { exercise: sphinx, duration_s: 45 }
+          - { exercise: child_pose, duration_s: 45 }
+      - type: flow
+        name: Relaxation
+        rest_s: 15
+        exercises:
+          - { exercise: legs_up_wall, duration_s: 180 }
+          - { exercise: savasana, duration_s: 240 }
+  - id: building
+    name: Building
+    blocks:
+      - type: flow
+        name: Warm-up
+        rest_s: 10
+        exercises:
+          - { exercise: knee_to_chest, duration_s: 30, per_side: true }
+          - { exercise: cat_cow, duration_s: 60 }
+          - { exercise: bird_dog, duration_s: 30, per_side: true }
+      - type: flow
+        name: Standing
+        rest_s: 10
+        rest_after_s: 30
+        note: "Knees soft, back long. Use a wall for balance if needed."
+        exercises:
+          - { exercise: mountain_pose, duration_s: 30 }
+          - { exercise: low_lunge, duration_s: 30, per_side: true }
+          - { exercise: warrior_2, duration_s: 30, per_side: true }
+          - { exercise: triangle, duration_s: 30, per_side: true }
+      - type: flow
+        name: Floor
+        rest_s: 10
+        exercises:
+          - { exercise: locust, duration_s: 20 }
+          - { exercise: child_pose, duration_s: 45 }
+          - { exercise: bridge, duration_s: 30 }
+          - { exercise: supine_twist, duration_s: 45, per_side: true }
+          - { exercise: savasana, duration_s: 240 }

@@ -1,0 +1,54 @@
+# Template: Mobility for lifters – yoga-based mobility for hips, hamstrings, shoulders and thoracic
+# spine. After strength training or on rest days. Two short sessions, alternating.
+schema_version: 1
+name: Mobility for Lifters
+description: >-
+  Two short sessions (~10 min) for hips and legs or shoulders and spine – after strength training
+  or on rest days. Runs on its own, every pose is announced.
+goal: general
+exercises:
+  worlds_greatest: { name: World's Greatest Stretch, aliases: [Weltbeste Dehnung], equipment: bodyweight,
+                     image: Worlds_Greatest_Stretch }
+  pigeon: { name: Pigeon Pose, aliases: [Taube], equipment: bodyweight, image: false, muscles: [glutes] }
+  half_split: { name: Half Split, aliases: [Halber Spagat], equipment: bodyweight, image: Runners_Stretch }
+  frog: { name: Frog Stretch, aliases: [Frosch], equipment: bodyweight, image: false, muscles: [quads, glutes] }
+  happy_baby: { name: Happy Baby, aliases: [Glückliches Baby], equipment: bodyweight, image: false, muscles: [glutes] }
+  low_lunge: { name: Low Lunge, aliases: [Tiefer Ausfallschritt], equipment: bodyweight, image: Kneeling_Hip_Flexor }
+  cat_cow: { name: Cat-Cow, aliases: [Katze-Kuh], equipment: bodyweight, image: Cat_Stretch }
+  thread_needle: { name: Thread the Needle, aliases: [Nadelöhr], equipment: bodyweight, image: false,
+                   muscles: [back, shoulders] }
+  puppy: { name: Puppy Pose, aliases: [Welpe], equipment: bodyweight, image: false, muscles: [shoulders, back] }
+  downward_dog: { name: Downward-Facing Dog, aliases: [Herabschauender Hund], equipment: bodyweight, image: false,
+                  muscles: [shoulders, hamstrings, calves] }
+  sphinx: { name: Sphinx, aliases: [Sphinx], equipment: bodyweight, image: false, muscles: [back] }
+  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover }
+  child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
+workouts:
+  - id: hips
+    name: Hips & Legs
+    blocks:
+      - type: flow
+        name: Hips & legs
+        rest_s: 5
+        exercises:
+          - { exercise: worlds_greatest, duration_s: 30, per_side: true }
+          - { exercise: low_lunge, duration_s: 45, per_side: true }
+          - { exercise: half_split, duration_s: 45, per_side: true }
+          - { exercise: pigeon, duration_s: 60, per_side: true }
+          - { exercise: frog, duration_s: 60 }
+          - { exercise: happy_baby, duration_s: 45 }
+          - { exercise: supine_twist, duration_s: 45, per_side: true }
+  - id: upper
+    name: Shoulders & Spine
+    blocks:
+      - type: flow
+        name: Shoulders & spine
+        rest_s: 5
+        exercises:
+          - { exercise: cat_cow, duration_s: 60 }
+          - { exercise: thread_needle, duration_s: 45, per_side: true }
+          - { exercise: puppy, duration_s: 60 }
+          - { exercise: downward_dog, duration_s: 45 }
+          - { exercise: sphinx, duration_s: 60 }
+          - { exercise: child_pose, duration_s: 45 }
+          - { exercise: supine_twist, duration_s: 45, per_side: true }

@@ -213,11 +213,15 @@ class TrainingManager:
         "kraft": ("Strength & hypertrophy", "mdi:weight-lifter",
                   "Barbell, dumbbells, machines – muscle and maximal strength in the gym or home gym."),
         "bodyweight": ("Bodyweight – no equipment", "mdi:home-heart",
-                       "At home, in a hotel, on the road – circuits, intervals and strength with a chair and sofa."),
+                       "At home, in a hotel, on the road – circuits and strength with a chair and sofa."),
         "calisthenics": ("Calisthenics", "mdi:human-handsup",
                          "Pull-up bar and dip bars – progress through ever harder variations up to skills."),
         "kettlebell": ("Kettlebell", "mdi:kettlebell",
                        "One or two bells – strength, muscular endurance and conditioning in little time."),
+        "hiit": ("HIIT & Tabata", "mdi:timer-outline",
+                 "Short, hard intervals – timed, with beeps or announcements. Bodyweight, kettlebell, bike, rower or running."),
+        "yoga": ("Yoga & mobility", "mdi:yoga",
+                 "Flows, stretching and balance – runs on its own, every pose is announced. A mat is enough."),
     }
 
     def _read_templates(self) -> list[dict[str, Any]]:
@@ -926,36 +930,52 @@ class TrainingManager:
             self._interval_task = None
 
     async def _interval_runner(self, session_id: str) -> None:
+        """Zeitgesteuerter Block (HIIT/Flow): Abschnitte nacheinander, jeder fertige Abschnitt wird als Satz gespeichert."""
         active = self.active
         if not active or active["id"] != session_id:
             return
         step = active["steps"][active["idx"]]
-        rounds, work_s, rest_s = step["rounds"], step["work_s"], step["rest_s"]
-        names = step["exercise_names"]
-        start_round = (active.get("interval") or {}).get("round", 1)
-        sat = active.get("satellite")
-        if sat and start_round == 1 and self.entry.options.get(CONF_ANNOUNCE, True):
-            self._voice_queue.put_nowait(("announce", sat, Speech(active.get("lang", "de")).t("interval_go", exercise=names[0])))
-        for rnd in range(start_round, rounds + 1):
-            exercise = names[(rnd - 1) % len(names)]
-            for phase, seconds in (("work", work_s), ("rest", rest_s if rnd < rounds else 0)):
+        segs = step.get("segments") or [  # Sessions von vor den Abschnitten
+            {"exercise": (step.get("exercises") or [None])[(r - 1) % max(1, len(step.get("exercises") or [1]))],
+             "name": step["exercise_names"][(r - 1) % len(step["exercise_names"])], "side": None,
+             "work_s": step["work_s"], "rest_s": step["rest_s"] if r < step["rounds"] else 0}
+            for r in range(1, step["rounds"] + 1)
+        ]
+        sp = Speech(active.get("lang", "de"))
+        flow = step.get("block_type") == "flow"
+        sat = active.get("satellite") if self.entry.options.get(CONF_ANNOUNCE, True) else None
+        start = (active.get("interval") or {}).get("round", 1)
+        count = len(segs)
+        for i in range(start, count + 1):
+            seg = segs[i - 1]
+            label = sp.segment_name(seg)
+            nxt = sp.segment_name(segs[i]) if i < count else None
+            if sat and (flow or i == 1):
+                self._voice_queue.put_nowait(("announce", sat, sp.t("flow_go" if flow else "interval_go", exercise=label)))
+            for phase, seconds in (("work", seg["work_s"]), ("rest", seg["rest_s"])):
                 if seconds <= 0:
                     continue
-                nxt = names[rnd % len(names)] if phase == "rest" else None
                 active["interval"] = {
-                    "round": rnd,
-                    "rounds": rounds,
+                    "round": i,
+                    "rounds": count,
                     "phase": phase,
-                    "exercise": exercise if phase == "work" else nxt,
+                    "flow": flow,
+                    "exercise": label if phase == "work" else nxt,
+                    "image": self.image_for(seg["exercise"] if phase == "work" else (segs[i]["exercise"] if i < count else ""),
+                                            active["plan_id"]) if seg.get("exercise") else None,
                     "ends_at": (dt_util.utcnow() + timedelta(seconds=seconds)).isoformat(),
                 }
                 self.hass.bus.async_fire(
                     EVENT_NAME,
-                    {"type": f"interval_{phase}", "session_id": session_id, "round": rnd, "rounds": rounds,
+                    {"type": f"interval_{phase}", "session_id": session_id, "round": i, "rounds": count,
                      "exercise": active["interval"]["exercise"], "seconds": seconds},
                 )
                 self._changed()
                 await asyncio.sleep(seconds)
+                if phase == "work":
+                    rec = Engine(active).log_segment({**seg, "index": i, "count": count}, _now())
+                    if rec:
+                        self._check_record(rec["id"])
         self._interval_task = None
         await self._run(Engine(active).interval_done())
 

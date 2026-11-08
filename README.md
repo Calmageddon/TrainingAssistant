@@ -1,3 +1,5 @@
+<img src="custom_components/training_assistant/brand/icon.png" alt="TrainingAssistant icon" width="96" align="right">
+
 # TrainingAssistant
 
 *Deutsche Fassung: [README.de.md](README.de.md)*
@@ -20,7 +22,7 @@ the voice language can also be set in the integration options.
 
 | Part | Content |
 |---|---|
-| **Flow** | Warm-up, sets (5x5, 3x8–12), circuits, HIIT, cool-down · circuits with a time cap ("alternate for 5 minutes") · sets up to a total · `max` sets · per side · tempo · rest timer · undo, skip, pause |
+| **Flow** | Warm-up, sets (5x5, 3x8–12), circuits, HIIT, timed flows (yoga, 30-20-10), cool-down · circuits with a time cap ("alternate for 5 minutes") · sets up to a total · `max` sets · per side · tempo · rest timer · undo, skip, pause |
 | **Voice** | Announcements and questions via an Assist satellite (`assist_satellite.ask_question`), spoken numbers in English and German ("twelve and a half kilos", "eight times fifteen", „zwölfeinhalb Kilo“) |
 | **History** | Every set stored permanently (not in the HA recorder) · suggestions via double/linear/rep progression · editable afterwards |
 | **Effort** | Say "eight, that was hard" or tap *Easy / Normal / Hard*: hard = no increase next time, all easy = bigger step |
@@ -57,8 +59,8 @@ Nothing is loaded from the internet when the card is displayed.
 
 ## Training plans
 
-**Templates:** 16 proven programs are included (strength & hypertrophy, bodyweight without
-equipment, calisthenics from beginner to advanced, kettlebell). Add them in the card under
+**Templates:** 27 proven programs are included (strength & hypertrophy, bodyweight without
+equipment, calisthenics from beginner to advanced, kettlebell, HIIT & Tabata, yoga & mobility). Add them in the card under
 *Settings → Templates*; overview and sources: [docs/templates.md](docs/templates.md).
 
 Your own plans are pasted as YAML/JSON into the card (*Settings → Own plan*). The card offers a

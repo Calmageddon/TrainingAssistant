@@ -60,6 +60,12 @@ PHRASES: dict[str, dict[str, str]] = {
         "rest_over": "Rest is over. Go.",
         "time_cap_over": "Time's up. Finish the current exercise and press the button.",
         "interval_go": "Go: {exercise}.",
+        "flow_go": "{exercise}.",
+        "flow_done": "Flow complete.",
+        "flow_block": "{name}: {count} steps, about {minutes} min. {exercises}. Press the button to start.",
+        "side_left": "{name}, left side",
+        "side_right": "{name}, right side",
+        "block_flow": "Flow",
         "block_warmup": "Warm-up",
         "block_cooldown": "Cool-down",
         "block_sets": "Sets",
@@ -120,6 +126,12 @@ PHRASES: dict[str, dict[str, str]] = {
         "rest_over": "Pause vorbei. Los.",
         "time_cap_over": "Zeit um. Beenden Sie die laufende Übung und drücken Sie den Knopf.",
         "interval_go": "Los: {exercise}.",
+        "flow_go": "{exercise}.",
+        "flow_done": "Flow geschafft.",
+        "flow_block": "{name}: {count} Abschnitte, etwa {minutes} min. {exercises}. Drücken Sie den Knopf zum Starten.",
+        "side_left": "{name}, linke Seite",
+        "side_right": "{name}, rechte Seite",
+        "block_flow": "Flow",
         "block_warmup": "Aufwärmen",
         "block_cooldown": "Cool Down",
         "block_sets": "Sätze",
@@ -209,6 +221,10 @@ class Speech:
         step = steps[idx]
         btype = step["block_type"]
         name = self.block_name(step)
+        if btype == "flow":
+            minutes = max(1, round(step.get("total_s", 0) / 60))
+            return self.t("flow_block", name=name, count=len(step.get("segments", [])), minutes=minutes,
+                          exercises=", ".join(dict.fromkeys(step["exercise_names"])))
         if btype == "interval":
             rest = self.t("interval_rest", s=step["rest_s"]) if step["rest_s"] else ""
             return self.t("interval_block", name=name, rounds=step["rounds"], work=step["work_s"], rest=rest,
@@ -245,6 +261,12 @@ class Speech:
         else:
             text = self.t("record_duration", s=self.number(value))
         return self.t("record", exercise=exercise, value=text)
+
+    def segment_name(self, seg: dict) -> str:
+        """Name eines Zeitabschnitts, bei Seiten mit „linke/rechte Seite“."""
+        if seg.get("side") in ("left", "right"):
+            return self.t(f"side_{seg['side']}", name=seg["name"])
+        return seg["name"]
 
     def question(self, set_rec: dict) -> str | None:
         """Rückfrage nach einem Satz. None, wenn nichts zu fragen ist."""

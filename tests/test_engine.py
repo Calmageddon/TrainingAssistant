@@ -221,3 +221,32 @@ def test_old_sessions_default_to_german():
     eng, eff = session()
     eng.s.pop("lang")
     assert Engine(eng.s).sp.lang == "de"
+
+
+def test_flow_segments_logged_as_sets():
+    from custom_components.training_assistant.phrases import Speech
+
+    plan = {
+        "schema_version": 1, "name": "Flow", "exercises": {"dog": {"name": "Hund"}, "tree": {"name": "Baum"}},
+        "workouts": [{"id": "w", "name": "W", "blocks": [
+            {"type": "flow", "exercises": [{"exercise": "dog", "duration_s": 30},
+                                           {"exercise": "tree", "duration_s": 20, "per_side": True}]},
+            {"type": "cooldown"}]}],
+    }
+    w = plan["workouts"][0]
+    state = new_session(session_id="s1", plan=plan, plan_id="p", workout=w, steps=build_steps(plan, "w"),
+                        satellite=None, now=NOW, lang="de")
+    eng = Engine(state)
+    eng.start()
+    assert "3 Abschnitte" in eng.sp.describe_block(eng.steps, 0)
+    eng.press_next(NOW)  # Flow starten
+    assert eng.s["phase"] == "interval"
+    for i, seg in enumerate(eng.step["segments"], 1):
+        eng.log_segment({**seg, "index": i, "count": 3}, NOW)
+    sets = eng.s["sets"]
+    assert [(x["exercise"], x["duration_s"], x.get("side")) for x in sets] == [
+        ("dog", 30, None), ("tree", 20, "left"), ("tree", 20, "right")]
+    assert Speech("de").segment_name(eng.step["segments"][1]) == "Baum, linke Seite"
+    effects = eng.interval_done()
+    assert any(e["kind"] == "announce" and "Flow geschafft" in e["text"] for e in effects)
+    assert eng.step["type"] == "cooldown"

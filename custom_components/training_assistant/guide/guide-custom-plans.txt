@@ -50,6 +50,7 @@ C) Write it yourself
     circuit                circuit: all exercises one after another, several rounds
                            (rounds) or rounds until time is up (time_cap_s)
     interval               HIIT: work/rest in seconds, timed
+    flow                   timed sequence, own duration per exercise (yoga)
 
   Values per set:
     reps                   8  ·  { min: 8, max: 12 }  ·  max
@@ -131,6 +132,8 @@ Block types (field "type"), all with optional name and note:
   circuit:  rounds OR time_cap_s, exercises: [{exercise, <set values>}],
             rest_after_exercise_s?, rest_after_round_s?, rest_after_s?, tempo?
   interval: rounds, work_s, rest_s, exercises: [<ID>, ...], rest_after_s?   (HIIT, no reps)
+  flow:     exercises: [{exercise, duration_s, per_side?}], rounds?, rest_s?, rest_after_round_s?, rest_after_s?
+            (timed sequence, own duration per exercise – yoga flows, 30-20-10; runs on its own)
 
 Set values:
   reps: number (8) OR range {min: 8, max: 12} OR max

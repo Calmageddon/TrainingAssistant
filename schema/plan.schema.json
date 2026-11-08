@@ -309,6 +309,7 @@
             "sets",
             "circuit",
             "interval",
+            "flow",
             "cooldown"
           ]
         }
@@ -325,6 +326,9 @@
         },
         {
           "$ref": "#/$defs/block_interval"
+        },
+        {
+          "$ref": "#/$defs/block_flow"
         }
       ]
     },
@@ -609,6 +613,71 @@
           "const": "max"
         }
       ]
+    },
+    "block_flow": {
+      "description": "Zeitgesteuerte Abfolge mit eigener Dauer je Übung (Yoga-Flow, 30-20-10 …). Läuft automatisch weiter, jede Haltung wird angesagt und als Satz mit Dauer gespeichert.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "exercises"
+      ],
+      "properties": {
+        "type": {
+          "const": "flow"
+        },
+        "name": {
+          "type": "string"
+        },
+        "rounds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Ganze Abfolge so oft wiederholen (Standard 1)."
+        },
+        "rest_s": {
+          "$ref": "#/$defs/seconds",
+          "description": "Übergang zwischen zwei Übungen (Standard 0)."
+        },
+        "rest_after_round_s": {
+          "$ref": "#/$defs/seconds",
+          "description": "Pause nach jeder Runde (Standard wie rest_s)."
+        },
+        "rest_after_s": {
+          "$ref": "#/$defs/seconds",
+          "description": "Pause nach dem Block."
+        },
+        "note": {
+          "type": "string"
+        },
+        "exercises": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "exercise",
+              "duration_s"
+            ],
+            "properties": {
+              "exercise": {
+                "$ref": "#/$defs/id"
+              },
+              "duration_s": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "per_side": {
+                "type": "boolean",
+                "description": "Erst links, dann rechts – jeweils duration_s."
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

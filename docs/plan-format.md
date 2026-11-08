@@ -76,10 +76,30 @@ Exercises without an image and without `muscles` are listed in the card under "W
 | `sets`     | Sets of one exercise (5x5, 3x8–12)          | `exercise`, `sets` **or** `total_reps`, set values (see below), `rest_s`, `rest_after_s` |
 | `circuit`  | Circuit: every exercise 1 set per round     | `rounds` **or** `time_cap_s`, `exercises[]`, `rest_after_exercise_s`, `rest_after_round_s`, `rest_after_s`, `tempo` |
 | `interval` | HIIT, purely timed                          | `rounds`, `work_s`, `rest_s`, `exercises[]` (IDs, in rotation), `rest_after_s` |
+| `flow`     | Timed sequence, own duration per exercise (yoga flow, 30-20-10) | `exercises[]` with `exercise`, `duration_s`, `per_side`; `rounds`, `rest_s` (transition), `rest_after_round_s`, `rest_after_s` |
 | `cooldown` | Cool-down                                   | like `warmup`                                              |
 
 Every block can have `name` and `note`. The note is read out when the block is announced,
 e.g. "increase the weight by 5–10 %".
+
+### Flow (yoga, timed sequences)
+
+A `flow` runs on its own like HIIT, but every exercise has its own duration. Each pose is announced
+when it starts; `per_side: true` runs it on the left, then on the right. Every completed pose is stored
+as a set with its duration, so flows count in the history, weekly view and muscle groups.
+
+```yaml
+- type: flow
+  name: Sun salutation
+  rounds: 5              # repeat the whole sequence
+  rest_s: 0              # transition between poses
+  exercises:
+    - { exercise: mountain_pose, duration_s: 10 }
+    - { exercise: downward_dog, duration_s: 30 }
+    - { exercise: warrior_2, duration_s: 30, per_side: true }
+```
+
+`interval` blocks (HIIT) are also stored as one set per work interval.
 
 ### Open-ended blocks
 
@@ -179,6 +199,8 @@ Block types (field "type"), all with optional name and note:
   circuit:  rounds OR time_cap_s, exercises: [{exercise, <set values>}],
             rest_after_exercise_s?, rest_after_round_s?, rest_after_s?, tempo?
   interval: rounds, work_s, rest_s, exercises: [<ID>, ...], rest_after_s?   (HIIT, no reps)
+  flow:     exercises: [{exercise, duration_s, per_side?}], rounds?, rest_s?, rest_after_round_s?, rest_after_s?
+            (timed sequence, own duration per exercise – yoga flows, 30-20-10; runs on its own)
 
 Set values:
   reps: number (8) OR range {min: 8, max: 12} OR max

@@ -13,9 +13,19 @@ CAT = Catalog.load()
 
 
 def test_templates_exist():
-    assert len(TEMPLATES) >= 16
+    assert len(TEMPLATES) >= 27
     groups = {p.stem.split("-", 1)[0] for p in TEMPLATES}
-    assert groups == {"kraft", "bodyweight", "calisthenics", "kettlebell"}
+    assert groups == {"kraft", "bodyweight", "calisthenics", "kettlebell", "hiit", "yoga"}
+
+
+def test_groups_known_to_card_and_manager():
+    """Jede Gruppe hat Titel und Beschreibung in der Karte (en/de) und einen Eintrag im Manager."""
+    root = Path(__file__).resolve().parent.parent / "custom_components" / "training_assistant"
+    card = (root / "frontend" / "training-assistant-card.js").read_text(encoding="utf-8")
+    manager = (root / "manager.py").read_text(encoding="utf-8")
+    for group in {p.stem.split("-", 1)[0] for p in TEMPLATES}:
+        assert card.count(f'"tg.{group}":') == 2 and card.count(f'"tg.{group}.about":') == 2, group
+        assert f'"{group}": (' in manager, group
 
 
 @pytest.mark.parametrize("path", TEMPLATES, ids=lambda p: p.stem)

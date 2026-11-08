@@ -1,0 +1,25 @@
+# Template: 10×1 intervals – 10 × 60 s hard / 60 s easy. Inspired by the low-volume HIIT protocol of
+# Little & Gibala (2010), which improved fitness in a few weeks with about 10 minutes of hard work
+# per session. Works on a bike, rower, treadmill, running outside or with a jump rope.
+schema_version: 1
+name: 10×1 Intervals
+description: >-
+  10 × 1 minute hard (about 85–90 % of max heart rate), 1 minute easy – about 25 minutes including
+  warm-up. Bike, rower, running or jump rope. Inspired by Little & Gibala 2010.
+goal: endurance
+exercises:
+  cardio_hard: { name: "Hard interval (bike, row, run)", aliases: [Hartes Intervall], equipment: other,
+                 image: false, muscles: [] }
+workouts:
+  - id: intervals
+    name: 10×1
+    blocks:
+      - { type: warmup, duration_s: 300, note: "5 minutes easy, the last minute a little faster." }
+      - type: interval
+        name: 10×1 minute
+        rounds: 10
+        work_s: 60
+        rest_s: 60
+        note: "Hard but steady – you should be able to hold the pace for all ten. Easy minute: keep moving slowly."
+        exercises: [cardio_hard]
+      - { type: cooldown, duration_s: 300 }

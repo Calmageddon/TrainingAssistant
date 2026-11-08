@@ -1,0 +1,60 @@
+# Template: Balance & strength – standing yoga poses and core holds, as a timed flow in rounds.
+# Progress: hold longer (duration_s) or add a third round.
+schema_version: 1
+name: Balance & Strength Yoga
+description: >-
+  Standing poses and core holds in two rounds (~25 min) – warriors I–III, tree, chair, boat,
+  plank and side plank. Builds balance, leg and core strength.
+goal: general
+exercises:
+  cat_cow: { name: Cat-Cow, aliases: [Katze-Kuh], equipment: bodyweight, image: Cat_Stretch }
+  downward_dog: { name: Downward-Facing Dog, aliases: [Herabschauender Hund], equipment: bodyweight, image: false,
+                  muscles: [shoulders, hamstrings, calves] }
+  warrior_1: { name: Warrior I, aliases: [Krieger I], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders] }
+  warrior_2: { name: Warrior II, aliases: [Krieger II], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders] }
+  warrior_3: { name: Warrior III, aliases: [Krieger III], equipment: bodyweight, image: false, muscles: [hamstrings, glutes, core] }
+  tree: { name: Tree Pose, aliases: [Baum], equipment: bodyweight, image: false, muscles: [glutes, calves, core] }
+  chair_pose: { name: Chair Pose, aliases: [Stuhl], equipment: bodyweight, image: false, muscles: [quads, glutes] }
+  boat_pose: { name: Boat Pose, aliases: [Boot], equipment: bodyweight, image: false, muscles: [core] }
+  plank: { name: Plank, aliases: [Brett], equipment: bodyweight }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge }
+  child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
+  savasana: { name: Final Relaxation, aliases: [Endentspannung, Savasana], equipment: bodyweight, image: false, muscles: [] }
+workouts:
+  - id: balance
+    name: Balance & Strength
+    blocks:
+      - type: flow
+        name: Warm-up
+        rest_s: 5
+        rest_after_s: 20
+        exercises:
+          - { exercise: cat_cow, duration_s: 60 }
+          - { exercise: downward_dog, duration_s: 45 }
+      - type: flow
+        name: Standing
+        rounds: 2
+        rest_s: 5
+        rest_after_round_s: 45
+        rest_after_s: 45
+        exercises:
+          - { exercise: chair_pose, duration_s: 30 }
+          - { exercise: warrior_1, duration_s: 30, per_side: true }
+          - { exercise: warrior_2, duration_s: 30, per_side: true }
+          - { exercise: warrior_3, duration_s: 20, per_side: true }
+          - { exercise: tree, duration_s: 30, per_side: true }
+      - type: flow
+        name: Core
+        rounds: 2
+        rest_s: 10
+        rest_after_round_s: 30
+        exercises:
+          - { exercise: plank, duration_s: 45 }
+          - { exercise: side_plank, duration_s: 30, per_side: true }
+          - { exercise: boat_pose, duration_s: 30 }
+      - type: flow
+        name: Wind-down
+        rest_s: 10
+        exercises:
+          - { exercise: child_pose, duration_s: 60 }
+          - { exercise: savasana, duration_s: 180 }

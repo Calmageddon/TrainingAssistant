@@ -1,0 +1,57 @@
+# Template: Sun salutation flow – the classic sequence as a timed flow, round after round.
+# One pose per breath in the fast parts, a few breaths in downward dog. Start with 5 rounds,
+# later up to 8 (change "rounds").
+schema_version: 1
+name: Sun Salutation Flow
+description: >-
+  The classic sun salutation as a flowing sequence, 5 rounds (~15 min) – mountain, forward fold,
+  plank, chaturanga, upward dog, downward dog. Ends with child's pose and relaxation.
+goal: general
+exercises:
+  mountain_pose: { name: Mountain Pose, aliases: [Berg], equipment: bodyweight, image: false, muscles: [] }
+  forward_fold: { name: Standing Forward Fold, aliases: [Vorbeuge], equipment: bodyweight, image: false,
+                  muscles: [hamstrings, back] }
+  half_lift: { name: Half Lift, aliases: [Halbe Vorbeuge], equipment: bodyweight, image: false, muscles: [back] }
+  plank: { name: Plank, aliases: [Brett], equipment: bodyweight }
+  chaturanga: { name: Chaturanga, aliases: [Halbe Liegestütze], equipment: bodyweight, image: false,
+                muscles: [chest, triceps, core] }
+  upward_dog: { name: Upward-Facing Dog, aliases: [Heraufschauender Hund], equipment: bodyweight, image: false,
+                muscles: [back, chest] }
+  downward_dog: { name: Downward-Facing Dog, aliases: [Herabschauender Hund], equipment: bodyweight, image: false,
+                  muscles: [shoulders, hamstrings, calves] }
+  child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
+  savasana: { name: Final Relaxation, aliases: [Endentspannung, Savasana], equipment: bodyweight, image: false, muscles: [] }
+workouts:
+  - id: flow
+    name: Sun Salutation
+    blocks:
+      - type: flow
+        name: Warm-up
+        rest_s: 5
+        rest_after_s: 15
+        exercises:
+          - { exercise: child_pose, duration_s: 45 }
+          - { exercise: downward_dog, duration_s: 45 }
+      - type: flow
+        name: Sun salutation
+        rounds: 5
+        rest_after_round_s: 10
+        rest_after_s: 30
+        note: "One pose per breath – stay five breaths in downward dog."
+        exercises:
+          - { exercise: mountain_pose, duration_s: 10 }
+          - { exercise: forward_fold, duration_s: 10 }
+          - { exercise: half_lift, duration_s: 5 }
+          - { exercise: plank, duration_s: 10 }
+          - { exercise: chaturanga, duration_s: 5 }
+          - { exercise: upward_dog, duration_s: 10 }
+          - { exercise: downward_dog, duration_s: 30 }
+          - { exercise: half_lift, duration_s: 5 }
+          - { exercise: forward_fold, duration_s: 10 }
+          - { exercise: mountain_pose, duration_s: 10 }
+      - type: flow
+        name: Wind-down
+        rest_s: 10
+        exercises:
+          - { exercise: child_pose, duration_s: 60 }
+          - { exercise: savasana, duration_s: 180 }

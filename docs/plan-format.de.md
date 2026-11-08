@@ -76,10 +76,30 @@ Gruppen: `chest` (Brust), `back` (Rücken), `shoulders` (Schultern), `biceps`, `
 | `sets`     | Sätze einer Übung (5x5, 3x8–12)          | `exercise`, `sets` **oder** `total_reps`, Satz-Werte (s. u.), `rest_s`, `rest_after_s` |
 | `circuit`  | Zirkel: alle Übungen je 1 Satz pro Runde | `rounds` **oder** `time_cap_s`, `exercises[]`, `rest_after_exercise_s`, `rest_after_round_s`, `rest_after_s`, `tempo` |
 | `interval` | HIIT, rein zeitgesteuert                 | `rounds`, `work_s`, `rest_s`, `exercises[]` (IDs, reihum), `rest_after_s` |
+| `flow`     | Zeitgesteuerte Abfolge, eigene Dauer je Übung (Yoga-Flow, 30-20-10) | `exercises[]` mit `exercise`, `duration_s`, `per_side`; `rounds`, `rest_s` (Übergang), `rest_after_round_s`, `rest_after_s` |
 | `cooldown` | Cool Down                                | wie `warmup`                                               |
 
 Alle Blöcke können `name` und `note` haben. Die Notiz wird bei der Blockansage vorgelesen,
 z. B. „Gewicht um 5–10 % erhöhen“.
+
+### Flow (Yoga, zeitgesteuerte Abfolgen)
+
+Ein `flow` läuft wie HIIT von selbst, aber jede Übung hat ihre eigene Dauer. Jede Haltung wird beim
+Wechsel angesagt; `per_side: true` macht sie erst links, dann rechts. Jede abgeschlossene Haltung wird
+als Satz mit Dauer gespeichert – Flows zählen also im Verlauf, in der Woche und bei den Muskelgruppen.
+
+```yaml
+- type: flow
+  name: Sonnengruß
+  rounds: 5              # ganze Abfolge wiederholen
+  rest_s: 0              # Übergang zwischen den Haltungen
+  exercises:
+    - { exercise: mountain_pose, duration_s: 10 }
+    - { exercise: downward_dog, duration_s: 30 }
+    - { exercise: warrior_2, duration_s: 30, per_side: true }
+```
+
+Auch `interval`-Blöcke (HIIT) werden mit einem Satz pro Arbeitsintervall gespeichert.
 
 ### Offene Blöcke
 
@@ -179,6 +199,8 @@ Block-Typen (Feld "type"), alle mit optional name und note:
   circuit:  rounds ODER time_cap_s, exercises: [{exercise, <Satz-Werte>}],
             rest_after_exercise_s?, rest_after_round_s?, rest_after_s?, tempo?
   interval: rounds, work_s, rest_s, exercises: [<ID>, ...], rest_after_s?   (HIIT, keine reps)
+  flow:     exercises: [{exercise, duration_s, per_side?}], rounds?, rest_s?, rest_after_round_s?, rest_after_s?
+            (zeitgesteuerte Abfolge, eigene Dauer je Übung – Yoga-Flows, 30-20-10; läuft von selbst)
 
 Satz-Werte:
   reps: Zahl (8) ODER Bereich {min: 8, max: 12} ODER max

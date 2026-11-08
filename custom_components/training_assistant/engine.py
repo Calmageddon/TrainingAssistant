@@ -301,12 +301,29 @@ class Engine:
             effects.append({"kind": "rest", "seconds": rest})
         return effects
 
+    def log_segment(self, seg: dict, now: str) -> dict | None:
+        """Abgeschlossenen Zeitabschnitt (HIIT/Flow) als Satz mit Dauer speichern."""
+        step = self.step
+        if not step or step["type"] != "interval" or not seg.get("exercise"):
+            return None
+        pseudo = {
+            "idx": step["idx"], "block": step["block"], "block_name": step.get("block_name"),
+            "exercise": seg["exercise"], "exercise_name": seg["name"], "round": seg.get("index"),
+            "sets": None, "set_no": None, "rounds": seg.get("count"), "rep_range": None, "target_reps": None,
+            "target_weight": None, "target_duration": seg["work_s"], "per_side": bool(seg.get("side")),
+        }
+        rec = self._log(pseudo, status=SET_CONFIRMED, duration=seg["work_s"], now=now)
+        if seg.get("side"):
+            rec["side"] = seg["side"]
+        return rec
+
     def interval_done(self) -> Effects:
-        """Vom Manager aufgerufen, wenn der HIIT-Block abgelaufen ist."""
+        """Vom Manager aufgerufen, wenn der HIIT-/Flow-Block abgelaufen ist."""
         if self.s["phase"] != PHASE_INTERVAL:
             return []
         rest = self.step.get("block_rest_s") or 0
-        effects = [self._event("interval_done"), *self._enter(self.s["idx"] + 1, intro=self.sp.t("hiit_done"), rest_s=rest)]
+        done = self.sp.t("flow_done" if self.step.get("block_type") == "flow" else "hiit_done")
+        effects = [self._event("interval_done"), *self._enter(self.s["idx"] + 1, intro=done, rest_s=rest)]
         if rest and not self.finished:
             effects.append({"kind": "rest", "seconds": rest})
         return effects

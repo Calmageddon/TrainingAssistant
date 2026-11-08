@@ -50,6 +50,7 @@ C) Selbst schreiben
     circuit                Zirkel: alle Übungen nacheinander, mehrere Runden
                            (rounds) oder Runden bis die Zeit um ist (time_cap_s)
     interval               HIIT: Arbeit/Pause in Sekunden, zeitgesteuert
+    flow                   zeitgesteuerte Abfolge, eigene Dauer je Übung (Yoga)
 
   Werte pro Satz:
     reps                   8  ·  { min: 8, max: 12 }  ·  max
@@ -132,6 +133,8 @@ Block-Typen (Feld "type"), alle mit optional name und note:
   circuit:  rounds ODER time_cap_s, exercises: [{exercise, <Satz-Werte>}],
             rest_after_exercise_s?, rest_after_round_s?, rest_after_s?, tempo?
   interval: rounds, work_s, rest_s, exercises: [<ID>, ...], rest_after_s?   (HIIT, keine reps)
+  flow:     exercises: [{exercise, duration_s, per_side?}], rounds?, rest_s?, rest_after_round_s?, rest_after_s?
+            (zeitgesteuerte Abfolge, eigene Dauer je Übung – Yoga-Flows, 30-20-10; läuft von selbst)
 
 Satz-Werte:
   reps: Zahl (8) ODER Bereich {min: 8, max: 12} ODER max

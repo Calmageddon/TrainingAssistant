@@ -40,7 +40,13 @@ BLOCK_FIELDS: dict[str, tuple[set[str], set[str]]] = {
         {"type", "rounds", "work_s", "rest_s", "exercises"},
         {"type", "name", "rounds", "work_s", "rest_s", "rest_after_s", "exercises", "note"},
     ),
+    # Zeitgesteuerte Abfolge mit eigener Dauer je Übung/Haltung (Yoga-Flow, 30-20-10 …)
+    "flow": (
+        {"type", "exercises"},
+        {"type", "name", "rounds", "rest_s", "rest_after_round_s", "rest_after_s", "exercises", "note"},
+    ),
 }
+FLOW_ITEM_FIELDS = {"exercise", "duration_s", "per_side", "note"}
 
 DEFAULT_BLOCK_NAMES = {
     "warmup": "Aufwärmen",
@@ -48,6 +54,7 @@ DEFAULT_BLOCK_NAMES = {
     "sets": "Sätze",
     "circuit": "Zirkel",
     "interval": "HIIT",
+    "flow": "Flow",
 }
 
 DEFAULT_REST_S = 60
@@ -394,6 +401,20 @@ def _check_block(c: _Checker, block: Any, path: str, catalog: dict, defaults: di
             ipath = f"{path}/exercises/{ii}"
             if c.obj(item, ipath, {"exercise"}, ITEM_FIELDS):
                 check_item(item, ipath)
+    elif btype == "flow":
+        if "rounds" in block:
+            c.integer(block["rounds"], f"{path}/rounds", 1)
+        items = block.get("exercises")
+        if not isinstance(items, list) or not items:
+            c.err(f"{path}/exercises", "muss eine Liste mit mindestens einer Übung sein")
+            return
+        for ii, item in enumerate(items):
+            ipath = f"{path}/exercises/{ii}"
+            if c.obj(item, ipath, {"exercise", "duration_s"}, FLOW_ITEM_FIELDS):
+                check_exercise_ref(item["exercise"], f"{ipath}/exercise")
+                c.integer(item["duration_s"], f"{ipath}/duration_s", 1)
+                if "per_side" in item and not isinstance(item["per_side"], bool):
+                    c.err(f"{ipath}/per_side", "muss true oder false sein")
     elif btype == "interval":
         c.integer(block.get("rounds"), f"{path}/rounds", 1)
         c.integer(block.get("work_s"), f"{path}/work_s", 1)
@@ -435,6 +456,58 @@ def find_workout(plan: dict, workout_id: str) -> dict:
 
 
 HistoryLookup = Callable[[str], list[dict]]
+
+
+def flow_segments(block: dict, catalog: dict) -> list[dict[str, Any]]:
+    """Abfolge eines Flow-Blocks in einzelne Zeitabschnitte zerlegen.
+
+    Pro Runde jede Übung (bei per_side links und rechts), danach rest_s Übergang;
+    nach jeder Runde (außer der letzten) rest_after_round_s statt rest_s. Der letzte Abschnitt hat keine Pause.
+    """
+    rounds = block.get("rounds", 1)
+    rest = block.get("rest_s", 0)
+    round_rest = block.get("rest_after_round_s", rest)
+    segs: list[dict[str, Any]] = []
+    for r in range(1, rounds + 1):
+        for item in block["exercises"]:
+            ex = catalog[item["exercise"]]
+            for side in (("left", "right") if item.get("per_side") else (None,)):
+                segs.append({"exercise": item["exercise"], "name": ex["name"], "side": side, "round": r,
+                             "work_s": item["duration_s"], "rest_s": rest, "note": item.get("note")})
+        if segs:
+            segs[-1]["rest_s"] = round_rest
+    if segs:
+        segs[-1]["rest_s"] = 0
+    return segs
+
+
+def interval_segments(block: dict, catalog: dict) -> list[dict[str, Any]]:
+    """Klassischer HIIT-Block (gleiche Arbeits-/Pausenzeit, Übungen reihum) als Zeitabschnitte."""
+    ids = block["exercises"]
+    rounds = block["rounds"]
+    return [
+        {"exercise": ids[(r - 1) % len(ids)], "name": catalog[ids[(r - 1) % len(ids)]]["name"], "side": None,
+         "round": r, "work_s": block["work_s"], "rest_s": block["rest_s"] if r < rounds else 0, "note": None}
+        for r in range(1, rounds + 1)
+    ]
+
+
+def flow_step(block: dict, bi: int, name: str | None, catalog: dict) -> dict[str, Any]:
+    segs = flow_segments(block, catalog)
+    return {
+        "type": "interval",  # läuft wie HIIT zeitgesteuert, aber mit eigener Dauer je Abschnitt
+        "block": bi,
+        "block_type": "flow",
+        "block_name": name,
+        "rounds": block.get("rounds", 1),
+        "segments": segs,
+        "total_s": sum(x["work_s"] + x["rest_s"] for x in segs),
+        "exercises": [x["exercise"] for x in block["exercises"]],
+        "exercise_names": [catalog[x["exercise"]]["name"] for x in block["exercises"]],
+        "items": [{"exercise": x["exercise"], "name": catalog[x["exercise"]]["name"], "duration_s": x["duration_s"],
+                   "per_side": bool(x.get("per_side"))} for x in block["exercises"]],
+        "note": block.get("note"),
+    }
 
 
 def build_steps(plan: dict, workout_id: str, history: HistoryLookup | None = None) -> list[dict]:
@@ -544,6 +617,8 @@ def build_steps(plan: dict, workout_id: str, history: HistoryLookup | None = Non
                                  rest_after_s=rest, block_end=block_end,
                                  block_note=block.get("note") if r == 1 and i == 0 else None)
                     )
+        elif btype == "flow":
+            steps.append(flow_step(block, bi, name, catalog))
         elif btype == "interval":
             steps.append(
                 {
@@ -556,6 +631,7 @@ def build_steps(plan: dict, workout_id: str, history: HistoryLookup | None = Non
                     "rest_s": block["rest_s"],
                     "exercises": block["exercises"],
                     "exercise_names": [catalog[e]["name"] for e in block["exercises"]],
+                    "segments": interval_segments(block, catalog),
                     "note": block.get("note"),
                 }
             )

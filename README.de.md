@@ -1,3 +1,5 @@
+<img src="custom_components/training_assistant/brand/icon.png" alt="TrainingAssistant-Icon" width="96" align="right">
+
 # TrainingAssistant
 
 *English version: [README.md](README.md)*
@@ -20,7 +22,7 @@ die Sprache der Ansagen lässt sich in den Optionen der Integration auch fest ei
 
 | Baustein | Inhalt |
 |---|---|
-| **Ablauf** | Aufwärmen, Sätze (5x5, 3x8–12), Zirkel, HIIT, Cool Down · Zirkel mit Zeitlimit („5 Minuten im Wechsel“) · Sätze bis zu einer Gesamtzahl · `max`-Sätze · pro Seite · Tempo · Pausentimer · Rückgängig, Überspringen, Pause |
+| **Ablauf** | Aufwärmen, Sätze (5x5, 3x8–12), Zirkel, HIIT, zeitgesteuerte Flows (Yoga, 30-20-10), Cool Down · Zirkel mit Zeitlimit („5 Minuten im Wechsel“) · Sätze bis zu einer Gesamtzahl · `max`-Sätze · pro Seite · Tempo · Pausentimer · Rückgängig, Überspringen, Pause |
 | **Sprache** | Ansagen und Rückfragen über einen Assist-Satelliten (`assist_satellite.ask_question`), Zahlen auf Deutsch und Englisch („zwölfeinhalb Kilo“, „acht mal fünfzehn“, "twelve and a half kilos") |
 | **Verlauf** | Jeder Satz dauerhaft gespeichert (nicht im HA-Recorder) · Vorschläge per doppelter/linearer/Wiederholungs-Progression · nachträglich korrigierbar |
 | **Anstrengung** | „acht, war schwer“ sagen oder *Leicht / Normal / Schwer* antippen: schwer = nächstes Mal nicht steigern, alle leicht = größerer Schritt |
@@ -57,8 +59,8 @@ Beim Anzeigen der Karte wird nichts aus dem Internet geladen.
 
 ## Trainingspläne
 
-**Vorlagen:** 16 bewährte Programme werden mitgeliefert (Kraft & Hypertrophie, Bodyweight ohne
-Geräte, Calisthenics von Einstieg bis Fortgeschritten, Kettlebell). Die Vorlagen sind auf Englisch;
+**Vorlagen:** 27 bewährte Programme werden mitgeliefert (Kraft & Hypertrophie, Bodyweight ohne
+Geräte, Calisthenics von Einstieg bis Fortgeschritten, Kettlebell, HIIT & Tabata, Yoga & Mobilität). Die Vorlagen sind auf Englisch;
 übernehmen in der Karte unter *Einstellungen → Vorlagen*, Übersicht und Quellen: [docs/vorlagen.md](docs/vorlagen.md).
 
 Eigene Pläne werden als YAML/JSON in der Karte (*Einstellungen → Eigener Plan*) eingefügt. Die Karte bietet

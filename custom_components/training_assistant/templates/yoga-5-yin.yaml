@@ -1,0 +1,36 @@
+# Template: Yin yoga – few poses, held long (2–4 minutes), passive and quiet. Good in the evening or on
+# rest days. Come out of each pose slowly; the transition time is built in.
+schema_version: 1
+name: Yin Yoga
+description: >-
+  Calm practice with long holds (2–4 min) for hips, back and legs (~35 min). Good in the evening
+  or on rest days.
+goal: general
+exercises:
+  butterfly: { name: Butterfly, aliases: [Schmetterling], equipment: bodyweight, image: false, muscles: [quads] }
+  dragon: { name: Dragon, aliases: [Drache], equipment: bodyweight, image: Kneeling_Hip_Flexor }
+  caterpillar: { name: Caterpillar, aliases: [Raupe], equipment: bodyweight, image: Seated_Floor_Hamstring_Stretch }
+  sphinx: { name: Sphinx, aliases: [Sphinx], equipment: bodyweight, image: false, muscles: [back] }
+  shoelace: { name: Shoelace, aliases: [Schnürsenkel], equipment: bodyweight, image: false, muscles: [glutes] }
+  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover }
+  child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
+  legs_up_wall: { name: Legs Up the Wall, aliases: [Beine an der Wand], equipment: bodyweight, image: false, muscles: [] }
+  savasana: { name: Final Relaxation, aliases: [Endentspannung, Savasana], equipment: bodyweight, image: false, muscles: [] }
+workouts:
+  - id: yin
+    name: Yin
+    blocks:
+      - type: flow
+        name: Yin
+        rest_s: 20
+        note: "Find a comfortable edge, not pain. Stay still and breathe."
+        exercises:
+          - { exercise: butterfly, duration_s: 180 }
+          - { exercise: dragon, duration_s: 120, per_side: true }
+          - { exercise: caterpillar, duration_s: 180 }
+          - { exercise: sphinx, duration_s: 180 }
+          - { exercise: child_pose, duration_s: 60 }
+          - { exercise: shoelace, duration_s: 150 }
+          - { exercise: supine_twist, duration_s: 120, per_side: true }
+          - { exercise: legs_up_wall, duration_s: 240 }
+          - { exercise: savasana, duration_s: 300 }

@@ -155,7 +155,7 @@ async def main() -> int:
 
             res = await ws.call(type="training_assistant/templates")
             tpls = res["result"]["templates"] if res["success"] else []
-            check(len(tpls) >= 16 and len({t["group"] for t in tpls}) == 4, f"{len(tpls)} Vorlagen in 4 Gruppen")
+            check(len(tpls) >= 27 and len({t["group_key"] for t in tpls}) == 6, f"{len(tpls)} Vorlagen in {len({t['group_key'] for t in tpls})} Gruppen")
 
             # Sprache der Ansagen = Sprache der Testinstanz (Option voice_language steht dort auf „auto“)
             cfg = await ws.call(type="get_config")
@@ -377,6 +377,9 @@ async def main() -> int:
             check(S()["active"]["phase"] == "interval", "HIIT läuft")
             await wait_for(lambda: S()["active"]["steps"][S()["active"]["idx"]]["type"] == "cooldown", 8)
             check(S()["active"]["steps"][S()["active"]["idx"]]["type"] == "cooldown", "HIIT automatisch beendet")
+            hiit_sets = [x for x in S()["active"]["sets"] if x["exercise"] == "h"]
+            check(len(hiit_sets) == 2 and all(x["duration_s"] == 1 for x in hiit_sets),
+                  f"HIIT-Intervalle als Sätze gespeichert ({len(hiit_sets)})")
             await ws.service("training_assistant", "next")
             await wait_for(lambda: S()["active"] is None)
             check(S()["active"] is None, "Training fertig")

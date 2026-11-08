@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.3.0";
+const CARD_VERSION = "0.4.0";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -17,7 +17,7 @@ const I18N = {
     st_planned: "planned", st_pending: "asking …", st_confirmed: "confirmed", st_corrected: "corrected",
     st_edited: "edited", st_unconfirmed: "unconfirmed", st_skipped: "skipped",
     ph_ready: "Ready", ph_active: "Training", ph_interval: "HIIT", ph_finished: "Done", ph_paused: "Paused",
-    ty_warmup: "Warm-up", ty_circuit: "Circuit", ty_sets: "Sets", ty_interval: "HIIT", ty_cooldown: "Cool-down",
+    ty_warmup: "Warm-up", ty_circuit: "Circuit", ty_sets: "Sets", ty_interval: "HIIT", ty_flow: "Flow", ty_cooldown: "Cool-down",
     u_reps: "reps", u_sec: "sec", per_side: "per side", per_side_short: "/side",
     hold_max_short: "hold max", amrap_short: "max reps", reps_n: "{n} reps", tile_hold: "sec hold", goal_range: "goal {lo}–{hi}",
     pos_round_of: "Round {r}/{n}", pos_round: "Round {r}", pos_set_of: "Set {s}/{n}", pos_set: "Set {s}",
@@ -27,7 +27,8 @@ const I18N = {
     no_sat: "No default satellite: the workout runs silently on this card (choose a satellite in the integration options or when starting by voice).",
     pv_rounds: "{n} rounds", pv_cap: "{m} min alternating", pv_between_ex: "{d} between exercises",
     pv_between_rounds: "{d} between rounds", pv_sets: "{n} sets", pv_sets_until: "Sets until {n} reps", pv_rest: "{d} rest",
-    pv_interval: "{w} s work / {r} s rest", pv_block_rest: "⏸ {d} rest",
+    pv_interval: "{w} s work / {r} s rest", pv_block_rest: "⏸ {d} rest", pv_flow: "{n} steps · about {m} min",
+    flow_switch: "Switch", b_end_flow: "End flow",
     tempo: "Tempo {t}", iv_work: "WORK", iv_rest: "REST", t_rest: "Rest", t_left: "Time left",
     t_up: "Time's up – finish the exercise", t_question: "Voice question … (Next = as planned)",
     b_resume: "▶ Resume", b_go: "▶ Go", b_end_hiit: "End HIIT", b_set_done: "✓ Set done",
@@ -72,11 +73,15 @@ const I18N = {
     "tg.kraft": "Strength & hypertrophy",
     "tg.kraft.about": "Barbell, dumbbells, machines – muscle and maximal strength in the gym or home gym.",
     "tg.bodyweight": "Bodyweight – no equipment",
-    "tg.bodyweight.about": "At home, in a hotel, on the road – circuits, intervals and strength with a chair and sofa.",
+    "tg.bodyweight.about": "At home, in a hotel, on the road – circuits and strength with a chair and sofa.",
     "tg.calisthenics": "Calisthenics",
     "tg.calisthenics.about": "Pull-up bar and dip bars – progress through ever harder variations up to skills.",
     "tg.kettlebell": "Kettlebell",
     "tg.kettlebell.about": "One or two bells – strength, muscular endurance and conditioning in little time.",
+    "tg.hiit": "HIIT & Tabata",
+    "tg.hiit.about": "Short, hard intervals – timed, with beeps or announcements. Bodyweight, kettlebell, bike, rower or running.",
+    "tg.yoga": "Yoga & mobility",
+    "tg.yoga.about": "Flows, stretching and balance – runs on its own, every pose is announced. A mat is enough.",
     "tg.other": "More",
     wk_title: "This week", wk_goal: "Goal (number of workouts)", wk_aria: "{d} of {n} workouts this week", wk_streak: "🔥 {n} weeks in a row",
     wk_streak1: "🔥 1 week", wk_bars: "Sets per day", wk_left: "{n} to go", wk_reached: "Weekly goal reached",
@@ -114,7 +119,7 @@ const I18N = {
     st_planned: "geplant", st_pending: "Rückfrage …", st_confirmed: "bestätigt", st_corrected: "korrigiert",
     st_edited: "geändert", st_unconfirmed: "unbestätigt", st_skipped: "übersprungen",
     ph_ready: "Bereit", ph_active: "Training", ph_interval: "HIIT", ph_finished: "Fertig", ph_paused: "Pausiert",
-    ty_warmup: "Aufwärmen", ty_circuit: "Zirkel", ty_sets: "Sätze", ty_interval: "HIIT", ty_cooldown: "Cool Down",
+    ty_warmup: "Aufwärmen", ty_circuit: "Zirkel", ty_sets: "Sätze", ty_interval: "HIIT", ty_flow: "Flow", ty_cooldown: "Cool Down",
     u_reps: "Wdh.", u_sec: "Sek.", per_side: "pro Seite", per_side_short: "/Seite",
     hold_max_short: "max. halten", amrap_short: "max. Wdh.", reps_n: "{n} Wdh.", tile_hold: "Sek. halten", goal_range: "Ziel {lo}–{hi}",
     pos_round_of: "Runde {r}/{n}", pos_round: "Runde {r}", pos_set_of: "Satz {s}/{n}", pos_set: "Satz {s}",
@@ -124,7 +129,8 @@ const I18N = {
     no_sat: "Kein Standard-Satellit: Das Training läuft stumm über diese Karte (Satellit in den Optionen der Integration wählbar oder beim Start per Sprache).",
     pv_rounds: "{n} Runden", pv_cap: "{m} min im Wechsel", pv_between_ex: "{d} zw. Übungen",
     pv_between_rounds: "{d} zw. Runden", pv_sets: "{n} Sätze", pv_sets_until: "Sätze bis {n} Wdh.", pv_rest: "{d} Pause",
-    pv_interval: "{w} s Arbeit / {r} s Pause", pv_block_rest: "⏸ {d} Pause",
+    pv_interval: "{w} s Arbeit / {r} s Pause", pv_block_rest: "⏸ {d} Pause", pv_flow: "{n} Abschnitte · etwa {m} min",
+    flow_switch: "Wechsel", b_end_flow: "Flow beenden",
     tempo: "Tempo {t}", iv_work: "ARBEIT", iv_rest: "PAUSE", t_rest: "Pause", t_left: "Zeit übrig",
     t_up: "Zeit um – Übung beenden", t_question: "Rückfrage läuft … (Weiter = wie geplant)",
     b_resume: "▶ Fortsetzen", b_go: "▶ Los", b_end_hiit: "HIIT beenden", b_set_done: "✓ Satz fertig",
@@ -169,11 +175,15 @@ const I18N = {
     "tg.kraft": "Kraft & Hypertrophie",
     "tg.kraft.about": "Langhantel, Kurzhanteln, Geräte – Muskelaufbau und Maximalkraft im Studio oder Homegym.",
     "tg.bodyweight": "Bodyweight – ohne Geräte",
-    "tg.bodyweight.about": "Zu Hause, im Hotel, unterwegs – Zirkel, Intervalle und Kraft mit Stuhl und Sofa.",
+    "tg.bodyweight.about": "Zu Hause, im Hotel, unterwegs – Zirkel und Kraft mit Stuhl und Sofa.",
     "tg.calisthenics": "Calisthenics",
     "tg.calisthenics.about": "Klimmzugstange und Barren – Fortschritt über immer schwerere Varianten bis zu Skills.",
     "tg.kettlebell": "Kettlebell",
     "tg.kettlebell.about": "Eine oder zwei Kugeln – Kraft, Kraftausdauer und Kondition in kurzer Zeit.",
+    "tg.hiit": "HIIT & Tabata",
+    "tg.hiit.about": "Kurze, harte Intervalle – zeitgesteuert, mit Signaltönen oder Ansagen. Körpergewicht, Kettlebell, Rad, Rudergerät oder Laufen.",
+    "tg.yoga": "Yoga & Mobilität",
+    "tg.yoga.about": "Flows, Dehnen und Gleichgewicht – läuft von selbst, jede Haltung wird angesagt. Eine Matte genügt.",
     "tg.other": "Weitere",
     wk_title: "Diese Woche", wk_goal: "Ziel (Anzahl der Workouts)", wk_aria: "{d} von {n} Trainings diese Woche", wk_streak: "🔥 {n} Wochen am Stück",
     wk_streak1: "🔥 1 Woche", wk_bars: "Sätze pro Tag", wk_left: "noch {n}", wk_reached: "Wochenziel erreicht",
@@ -784,13 +794,21 @@ class TrainingAssistantCard extends HTMLElement {
       } else if (b.type === "sets") {
         meta.push(s.sets ? t("pv_sets", { n: s.sets }) : t("pv_sets_until", { n: s.block_end?.total_reps }));
         if (s.rest_after_s) meta.push(t("pv_rest", { d: dur(s.rest_after_s) }));
+      } else if (b.type === "flow") {
+        if (s.rounds > 1) meta.push(t("pv_rounds", { n: s.rounds }));
+        meta.push(t("pv_flow", { n: (s.segments || []).length, m: Math.max(1, Math.round((s.total_s || 0) / 60)) }));
       } else if (b.type === "interval") {
         meta.push(t("pv_rounds", { n: s.rounds }), t("pv_interval", { w: s.work_s, r: s.rest_s }));
       } else if (s.duration_s) {
         meta.push(dur(s.duration_s));
       }
       let body = "";
-      if (b.type === "interval") {
+      if (b.type === "flow") {
+        body = `<ul>${(s.items || [])
+          .map((i) => `<li><span class="exn">${img(this._imageFor(i.exercise, s))}<span>${esc(i.name)}</span></span>
+            <span class="tgt">${esc(dur(i.duration_s))}${i.per_side ? ` ${esc(t("per_side"))}` : ""}</span></li>`)
+          .join("")}</ul>`;
+      } else if (b.type === "interval") {
         body = `<ul><li><span>${esc(s.exercise_names.join(" · "))}</span></li></ul>`;
       } else if (b.items.length) {
         body = `<ul>${b.items
@@ -825,6 +843,11 @@ class TrainingAssistantCard extends HTMLElement {
         ${targetTiles(step)}
         ${step.tempo ? `<div class="chip">${esc(t("tempo", { t: step.tempo }))}</div>` : ""}
         ${step.suggestion ? `<div class="sug">${esc(stepSug(step))}</div>` : ""}`;
+    } else if (step.type === "interval" && step.block_type === "flow") {
+      // Flow: aktuelle Haltung groß, Countdown, beim Wechsel die nächste Haltung
+      main = `<div class="ex">${esc(iv ? iv.exercise || "" : [...new Set(step.exercise_names)].join(" · "))}</div>
+        ${iv ? `<div class="iv flow ${iv.phase}">${iv.phase === "work" ? `${iv.round}/${iv.rounds}` : t("flow_switch")} · <span data-until="${esc(iv.ends_at)}"></span></div>`
+             : `<div class="tgt big">${esc(t("pv_flow", { n: (step.segments || []).length, m: Math.max(1, Math.round((step.total_s || 0) / 60)) }))}</div>`}`;
     } else if (step.type === "interval") {
       main = `<div class="ex">${esc(iv ? iv.exercise || "" : step.exercise_names.join(" / "))}</div>
         <div class="tgt big">${step.rounds}× ${step.work_s} s / ${step.rest_s} s</div>
@@ -836,6 +859,8 @@ class TrainingAssistantCard extends HTMLElement {
     const showLabel = step.type === "set" || step.type === "interval";
     const note = step.block_note && a.phase === "ready" ? step.block_note : step.note;
     const lastSet = a.sets.length ? a.sets[a.sets.length - 1] : null;
+    // Bild: Übung des Schritts, bei HIIT/Flow die gerade laufende (bzw. nächste) Übung
+    const curImg = step.image || (iv && iv.image) || null;
     // Statuszeile: immer vorhanden und gleich hoch, damit die Tasten darunter nicht springen
     // Zustandsfeld: rot = wartet auf „Los“, gelb = Satzpause läuft, grün = Satz läuft, grau = pausiert
     const stateChip = a.paused
@@ -862,7 +887,7 @@ class TrainingAssistantCard extends HTMLElement {
       : a.phase === "ready"
         ? t("b_go")
         : a.phase === "interval"
-          ? t("b_end_hiit")
+          ? t(step.block_type === "flow" ? "b_end_flow" : "b_end_hiit")
           : step.type === "set"
             ? a.adjust && a.adjust.changed ? t("b_set_done_changed") : t("b_set_done")
             : t("b_next");
@@ -888,8 +913,8 @@ class TrainingAssistantCard extends HTMLElement {
         <div class="bar"><div style="width:${pct}%"></div></div>
         <div class="muted small">${t("step", { i: Math.min(a.idx + 1, total), n: total })}</div>
         <div class="stage">
-          <div class="current t-${esc(step.block_type || "")} ${step.image ? "has-img" : ""}">
-            ${step.image ? `<div class="cur-img">${img(step.image, "pic")}${img(step.image, "pic alt", 1)}</div>` : ""}
+          <div class="current t-${esc(step.block_type || "")} ${curImg ? "has-img" : ""}">
+            ${curImg ? `<div class="cur-img">${img(curImg, "pic")}${img(curImg, "pic alt", 1)}</div>` : ""}
             <div class="cur-txt">
               ${showLabel ? `<div class="ptype">${esc(blockTitle(step.block_type, step.block_name))}${step.type === "set" && position(step) ? ` · ${esc(position(step))}` : ""}</div>` : ""}
               ${main}${note ? `<div class="note">${esc(note)}</div>` : ""}
@@ -1090,6 +1115,11 @@ class TrainingAssistantCard extends HTMLElement {
       return `<span class="mt rc-${st} ${sec ? "sec" : ""}" title="${esc(tip)}">${esc(t(`mg.${g}`))}</span>`;
     };
     return `<div class="mtags">${primary.map((g) => tag(g, false)).join("")}${secondary.map((g) => tag(g, true)).join("")}</div>`;
+  }
+
+  _imageFor(exercise, step) {
+    const i = (step.exercises || []).indexOf(exercise);
+    return i >= 0 ? (step.images || [])[i] || null : null;
   }
 
   _ensureStats() {
@@ -1467,6 +1497,8 @@ const STYLE = `
   .t-circuit { --accent: var(--primary-color); }
   .t-sets { --accent: #9c6ade; }
   .t-interval { --accent: #ef5350; }
+  .t-flow { --accent: #5c6bc0; }
+  .iv.flow.work { background: color-mix(in srgb, #5c6bc0 18%, transparent); }
   .t-cooldown { --accent: #26a69a; }
   .pblock { border-left: 4px solid var(--accent, var(--divider-color)); border-radius: 10px; padding: 8px 12px;
             background: color-mix(in srgb, var(--accent, transparent) 9%, transparent); }
@@ -1477,7 +1509,7 @@ const STYLE = `
   .pmeta { font-size: .85em; color: var(--secondary-text-color); margin-top: 2px; }
   .pnote { font-size: .85em; font-style: italic; color: var(--secondary-text-color); margin-top: 2px; }
   .pbreak { text-align: center; font-size: .8em; color: var(--secondary-text-color); }
-  .current.t-warmup, .current.t-circuit, .current.t-sets, .current.t-interval, .current.t-cooldown {
+  .current.t-warmup, .current.t-circuit, .current.t-sets, .current.t-interval, .current.t-flow, .current.t-cooldown {
     border-left: 6px solid var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--secondary-background-color)); }
   .current .ptype { margin-bottom: 4px; }
   .pad.live { container-type: inline-size; }

@@ -1,0 +1,25 @@
+# Template: Sprint intervals – 4–6 × 30 s all-out with 4 minutes of easy recovery. Inspired by the
+# sprint interval studies of Burgomaster, Gibala et al. (2005–2008): few, very hard sprints improved
+# endurance similarly to much longer steady training. Best on a bike or rower. Start with 4 sprints.
+schema_version: 1
+name: Sprint Intervals 30/4
+description: >-
+  5 × 30 seconds all-out, 4 minutes easy in between – about 35 minutes including warm-up. Very
+  short, very hard. Best on a bike or rower. Inspired by the sprint interval studies of Gibala et al.
+goal: endurance
+exercises:
+  sprint_30: { name: "All-out sprint (bike, row)", aliases: [Vollgas-Sprint], equipment: other,
+               image: false, muscles: [] }
+workouts:
+  - id: sprints
+    name: Sprint 30/4
+    blocks:
+      - { type: warmup, duration_s: 480, note: "8 minutes easy, with two short accelerations." }
+      - type: interval
+        name: 5 × 30 s
+        rounds: 5
+        work_s: 30
+        rest_s: 240
+        note: "All-out from the first second. Recovery: pedal or row very easily."
+        exercises: [sprint_30]
+      - { type: cooldown, duration_s: 300 }

@@ -1,0 +1,25 @@
+# Template: Tabata strength – the Tabata protocol (8× 20 s work / 10 s rest) with a kettlebell and
+# bodyweight. Four Tabata blocks, 1 minute rest in between – about 20 minutes. Pick a weight you can
+# move cleanly for 20 seconds.
+schema_version: 1
+name: Tabata Strength (Kettlebell)
+description: >-
+  Four Tabata blocks (8× 20 s / 10 s) with kettlebell swings, goblet squats, push-ups and
+  mountain climbers – about 20 minutes. One kettlebell is enough.
+goal: endurance
+exercises:
+  kb_swing: { name: Two-Arm Kettlebell Swing, aliases: [Kettlebell Swing beidarmig], equipment: kettlebell,
+              image: One-Arm_Kettlebell_Swings }
+  goblet_squat: { name: Goblet Squat, equipment: kettlebell }
+  push_up: { name: Push-Ups, aliases: [Liegestütze], equipment: bodyweight, image: Pushups }
+  mountain_climber: { name: Mountain Climbers, equipment: bodyweight }
+workouts:
+  - id: tabata
+    name: Tabata Strength ×4
+    blocks:
+      - { type: warmup, note: "3 minutes: light swings, slow squats, arm circles." }
+      - { type: interval, name: Tabata 1 – Swings, rounds: 8, work_s: 20, rest_s: 10, rest_after_s: 60, exercises: [kb_swing] }
+      - { type: interval, name: Tabata 2 – Goblet Squats, rounds: 8, work_s: 20, rest_s: 10, rest_after_s: 60, exercises: [goblet_squat] }
+      - { type: interval, name: Tabata 3 – Push-Ups, rounds: 8, work_s: 20, rest_s: 10, rest_after_s: 60, exercises: [push_up] }
+      - { type: interval, name: Tabata 4 – Mountain Climbers, rounds: 8, work_s: 20, rest_s: 10, exercises: [mountain_climber] }
+      - { type: cooldown }

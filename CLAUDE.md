@@ -52,6 +52,9 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
   `catalog/free_exercise_db.json`, über die Bildzuordnung der Übung; `MUSCLE_GROUPS`). Nebenmuskeln (`secondary`)
   zählen nur für die Erholung, nicht für das Wochenvolumen. `muscles` im Plan hat Vorrang (dann ohne Nebenmuskeln). Rekord wird nach
   `set_logged`/`set_answered` geprüft (`_check_record`), steht als `record` im Satz, Event `record`.
+- **Flow** (`flow`): zeitgesteuerte Abfolge mit eigener Dauer je Übung (Yoga, 30-20-10). `build_steps` macht daraus
+  einen `interval`-Schritt mit `segments` (auch klassische HIIT-Blöcke haben `segments`). Der Manager-Runner
+  speichert jeden fertigen Abschnitt als Satz (`Engine.log_segment`). Icon: `brand/icon.png` (Quelle `assets/icon.svg`).
 - **HIIT** (`interval`) ist zeitgesteuert: Signaltöne/Licht statt Sprache, weil TTS zu langsam ist.
 
 ## Code-Aufbau (custom_components/training_assistant/)
@@ -84,7 +87,7 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
 
 - `custom_components/training_assistant/templates/*.yaml` werden mit ausgeliefert und in der Karte
   unter Einstellungen → Vorlagen angeboten (nicht automatisch importiert). Dateiname beginnt mit Gruppe und Reihenfolge (z. B. `kraft-1-…`)
-  (`kraft-`, `bodyweight-`, `calisthenics-`, `kettlebell-`; Symbol in `TEMPLATE_GROUPS`, Titel übersetzt die Karte über `tg.<gruppe>`).
+  (`kraft-`, `bodyweight-`, `calisthenics-`, `kettlebell-`, `hiit-`, `yoga-`; Symbol in `TEMPLATE_GROUPS`, Titel übersetzt die Karte über `tg.<gruppe>`).
   Übersicht und Quellen: `docs/templates.md` / `docs/vorlagen.md`.
 - Eigene Namen, „angelehnt an“ bekannte Programme – keine Markennamen als Planname, keine kopierten Texte.
 - In YAML-Flow-Schreibweise `{ … }` Hinweise mit Komma in Anführungszeichen setzen (sonst Prüffehler).

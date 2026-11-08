@@ -1,0 +1,36 @@
+# Template: 30-20-10 running – 5 × (30 s easy, 20 s moderate, 10 s sprint), three blocks with
+# 2 minutes rest. Inspired by Gunnarsson & Bangsbo (2012), who found better 5 km times and blood
+# pressure with less total training. Also works on a bike or rower.
+schema_version: 1
+name: 30-20-10 Intervals
+description: >-
+  Three blocks of 5 × (30 s easy, 20 s moderate, 10 s sprint), 2 minutes rest between blocks –
+  about 25 minutes. Running, bike or rower. Inspired by Gunnarsson & Bangsbo 2012.
+goal: endurance
+exercises:
+  easy_pace: { name: Easy, aliases: [Locker], equipment: other, image: false, muscles: [] }
+  moderate_pace: { name: Moderate, aliases: [Mittel], equipment: other, image: false, muscles: [] }
+  sprint: { name: Sprint, equipment: other, image: false, muscles: [] }
+workouts:
+  - id: intervals
+    name: 30-20-10
+    blocks:
+      - { type: warmup, duration_s: 300, note: "5 minutes easy." }
+      - type: flow
+        name: Block 1
+        rounds: 5
+        rest_after_s: 120
+        exercises: &cycle
+          - { exercise: easy_pace, duration_s: 30 }
+          - { exercise: moderate_pace, duration_s: 20 }
+          - { exercise: sprint, duration_s: 10 }
+      - type: flow
+        name: Block 2
+        rounds: 5
+        rest_after_s: 120
+        exercises: *cycle
+      - type: flow
+        name: Block 3
+        rounds: 5
+        exercises: *cycle
+      - { type: cooldown, duration_s: 300 }

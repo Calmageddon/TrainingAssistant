@@ -1,0 +1,94 @@
+# Template: Yoga basics – two alternating sessions with the classic foundation poses.
+# Runs on its own as timed flows: every pose is announced, sides are switched automatically.
+# Progress by holding longer (adjust duration_s) once the poses feel comfortable.
+schema_version: 1
+name: Yoga Basics
+description: >-
+  Two alternating sessions (~20 min) with the foundation poses – mountain, downward dog, warriors,
+  tree, child's pose, cat-cow, bridge. Runs on its own, every pose is announced. A mat is enough.
+goal: general
+exercises:
+  cat_cow: { name: Cat-Cow, aliases: [Katze-Kuh], equipment: bodyweight, image: Cat_Stretch }
+  child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
+  mountain_pose: { name: Mountain Pose, aliases: [Berg], equipment: bodyweight, image: false, muscles: [] }
+  forward_fold: { name: Standing Forward Fold, aliases: [Vorbeuge], equipment: bodyweight, image: false,
+                  muscles: [hamstrings, back] }
+  half_lift: { name: Half Lift, aliases: [Halbe Vorbeuge], equipment: bodyweight, image: false, muscles: [back] }
+  downward_dog: { name: Downward-Facing Dog, aliases: [Herabschauender Hund], equipment: bodyweight, image: false,
+                  muscles: [shoulders, hamstrings, calves] }
+  low_lunge: { name: Low Lunge, aliases: [Tiefer Ausfallschritt], equipment: bodyweight, image: Kneeling_Hip_Flexor }
+  warrior_1: { name: Warrior I, aliases: [Krieger I], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders] }
+  warrior_2: { name: Warrior II, aliases: [Krieger II], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders] }
+  triangle: { name: Triangle Pose, aliases: [Dreieck], equipment: bodyweight, image: false, muscles: [hamstrings, core] }
+  tree: { name: Tree Pose, aliases: [Baum], equipment: bodyweight, image: false, muscles: [glutes, calves, core] }
+  chair_pose: { name: Chair Pose, aliases: [Stuhl], equipment: bodyweight, image: false, muscles: [quads, glutes] }
+  cobra: { name: Cobra, aliases: [Kobra], equipment: bodyweight, image: false, muscles: [back] }
+  bridge: { name: Bridge Pose, aliases: [Brücke], equipment: bodyweight, image: Butt_Lift_Bridge }
+  seated_forward_fold: { name: Seated Forward Fold, aliases: [Sitzende Vorbeuge], equipment: bodyweight,
+                         image: Seated_Floor_Hamstring_Stretch }
+  butterfly: { name: Butterfly, aliases: [Schmetterling], equipment: bodyweight, image: false, muscles: [quads] }
+  knee_to_chest: { name: Knees to Chest, aliases: [Knie zur Brust], equipment: bodyweight, image: One_Knee_To_Chest }
+  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover }
+  savasana: { name: Final Relaxation, aliases: [Endentspannung, Savasana], equipment: bodyweight, image: false, muscles: [] }
+workouts:
+  - id: a
+    name: Basics A
+    blocks:
+      - type: flow
+        name: Arrive
+        rest_s: 5
+        exercises:
+          - { exercise: child_pose, duration_s: 45 }
+          - { exercise: cat_cow, duration_s: 60, note: "Breathe in – arch, breathe out – round." }
+      - type: flow
+        name: Standing poses
+        rounds: 2
+        rest_s: 5
+        rest_after_round_s: 20
+        rest_after_s: 30
+        exercises:
+          - { exercise: mountain_pose, duration_s: 20 }
+          - { exercise: forward_fold, duration_s: 30 }
+          - { exercise: half_lift, duration_s: 15 }
+          - { exercise: downward_dog, duration_s: 45 }
+          - { exercise: low_lunge, duration_s: 30, per_side: true }
+          - { exercise: warrior_2, duration_s: 30, per_side: true }
+          - { exercise: tree, duration_s: 30, per_side: true }
+      - type: flow
+        name: Floor
+        rest_s: 10
+        exercises:
+          - { exercise: bridge, duration_s: 30 }
+          - { exercise: bridge, duration_s: 30 }
+          - { exercise: supine_twist, duration_s: 45, per_side: true }
+          - { exercise: savasana, duration_s: 180 }
+  - id: b
+    name: Basics B
+    blocks:
+      - type: flow
+        name: Arrive
+        rest_s: 5
+        exercises:
+          - { exercise: cat_cow, duration_s: 60 }
+          - { exercise: downward_dog, duration_s: 45 }
+      - type: flow
+        name: Standing poses
+        rounds: 2
+        rest_s: 5
+        rest_after_round_s: 20
+        rest_after_s: 30
+        exercises:
+          - { exercise: chair_pose, duration_s: 30 }
+          - { exercise: forward_fold, duration_s: 30 }
+          - { exercise: warrior_1, duration_s: 30, per_side: true }
+          - { exercise: triangle, duration_s: 30, per_side: true }
+          - { exercise: downward_dog, duration_s: 30 }
+          - { exercise: cobra, duration_s: 20 }
+      - type: flow
+        name: Floor
+        rest_s: 10
+        exercises:
+          - { exercise: seated_forward_fold, duration_s: 60 }
+          - { exercise: butterfly, duration_s: 60 }
+          - { exercise: knee_to_chest, duration_s: 45 }
+          - { exercise: savasana, duration_s: 180 }

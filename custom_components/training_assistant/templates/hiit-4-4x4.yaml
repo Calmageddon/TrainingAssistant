@@ -1,0 +1,25 @@
+# Template: 4×4 intervals – 4 × 4 minutes at 85–95 % of max heart rate with 3 minutes of active
+# recovery. Inspired by the protocol of Helgerud et al. (2007), which improved VO2max more than
+# steady endurance training. Bike, rower, treadmill (incline) or running.
+schema_version: 1
+name: 4×4 Intervals
+description: >-
+  4 × 4 minutes hard (85–95 % of max heart rate), 3 minutes easy in between – about 40 minutes
+  including warm-up. Strong evidence for endurance (VO2max). Inspired by Helgerud et al. 2007.
+goal: endurance
+exercises:
+  cardio_4min: { name: "4-minute interval (bike, row, run)", aliases: [4-Minuten-Intervall], equipment: other,
+                 image: false, muscles: [] }
+workouts:
+  - id: intervals
+    name: 4×4
+    blocks:
+      - { type: warmup, duration_s: 600, note: "10 minutes easy to moderate." }
+      - type: interval
+        name: 4×4 minutes
+        rounds: 4
+        work_s: 240
+        rest_s: 180
+        note: "Hard enough that talking is difficult. Recovery: keep moving slowly."
+        exercises: [cardio_4min]
+      - { type: cooldown, duration_s: 300 }

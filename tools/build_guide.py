@@ -73,6 +73,7 @@ C) Write it yourself
     circuit                circuit: all exercises one after another, several rounds
                            (rounds) or rounds until time is up (time_cap_s)
     interval               HIIT: work/rest in seconds, timed
+    flow                   timed sequence, own duration per exercise (yoga)
 
   Values per set:
     reps                   8  ·  {{ min: 8, max: 12 }}  ·  max
@@ -185,6 +186,7 @@ C) Selbst schreiben
     circuit                Zirkel: alle Übungen nacheinander, mehrere Runden
                            (rounds) oder Runden bis die Zeit um ist (time_cap_s)
     interval               HIIT: Arbeit/Pause in Sekunden, zeitgesteuert
+    flow                   zeitgesteuerte Abfolge, eigene Dauer je Übung (Yoga)
 
   Werte pro Satz:
     reps                   8  ·  {{ min: 8, max: 12 }}  ·  max

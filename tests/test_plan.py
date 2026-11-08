@@ -138,3 +138,33 @@ def test_muscles_field():
     plan["exercises"]["plank"]["muscles"] = ["abs"]
     errors = validate_plan(plan, "en")
     assert errors and "muscle groups" in errors[0]
+
+
+def test_flow_block():
+    plan = {
+        "schema_version": 1, "name": "Flow", "exercises": {
+            "dog": {"name": "Downward Dog", "image": False}, "warrior": {"name": "Warrior II", "image": False}},
+        "workouts": [{"id": "w", "name": "W", "blocks": [
+            {"type": "flow", "name": "Sun", "rounds": 2, "rest_s": 5, "rest_after_round_s": 20, "exercises": [
+                {"exercise": "dog", "duration_s": 30}, {"exercise": "warrior", "duration_s": 40, "per_side": True}]},
+            {"type": "cooldown"}]}],
+    }
+    assert validate_plan(plan, "de") == []
+    step = build_steps(plan, "w")[0]
+    assert step["type"] == "interval" and step["block_type"] == "flow"
+    segs = step["segments"]
+    assert [(s["exercise"], s["side"], s["work_s"], s["rest_s"]) for s in segs] == [
+        ("dog", None, 30, 5), ("warrior", "left", 40, 5), ("warrior", "right", 40, 20),
+        ("dog", None, 30, 5), ("warrior", "left", 40, 5), ("warrior", "right", 40, 0)]
+    assert step["total_s"] == 2 * (30 + 40 + 40) + 5 + 5 + 20 + 5 + 5
+    bad = copy.deepcopy(plan)
+    bad["workouts"][0]["blocks"][0]["exercises"][0]["duration_s"] = 0
+    bad["workouts"][0]["blocks"][0]["exercises"][1]["reps"] = 5
+    errors = validate_plan(bad, "en")
+    assert any("duration_s" in e for e in errors) and any("reps" in e for e in errors)
+
+
+def test_interval_has_segments():
+    plan = load()
+    hiit = next(s for w in plan["workouts"] for s in build_steps(plan, w["id"]) if s["type"] == "interval")
+    assert len(hiit["segments"]) == hiit["rounds"] and hiit["segments"][-1]["rest_s"] == 0
