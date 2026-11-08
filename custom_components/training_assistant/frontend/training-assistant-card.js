@@ -719,6 +719,8 @@ class TrainingAssistantCard extends HTMLElement {
       const ratio = (now - new Date(el.dataset.sinceOf).getTime()) / 1000 / Number(el.dataset.ref);
       el.style.width = `${Math.min(100, Math.max(0, ratio * 100))}%`;
       el.classList.toggle("over", ratio > 1);
+      const box = el.closest(".elapsed"); // auf dem Handy ohne Balken: „letztes Mal“ wird gelb
+      if (box) box.classList.toggle("over", ratio > 1);
     });
   }
 
@@ -930,7 +932,7 @@ class TrainingAssistantCard extends HTMLElement {
       .join("");
     return `
       <div class="pad live">
-        <div class="row between"><div><b>${esc(a.workout_name)}</b> <span class="muted">· ${esc(a.plan_name)}</span></div>
+        <div class="row between"><div><b>${esc(a.workout_name)}</b> <span class="muted"><span class="sep">· </span>${esc(a.plan_name)}</span></div>
           <span class="row"><span class="badge ${a.paused ? "warn" : "info"}">${esc(phase)}</span>
           <span class="elapsed" title="${esc(t("el_title"))}">
             <span class="el-time">⏱ <b data-since="${esc(a.started_at)}"></b></span>
@@ -1660,6 +1662,9 @@ const STYLE = `
   .startrow { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 10px; align-items: end; }
   .startrow .sel { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .startrow .sel .lbl { margin: 0; }
+  /* Programm/Workout-Auswahl: etwas kleiner, damit lange Namen hineinpassen */
+  .startrow .sel select { font-size: .88em; padding-top: 8px; padding-bottom: 8px; text-overflow: ellipsis; }
+  @container (max-width: 560px) { .startrow .sel select { font-size: .8em; } }
   @container (max-width: 560px) { .startrow { grid-template-columns: 1fr 1fr; } .startrow .btn { grid-column: 1 / -1; } }
   .startrow .btn { padding: 12px; font-size: 1.1em; font-weight: 600; }
   .exn { display: flex; align-items: center; gap: 10px; min-width: 0; }
@@ -1865,7 +1870,15 @@ const STYLE = `
     .live { gap: 8px; }
     /* Kopfzeile: Workout-Name (gekürzt) und Uhr in einer Zeile; Phase zeigt die Statusleiste */
     .live > .row.between:first-child { flex-wrap: nowrap; }
-    .live > .row.between:first-child > div { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .live > .row.between:first-child { align-items: flex-start; }
+    /* Workout-Name fett, Programm klein darunter; rechts Uhr und „letztes Mal“ – ohne zweiten Balken */
+    .live > .row.between:first-child > div { min-width: 0; display: flex; flex-direction: column; }
+    .live > .row.between:first-child > div > b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .live > .row.between:first-child > div > .muted { font-size: .8em; white-space: nowrap; overflow: hidden;
+                                                       text-overflow: ellipsis; }
+    .el-bar { display: none; }
+    .live > .row.between:first-child .sep { display: none; }
+    .elapsed.over .el-ref { color: #fbc02d; font-weight: 600; }
     .live > .row.between:first-child .badge { display: none; }
     .live > .bar + .muted.small { display: none; }
     .el-time { font-size: 1.4em; }
