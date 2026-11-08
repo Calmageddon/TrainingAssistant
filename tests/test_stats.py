@@ -116,3 +116,10 @@ def test_recovery_levels():
         sess = _sess(mon, [_set("bench")], hour=18, minutes=45)
         return recovery([sess], now + timedelta(hours=hours), groups, set())[0]["status"]
     assert [status(h) for h in (5, 30, 60, 6 * 24, 9 * 24)] == ["fresh", "recovering", "ready", "soon", "overdue"]
+
+
+def test_duration_without_pauses():
+    from custom_components.training_assistant.stats import duration_min
+    sess = {"started_at": "2026-11-06T18:00:00+00:00", "finished_at": "2026-11-06T19:00:00+00:00"}
+    assert duration_min(sess) == 60
+    assert duration_min({**sess, "paused_s": 900}) == 45  # 15 Minuten Pause zählen nicht

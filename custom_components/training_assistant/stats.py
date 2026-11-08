@@ -175,7 +175,8 @@ def duration_min(sess: dict) -> float:
         end = datetime.fromisoformat(sess["finished_at"])
     except (KeyError, TypeError, ValueError):
         return 0.0
-    return max(0.0, (end - start).total_seconds() / 60)
+    # Pausen (Knopf „Pause“) zählen nicht zur Trainingszeit
+    return max(0.0, ((end - start).total_seconds() - (sess.get("paused_s") or 0)) / 60)
 
 
 def time_stats(sessions: list[dict], today: date, local_day: Callable[[str], date], weeks: int = 4) -> dict:

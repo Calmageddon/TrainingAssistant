@@ -815,11 +815,13 @@ class TrainingManager:
         self._cancel_block_timer()
         self._stop_interval()
         active["finished_at"] = _now()
+        self._end_pause(active)  # beendet während der Pause: Pausenzeit trotzdem abziehen
         record = {
             key: active[key]
             for key in ("id", "plan_id", "plan_name", "workout_id", "workout_name", "started_at", "finished_at",
                         "status", "sets")
         }
+        record["paused_s"] = round(active.get("paused_s") or 0)
         for rec in record["sets"]:
             if rec["status"] == SET_PENDING:
                 rec["status"] = SET_UNCONFIRMED
@@ -859,8 +861,18 @@ class TrainingManager:
         self._notify(Speech(active.get("lang", "de")).t("rest_over"))
         self._changed()
 
+    @staticmethod
+    def _end_pause(active: dict) -> None:
+        """Laufende Pause abschließen: Dauer zu paused_s addieren (die Trainingsuhr zählt Pausen nicht mit)."""
+        started = active.pop("paused_at", None)
+        if started:
+            pause = (dt_util.utcnow() - dt_util.parse_datetime(started)).total_seconds()
+            active["paused_s"] = (active.get("paused_s") or 0) + max(0, pause)
+
     def _pause_timers(self) -> None:
         active = self.active
+        if active and not active.get("paused_at"):
+            active["paused_at"] = _now()
         for key in ("rest", "block"):
             if active and active.get(f"{key}_until"):
                 until = dt_util.parse_datetime(active[f"{key}_until"])
@@ -876,6 +888,7 @@ class TrainingManager:
         active = self.active
         if not active:
             return
+        self._end_pause(active)
         remaining = active.pop("rest_remaining", None)
         if remaining:
             self._start_rest(remaining)

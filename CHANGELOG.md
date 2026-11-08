@@ -4,6 +4,13 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.5.3 – 2026-11-08
+
+- The workout clock stops while the workout is paused; pauses no longer count towards the workout duration,
+  the "last time" comparison or the weekly time in the statistics.
+  *Deutsch:* Die Trainingsuhr steht während der Pause still; Pausen zählen nicht mehr zur Trainingsdauer, zum
+  Vergleich „letztes Mal“ und zur Wochenzeit in der Statistik.
+
 ## 0.5.2 – 2026-11-08
 
 - Start page reordered: week overview first, then program and workout, then *Start workout* (choose, then start).

@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.5.2";
+const CARD_VERSION = "0.5.3";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -711,12 +711,18 @@ class TrainingAssistantCard extends HTMLElement {
       const left = (new Date(el.dataset.until).getTime() - now) / 1000;
       el.textContent = mmss(left);
     });
+    // Trainingszeit ohne Pausen: bisherige Pausen abziehen, während einer Pause steht die Uhr
+    const active = (el, since) => {
+      let ms = now - new Date(since).getTime() - Number(el.dataset.pausedS || 0) * 1000;
+      if (el.dataset.pausedAt) ms -= now - new Date(el.dataset.pausedAt).getTime();
+      return Math.max(0, ms / 1000);
+    };
     this.shadowRoot.querySelectorAll("[data-since]").forEach((el) => {
-      el.textContent = hms((now - new Date(el.dataset.since).getTime()) / 1000);
+      el.textContent = hms(active(el, el.dataset.since));
     });
     // Balken: laufende Zeit im Verhältnis zur Dauer des letzten gleichen Workouts (darüber = gelb)
     this.shadowRoot.querySelectorAll("[data-since-of]").forEach((el) => {
-      const ratio = (now - new Date(el.dataset.sinceOf).getTime()) / 1000 / Number(el.dataset.ref);
+      const ratio = active(el, el.dataset.sinceOf) / Number(el.dataset.ref);
       el.style.width = `${Math.min(100, Math.max(0, ratio * 100))}%`;
       el.classList.toggle("over", ratio > 1);
       const box = el.closest(".elapsed"); // auf dem Handy ohne Balken: „letztes Mal“ wird gelb
@@ -936,9 +942,9 @@ class TrainingAssistantCard extends HTMLElement {
         <div class="row between"><div><b>${esc(a.workout_name)}</b> <span class="muted"><span class="sep">· </span>${esc(a.plan_name)}</span></div>
           <span class="row"><span class="badge ${a.paused ? "warn" : "info"}">${esc(phase)}</span>
           <span class="elapsed" title="${esc(t("el_title"))}">
-            <span class="el-time">⏱ <b data-since="${esc(a.started_at)}"></b></span>
+            <span class="el-time">⏱ <b data-since="${esc(a.started_at)}" data-paused-s="${a.paused_s || 0}" data-paused-at="${esc(a.paused_at || "")}"></b></span>
             ${this._state.last_same_duration_s ? `<span class="el-ref">${esc(t("el_last", { d: hms(this._state.last_same_duration_s) }))}</span>
-              <span class="el-bar"><i data-since-of="${esc(a.started_at)}" data-ref="${this._state.last_same_duration_s}"></i></span>` : ""}
+              <span class="el-bar"><i data-since-of="${esc(a.started_at)}" data-paused-s="${a.paused_s || 0}" data-paused-at="${esc(a.paused_at || "")}" data-ref="${this._state.last_same_duration_s}"></i></span>` : ""}
           </span></span></div>
         <div class="bar"><div style="width:${pct}%"></div></div>
         <div class="muted small">${t("step", { i: Math.min(a.idx + 1, total), n: total })}</div>
