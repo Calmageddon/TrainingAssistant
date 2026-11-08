@@ -1,0 +1,446 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "TrainingAssistant",
+        "description": "TrainingAssistant einrichten. Es werden keine Geräte benötigt: Knöpfe und Sprach-Satelliten werden später über Automationen angebunden."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Bereits eingerichtet. Es ist nur eine Konfiguration möglich."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Spracheinstellungen",
+        "description": "Der Satellit wird normalerweise beim Start per Sprache mitgegeben. Der Standard-Satellit gilt für Trainings, die per Knopf oder Dashboard gestartet werden.",
+        "data": {
+          "default_satellite": "Standard-Satellit",
+          "announce": "Übungen ansagen",
+          "ask_after_set": "Nach jedem Satz Wiederholungen/Gewicht abfragen",
+          "question_timeout": "Auf Antwort warten (Sekunden)",
+          "voice_language": "Sprache für Ansagen",
+          "notify_service": "Handy-Benachrichtigung"
+        },
+        "data_description": {
+          "ask_after_set": "Knopf während der Frage heißt „wie geplant“.",
+          "question_timeout": "Ohne verwertbare Antwort wird der Satz als „unbestätigt“ gespeichert und kann an der Karte korrigiert werden.",
+          "voice_language": "Automatisch = Sprache von Home Assistant.",
+          "notify_service": "Benachrichtigungsdienst (z. B. mobile_app_…) für Pausenende und neue Rekorde. Leer = aus."
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "start": {
+        "name": "Starten"
+      },
+      "next": {
+        "name": "Weiter"
+      },
+      "undo": {
+        "name": "Rückgängig"
+      },
+      "pause": {
+        "name": "Pause / Fortsetzen"
+      },
+      "skip": {
+        "name": "Überspringen"
+      },
+      "finish": {
+        "name": "Beenden"
+      },
+      "abort": {
+        "name": "Abbrechen"
+      },
+      "reps_up": {
+        "name": "Wdh. mehr"
+      },
+      "reps_down": {
+        "name": "Wdh. weniger"
+      },
+      "weight_up": {
+        "name": "Gewicht mehr"
+      },
+      "weight_down": {
+        "name": "Gewicht weniger"
+      },
+      "rest_longer": {
+        "name": "Pause länger (+15 s)"
+      },
+      "rest_shorter": {
+        "name": "Pause kürzer (−15 s)"
+      }
+    },
+    "select": {
+      "next_workout": {
+        "name": "Nächstes Workout"
+      },
+      "program": {
+        "name": "Programm"
+      },
+      "profile": {
+        "name": "Person"
+      }
+    },
+    "sensor": {
+      "status": {
+        "name": "Status",
+        "state": {
+          "idle": "Kein Training",
+          "ready": "Bereit",
+          "active": "Training",
+          "interval": "HIIT",
+          "paused": "Pausiert"
+        }
+      },
+      "current_exercise": {
+        "name": "Aktuelle Übung"
+      },
+      "progress": {
+        "name": "Fortschritt"
+      },
+      "last_set": {
+        "name": "Letzter Satz"
+      },
+      "workouts_this_week": {
+        "name": "Trainings diese Woche"
+      },
+      "streak": {
+        "name": "Serie"
+      }
+    },
+    "number": {
+      "set_reps": {
+        "name": "Wiederholungen (laufender Satz)"
+      },
+      "set_weight": {
+        "name": "Gewicht (laufender Satz)"
+      }
+    },
+    "calendar": {
+      "calendar": {
+        "name": "Trainings"
+      }
+    }
+  },
+  "services": {
+    "start": {
+      "name": "Training starten",
+      "description": "Startet ein Training. Ohne Plan/Workout wird das nächste Workout der Reihenfolge genommen.",
+      "fields": {
+        "plan_id": {
+          "name": "Plan-ID",
+          "description": "ID des Plans (optional)."
+        },
+        "workout_id": {
+          "name": "Workout-ID",
+          "description": "ID des Workouts (optional)."
+        },
+        "satellite": {
+          "name": "Satellit",
+          "description": "Assist-Satellit für Ansagen und Rückfragen."
+        },
+        "device_id": {
+          "name": "Geräte-ID",
+          "description": "Gerät des Satelliten, z. B. {{ trigger.device_id }} in einer Sprach-Automation."
+        },
+        "speak_intro": {
+          "name": "Begrüßung sprechen",
+          "description": "Aus, wenn die Begrüßung stattdessen als Antwort der Sprachsteuerung zurückgegeben wird."
+        }
+      }
+    },
+    "next": {
+      "name": "Weiter",
+      "description": "Satz fertig / weiter (wie der Knopf). Optional mit den tatsächlichen Werten des Satzes – dann ohne Rückfrage. Startet das nächste Workout, wenn keins läuft.",
+      "fields": {
+        "reps": {
+          "name": "Wiederholungen",
+          "description": "Tatsächliche Wiederholungen."
+        },
+        "weight_kg": {
+          "name": "Gewicht (kg)",
+          "description": "Tatsächliches Gewicht."
+        },
+        "duration_s": {
+          "name": "Dauer (s)",
+          "description": "Tatsächliche Dauer."
+        },
+        "effort": {
+          "name": "Anstrengung",
+          "description": "Wie sich der Satz angefühlt hat: leicht, normal oder schwer. Schwer = nächstes Mal nicht steigern, alle leicht = größerer Schritt."
+        }
+      }
+    },
+    "undo": {
+      "name": "Rückgängig",
+      "description": "Einen Schritt zurück, dort erfassten Satz verwerfen."
+    },
+    "skip": {
+      "name": "Überspringen",
+      "description": "Aktuellen Satz auslassen, bzw. den ganzen Block, wenn er noch nicht begonnen hat."
+    },
+    "pause": {
+      "name": "Pause / Fortsetzen",
+      "description": "Hält Timer an oder setzt sie fort."
+    },
+    "finish": {
+      "name": "Training beenden",
+      "description": "Speichert das Training und merkt das nächste Workout vor."
+    },
+    "abort": {
+      "name": "Training abbrechen",
+      "description": "Beendet das Training, ohne zum nächsten Workout weiterzugehen.",
+      "fields": {
+        "keep": {
+          "name": "Sätze behalten",
+          "description": "Bisher erfasste Sätze speichern."
+        }
+      }
+    },
+    "import_plan": {
+      "name": "Plan importieren",
+      "description": "Importiert einen Trainingsplan als YAML/JSON (Format Version 1). Ein Plan mit gleichem Namen wird ersetzt.",
+      "fields": {
+        "plan": {
+          "name": "Plan",
+          "description": "Plan-Text in YAML oder JSON."
+        }
+      }
+    },
+    "delete_plan": {
+      "name": "Plan löschen",
+      "description": "Löscht einen Plan. Der Verlauf bleibt erhalten.",
+      "fields": {
+        "plan_id": {
+          "name": "Plan-ID",
+          "description": "ID des Plans."
+        }
+      }
+    },
+    "set_next_workout": {
+      "name": "Nächstes Workout festlegen",
+      "description": "Legt fest, welches Workout als Nächstes startet.",
+      "fields": {
+        "plan_id": {
+          "name": "Plan-ID",
+          "description": "ID des Plans."
+        },
+        "workout_id": {
+          "name": "Workout-ID",
+          "description": "ID des Workouts."
+        }
+      }
+    },
+    "log_set": {
+      "name": "Satz erfassen",
+      "description": "Setzt Werte für die offene Rückfrage bzw. den letzten Satz, z. B. aus einer eigenen Sprach-Automation.",
+      "fields": {
+        "text": {
+          "name": "Text",
+          "description": "Gesprochene Antwort, z. B. „8 mal 15 Kilo“."
+        },
+        "reps": {
+          "name": "Wiederholungen",
+          "description": "Wiederholungen."
+        },
+        "weight_kg": {
+          "name": "Gewicht (kg)",
+          "description": "Gewicht in kg."
+        },
+        "duration_s": {
+          "name": "Dauer (s)",
+          "description": "Dauer in Sekunden."
+        },
+        "effort": {
+          "name": "Anstrengung",
+          "description": "Wie sich der Satz angefühlt hat: leicht, normal oder schwer. Schwer = nächstes Mal nicht steigern, alle leicht = größerer Schritt."
+        }
+      }
+    },
+    "edit_set": {
+      "name": "Satz ändern",
+      "description": "Ändert einen erfassten Satz nachträglich.",
+      "fields": {
+        "session_id": {
+          "name": "Trainings-ID",
+          "description": "Trainings-Session; leer = aktuelles Training."
+        },
+        "set_id": {
+          "name": "Satz-ID",
+          "description": "ID des Satzes."
+        },
+        "reps": {
+          "name": "Wiederholungen",
+          "description": "Wiederholungen."
+        },
+        "weight_kg": {
+          "name": "Gewicht (kg)",
+          "description": "Gewicht in kg."
+        },
+        "duration_s": {
+          "name": "Dauer (s)",
+          "description": "Dauer in Sekunden."
+        },
+        "skipped": {
+          "name": "Übersprungen",
+          "description": "Satz als übersprungen markieren."
+        },
+        "effort": {
+          "name": "Anstrengung",
+          "description": "Wie sich der Satz angefühlt hat: leicht, normal oder schwer. Schwer = nächstes Mal nicht steigern, alle leicht = größerer Schritt."
+        }
+      }
+    },
+    "get_history": {
+      "name": "Verlauf abrufen",
+      "description": "Liefert vergangene Trainings und Vorschläge pro Übung.",
+      "fields": {
+        "limit": {
+          "name": "Anzahl",
+          "description": "Anzahl Trainings."
+        }
+      }
+    },
+    "adjust": {
+      "name": "Laufenden Satz anpassen",
+      "description": "Ändert Wiederholungen (bei Zeit-Sätzen Sekunden) oder Gewicht des laufenden Satzes um Schritte. „Satz fertig“ übernimmt die Werte.",
+      "fields": {
+        "field": {
+          "name": "Feld",
+          "description": "reps oder weight."
+        },
+        "steps": {
+          "name": "Schritte",
+          "description": "Anzahl Schritte, negativ = weniger."
+        }
+      }
+    },
+    "set_value": {
+      "name": "Wert im laufenden Satz setzen",
+      "description": "Setzt Wiederholungen (bei Zeit-Sätzen Sekunden) oder Gewicht des laufenden Satzes.",
+      "fields": {
+        "field": {
+          "name": "Feld",
+          "description": "reps oder weight."
+        },
+        "value": {
+          "name": "Wert",
+          "description": "Neuer Wert."
+        }
+      }
+    },
+    "set_program": {
+      "name": "Programm wechseln",
+      "description": "Wechselt das aktive Programm. Es geht dort mit dem Workout weiter, bei dem man zuletzt war.",
+      "fields": {
+        "plan_id": {
+          "name": "Plan-ID",
+          "description": "ID des Plans."
+        }
+      }
+    },
+    "rest_adjust": {
+      "name": "Pause anpassen",
+      "description": "Verlängert oder verkürzt die laufende Pause.",
+      "fields": {
+        "seconds": {
+          "name": "Sekunden",
+          "description": "Positiv = länger, negativ = kürzer."
+        }
+      }
+    },
+    "set_profile": {
+      "name": "Person wechseln",
+      "description": "Wer trainiert? Jede Person hat eigenen Verlauf, eigene Vorschläge und eigene Programm-Position. Nicht während eines Trainings.",
+      "fields": {
+        "profile": {
+          "name": "Person",
+          "description": "Name oder ID der Person."
+        }
+      }
+    },
+    "get_stats": {
+      "name": "Statistik abrufen",
+      "description": "Woche, Serie, Trainingszeit, Sätze pro Muskelgruppe, Erholung und letzte Rekorde der aktiven Person."
+    }
+  },
+  "selector": {
+    "voice_language": {
+      "options": {
+        "auto": "Automatisch",
+        "en": "English",
+        "de": "Deutsch"
+      }
+    },
+    "effort": {
+      "options": {
+        "easy": "Leicht",
+        "normal": "Normal",
+        "hard": "Schwer"
+      }
+    }
+  },
+  "exceptions": {
+    "not_set_up": {
+      "message": "TrainingAssistant ist nicht eingerichtet"
+    },
+    "template_not_found": {
+      "message": "Vorlage '{template}' gibt es nicht"
+    },
+    "plan_not_found": {
+      "message": "Plan '{plan}' gibt es nicht"
+    },
+    "workout_not_found": {
+      "message": "Workout '{workout}' gibt es in '{plan}' nicht"
+    },
+    "session_not_found": {
+      "message": "Training '{session}' gibt es nicht"
+    },
+    "set_not_found": {
+      "message": "Satz {set} gibt es nicht"
+    },
+    "no_training": {
+      "message": "Es läuft kein Training"
+    },
+    "no_plan": {
+      "message": "Kein Trainingsplan vorhanden – bitte zuerst einen Plan importieren"
+    },
+    "already_running": {
+      "message": "Es läuft bereits ein Training – erst beenden oder abbrechen"
+    },
+    "no_active_set": {
+      "message": "Gerade läuft kein Satz, der angepasst werden kann"
+    },
+    "no_weight": {
+      "message": "Diese Übung hat kein Gewicht"
+    },
+    "no_sets_yet": {
+      "message": "In diesem Training wurde noch kein Satz erfasst"
+    },
+    "invalid_plan": {
+      "message": "Plan ist ungültig:\n{errors}"
+    },
+    "profile_not_found": {
+      "message": "Person '{profile}' gibt es nicht"
+    },
+    "profile_busy": {
+      "message": "Erst das laufende Training beenden oder abbrechen, dann die Person wechseln"
+    },
+    "profile_exists": {
+      "message": "Eine Person namens '{profile}' gibt es schon"
+    },
+    "profile_name_missing": {
+      "message": "Bitte einen Namen eingeben"
+    },
+    "profile_delete_active": {
+      "message": "Die aktive Person kann nicht gelöscht werden – erst zu jemand anderem wechseln"
+    },
+    "user_not_found": {
+      "message": "Diesen Home-Assistant-Benutzer gibt es nicht"
+    }
+  }
+}

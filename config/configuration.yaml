@@ -1,0 +1,24 @@
+# Lokale Test-Instanz für die Entwicklung. NICHT das echte Home Assistant.
+#
+# Bewusst ohne "default_config:". Darin steckt u. a. Bluetooth, und macOS beendet
+# den Prozess hart, sobald er ohne Erlaubnis auf Bluetooth zugreift (Exit-Code 137).
+# Hier also nur, was wir zum Entwickeln brauchen:
+frontend:
+config:
+history:
+logbook:
+automation: !include automations.yaml
+script:
+blueprint:
+timer:
+input_button:
+conversation:
+assist_pipeline:
+
+logger:
+  default: info
+  logs:
+    custom_components.training_assistant: debug
+
+# Test-Satellit aus scripts/dev_components (nur Testinstanz)
+fake_voice:

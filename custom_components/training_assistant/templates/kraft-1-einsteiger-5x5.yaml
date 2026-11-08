@@ -1,0 +1,36 @@
+# Template: Beginner Strength 5×5 – inspired by StrongLifts 5×5 / Starting Strength.
+# Two workouts alternating, 3×/week (e.g. Mon/Wed/Fri). Linear progression: a little more
+# weight every session as long as all sets go cleanly. Starting weights are deliberately light.
+schema_version: 1
+name: Beginner Strength 5×5
+description: >-
+  Classic barbell beginner program, 2 alternating workouts, 3×/week. +2.5 kg every session
+  (deadlift +5 kg) as long as all 5×5 succeed. Inspired by StrongLifts 5×5.
+goal: strength
+defaults:
+  rest_s: 180
+  progression: { type: linear, increment_kg: 2.5 }
+exercises:
+  back_squat: { name: Back Squat, aliases: [Kniebeuge], equipment: barbell, image: Barbell_Squat }
+  bench_press: { name: Bench Press, aliases: [Bankdrücken], equipment: barbell }
+  barbell_row: { name: Barbell Row, aliases: [Langhantelrudern], equipment: barbell, image: Bent_Over_Barbell_Row }
+  overhead_press: { name: Overhead Press, aliases: [Schulterdrücken stehend], equipment: barbell, image: Standing_Military_Press }
+  deadlift: { name: Deadlift, aliases: [Kreuzheben], equipment: barbell, image: Barbell_Deadlift }
+workouts:
+  - id: a
+    name: Workout A
+    blocks:
+      - { type: warmup, note: "5 easy minutes, then 2–3 light warm-up sets of squats." }
+      - { type: sets, exercise: back_squat, sets: 5, reps: 5, weight_kg: 20 }
+      - { type: sets, exercise: bench_press, sets: 5, reps: 5, weight_kg: 20 }
+      - { type: sets, exercise: barbell_row, sets: 5, reps: 5, weight_kg: 30 }
+      - { type: cooldown }
+  - id: b
+    name: Workout B
+    blocks:
+      - { type: warmup, note: "5 easy minutes, then 2–3 light warm-up sets of squats." }
+      - { type: sets, exercise: back_squat, sets: 5, reps: 5, weight_kg: 20 }
+      - { type: sets, exercise: overhead_press, sets: 5, reps: 5, weight_kg: 20 }
+      - { type: sets, exercise: deadlift, sets: 1, reps: 5, weight_kg: 40,
+          progression: { type: linear, increment_kg: 5 } }
+      - { type: cooldown }

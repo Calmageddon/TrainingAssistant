@@ -1,0 +1,12 @@
+{
+  "domain": "fake_voice",
+  "name": "Fake Voice (nur Testinstanz)",
+  "codeowners": [],
+  "dependencies": [
+    "assist_satellite"
+  ],
+  "documentation": "https://github.com/Calmageddon/TrainingAssistant",
+  "iot_class": "local_push",
+  "requirements": [],
+  "version": "0.0.1"
+}

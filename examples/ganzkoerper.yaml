@@ -1,0 +1,115 @@
+# Beispielplan für TrainingAssistant (Importformat Version 1)
+# Nutzt jeden Blocktyp einmal: warmup, circuit, sets, interval, cooldown.
+schema_version: 1
+name: Ganzkörper Hypertrophie
+description: Zwei Ganzkörper-Einheiten im Wechsel, Kurzhantel/Kettlebell zu Hause.
+goal: hypertrophy
+
+defaults:
+  rest_s: 90
+  progression:
+    type: double
+    increment_kg: 2.5
+
+exercises:
+  push_up:
+    name: Push-Ups
+    aliases: [Liegestütze]
+    equipment: bodyweight
+  goblet_squat:
+    name: Goblet Squats
+    aliases: [Kniebeugen]
+    equipment: kettlebell
+  pull_up:
+    name: Pull-Ups
+    aliases: [Klimmzüge]
+    equipment: bodyweight
+  leg_raise:
+    name: Leg Raises
+    aliases: [Beinheben]
+    equipment: bodyweight
+  romanian_deadlift:
+    name: Rumänisches Kreuzheben
+    aliases: [RDL]
+    equipment: dumbbell
+    note: Rücken gerade, Hüfte nach hinten schieben.
+  dumbbell_press:
+    name: Schulterdrücken
+    equipment: dumbbell
+  plank:
+    name: Plank
+    aliases: [Unterarmstütz]
+    equipment: bodyweight
+  burpee:
+    name: Burpees
+    equipment: bodyweight
+    muscles: []                # Ganzkörper
+  mountain_climber:
+    name: Mountain Climbers
+    equipment: bodyweight
+
+workouts:
+  - id: a
+    name: Ganzkörper A
+    blocks:
+      - type: warmup
+        name: Aufwärmen
+        note: 5 Minuten locker, Mobilisation Schultern und Hüfte.
+
+      - type: circuit
+        name: Hauptzirkel
+        rounds: 3
+        rest_after_exercise_s: 30
+        rest_after_round_s: 120
+        exercises:
+          - exercise: push_up
+            reps: { min: 8, max: 15 }
+          - exercise: goblet_squat
+            reps: { min: 8, max: 12 }
+            weight_kg: 16
+          - exercise: pull_up
+            reps: { min: 5, max: 8 }
+          - exercise: leg_raise
+            reps: { min: 10, max: 15 }
+
+      - type: interval
+        name: HIIT-Finisher
+        rounds: 8
+        work_s: 20
+        rest_s: 10
+        exercises: [burpee, mountain_climber]
+
+      - type: cooldown
+        name: Cool Down
+        duration_s: 300
+
+  - id: b
+    name: Ganzkörper B
+    blocks:
+      - type: warmup
+
+      - type: sets
+        exercise: romanian_deadlift
+        sets: 5
+        reps: 5
+        weight_kg: 20
+        rest_s: 120
+        progression:
+          type: linear
+          increment_kg: 2
+
+      - type: sets
+        exercise: dumbbell_press
+        sets: 3
+        reps: { min: 8, max: 12 }
+        weight_kg: 12
+
+      - type: sets
+        exercise: plank
+        sets: 3
+        duration_s: 45
+        rest_s: 60
+        progression:
+          type: none
+
+      - type: cooldown

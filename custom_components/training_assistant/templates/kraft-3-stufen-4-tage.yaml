@@ -1,0 +1,64 @@
+# Template: Tiered program, 4 days – inspired by GZCLP (Cody Lefever).
+# T1 = heavy (5×3), T2 = medium (3×10), T3 = light/volume (3×15+).
+# Simplification: the original does the last T1/T3 set "as many as possible";
+# here the suggestion counts across all sets.
+schema_version: 1
+name: Tiered Program 4 Days
+description: >-
+  Four workouts with a heavy main lift (5×3), a medium secondary lift (3×10) and a light
+  volume exercise (3×15–25). For beginners after their first months. Inspired by GZCLP.
+goal: strength
+defaults:
+  rest_s: 120
+exercises:
+  back_squat: { name: Back Squat, aliases: [Kniebeuge], equipment: barbell, image: Barbell_Squat }
+  bench_press: { name: Bench Press, aliases: [Bankdrücken], equipment: barbell }
+  overhead_press: { name: Overhead Press, aliases: [Schulterdrücken stehend], equipment: barbell, image: Standing_Military_Press }
+  deadlift: { name: Deadlift, aliases: [Kreuzheben], equipment: barbell, image: Barbell_Deadlift }
+  lat_pulldown: { name: Lat Pulldown, aliases: [Latziehen], equipment: cable, image: Wide-Grip_Lat_Pulldown }
+  dumbbell_row: { name: One-Arm Dumbbell Row, aliases: [Kurzhantelrudern einarmig], equipment: dumbbell, image: One-Arm_Dumbbell_Row }
+workouts:
+  - id: a1
+    name: A1 – Squat
+    blocks:
+      - { type: warmup }
+      - { type: sets, name: T1, exercise: back_squat, sets: 5, reps: 3, weight_kg: 60, rest_s: 180,
+          progression: { type: linear, increment_kg: 5 }, note: Last set as many clean reps as possible. }
+      - { type: sets, name: T2, exercise: bench_press, sets: 3, reps: 10, weight_kg: 40,
+          progression: { type: linear, increment_kg: 2.5 } }
+      - { type: sets, name: T3, exercise: lat_pulldown, sets: 3, reps: { min: 15, max: 25 }, weight_kg: 30, rest_s: 60,
+          progression: { type: double, increment_kg: 2.5 } }
+      - { type: cooldown }
+  - id: b1
+    name: B1 – Overhead Press
+    blocks:
+      - { type: warmup }
+      - { type: sets, name: T1, exercise: overhead_press, sets: 5, reps: 3, weight_kg: 30, rest_s: 180,
+          progression: { type: linear, increment_kg: 2.5 }, note: Last set as many clean reps as possible. }
+      - { type: sets, name: T2, exercise: deadlift, sets: 3, reps: 10, weight_kg: 60,
+          progression: { type: linear, increment_kg: 5 } }
+      - { type: sets, name: T3, exercise: dumbbell_row, sets: 3, reps: { min: 15, max: 25 }, weight_kg: 14, per_side: true,
+          rest_s: 60, progression: { type: double, increment_kg: 2 } }
+      - { type: cooldown }
+  - id: a2
+    name: A2 – Bench Press
+    blocks:
+      - { type: warmup }
+      - { type: sets, name: T1, exercise: bench_press, sets: 5, reps: 3, weight_kg: 50, rest_s: 180,
+          progression: { type: linear, increment_kg: 2.5 }, note: Last set as many clean reps as possible. }
+      - { type: sets, name: T2, exercise: back_squat, sets: 3, reps: 10, weight_kg: 50,
+          progression: { type: linear, increment_kg: 5 } }
+      - { type: sets, name: T3, exercise: lat_pulldown, sets: 3, reps: { min: 15, max: 25 }, weight_kg: 30, rest_s: 60,
+          progression: { type: double, increment_kg: 2.5 } }
+      - { type: cooldown }
+  - id: b2
+    name: B2 – Deadlift
+    blocks:
+      - { type: warmup }
+      - { type: sets, name: T1, exercise: deadlift, sets: 5, reps: 3, weight_kg: 80, rest_s: 180,
+          progression: { type: linear, increment_kg: 5 }, note: Last set as many clean reps as possible. }
+      - { type: sets, name: T2, exercise: overhead_press, sets: 3, reps: 10, weight_kg: 25,
+          progression: { type: linear, increment_kg: 2.5 } }
+      - { type: sets, name: T3, exercise: dumbbell_row, sets: 3, reps: { min: 15, max: 25 }, weight_kg: 14, per_side: true,
+          rest_s: 60, progression: { type: double, increment_kg: 2 } }
+      - { type: cooldown }

@@ -1,0 +1,220 @@
+start:
+  fields:
+    plan_id:
+      selector:
+        text:
+    workout_id:
+      selector:
+        text:
+    satellite:
+      selector:
+        entity:
+          domain: assist_satellite
+    device_id:
+      selector:
+        text:
+    speak_intro:
+      default: true
+      selector:
+        boolean:
+next:
+  fields:
+    effort:
+      selector:
+        select:
+          options: ["easy", "normal", "hard"]
+          translation_key: effort
+    reps:
+      selector:
+        number:
+          min: 0
+          max: 500
+          mode: box
+    weight_kg:
+      selector:
+        number:
+          min: 0
+          max: 500
+          step: 0.25
+          mode: box
+          unit_of_measurement: kg
+    duration_s:
+      selector:
+        number:
+          min: 0
+          max: 3600
+          mode: box
+          unit_of_measurement: s
+undo:
+skip:
+pause:
+finish:
+abort:
+  fields:
+    keep:
+      default: true
+      selector:
+        boolean:
+import_plan:
+  fields:
+    plan:
+      required: true
+      selector:
+        text:
+          multiline: true
+delete_plan:
+  fields:
+    plan_id:
+      required: true
+      selector:
+        text:
+set_next_workout:
+  fields:
+    plan_id:
+      required: true
+      selector:
+        text:
+    workout_id:
+      required: true
+      selector:
+        text:
+log_set:
+  fields:
+    effort:
+      selector:
+        select:
+          options: ["easy", "normal", "hard"]
+          translation_key: effort
+    text:
+      example: "8 mal 15 Kilo"
+      selector:
+        text:
+    reps:
+      selector:
+        number:
+          min: 0
+          max: 500
+          mode: box
+    weight_kg:
+      selector:
+        number:
+          min: 0
+          max: 500
+          step: 0.25
+          mode: box
+          unit_of_measurement: kg
+    duration_s:
+      selector:
+        number:
+          min: 0
+          max: 3600
+          mode: box
+          unit_of_measurement: s
+edit_set:
+  fields:
+    effort:
+      selector:
+        select:
+          options: ["easy", "normal", "hard"]
+          translation_key: effort
+    session_id:
+      selector:
+        text:
+    set_id:
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 100000
+          mode: box
+    reps:
+      selector:
+        number:
+          min: 0
+          max: 500
+          mode: box
+    weight_kg:
+      selector:
+        number:
+          min: 0
+          max: 500
+          step: 0.25
+          mode: box
+          unit_of_measurement: kg
+    duration_s:
+      selector:
+        number:
+          min: 0
+          max: 3600
+          mode: box
+          unit_of_measurement: s
+    skipped:
+      default: false
+      selector:
+        boolean:
+get_history:
+  fields:
+    limit:
+      default: 30
+      selector:
+        number:
+          min: 1
+          max: 500
+          mode: box
+adjust:
+  fields:
+    field:
+      required: true
+      selector:
+        select:
+          options: [reps, weight]
+    steps:
+      default: 1
+      selector:
+        number:
+          min: -50
+          max: 50
+          mode: box
+set_value:
+  fields:
+    field:
+      required: true
+      selector:
+        select:
+          options: [reps, weight]
+    value:
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 600
+          step: 0.25
+          mode: box
+set_program:
+  fields:
+    plan_id:
+      required: true
+      selector:
+        text:
+
+rest_adjust:
+  fields:
+    seconds:
+      default: 15
+      selector:
+        number:
+          min: -300
+          max: 300
+          step: 15
+          mode: box
+          unit_of_measurement: s
+
+set_profile:
+  fields:
+    profile:
+      required: true
+      example: "Alex"
+      selector:
+        text:
+
+get_stats:

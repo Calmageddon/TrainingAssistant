@@ -1,0 +1,71 @@
+# Neutraler Testplan für Tests und Praxistest (eigener Inhalt, kein echtes Programm).
+# Deckt ab: Zirkel mit Pausen zwischen Übungen/Runden und nach dem Block, pro Seite,
+# Halten so lange wie möglich, reps: max, Sätze bis zu einer Gesamtzahl.
+schema_version: 1
+name: Feature-Testplan
+description: Testplan für Zirkel, pro Seite, max-Sätze, Gesamtzahl und Blockpausen.
+
+defaults:
+  rest_s: 60
+  progression: { type: double, increment_kg: 2 }
+
+exercises:
+  goblet_squat: { name: Goblet Squat, equipment: kettlebell }
+  push_up: { name: Push-Ups, equipment: bodyweight }
+  single_arm_db_row: { name: Single-Arm Dumbbell Row, equipment: dumbbell }
+  plank: { name: Plank, equipment: bodyweight }
+  bb_deadlift: { name: Barbell Deadlift, equipment: barbell }
+  chin_up: { name: Chin-ups, equipment: bodyweight }
+  pull_up: { name: Pull-Ups, equipment: bodyweight }
+  reverse_lunge: { name: Reverse Lunge, equipment: bodyweight }
+  hip_thrust: { name: Barbell Hip Thrust, equipment: barbell }
+  lateral_raise: { name: Lateral Raise, equipment: dumbbell }
+
+workouts:
+  - id: w1
+    name: Zirkel-Tag
+    blocks:
+      - type: warmup
+      - type: circuit
+        name: Zirkel A
+        rounds: 3
+        rest_after_exercise_s: 30
+        rest_after_round_s: 90
+        rest_after_s: 120
+        exercises:
+          - { exercise: goblet_squat, reps: { min: 10, max: 12 }, weight_kg: 16 }
+          - { exercise: push_up, reps: 12, progression: { type: reps } }
+          - { exercise: single_arm_db_row, reps: 8, per_side: true, weight_kg: 14,
+              progression: { type: linear, increment_kg: 2 } }
+          - { exercise: plank, duration_s: 30 }
+      - { type: sets, exercise: lateral_raise, sets: 2, reps: 12, weight_kg: 6,
+          progression: { type: linear, increment_kg: 1 } }
+      - type: cooldown
+
+  - id: w3
+    name: Kraft-Tag
+    blocks:
+      - type: warmup
+      - { type: sets, name: Kreuzheben, exercise: bb_deadlift, sets: 3, reps: { min: 5, max: 8 },
+          weight_kg: 60, rest_s: 120 }
+      - type: circuit
+        name: Zirkel B
+        rounds: 2
+        rest_after_exercise_s: 30
+        exercises:
+          - { exercise: plank, duration_s: max }
+          - { exercise: chin_up, reps: max }
+      - type: cooldown
+
+  - id: w4
+    name: Finisher-Tag
+    blocks:
+      - type: warmup
+      - type: circuit
+        name: Zirkel A
+        rounds: 2
+        exercises:
+          - { exercise: reverse_lunge, reps: 10, per_side: true, progression: { type: reps } }
+          - { exercise: hip_thrust, reps: { min: 8, max: 12 }, weight_kg: 40 }
+      - { type: sets, name: Pull-Up-Finisher, exercise: pull_up, total_reps: 20, reps: max, rest_s: 60 }
+      - type: cooldown

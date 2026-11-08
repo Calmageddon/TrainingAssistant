@@ -1,0 +1,266 @@
+==============================================================================
+  TrainingAssistant – Creating and importing your own training plans
+==============================================================================
+
+A training plan is a text file in YAML (or JSON) format. It describes your
+exercises and workouts. You paste the text into the TrainingAssistant card:
+
+    Tab "Settings" → "Own plan" → paste the text → "Import"
+
+If something is wrong, the card shows exactly where (e.g.
+"workouts/0/blocks/2/exercise: exercise 'squats' is not in the 'exercises' catalog").
+A plan with the same name is replaced – your history is kept.
+
+
+==============================================================================
+  1. Three ways to your own plan
+==============================================================================
+
+A) Adapt a template (easiest)
+   Tab "Settings" → "Templates" → add a template → under "My plans", click "Edit".
+   The text then appears in the import field. Change it (e.g. weights,
+   exercises, names) and press "Import".
+
+B) Let ChatGPT, Claude or similar create it
+   Copy the prompt from section 4, fill in your wishes at the bottom (goal,
+   days per week, equipment, starting weights) – or attach an existing plan
+   (table, photo, PDF) and write "Convert the attached plan".
+   Paste the answer (only the YAML text) into the import field.
+
+C) Write it yourself
+   Start with the example from section 5 – it is already in the card's import
+   field – and adapt it.
+
+
+==============================================================================
+  2. Structure of a plan
+==============================================================================
+
+  schema_version: 1        always 1
+  name                     name of the plan
+  description              (optional) short description
+  defaults                 (optional) rest and progression for all exercises
+  exercises                exercise catalog: ID → name, equipment, (image, muscles)
+  workouts                 workouts, suggested in rotation
+    └ blocks               sections in a fixed order
+
+  Block types:
+    warmup / cooldown      warm-up / cool-down, end with the button
+    sets                   sets of one exercise (e.g. 5×5, 3×8–12)
+    circuit                circuit: all exercises one after another, several rounds
+                           (rounds) or rounds until time is up (time_cap_s)
+    interval               HIIT: work/rest in seconds, timed
+
+  Values per set:
+    reps                   8  ·  { min: 8, max: 12 }  ·  max
+    duration_s             instead of reps: 30  ·  { min: 30, max: 45 }  ·  max
+    weight_kg              weight; omit = bodyweight
+    per_side: true         per arm/leg
+    tempo: "3-0-1"         gets announced
+
+  Rest (seconds):
+    rest_s                 between sets (sets)
+    rest_after_exercise_s  between exercises in a circuit
+    rest_after_round_s     between circuit rounds
+    rest_after_s           after the whole block
+
+  Progression (suggestions for the next session):
+    { type: double, increment_kg: 2.5 }   first reps up to the upper limit, then +weight
+                                         (needs reps: { min, max })
+    { type: linear, increment_kg: 2.5 }   all sets done → +weight (e.g. 5×5)
+    { type: reps, max_reps: 20 }          bodyweight: +1 rep per session
+    { type: none }                        no suggestions
+
+  Images: found automatically via the English or German exercise name.
+  Set them yourself with image: <image ID> (folder name from
+  https://github.com/yuhonas/free-exercise-db/tree/main/exercises) or
+  image: false for no image.
+
+  Muscle groups (for "sets per muscle group" and recovery): automatic via the
+  image, or set them yourself, e.g. muscles: [hamstrings, glutes, back].
+  Groups: chest, back, shoulders, biceps, triceps, core, quads, hamstrings,
+  glutes, calves. muscles: [] = whole body, not counted.
+
+
+==============================================================================
+  3. Common mistakes
+==============================================================================
+
+  - Indentation: spaces only, no tabs. Same level = same indentation.
+  - Commas in the short notation { … }: put text with a comma in quotes,
+    e.g.  note: "Slow, controlled"
+  - Also put text containing a colon followed by a space in quotes.
+  - Every exercise used in a block must be listed under exercises.
+  - Don't combine a fixed rep count (reps: 8) with type: double –
+    use linear, reps or none there.
+  - Never use reps and duration_s at the same time.
+
+
+==============================================================================
+  4. Prompt for ChatGPT, Claude & co.
+==============================================================================
+
+Create a training plan for me in the YAML format "TrainingAssistant version 1".
+Follow these rules exactly and output ONLY the YAML code, without explanations.
+
+Top level:
+  schema_version: 1          (always exactly 1)
+  name: <text>
+  description: <text>        (optional)
+  goal: hypertrophy | strength | endurance | general   (optional)
+  defaults:                  (optional)
+    rest_s: <seconds>
+    progression: <progression>
+  exercises:                 catalog, key = ID in snake_case (a–z, 0–9, _)
+    <id>:
+      name: <display name>
+      aliases: [<other names>]         (optional)
+      equipment: bodyweight | dumbbell | kettlebell | barbell | band | machine | cable | other
+      note: <technique hint>           (optional)
+      image: <image ID from free-exercise-db> (optional, otherwise automatic; false = no image)
+      muscles: [chest | back | shoulders | biceps | triceps | core | quads | hamstrings | glutes | calves]
+                                       (optional, main muscles; [] = whole body/none)
+  workouts:                  list
+    - id: <snake_case>
+      name: <text>
+      blocks: [<block>, ...]
+
+Block types (field "type"), all with optional name and note:
+  warmup / cooldown: duration_s?
+  sets:     exercise (ID), sets OR total_reps, <set values>, rest_s?, rest_after_s?
+  circuit:  rounds OR time_cap_s, exercises: [{exercise, <set values>}],
+            rest_after_exercise_s?, rest_after_round_s?, rest_after_s?, tempo?
+  interval: rounds, work_s, rest_s, exercises: [<ID>, ...], rest_after_s?   (HIIT, no reps)
+
+Set values:
+  reps: number (8) OR range {min: 8, max: 12} OR max
+  duration_s: seconds (30) OR range {min: 30, max: 45} OR max   – instead of reps, never both
+  weight_kg: number in kg; omit for bodyweight
+  per_side: true if "per arm/leg"
+  tempo: "3-0-1" (optional)
+  progression: (optional, overrides defaults)
+
+Rest in whole seconds:
+  rest_s = between sets (sets), rest_after_exercise_s = between exercises in a circuit,
+  rest_after_round_s = between circuit rounds, rest_after_s = after the whole block.
+
+Special cases:
+  "alternate for X minutes"         → circuit with time_cap_s: X*60 instead of rounds
+  "as many sets as needed for N reps" → sets with total_reps: N instead of sets, usually reps: max
+  "increase the weight by 5–10 %" or similar → as a note on the block; a repeated pass
+                                     is a separate, second block
+
+Progression:
+  {type: double, increment_kg: 2.5}   only with a reps range
+  {type: linear, increment_kg: 2.5}   for fixed reps with weight (e.g. 5x5, 8)
+  {type: reps, increment: 1, max_reps: 20}   bodyweight: +1 rep as soon as all sets are done
+                                      (max_reps optional)
+  {type: none}                        no suggestions
+
+Important:
+  - Every exercise used must be listed in the "exercises" catalog.
+  - Never combine fixed reps (e.g. 8) with double progression; without weight use type: reps.
+  - No fields other than the ones listed above.
+  - Put texts (name, note, description) containing a comma or colon in "quotes".
+  - Common exercises get common English IDs (goblet_squat, push_up, pull_up) and
+    English names as in common exercise databases – then images are matched automatically.
+    Only set the image field if you know the ID from free-exercise-db for sure.
+  - For unusual or self-named exercises set muscles (main muscles only, at most 3).
+  - Write names and notes in the language I use below.
+
+My wishes: <DESCRIBE HERE: goal, days per week, duration, available equipment,
+starting weights, limitations – or: "Convert the attached plan.">
+
+
+==============================================================================
+  5. Example plan
+==============================================================================
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Your own training plan – example to adapt
+#  Everything after # is a comment and is ignored. Indent with spaces only.
+#  Full guide: button "Guide (.txt)" above this field.
+# ─────────────────────────────────────────────────────────────────────────────
+
+schema_version: 1                  # always 1
+name: My Plan                      # same name as an existing plan = that plan gets replaced
+description: Two alternating workouts, 3×/week.
+
+defaults:                          # applies wherever nothing else is set
+  rest_s: 90                       # rest between sets (seconds)
+  progression:                     # suggestions for the next session
+    type: double                   # double = first increase reps, then weight (+increment_kg)
+    increment_kg: 2.5
+
+# ── 1) Exercises ─────────────────────────────────────────────────────────────
+#  ID (lowercase, no spaces) → name. Your history is matched via the ID.
+#  Images are found automatically via the name; otherwise image: <image ID> or image: false.
+exercises:
+  squat:
+    name: Back Squat
+    equipment: barbell             # bodyweight, dumbbell, kettlebell, barbell, band, machine, cable, other
+  push_up:
+    name: Push-Ups
+    equipment: bodyweight
+  row:
+    name: One-Arm Dumbbell Row
+    equipment: dumbbell
+    image: One-Arm_Dumbbell_Row
+  plank:
+    name: Plank
+    equipment: bodyweight
+  jumping_jack:
+    name: Jumping Jacks
+    equipment: bodyweight
+    image: false
+
+# ── 2) Workouts ──────────────────────────────────────────────────────────────
+#  Suggested in rotation (A, B, A, …). Each workout consists of blocks.
+workouts:
+  - id: a
+    name: Workout A
+    blocks:
+      - type: warmup               # warm-up – ends with the button
+        note: Move around easily for 5 minutes.
+
+      - type: sets                 # classic sets of one exercise
+        exercise: squat
+        sets: 3
+        reps: { min: 8, max: 12 }  # range – or a fixed number (8) or max
+        weight_kg: 40              # omit = bodyweight
+        rest_after_s: 120          # rest after the whole block
+
+      - type: circuit              # circuit: all exercises one after another, several rounds
+        name: Upper Body Circuit
+        rounds: 3                  # or time_cap_s: 300 = rounds until time is up
+        rest_after_exercise_s: 30
+        rest_after_round_s: 90
+        exercises:
+          - exercise: push_up
+            reps: 10
+            progression: { type: reps }    # bodyweight: +1 rep per session
+          - exercise: row
+            reps: { min: 8, max: 12 }
+            per_side: true                  # per arm
+            weight_kg: 14
+          - exercise: plank
+            duration_s: 45                  # time instead of reps
+
+      - type: cooldown             # cool-down
+
+  - id: b
+    name: Workout B
+    blocks:
+      - type: warmup
+      - type: sets
+        exercise: squat
+        sets: 5
+        reps: 5
+        weight_kg: 50
+        progression: { type: linear, increment_kg: 2.5 }   # all 5×5 done → +2.5 kg
+      - type: interval             # HIIT: timed, no reps
+        rounds: 8
+        work_s: 20
+        rest_s: 10
+        exercises: [jumping_jack, push_up]   # alternate
+      - type: cooldown

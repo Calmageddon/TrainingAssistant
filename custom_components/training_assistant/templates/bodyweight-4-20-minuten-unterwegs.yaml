@@ -1,0 +1,34 @@
+# Template: 20-minute travel circuit (hotel room, vacation). As many rounds as possible
+# in 20 minutes – progress = more rounds than last time (shown under "Logged"/History).
+schema_version: 1
+name: 20-Minute Travel Circuit
+description: >-
+  No equipment, 2 m² of space – as many rounds as possible in 20 minutes of squats, push-ups,
+  lunges, mountain climbers and plank. Ideal for hotels and vacations.
+goal: general
+defaults:
+  progression: { type: none }
+exercises:
+  squat: { name: Bodyweight Squat, aliases: [Kniebeugen], equipment: bodyweight, image: Bodyweight_Squat }
+  push_up: { name: Push-Ups, aliases: [Liegestütze], equipment: bodyweight, image: Pushups }
+  lunge: { name: Alternating Lunges, aliases: [Ausfallschritte im Wechsel], equipment: bodyweight, image: Bodyweight_Walking_Lunge }
+  mountain_climber: { name: Mountain Climbers, equipment: bodyweight }
+  plank: { name: Plank, aliases: [Unterarmstütz], equipment: bodyweight }
+workouts:
+  - id: amrap
+    name: 20 Minutes – As Many Rounds as Possible
+    blocks:
+      - { type: warmup, note: "3 minutes: jumping jacks, arm circles, slow squats." }
+      - type: circuit
+        name: Circuit
+        time_cap_s: 1200
+        rest_after_exercise_s: 0
+        rest_after_round_s: 0
+        note: Keep moving, rest only when needed. Goal – more rounds than last time.
+        exercises:
+          - { exercise: squat, reps: 15 }
+          - { exercise: push_up, reps: 10 }
+          - { exercise: lunge, reps: 10, per_side: true }
+          - { exercise: mountain_climber, reps: 20 }
+          - { exercise: plank, duration_s: 30 }
+      - { type: cooldown }

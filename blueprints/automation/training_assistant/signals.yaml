@@ -1,0 +1,61 @@
+blueprint:
+  name: TrainingAssistant – Signals (HIIT, rest, time cap)
+  description: >
+    Your own actions for workout events, e.g. a beep on a speaker or a red/green light.
+    Meant mainly for HIIT: speech is too slow for 20/10 intervals, sounds and light
+    are not.
+  domain: automation
+  source_url: https://github.com/Calmageddon/TrainingAssistant/blob/main/blueprints/automation/training_assistant/signals.yaml
+  input:
+    work_action:
+      name: HIIT – work phase starts
+      default: []
+      selector:
+        action:
+    rest_action:
+      name: HIIT – rest starts
+      default: []
+      selector:
+        action:
+    interval_done_action:
+      name: HIIT – done
+      default: []
+      selector:
+        action:
+    rest_over_action:
+      name: Rest between sets is over
+      default: []
+      selector:
+        action:
+    time_cap_action:
+      name: Time cap of a block is up
+      default: []
+      selector:
+        action:
+    finished_action:
+      name: Workout finished
+      default: []
+      selector:
+        action:
+
+mode: queued
+max: 10
+
+triggers:
+  - trigger: event
+    event_type: training_assistant_event
+
+actions:
+  - choose:
+      - conditions: "{{ trigger.event.data.type == 'interval_work' }}"
+        sequence: !input work_action
+      - conditions: "{{ trigger.event.data.type == 'interval_rest' }}"
+        sequence: !input rest_action
+      - conditions: "{{ trigger.event.data.type == 'interval_done' }}"
+        sequence: !input interval_done_action
+      - conditions: "{{ trigger.event.data.type == 'rest_over' }}"
+        sequence: !input rest_over_action
+      - conditions: "{{ trigger.event.data.type == 'time_cap_over' }}"
+        sequence: !input time_cap_action
+      - conditions: "{{ trigger.event.data.type == 'session_finished' }}"
+        sequence: !input finished_action

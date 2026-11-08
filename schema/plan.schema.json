@@ -1,0 +1,614 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Calmageddon/TrainingAssistant/schema/plan.schema.json",
+  "title": "TrainingAssistant – Trainingsplan",
+  "description": "Importformat für Trainingspläne (YAML oder JSON). Version 1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "name",
+    "exercises",
+    "workouts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "description": "Version dieses Formats. Aktuell immer 1."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name des Plans."
+    },
+    "description": {
+      "type": "string"
+    },
+    "goal": {
+      "enum": [
+        "hypertrophy",
+        "strength",
+        "endurance",
+        "general"
+      ],
+      "description": "Trainingsziel. Rein informativ."
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Standardwerte, die für alle Blöcke gelten, sofern dort nichts anderes steht.",
+      "properties": {
+        "rest_s": {
+          "$ref": "#/$defs/seconds"
+        },
+        "progression": {
+          "$ref": "#/$defs/progression"
+        }
+      }
+    },
+    "exercises": {
+      "type": "object",
+      "description": "Übungskatalog. Schlüssel = stabile Übungs-ID (klein, a–z, 0–9, _). Über diese ID wird der Verlauf planübergreifend zugeordnet.",
+      "minProperties": 1,
+      "propertyNames": {
+        "$ref": "#/$defs/id"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/exercise"
+      }
+    },
+    "workouts": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Trainingseinheiten des Plans, z. B. Tag A und Tag B.",
+      "items": {
+        "$ref": "#/$defs/workout"
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "seconds": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "weight_kg": {
+      "description": "Gewicht in kg. null oder weglassen = Körpergewicht.",
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "reps": {
+      "description": "Feste Wiederholungszahl (8), Bereich ({min: 8, max: 12}) oder \"max\" (so viele wie möglich).",
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "$ref": "#/$defs/range"
+        },
+        {
+          "const": "max"
+        }
+      ]
+    },
+    "progression": {
+      "description": "Regel für Vorschläge im nächsten Training.",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "increment_kg"
+          ],
+          "properties": {
+            "type": {
+              "const": "double",
+              "description": "Doppelte Progression: Erst Wiederholungen bis zum oberen Ende des Bereichs steigern, dann Gewicht erhöhen. Setzt einen Wiederholungsbereich voraus."
+            },
+            "increment_kg": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "increment_kg"
+          ],
+          "properties": {
+            "type": {
+              "const": "linear",
+              "description": "Lineare Progression: Alle Sätze geschafft → nächstes Mal + increment_kg (klassisch 5x5)."
+            },
+            "increment_kg": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "reps",
+              "description": "Wiederholungs-Progression (v. a. Körpergewicht): Alle Sätze mit dem Ziel geschafft → nächstes Mal +increment Wiederholungen, bis max_reps."
+            },
+            "increment": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "max_reps": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Obergrenze; danach Hinweis auf schwerere Variante. Standard: oberes Ende eines reps-Bereichs, sonst unbegrenzt."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "none",
+              "description": "Keine automatischen Vorschläge."
+            }
+          }
+        }
+      ]
+    },
+    "exercise": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Anzeigename, so wird die Übung angesagt."
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Weitere Namen, z. B. für die Spracherkennung."
+        },
+        "equipment": {
+          "enum": [
+            "bodyweight",
+            "dumbbell",
+            "kettlebell",
+            "barbell",
+            "band",
+            "machine",
+            "cable",
+            "other"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "description": "Technik-Hinweis."
+        },
+        "image": {
+          "description": "Bild aus free-exercise-db: Katalog-ID (Ordnername, z. B. \"Goblet_Squat\", siehe https://github.com/yuhonas/free-exercise-db/tree/main/exercises) oder false für kein Bild. Weglassen = automatische Zuordnung über Name und Aliase.",
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "const": false
+            }
+          ]
+        },
+        "muscles": {
+          "description": "Muskelgruppen für Wochenvolumen und Erholung. Gilt vor der automatischen Zuordnung über das Katalogbild. [] = keiner Muskelgruppe zuordnen (z. B. Burpees).",
+          "type": "array",
+          "items": {
+            "enum": [
+              "chest",
+              "back",
+              "shoulders",
+              "biceps",
+              "triceps",
+              "core",
+              "quads",
+              "hamstrings",
+              "glutes",
+              "calves"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "target": {
+      "description": "Ziel eines Satzes: entweder Wiederholungen (reps) oder Dauer (duration_s, z. B. Plank).",
+      "type": "object",
+      "oneOf": [
+        {
+          "required": [
+            "reps"
+          ],
+          "not": {
+            "required": [
+              "duration_s"
+            ]
+          }
+        },
+        {
+          "required": [
+            "duration_s"
+          ],
+          "not": {
+            "required": [
+              "reps"
+            ]
+          }
+        }
+      ]
+    },
+    "workout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "blocks"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "note": {
+          "type": "string"
+        },
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/block"
+          }
+        }
+      }
+    },
+    "block": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "warmup",
+            "sets",
+            "circuit",
+            "interval",
+            "cooldown"
+          ]
+        }
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/block_simple"
+        },
+        {
+          "$ref": "#/$defs/block_sets"
+        },
+        {
+          "$ref": "#/$defs/block_circuit"
+        },
+        {
+          "$ref": "#/$defs/block_interval"
+        }
+      ]
+    },
+    "block_simple": {
+      "description": "Aufwärmen oder Cool Down. Endet per Knopfdruck oder nach duration_s.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "warmup",
+            "cooldown"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "duration_s": {
+          "$ref": "#/$defs/seconds"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "block_sets": {
+      "description": "Klassische Sätze einer Übung, z. B. 5x5 oder 3x8–12.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "exercise"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/target"
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "sets"
+              ]
+            },
+            {
+              "required": [
+                "total_reps"
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "type": {
+          "const": "sets"
+        },
+        "name": {
+          "type": "string"
+        },
+        "exercise": {
+          "$ref": "#/$defs/id"
+        },
+        "sets": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reps": {
+          "$ref": "#/$defs/reps"
+        },
+        "duration_s": {
+          "$ref": "#/$defs/duration"
+        },
+        "weight_kg": {
+          "$ref": "#/$defs/weight_kg"
+        },
+        "rest_s": {
+          "$ref": "#/$defs/seconds"
+        },
+        "progression": {
+          "$ref": "#/$defs/progression"
+        },
+        "note": {
+          "type": "string"
+        },
+        "per_side": {
+          "type": "boolean",
+          "description": "Wiederholungen gelten pro Seite (pro Arm/Bein)."
+        },
+        "tempo": {
+          "type": "string",
+          "description": "Tempo, z. B. \"3-0-1\" (wird angesagt)."
+        },
+        "total_reps": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Statt fester Satzzahl: Sätze, bis insgesamt so viele Wiederholungen erreicht sind."
+        },
+        "rest_after_s": {
+          "$ref": "#/$defs/seconds",
+          "description": "Pause nach dem Block."
+        }
+      }
+    },
+    "circuit_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exercise"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/target"
+        }
+      ],
+      "properties": {
+        "exercise": {
+          "$ref": "#/$defs/id"
+        },
+        "reps": {
+          "$ref": "#/$defs/reps"
+        },
+        "duration_s": {
+          "$ref": "#/$defs/duration"
+        },
+        "weight_kg": {
+          "$ref": "#/$defs/weight_kg"
+        },
+        "progression": {
+          "$ref": "#/$defs/progression"
+        },
+        "note": {
+          "type": "string"
+        },
+        "per_side": {
+          "type": "boolean",
+          "description": "Wiederholungen gelten pro Seite (pro Arm/Bein)."
+        },
+        "tempo": {
+          "type": "string",
+          "description": "Tempo, z. B. \"3-0-1\" (wird angesagt)."
+        }
+      }
+    },
+    "block_circuit": {
+      "description": "Zirkel: Alle Übungen nacheinander je ein Satz, das Ganze rounds-mal.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "exercises"
+      ],
+      "properties": {
+        "type": {
+          "const": "circuit"
+        },
+        "name": {
+          "type": "string"
+        },
+        "rounds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "rest_after_exercise_s": {
+          "$ref": "#/$defs/seconds"
+        },
+        "rest_after_round_s": {
+          "$ref": "#/$defs/seconds"
+        },
+        "exercises": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/circuit_item"
+          }
+        },
+        "note": {
+          "type": "string"
+        },
+        "time_cap_s": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Statt fester Rundenzahl: Runden, bis die Zeit um ist („5 Minuten im Wechsel“)."
+        },
+        "rest_after_s": {
+          "$ref": "#/$defs/seconds",
+          "description": "Pause nach dem Block."
+        },
+        "tempo": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "rounds"
+          ]
+        },
+        {
+          "required": [
+            "time_cap_s"
+          ]
+        }
+      ]
+    },
+    "block_interval": {
+      "description": "HIIT: feste Arbeits- und Pausenintervalle, zeitgesteuert. Es werden keine Wiederholungen abgefragt. Die Übungen wechseln reihum.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "rounds",
+        "work_s",
+        "rest_s",
+        "exercises"
+      ],
+      "properties": {
+        "type": {
+          "const": "interval"
+        },
+        "name": {
+          "type": "string"
+        },
+        "rounds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "work_s": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "rest_s": {
+          "$ref": "#/$defs/seconds"
+        },
+        "exercises": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "note": {
+          "type": "string"
+        },
+        "rest_after_s": {
+          "$ref": "#/$defs/seconds",
+          "description": "Pause nach dem Block."
+        }
+      }
+    },
+    "range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "duration": {
+      "description": "Dauer in Sekunden (30), Bereich ({min: 30, max: 45}) oder \"max\" (so lange wie möglich halten).",
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "$ref": "#/$defs/range"
+        },
+        {
+          "const": "max"
+        }
+      ]
+    }
+  }
+}

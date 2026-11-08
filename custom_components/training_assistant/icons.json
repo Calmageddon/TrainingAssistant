@@ -1,0 +1,94 @@
+{
+  "entity": {
+    "button": {
+      "start": {
+        "default": "mdi:play"
+      },
+      "next": {
+        "default": "mdi:skip-next"
+      },
+      "undo": {
+        "default": "mdi:undo"
+      },
+      "pause": {
+        "default": "mdi:pause"
+      },
+      "skip": {
+        "default": "mdi:debug-step-over"
+      },
+      "finish": {
+        "default": "mdi:flag-checkered"
+      },
+      "abort": {
+        "default": "mdi:stop"
+      },
+      "reps_up": {
+        "default": "mdi:plus-circle-outline"
+      },
+      "reps_down": {
+        "default": "mdi:minus-circle-outline"
+      },
+      "weight_up": {
+        "default": "mdi:weight-plus"
+      },
+      "weight_down": {
+        "default": "mdi:weight-minus"
+      }
+    },
+    "sensor": {
+      "status": {
+        "default": "mdi:weight-lifter"
+      }
+    }
+  },
+  "services": {
+    "start": {
+      "service": "mdi:play"
+    },
+    "next": {
+      "service": "mdi:skip-next"
+    },
+    "undo": {
+      "service": "mdi:undo"
+    },
+    "skip": {
+      "service": "mdi:debug-step-over"
+    },
+    "pause": {
+      "service": "mdi:pause"
+    },
+    "finish": {
+      "service": "mdi:flag-checkered"
+    },
+    "abort": {
+      "service": "mdi:stop"
+    },
+    "import_plan": {
+      "service": "mdi:file-import"
+    },
+    "delete_plan": {
+      "service": "mdi:delete"
+    },
+    "set_next_workout": {
+      "service": "mdi:clipboard-list-outline"
+    },
+    "log_set": {
+      "service": "mdi:pencil"
+    },
+    "edit_set": {
+      "service": "mdi:pencil-outline"
+    },
+    "get_history": {
+      "service": "mdi:history"
+    },
+    "adjust": {
+      "service": "mdi:plus-minus"
+    },
+    "set_value": {
+      "service": "mdi:numeric"
+    },
+    "set_program": {
+      "service": "mdi:notebook-outline"
+    }
+  }
+}

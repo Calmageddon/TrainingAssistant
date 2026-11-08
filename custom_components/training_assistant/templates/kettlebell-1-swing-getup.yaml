@@ -1,0 +1,27 @@
+# Template: Kettlebell Swing & Get-up – inspired by "Simple & Sinister" (Pavel Tsatsouline).
+# Possible daily or 5–6×/week. 100 one-arm swings (10×10, switching hands) and
+# 10 Turkish get-ups (5 per side, 1 each). No circuit: first all swings, then get-ups.
+# Go heavier only once the session feels easy – progression makes no suggestion here.
+schema_version: 1
+name: Kettlebell Swing & Get-up
+description: >-
+  100 one-arm swings (10×10) and 10 Turkish get-ups (5 per side), doable almost daily.
+  Heavier bell only once everything feels easy. Inspired by Simple & Sinister.
+goal: strength
+defaults:
+  rest_s: 45
+  progression: { type: none }
+exercises:
+  kb_swing: { name: One-Arm Kettlebell Swing, aliases: [Kettlebell Swing einarmig], equipment: kettlebell, image: One-Arm_Kettlebell_Swings }
+  turkish_get_up: { name: Turkish Get-up, aliases: [Türkisches Aufstehen], equipment: kettlebell, image: Kettlebell_Turkish_Get-Up_Squat_style }
+  goblet_squat: { name: Goblet Squat, equipment: kettlebell }
+workouts:
+  - id: daily
+    name: Swing & Get-up
+    blocks:
+      - { type: warmup, note: "3× each: glute bridge, goblet squat hold with gentle rocking, halos." }
+      - { type: sets, exercise: kb_swing, sets: 10, reps: 10, weight_kg: 16, rest_s: 45, rest_after_s: 120,
+          note: Switch hands after every set. }
+      - { type: sets, exercise: turkish_get_up, sets: 10, reps: 1, weight_kg: 12, rest_s: 45,
+          note: "Alternate left and right, so 5 per side. Slow and controlled." }
+      - { type: cooldown }

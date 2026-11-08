@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Lokale Home-Assistant-Testinstanz: nur configuration.yaml einchecken
+config/*
+!config/configuration.yaml
+
+# Zugangsdaten / lokale Einstellungen
+.env
+.env.*
+secrets.yaml
+
+# macOS
+.DS_Store
+
+# Private Pläne (z. B. nach einem Buch) – nie veröffentlichen
+private/

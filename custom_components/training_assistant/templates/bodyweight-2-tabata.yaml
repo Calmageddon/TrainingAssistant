@@ -1,0 +1,24 @@
+# Template: Tabata circuit without equipment. The Tabata protocol (20 s work, 10 s rest, 8 rounds =
+# 4 minutes) comes from endurance studies on the bike (Tabata et al. 1996); here with
+# bodyweight exercises. Four blocks with 1 minute rest in between – about 20 minutes.
+schema_version: 1
+name: Tabata Circuit, No Equipment
+description: >-
+  Four Tabata blocks (8× 20 s work / 10 s rest) with squats, push-ups, mountain climbers
+  and lunges, 1 minute rest each – about 20 minutes of conditioning without equipment.
+goal: endurance
+exercises:
+  squat: { name: Bodyweight Squat, aliases: [Kniebeugen], equipment: bodyweight, image: Bodyweight_Squat }
+  push_up: { name: Push-Ups, aliases: [Liegestütze], equipment: bodyweight, image: Pushups }
+  mountain_climber: { name: Mountain Climbers, equipment: bodyweight }
+  lunge: { name: Alternating Lunges, aliases: [Ausfallschritte im Wechsel], equipment: bodyweight, image: Bodyweight_Walking_Lunge }
+workouts:
+  - id: tabata
+    name: Tabata ×4
+    blocks:
+      - { type: warmup, note: "3 minutes: jumping jacks, arm circles, slow squats." }
+      - { type: interval, name: Tabata 1 – Squats, rounds: 8, work_s: 20, rest_s: 10, rest_after_s: 60, exercises: [squat] }
+      - { type: interval, name: Tabata 2 – Push-Ups, rounds: 8, work_s: 20, rest_s: 10, rest_after_s: 60, exercises: [push_up] }
+      - { type: interval, name: Tabata 3 – Mountain Climbers, rounds: 8, work_s: 20, rest_s: 10, rest_after_s: 60, exercises: [mountain_climber] }
+      - { type: interval, name: Tabata 4 – Lunges, rounds: 8, work_s: 20, rest_s: 10, exercises: [lunge] }
+      - { type: cooldown }

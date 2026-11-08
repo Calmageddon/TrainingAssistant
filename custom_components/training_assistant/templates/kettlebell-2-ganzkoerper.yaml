@@ -1,0 +1,51 @@
+# Template: Kettlebell full body with one bell, 3×/week.
+# A: press ladders (clean & press 1–2–3 per side, inspired by "Rite of Passage" from
+#    "Enter the Kettlebell"), rows, swings. B: goblet squat, single-leg deadlift,
+#    get-ups, farmer's walk. The ladder is modelled as a circuit: each round = one ladder.
+schema_version: 1
+name: Kettlebell Full Body
+description: >-
+  Full body with one kettlebell, A/B alternating, 3×/week. A with press ladders (1–2–3
+  per side, inspired by Rite of Passage) and swings, B with goblet squat, single-leg
+  deadlift, get-ups and farmer's walk.
+goal: strength
+defaults:
+  rest_s: 60
+  progression: { type: double, increment_kg: 4 }
+exercises:
+  kb_clean_press: { name: Clean & Press, aliases: [Kettlebell Clean and Press], equipment: kettlebell, image: One-Arm_Kettlebell_Military_Press_To_The_Side }
+  kb_row: { name: Kettlebell Row, aliases: [Kettlebell-Rudern], equipment: kettlebell, image: One-Arm_Kettlebell_Row }
+  kb_swing: { name: Two-Arm Kettlebell Swing, aliases: [Kettlebell Swing beidarmig], equipment: kettlebell, image: One-Arm_Kettlebell_Swings }
+  goblet_squat: { name: Goblet Squat, equipment: kettlebell }
+  kb_single_leg_deadlift: { name: Kettlebell Single-Leg Deadlift, aliases: [Kreuzheben einbeinig], equipment: kettlebell, image: Kettlebell_One-Legged_Deadlift }
+  turkish_get_up: { name: Turkish Get-up, aliases: [Türkisches Aufstehen], equipment: kettlebell, image: Kettlebell_Turkish_Get-Up_Squat_style }
+  farmers_walk: { name: One-Arm Farmer's Walk, aliases: [Farmer's Walk einarmig, Suitcase Carry], equipment: kettlebell, image: Farmers_Walk }
+workouts:
+  - id: a
+    name: Full Body A – Ladders
+    blocks:
+      - { type: warmup }
+      - type: circuit
+        name: Press Ladders
+        rounds: 3
+        rest_after_exercise_s: 30
+        rest_after_round_s: 90
+        rest_after_s: 90
+        note: "One round = one ladder: 1, 2, 3 reps per side. More ladders (up to 5), then up to 5 rungs."
+        exercises:
+          - { exercise: kb_clean_press, reps: 1, per_side: true, weight_kg: 12, progression: { type: none } }
+          - { exercise: kb_clean_press, reps: 2, per_side: true, weight_kg: 12, progression: { type: none } }
+          - { exercise: kb_clean_press, reps: 3, per_side: true, weight_kg: 12, progression: { type: none } }
+      - { type: sets, exercise: kb_row, sets: 3, reps: { min: 8, max: 12 }, per_side: true, weight_kg: 16 }
+      - { type: sets, exercise: kb_swing, sets: 5, reps: { min: 15, max: 20 }, weight_kg: 16, rest_s: 45 }
+      - { type: cooldown }
+  - id: b
+    name: Full Body B – Legs & Core
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: goblet_squat, sets: 4, reps: { min: 8, max: 12 }, weight_kg: 16, rest_s: 90 }
+      - { type: sets, exercise: kb_single_leg_deadlift, sets: 3, reps: { min: 6, max: 10 }, per_side: true, weight_kg: 12 }
+      - { type: sets, exercise: turkish_get_up, sets: 6, reps: 1, weight_kg: 12, rest_s: 45, progression: { type: none },
+          note: Alternate left and right. }
+      - { type: sets, exercise: farmers_walk, sets: 3, duration_s: { min: 30, max: 60 }, per_side: true, weight_kg: 16 }
+      - { type: cooldown }

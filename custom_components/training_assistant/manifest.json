@@ -1,0 +1,15 @@
+{
+  "domain": "training_assistant",
+  "name": "TrainingAssistant",
+  "after_dependencies": ["assist_satellite", "conversation"],
+  "codeowners": ["@Calmageddon"],
+  "config_flow": true,
+  "dependencies": ["frontend", "http", "websocket_api"],
+  "documentation": "https://github.com/Calmageddon/TrainingAssistant",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/Calmageddon/TrainingAssistant/issues",
+  "requirements": [],
+  "single_config_entry": true,
+  "version": "0.3.0"
+}

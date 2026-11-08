@@ -1,0 +1,8 @@
+set_answers:
+  fields:
+    answers:
+      required: true
+      selector:
+        object:
+get_log:
+clear:

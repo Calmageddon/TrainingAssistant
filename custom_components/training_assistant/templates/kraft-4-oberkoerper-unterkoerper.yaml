@@ -1,0 +1,96 @@
+# Template: Upper/Lower 4 days – hypertrophy based on current research:
+# about 10–16 hard sets per muscle per week, every muscle group 2×/week,
+# 6–15 reps close to failure, double progression.
+schema_version: 1
+name: Upper/Lower 4 Days
+description: >-
+  Four workouts (Upper A, Lower A, Upper B, Lower B), every muscle group 2×/week, about 10–16
+  sets per muscle per week. Good for intermediates with 4 training days.
+goal: hypertrophy
+defaults:
+  rest_s: 120
+  progression: { type: double, increment_kg: 2.5 }
+exercises:
+  bench_press: { name: Bench Press, aliases: [Bankdrücken], equipment: barbell }
+  barbell_row: { name: Barbell Row, aliases: [Langhantelrudern], equipment: barbell, image: Bent_Over_Barbell_Row }
+  overhead_press: { name: Overhead Press, aliases: [Schulterdrücken stehend], equipment: barbell, image: Standing_Military_Press }
+  lat_pulldown: { name: Lat Pulldown, aliases: [Latziehen], equipment: cable, image: Wide-Grip_Lat_Pulldown }
+  lateral_raise: { name: Lateral Raise, aliases: [Seitheben], equipment: dumbbell, image: Side_Lateral_Raise }
+  db_curl: { name: Dumbbell Curl, aliases: [Bizepscurls Kurzhantel], equipment: dumbbell, image: Dumbbell_Bicep_Curl }
+  triceps_pushdown: { name: Triceps Pushdown, aliases: [Trizepsdrücken am Kabel], equipment: cable, image: Triceps_Pushdown }
+  incline_db_press: { name: Incline Dumbbell Press, aliases: [Schrägbankdrücken Kurzhantel], equipment: dumbbell, image: Incline_Dumbbell_Press }
+  chin_up: { name: Chin-up, aliases: [Klimmzüge Untergriff], equipment: bodyweight, image: Chin-Up }
+  db_shoulder_press: { name: Dumbbell Shoulder Press, aliases: [Schulterdrücken Kurzhantel], equipment: dumbbell, image: Dumbbell_Shoulder_Press }
+  cable_row: { name: Seated Cable Row, aliases: [Rudern am Kabel], equipment: cable, image: Seated_Cable_Rows }
+  face_pull: { name: Face Pulls, equipment: cable, image: Face_Pull }
+  hammer_curl: { name: Hammer Curl, aliases: [Hammercurls], equipment: dumbbell, image: Hammer_Curls }
+  overhead_triceps: { name: Overhead Triceps Extension, aliases: [Trizeps über Kopf], equipment: cable, image: Cable_Rope_Overhead_Triceps_Extension }
+  back_squat: { name: Back Squat, aliases: [Kniebeuge], equipment: barbell, image: Barbell_Squat }
+  romanian_deadlift: { name: Romanian Deadlift, aliases: [Rumänisches Kreuzheben], equipment: barbell, image: Romanian_Deadlift }
+  leg_press: { name: Leg Press, aliases: [Beinpresse], equipment: machine, image: Leg_Press }
+  leg_curl: { name: Leg Curl, aliases: [Beinbeuger], equipment: machine, image: Lying_Leg_Curls }
+  calf_raise: { name: Calf Raise, aliases: [Wadenheben], equipment: machine, image: Standing_Calf_Raises }
+  deadlift: { name: Deadlift, aliases: [Kreuzheben], equipment: barbell, image: Barbell_Deadlift }
+  bulgarian_split_squat: { name: Bulgarian Split Squat, aliases: [Bulgarische Kniebeuge], equipment: dumbbell, image: Split_Squat_with_Dumbbells }
+  hip_thrust: { name: Hip Thrust, equipment: barbell, image: Barbell_Hip_Thrust }
+  leg_extension: { name: Leg Extension, aliases: [Beinstrecker], equipment: machine, image: Leg_Extensions }
+  plank: { name: Plank, aliases: [Unterarmstütz], equipment: bodyweight }
+workouts:
+  - id: upper_a
+    name: Upper A
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: bench_press, sets: 4, reps: { min: 6, max: 8 }, weight_kg: 50, rest_s: 150 }
+      - { type: sets, exercise: barbell_row, sets: 4, reps: { min: 6, max: 8 }, weight_kg: 40, rest_s: 150 }
+      - { type: sets, exercise: overhead_press, sets: 3, reps: { min: 8, max: 10 }, weight_kg: 25 }
+      - { type: sets, exercise: lat_pulldown, sets: 3, reps: { min: 10, max: 12 }, weight_kg: 40 }
+      - type: circuit
+        name: Arms & Shoulders
+        rounds: 3
+        rest_after_exercise_s: 30
+        rest_after_round_s: 60
+        exercises:
+          - { exercise: lateral_raise, reps: { min: 12, max: 15 }, weight_kg: 6, progression: { type: double, increment_kg: 1 } }
+          - { exercise: db_curl, reps: { min: 10, max: 15 }, weight_kg: 8, progression: { type: double, increment_kg: 2 } }
+          - { exercise: triceps_pushdown, reps: { min: 10, max: 15 }, weight_kg: 20 }
+      - { type: cooldown }
+  - id: lower_a
+    name: Lower A
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: back_squat, sets: 4, reps: { min: 6, max: 8 }, weight_kg: 60, rest_s: 180 }
+      - { type: sets, exercise: romanian_deadlift, sets: 3, reps: { min: 8, max: 10 }, weight_kg: 50, rest_s: 150 }
+      - { type: sets, exercise: leg_press, sets: 3, reps: { min: 10, max: 12 }, weight_kg: 90, progression: { type: double, increment_kg: 5 } }
+      - { type: sets, exercise: leg_curl, sets: 3, reps: { min: 10, max: 12 }, weight_kg: 25 }
+      - { type: sets, exercise: calf_raise, sets: 4, reps: { min: 10, max: 15 }, weight_kg: 40, rest_s: 60, progression: { type: double, increment_kg: 5 } }
+      - { type: sets, exercise: plank, sets: 3, duration_s: { min: 30, max: 60 }, rest_s: 45 }
+      - { type: cooldown }
+  - id: upper_b
+    name: Upper B
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: incline_db_press, sets: 4, reps: { min: 8, max: 10 }, weight_kg: 16, progression: { type: double, increment_kg: 2 } }
+      - { type: sets, exercise: chin_up, sets: 4, reps: { min: 6, max: 10 }, rest_s: 150, progression: { type: reps } }
+      - { type: sets, exercise: db_shoulder_press, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 12, progression: { type: double, increment_kg: 2 } }
+      - { type: sets, exercise: cable_row, sets: 3, reps: { min: 10, max: 12 }, weight_kg: 40 }
+      - type: circuit
+        name: Arms & Rear Delts
+        rounds: 3
+        rest_after_exercise_s: 30
+        rest_after_round_s: 60
+        exercises:
+          - { exercise: face_pull, reps: { min: 15, max: 20 }, weight_kg: 10 }
+          - { exercise: hammer_curl, reps: { min: 10, max: 15 }, weight_kg: 10, progression: { type: double, increment_kg: 2 } }
+          - { exercise: overhead_triceps, reps: { min: 10, max: 15 }, weight_kg: 15 }
+      - { type: cooldown }
+  - id: lower_b
+    name: Lower B
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: deadlift, sets: 3, reps: 5, weight_kg: 80, rest_s: 180, progression: { type: linear, increment_kg: 5 } }
+      - { type: sets, exercise: bulgarian_split_squat, sets: 3, reps: { min: 8, max: 12 }, per_side: true, weight_kg: 10,
+          progression: { type: double, increment_kg: 2 } }
+      - { type: sets, exercise: hip_thrust, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 60, progression: { type: double, increment_kg: 5 } }
+      - { type: sets, exercise: leg_extension, sets: 3, reps: { min: 12, max: 15 }, weight_kg: 30 }
+      - { type: sets, exercise: calf_raise, sets: 4, reps: { min: 10, max: 15 }, weight_kg: 40, rest_s: 60, progression: { type: double, increment_kg: 5 } }
+      - { type: cooldown }

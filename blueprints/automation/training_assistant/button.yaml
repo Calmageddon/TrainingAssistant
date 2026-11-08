@@ -1,0 +1,102 @@
+blueprint:
+  name: TrainingAssistant – Button
+  description: >
+    Controls TrainingAssistant with a button, e.g. a Zigbee button via Zigbee2MQTT.
+    Works with buttons that report their action as a sensor (sensor.…_action) or as an
+    event entity (event.…). The values for single/double/long press are listed in the
+    button's device info (Zigbee2MQTT: "Exposes" → action).
+
+    Without a running workout, "Next" starts the next workout.
+  domain: automation
+  source_url: https://github.com/Calmageddon/TrainingAssistant/blob/main/blueprints/automation/training_assistant/button.yaml
+  input:
+    action_entity:
+      name: Button action
+      description: Sensor or event entity that reports the pressed action.
+      selector:
+        entity:
+          filter:
+            - domain: [sensor, event]
+    single_value:
+      name: Value for "single press"
+      default: single
+      selector:
+        text:
+    double_value:
+      name: Value for "double press"
+      default: double
+      selector:
+        text:
+    long_value:
+      name: Value for "long press"
+      default: hold
+      selector:
+        text:
+    single_action:
+      name: Single press
+      default: next
+      selector:
+        select:
+          options:
+            - { label: "Next / set done", value: next }
+            - { label: "Undo", value: undo }
+            - { label: "Pause / resume", value: pause }
+            - { label: "Skip", value: skip }
+            - { label: "Finish workout", value: finish }
+            - { label: "Nothing", value: none }
+    double_action:
+      name: Double press
+      default: undo
+      selector:
+        select:
+          options:
+            - { label: "Next / set done", value: next }
+            - { label: "Undo", value: undo }
+            - { label: "Pause / resume", value: pause }
+            - { label: "Skip", value: skip }
+            - { label: "Finish workout", value: finish }
+            - { label: "Nothing", value: none }
+    long_action:
+      name: Long press
+      default: pause
+      selector:
+        select:
+          options:
+            - { label: "Next / set done", value: next }
+            - { label: "Undo", value: undo }
+            - { label: "Pause / resume", value: pause }
+            - { label: "Skip", value: skip }
+            - { label: "Finish workout", value: finish }
+            - { label: "Nothing", value: none }
+
+mode: queued
+max: 5
+
+triggers:
+  - trigger: state
+    entity_id: !input action_entity
+    not_to: [unavailable, unknown]
+
+variables:
+  entity: !input action_entity
+  single_value: !input single_value
+  double_value: !input double_value
+  long_value: !input long_value
+  single_action: !input single_action
+  double_action: !input double_action
+  long_action: !input long_action
+  value: >-
+    {% if entity.startswith('event.') %}{{ trigger.to_state.attributes.event_type | default('') }}
+    {%- else %}{{ trigger.to_state.state }}{% endif %}
+  todo: >-
+    {% if value == single_value %}{{ single_action }}
+    {%- elif value == double_value %}{{ double_action }}
+    {%- elif value == long_value %}{{ long_action }}
+    {%- else %}none{% endif %}
+
+conditions:
+  - condition: template
+    value_template: "{{ todo != 'none' }}"
+
+actions:
+  - action: "training_assistant.{{ todo }}"

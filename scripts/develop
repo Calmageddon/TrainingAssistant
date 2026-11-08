@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Startet die lokale Home-Assistant-Testinstanz mit dieser Integration.
+# Danach im Browser: http://localhost:8123
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+# HA lädt Custom Integrations aus config/custom_components/.
+# Symlinks zeigen dorthin auf unseren Code, so wirken Änderungen nach einem Neustart sofort.
+mkdir -p config/custom_components config/blueprints/automation
+ln -sfn ../../custom_components/training_assistant config/custom_components/training_assistant
+# Test-Satellit (nur Testinstanz): beantwortet Rückfragen mit vorgegebenen Sätzen
+ln -sfn ../../scripts/dev_components/fake_voice config/custom_components/fake_voice
+# Blueprints zum Ausprobieren (Datei-Links: HA folgt keinen verlinkten Ordnern)
+[ -L config/blueprints/automation/training_assistant ] && rm config/blueprints/automation/training_assistant
+mkdir -p config/blueprints/automation/training_assistant
+for f in blueprints/automation/training_assistant/*.yaml; do
+  ln -sfn "../../../../$f" "config/blueprints/automation/training_assistant/$(basename "$f")"
+done
+
+exec .venv/bin/hass --config "${PWD}/config" --debug

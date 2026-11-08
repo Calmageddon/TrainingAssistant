@@ -1,0 +1,59 @@
+# Template: Calisthenics Level 0 – for getting started without prior experience.
+# Easy variations of the basic exercises. Rep progression: +1 rep as soon as all sets
+# are done. Once the upper limit is reached → next level (see hint on the exercise)
+# or the "Calisthenics Basics" template.
+schema_version: 1
+name: Calisthenics Level 0 (Starter)
+description: >-
+  Getting started without prior experience, 3×/week: incline push-ups, rows at a table/bar,
+  squats, glute bridges, pull-up prep and plank. Reps increase from session to session;
+  at the upper limit the next variation follows.
+goal: general
+defaults:
+  rest_s: 60
+  progression: { type: reps }
+exercises:
+  incline_push_up: { name: Incline Push-Up, aliases: [Liegestütze erhöht], equipment: bodyweight, image: Incline_Push-Up,
+                     note: "Hands on a table or bench. Next level – lower incline, then on the floor." }
+  inverted_row: { name: Inverted Row, aliases: [Rudern an der Stange, Australian Pull-up], equipment: bodyweight,
+                  note: "The more upright the body, the easier. Next level – body flatter." }
+  bodyweight_squat: { name: Bodyweight Squat, aliases: [Kniebeugen, Air Squat], equipment: bodyweight, image: Bodyweight_Squat }
+  glute_bridge: { name: Glute Bridge, aliases: [Hüftheben], equipment: bodyweight, image: Butt_Lift_Bridge }
+  scapular_pull_up: { name: Scapular Pull-up, aliases: [Schulterblatt-Klimmzüge], equipment: bodyweight, image: Scapular_Pull-Up,
+                      note: "Arms straight, only pull the shoulder blades down." }
+  negative_pull_up: { name: Pull-up Negative, aliases: [Negative Klimmzüge], equipment: bodyweight, image: Pullups,
+                      note: "Jump up, then lower yourself under control for 3–5 seconds." }
+  plank: { name: Plank, aliases: [Unterarmstütz], equipment: bodyweight }
+workouts:
+  - id: a
+    name: Starter A
+    blocks:
+      - { type: warmup, note: "Arm circles, hip circles, 10 easy squats." }
+      - type: circuit
+        name: Circuit
+        rounds: 3
+        rest_after_exercise_s: 45
+        rest_after_round_s: 90
+        exercises:
+          - { exercise: incline_push_up, reps: { min: 5, max: 15 } }
+          - { exercise: bodyweight_squat, reps: { min: 10, max: 20 } }
+          - { exercise: inverted_row, reps: { min: 5, max: 15 } }
+          - { exercise: glute_bridge, reps: { min: 10, max: 20 } }
+          - { exercise: plank, duration_s: { min: 20, max: 60 } }
+      - { type: cooldown }
+  - id: b
+    name: Starter B
+    blocks:
+      - { type: warmup, note: "Arm circles, hip circles, 10 easy squats." }
+      - { type: sets, exercise: scapular_pull_up, sets: 3, reps: { min: 5, max: 10 } }
+      - { type: sets, exercise: negative_pull_up, sets: 3, reps: { min: 3, max: 6 }, rest_s: 90 }
+      - type: circuit
+        name: Circuit
+        rounds: 3
+        rest_after_exercise_s: 45
+        rest_after_round_s: 90
+        exercises:
+          - { exercise: incline_push_up, reps: { min: 5, max: 15 } }
+          - { exercise: bodyweight_squat, reps: { min: 10, max: 20 } }
+          - { exercise: plank, duration_s: { min: 20, max: 60 } }
+      - { type: cooldown }

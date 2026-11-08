@@ -1,0 +1,140 @@
+import copy
+from pathlib import Path
+
+import pytest
+import yaml
+
+from custom_components.training_assistant.plan import PlanError, build_steps, parse_plan_text, validate_plan
+
+EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
+
+
+@pytest.mark.parametrize("name", sorted(p.name for p in EXAMPLES.glob("*.yaml")))
+def test_examples_valid(name):
+    plan = parse_plan_text((EXAMPLES / name).read_text())
+    for w in plan["workouts"]:
+        assert build_steps(plan, w["id"])
+
+
+def load(name="ganzkoerper.yaml"):
+    return yaml.safe_load((EXAMPLES / name).read_text())
+
+
+@pytest.mark.parametrize(
+    ("mutate", "fragment"),
+    [
+        (lambda p: p["workouts"][0]["blocks"][1]["exercises"][0].update(exercise="bench"), "nicht im Katalog"),
+        (lambda p: p["workouts"][1]["blocks"][2].update(reps=10), "Wiederholungsbereich"),
+        (lambda p: p["workouts"][1]["blocks"][3].update(reps=10), "genau eins"),
+        (lambda p: p["workouts"][0]["blocks"][0].update(type="stretching"), "type"),
+        (lambda p: p["workouts"][0]["blocks"][1]["exercises"][1].update(reps={"min": 12, "max": 8}), "min ist größer"),
+        (lambda p: p.update(schema_version=2), "schema_version"),
+        (lambda p: p["workouts"][0]["blocks"][1].pop("rounds"), "time_cap_s"),
+        (lambda p: p["workouts"][1]["blocks"][1].pop("sets"), "total_reps"),
+        (lambda p: p["workouts"][0]["blocks"][1].update(foo=1), "unbekanntes Feld"),
+        (lambda p: p["defaults"].update(progression={"type": "reps", "increment": 0}), "increment"),
+        (lambda p: p["defaults"].update(progression={"type": "reps", "step": 1}), "unbekanntes Feld 'step'"),
+        (lambda p: p["defaults"].update(progression={"type": "wave"}), "double, linear, reps oder none"),
+        (lambda p: p["exercises"]["plank"].update(image=3), "Bild-ID"),
+    ],
+)
+def test_invalid(mutate, fragment):
+    plan = copy.deepcopy(load())
+    mutate(plan)
+    errors = validate_plan(plan, "de")
+    assert any(fragment in e for e in errors), errors
+    english = validate_plan(plan, "en")
+    assert len(english) == len(errors)
+    german_words = ("muss", "Übung", "Pflicht", "unbekannt", "braucht", "größer", "Liste", "kommt")
+    assert not [e for e in english if any(w in e.split(": ", 1)[-1] for w in german_words)], english
+
+
+def test_parse_error_is_plan_error():
+    with pytest.raises(PlanError):
+        parse_plan_text("name: [unclosed")
+
+
+def test_build_steps_circuit():
+    plan = load()
+    steps = build_steps(plan, "a")
+    sets = [s for s in steps if s["type"] == "set"]
+    assert len(sets) == 3 * 4  # 3 Runden × 4 Übungen
+    assert sets[0]["exercise_name"] == "Push-Ups" and sets[0]["round"] == 1
+    assert sets[3]["rest_after_s"] == 120  # Rundenpause
+    assert sets[-1]["rest_after_s"] == 0
+    assert steps[-1]["type"] == "cooldown"
+    assert [s["idx"] for s in steps] == list(range(len(steps)))
+
+
+def test_build_steps_uses_history():
+    plan = load()
+    hist = {"goblet_squat": [{"reps": 12, "weight_kg": 16, "status": "confirmed"}] * 3}
+    steps = build_steps(plan, "a", lambda ex: hist.get(ex, []))
+    goblet = next(s for s in steps if s.get("exercise") == "goblet_squat")
+    assert goblet["target_weight"] == 18.5 and goblet["target_reps"] == 8
+
+
+FIXTURES = Path(__file__).resolve().parent / "fixtures"
+
+
+def load_fixture():
+    return yaml.safe_load((FIXTURES / "feature-testplan.yaml").read_text())
+
+
+def test_fixture_valid():
+    plan = parse_plan_text((FIXTURES / "feature-testplan.yaml").read_text())
+    for w in plan["workouts"]:
+        assert build_steps(plan, w["id"])
+
+
+def test_feature_plan():
+    plan = load_fixture()
+    w3 = build_steps(plan, "w3")
+    plank = next(s for s in w3 if s.get("exercise") == "plank")
+    assert plank["hold_max"] and plank["target_duration"] is None
+    w4 = build_steps(plan, "w4")
+    pull = [s for s in w4 if s.get("exercise") == "pull_up"]
+    assert pull[0]["block_end"] == {"total_reps": 20} and pull[0]["amrap"]
+    w1 = build_steps(plan, "w1")
+    row = next(s for s in w1 if s.get("exercise") == "single_arm_db_row")
+    assert row["per_side"]
+    last_a = [s for s in w1 if s.get("block_name") == "Zirkel A"][-1]
+    assert last_a["rest_after_s"] == 120  # Blockpause
+
+
+def test_weight_step_and_last_reps():
+    plan = load_fixture()
+    steps = build_steps(plan, "w3", lambda ex: [{"reps": 7, "status": "confirmed"}] if ex == "chin_up" else [])
+    dl = next(s for s in steps if s.get("exercise") == "bb_deadlift")
+    assert dl["weight_step"] == 2  # increment_kg aus defaults.progression
+    plan["defaults"]["progression"] = {"type": "none"}
+    steps = build_steps(plan, "w3", lambda ex: [{"reps": 7, "status": "confirmed"}] if ex == "chin_up" else [])
+    assert next(s for s in steps if s.get("exercise") == "bb_deadlift")["weight_step"] == 2.5  # Langhantel
+    assert next(s for s in steps if s.get("exercise") == "chin_up")["last_reps"] == 7
+
+
+def test_every_german_message_has_english_pattern():
+    """Jede Meldung im Code (c.err/self.err mit Textliteral) muss ein englisches Muster haben."""
+    import re as _re
+
+    from custom_components.training_assistant.plan import EN_MESSAGES
+
+    source = (Path(__file__).resolve().parent.parent / "custom_components" / "training_assistant" / "plan.py").read_text()
+    literals = _re.findall(r'(?:self|c)\.err\([^,]+,\s*f?"((?:[^"\\]|\\.)+)"', source)
+    assert literals
+    for lit in literals:
+        sample = _re.sub(r"\{[^}]*\}", "1", lit.replace('\\"', '"'))
+        assert any(_re.match(p, sample) for p, _ in EN_MESSAGES), lit
+
+
+def test_muscles_field():
+    from custom_components.training_assistant import plan as plan_mod, stats
+
+    assert plan_mod.GROUP_ORDER == stats.GROUP_ORDER
+    plan = copy.deepcopy(load())
+    plan["exercises"]["plank"]["muscles"] = ["core"]
+    plan["exercises"]["goblet_squat"]["muscles"] = []
+    assert validate_plan(plan, "de") == []
+    plan["exercises"]["plank"]["muscles"] = ["abs"]
+    errors = validate_plan(plan, "en")
+    assert errors and "muscle groups" in errors[0]

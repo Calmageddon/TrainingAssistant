@@ -1,0 +1,88 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  Eigener Trainingsplan – Beispiel zum Anpassen
+#  Alles hinter # ist Kommentar und wird ignoriert. Einrücken nur mit Leerzeichen.
+#  Ausführliche Anleitung: Knopf „Anleitung (.txt)“ über diesem Feld.
+# ─────────────────────────────────────────────────────────────────────────────
+
+schema_version: 1                  # immer 1
+name: Mein Plan                    # gleicher Name wie ein vorhandener Plan = dieser wird ersetzt
+description: Zwei Workouts im Wechsel, 3×/Woche.
+
+defaults:                          # gilt überall, wo nichts anderes steht
+  rest_s: 90                       # Pause zwischen Sätzen (Sekunden)
+  progression:                     # Vorschläge fürs nächste Training
+    type: double                   # double = erst Wdh. steigern, dann Gewicht (+increment_kg)
+    increment_kg: 2.5
+
+# ── 1) Übungen ───────────────────────────────────────────────────────────────
+#  ID (klein, ohne Leerzeichen) → Name. Über die ID wird dein Verlauf zugeordnet.
+#  Bilder kommen automatisch über den Namen; sonst image: <Bild-ID> oder image: false.
+exercises:
+  kniebeuge:
+    name: Kniebeuge
+    equipment: barbell             # bodyweight, dumbbell, kettlebell, barbell, band, machine, cable, other
+  liegestuetz:
+    name: Liegestütze
+    equipment: bodyweight
+  rudern:
+    name: Kurzhantelrudern einarmig
+    equipment: dumbbell
+    image: One-Arm_Dumbbell_Row
+  plank:
+    name: Plank
+    equipment: bodyweight
+  hampelmann:
+    name: Hampelmann
+    equipment: bodyweight
+    image: false
+
+# ── 2) Workouts ──────────────────────────────────────────────────────────────
+#  Werden reihum vorgeschlagen (A, B, A, …). Jedes Workout besteht aus Blöcken.
+workouts:
+  - id: a
+    name: Workout A
+    blocks:
+      - type: warmup               # Aufwärmen – endet per Knopf
+        note: 5 Minuten locker bewegen.
+
+      - type: sets                 # klassische Sätze einer Übung
+        exercise: kniebeuge
+        sets: 3
+        reps: { min: 8, max: 12 }  # Bereich – oder feste Zahl (8) oder max
+        weight_kg: 40              # weglassen = Körpergewicht
+        rest_after_s: 120          # Pause nach dem ganzen Block
+
+      - type: circuit              # Zirkel: alle Übungen nacheinander, mehrere Runden
+        name: Oberkörper-Zirkel
+        rounds: 3                  # oder time_cap_s: 300 = Runden bis die Zeit um ist
+        rest_after_exercise_s: 30
+        rest_after_round_s: 90
+        exercises:
+          - exercise: liegestuetz
+            reps: 10
+            progression: { type: reps }    # Körpergewicht: +1 Wdh. pro Training
+          - exercise: rudern
+            reps: { min: 8, max: 12 }
+            per_side: true                  # pro Arm
+            weight_kg: 14
+          - exercise: plank
+            duration_s: 45                  # Zeit statt Wiederholungen
+
+      - type: cooldown             # Cool Down
+
+  - id: b
+    name: Workout B
+    blocks:
+      - type: warmup
+      - type: sets
+        exercise: kniebeuge
+        sets: 5
+        reps: 5
+        weight_kg: 50
+        progression: { type: linear, increment_kg: 2.5 }   # alle 5×5 geschafft → +2,5 kg
+      - type: interval             # HIIT: zeitgesteuert, keine Wiederholungen
+        rounds: 8
+        work_s: 20
+        rest_s: 10
+        exercises: [hampelmann, liegestuetz]   # wechseln sich ab
+      - type: cooldown

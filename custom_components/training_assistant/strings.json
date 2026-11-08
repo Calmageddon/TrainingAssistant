@@ -1,0 +1,446 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "TrainingAssistant",
+        "description": "Set up TrainingAssistant. No devices are needed: buttons and voice satellites are connected later via automations."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "[%key:common::config_flow::abort::single_instance_allowed%]"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Voice settings",
+        "description": "The satellite is normally passed when a workout is started by voice. The default satellite is used for workouts started from a button or dashboard.",
+        "data": {
+          "default_satellite": "Default satellite",
+          "announce": "Announce exercises",
+          "ask_after_set": "Ask for reps/weight after each set",
+          "question_timeout": "Wait for an answer (seconds)",
+          "voice_language": "Voice language",
+          "notify_service": "Phone notification"
+        },
+        "data_description": {
+          "ask_after_set": "Pressing the button during the question means 'as planned'.",
+          "question_timeout": "No usable answer: the set is stored as 'unconfirmed' and can be fixed in the card.",
+          "voice_language": "Automatic = Home Assistant's language.",
+          "notify_service": "Notify service (e.g. mobile_app_…) for the end of rest and new records. Empty = off."
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "start": {
+        "name": "Start"
+      },
+      "next": {
+        "name": "Next"
+      },
+      "undo": {
+        "name": "Undo"
+      },
+      "pause": {
+        "name": "Pause / resume"
+      },
+      "skip": {
+        "name": "Skip"
+      },
+      "finish": {
+        "name": "Finish"
+      },
+      "abort": {
+        "name": "Abort"
+      },
+      "reps_up": {
+        "name": "Reps up"
+      },
+      "reps_down": {
+        "name": "Reps down"
+      },
+      "weight_up": {
+        "name": "Weight up"
+      },
+      "weight_down": {
+        "name": "Weight down"
+      },
+      "rest_longer": {
+        "name": "Rest longer (+15 s)"
+      },
+      "rest_shorter": {
+        "name": "Rest shorter (−15 s)"
+      }
+    },
+    "select": {
+      "next_workout": {
+        "name": "Next workout"
+      },
+      "program": {
+        "name": "Program"
+      },
+      "profile": {
+        "name": "Person"
+      }
+    },
+    "sensor": {
+      "status": {
+        "name": "Status",
+        "state": {
+          "idle": "Idle",
+          "ready": "Ready",
+          "active": "Training",
+          "interval": "HIIT",
+          "paused": "Paused"
+        }
+      },
+      "current_exercise": {
+        "name": "Current exercise"
+      },
+      "progress": {
+        "name": "Progress"
+      },
+      "last_set": {
+        "name": "Last set"
+      },
+      "workouts_this_week": {
+        "name": "Workouts this week"
+      },
+      "streak": {
+        "name": "Streak"
+      }
+    },
+    "number": {
+      "set_reps": {
+        "name": "Reps (current set)"
+      },
+      "set_weight": {
+        "name": "Weight (current set)"
+      }
+    },
+    "calendar": {
+      "calendar": {
+        "name": "Workouts"
+      }
+    }
+  },
+  "services": {
+    "start": {
+      "name": "Start workout",
+      "description": "Starts a workout. Without plan/workout the next workout in rotation is used.",
+      "fields": {
+        "plan_id": {
+          "name": "Plan ID",
+          "description": "ID of the plan (optional)."
+        },
+        "workout_id": {
+          "name": "Workout ID",
+          "description": "ID of the workout (optional)."
+        },
+        "satellite": {
+          "name": "Satellite",
+          "description": "Assist satellite for announcements and questions."
+        },
+        "device_id": {
+          "name": "Device ID",
+          "description": "Device of the satellite, e.g. {{ trigger.device_id }} in a voice automation."
+        },
+        "speak_intro": {
+          "name": "Speak intro",
+          "description": "Off when the intro is returned as conversation response instead."
+        }
+      }
+    },
+    "next": {
+      "name": "Next",
+      "description": "Set done / continue (like the button). Optionally with the actual values of the set – then without a question. Starts the next workout when idle.",
+      "fields": {
+        "reps": {
+          "name": "Reps",
+          "description": "Actual repetitions."
+        },
+        "weight_kg": {
+          "name": "Weight (kg)",
+          "description": "Actual weight."
+        },
+        "duration_s": {
+          "name": "Duration (s)",
+          "description": "Actual duration."
+        },
+        "effort": {
+          "name": "Effort",
+          "description": "How the set felt: easy, normal or hard. Hard = no increase next time, all easy = bigger step."
+        }
+      }
+    },
+    "undo": {
+      "name": "Undo",
+      "description": "Go back one step and discard the set logged there."
+    },
+    "skip": {
+      "name": "Skip",
+      "description": "Skip the current set, or the whole block if it has not started."
+    },
+    "pause": {
+      "name": "Pause / resume",
+      "description": "Pauses or resumes timers."
+    },
+    "finish": {
+      "name": "Finish workout",
+      "description": "Saves the workout and selects the next one."
+    },
+    "abort": {
+      "name": "Abort workout",
+      "description": "Ends the workout without moving to the next one.",
+      "fields": {
+        "keep": {
+          "name": "Keep sets",
+          "description": "Store sets logged so far."
+        }
+      }
+    },
+    "import_plan": {
+      "name": "Import plan",
+      "description": "Imports a training plan in YAML/JSON (format version 1). A plan with the same name is replaced.",
+      "fields": {
+        "plan": {
+          "name": "Plan",
+          "description": "Plan text in YAML or JSON."
+        }
+      }
+    },
+    "delete_plan": {
+      "name": "Delete plan",
+      "description": "Deletes a plan. History is kept.",
+      "fields": {
+        "plan_id": {
+          "name": "Plan ID",
+          "description": "ID of the plan."
+        }
+      }
+    },
+    "set_next_workout": {
+      "name": "Set next workout",
+      "description": "Selects which workout starts next.",
+      "fields": {
+        "plan_id": {
+          "name": "Plan ID",
+          "description": "ID of the plan."
+        },
+        "workout_id": {
+          "name": "Workout ID",
+          "description": "ID of the workout."
+        }
+      }
+    },
+    "log_set": {
+      "name": "Log set",
+      "description": "Sets values for the open question or the last set, e.g. from your own voice automation.",
+      "fields": {
+        "text": {
+          "name": "Text",
+          "description": "Spoken answer, e.g. '8 times 15 kilo' (German)."
+        },
+        "reps": {
+          "name": "Reps",
+          "description": "Repetitions."
+        },
+        "weight_kg": {
+          "name": "Weight (kg)",
+          "description": "Weight in kg."
+        },
+        "duration_s": {
+          "name": "Duration (s)",
+          "description": "Duration in seconds."
+        },
+        "effort": {
+          "name": "Effort",
+          "description": "How the set felt: easy, normal or hard. Hard = no increase next time, all easy = bigger step."
+        }
+      }
+    },
+    "edit_set": {
+      "name": "Edit set",
+      "description": "Changes a logged set afterwards.",
+      "fields": {
+        "session_id": {
+          "name": "Session ID",
+          "description": "Workout session; empty = current."
+        },
+        "set_id": {
+          "name": "Set ID",
+          "description": "ID of the set."
+        },
+        "reps": {
+          "name": "Reps",
+          "description": "Repetitions."
+        },
+        "weight_kg": {
+          "name": "Weight (kg)",
+          "description": "Weight in kg."
+        },
+        "duration_s": {
+          "name": "Duration (s)",
+          "description": "Duration in seconds."
+        },
+        "skipped": {
+          "name": "Skipped",
+          "description": "Mark the set as skipped."
+        },
+        "effort": {
+          "name": "Effort",
+          "description": "How the set felt: easy, normal or hard. Hard = no increase next time, all easy = bigger step."
+        }
+      }
+    },
+    "get_history": {
+      "name": "Get history",
+      "description": "Returns past workouts and suggestions per exercise.",
+      "fields": {
+        "limit": {
+          "name": "Limit",
+          "description": "Number of workouts."
+        }
+      }
+    },
+    "adjust": {
+      "name": "Adjust current set",
+      "description": "Changes reps (seconds for timed sets) or weight of the current set by steps. Used by 'Set done'.",
+      "fields": {
+        "field": {
+          "name": "Field",
+          "description": "reps or weight."
+        },
+        "steps": {
+          "name": "Steps",
+          "description": "Number of steps, negative = less."
+        }
+      }
+    },
+    "set_value": {
+      "name": "Set value of current set",
+      "description": "Sets reps (seconds for timed sets) or weight of the current set.",
+      "fields": {
+        "field": {
+          "name": "Field",
+          "description": "reps or weight."
+        },
+        "value": {
+          "name": "Value",
+          "description": "New value."
+        }
+      }
+    },
+    "set_program": {
+      "name": "Switch program",
+      "description": "Switches the active program. Continues with the workout where you left off.",
+      "fields": {
+        "plan_id": {
+          "name": "Plan ID",
+          "description": "ID of the plan."
+        }
+      }
+    },
+    "rest_adjust": {
+      "name": "Adjust rest",
+      "description": "Extends or shortens the running rest timer.",
+      "fields": {
+        "seconds": {
+          "name": "Seconds",
+          "description": "Positive = longer, negative = shorter."
+        }
+      }
+    },
+    "set_profile": {
+      "name": "Switch person",
+      "description": "Who is training? Every person has their own history, suggestions and program position. Not possible during a workout.",
+      "fields": {
+        "profile": {
+          "name": "Person",
+          "description": "Name or ID of the person."
+        }
+      }
+    },
+    "get_stats": {
+      "name": "Get statistics",
+      "description": "Week, streak, training time, sets per muscle group, recovery and recent records of the active person."
+    }
+  },
+  "selector": {
+    "voice_language": {
+      "options": {
+        "auto": "Automatic",
+        "en": "English",
+        "de": "Deutsch"
+      }
+    },
+    "effort": {
+      "options": {
+        "easy": "Easy",
+        "normal": "Normal",
+        "hard": "Hard"
+      }
+    }
+  },
+  "exceptions": {
+    "not_set_up": {
+      "message": "TrainingAssistant is not set up"
+    },
+    "template_not_found": {
+      "message": "Template '{template}' does not exist"
+    },
+    "plan_not_found": {
+      "message": "Plan '{plan}' does not exist"
+    },
+    "workout_not_found": {
+      "message": "Workout '{workout}' does not exist in '{plan}'"
+    },
+    "session_not_found": {
+      "message": "Workout session '{session}' does not exist"
+    },
+    "set_not_found": {
+      "message": "Set {set} does not exist"
+    },
+    "no_training": {
+      "message": "No workout is running"
+    },
+    "no_plan": {
+      "message": "No training plan yet – please import a plan first"
+    },
+    "already_running": {
+      "message": "A workout is already running – finish or abort it first"
+    },
+    "no_active_set": {
+      "message": "There is no running set that can be adjusted"
+    },
+    "no_weight": {
+      "message": "This exercise has no weight"
+    },
+    "no_sets_yet": {
+      "message": "No set has been logged in this workout yet"
+    },
+    "invalid_plan": {
+      "message": "Plan is invalid:\n{errors}"
+    },
+    "profile_not_found": {
+      "message": "Person '{profile}' does not exist"
+    },
+    "profile_busy": {
+      "message": "Finish or abort the running workout before switching person"
+    },
+    "profile_exists": {
+      "message": "A person named '{profile}' already exists"
+    },
+    "profile_name_missing": {
+      "message": "Please enter a name"
+    },
+    "profile_delete_active": {
+      "message": "The active person cannot be deleted – switch to someone else first"
+    },
+    "user_not_found": {
+      "message": "This Home Assistant user does not exist"
+    }
+  }
+}

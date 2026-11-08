@@ -1,0 +1,61 @@
+# Template: Full body at home with dumbbells, 3×/week (A/B alternating).
+# Every muscle group 3×/week, 3 sets each → about 9–12 sets per muscle per week.
+schema_version: 1
+name: Full Body at Home (Dumbbells)
+description: >-
+  Two alternating full-body workouts, 3×/week, dumbbells and a bench/floor only. Double
+  progression in the 8–12 or 10–15 rep range.
+goal: hypertrophy
+defaults:
+  rest_s: 90
+  progression: { type: double, increment_kg: 2 }
+exercises:
+  goblet_squat: { name: Goblet Squat, equipment: dumbbell }
+  db_bench_press: { name: Dumbbell Bench Press, aliases: [Kurzhantel-Bankdrücken], equipment: dumbbell, image: Dumbbell_Bench_Press }
+  dumbbell_row: { name: One-Arm Dumbbell Row, aliases: [Kurzhantelrudern einarmig], equipment: dumbbell, image: One-Arm_Dumbbell_Row }
+  db_romanian_deadlift: { name: Dumbbell Romanian Deadlift, aliases: [Rumänisches Kreuzheben Kurzhantel], equipment: dumbbell, image: Stiff-Legged_Dumbbell_Deadlift }
+  db_shoulder_press: { name: Dumbbell Shoulder Press, aliases: [Schulterdrücken Kurzhantel], equipment: dumbbell, image: Dumbbell_Shoulder_Press }
+  split_squat: { name: Split Squat, aliases: [Ausfallschritt stehend], equipment: dumbbell, image: Split_Squat_with_Dumbbells }
+  push_up: { name: Push-Ups, aliases: [Liegestütze], equipment: bodyweight, image: Pushups }
+  db_floor_press: { name: Dumbbell Floor Press, aliases: [Bodendrücken Kurzhantel], equipment: dumbbell, image: Dumbbell_Floor_Press }
+  glute_bridge: { name: Glute Bridge, aliases: [Hüftheben], equipment: dumbbell, image: Butt_Lift_Bridge }
+  lateral_raise: { name: Lateral Raise, aliases: [Seitheben], equipment: dumbbell, image: Side_Lateral_Raise }
+  db_curl: { name: Dumbbell Curl, aliases: [Bizepscurls Kurzhantel], equipment: dumbbell, image: Dumbbell_Bicep_Curl }
+  plank: { name: Plank, aliases: [Unterarmstütz], equipment: bodyweight }
+  dead_bug: { name: Dead Bug, equipment: bodyweight }
+workouts:
+  - id: a
+    name: Full Body A
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: goblet_squat, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 16 }
+      - { type: sets, exercise: db_bench_press, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 14 }
+      - { type: sets, exercise: dumbbell_row, sets: 3, reps: { min: 8, max: 12 }, per_side: true, weight_kg: 14 }
+      - { type: sets, exercise: db_romanian_deadlift, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 16 }
+      - type: circuit
+        name: Shoulders & Core
+        rounds: 3
+        rest_after_exercise_s: 30
+        rest_after_round_s: 60
+        exercises:
+          - { exercise: db_shoulder_press, reps: { min: 10, max: 15 }, weight_kg: 10 }
+          - { exercise: plank, duration_s: { min: 30, max: 60 } }
+      - { type: cooldown }
+  - id: b
+    name: Full Body B
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: split_squat, sets: 3, reps: { min: 8, max: 12 }, per_side: true, weight_kg: 10 }
+      - { type: sets, exercise: push_up, sets: 3, reps: { min: 8, max: 20 }, progression: { type: reps } }
+      - { type: sets, exercise: db_floor_press, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 14 }
+      - { type: sets, exercise: glute_bridge, sets: 3, reps: { min: 10, max: 15 }, weight_kg: 16 }
+      - type: circuit
+        name: Arms & Core
+        rounds: 3
+        rest_after_exercise_s: 30
+        rest_after_round_s: 60
+        exercises:
+          - { exercise: lateral_raise, reps: { min: 12, max: 15 }, weight_kg: 6, progression: { type: double, increment_kg: 1 } }
+          - { exercise: db_curl, reps: { min: 10, max: 15 }, weight_kg: 8 }
+          - { exercise: dead_bug, reps: 10, per_side: true, progression: { type: reps, max_reps: 15 } }
+      - { type: cooldown }

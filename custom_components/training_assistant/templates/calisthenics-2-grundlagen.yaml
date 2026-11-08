@@ -1,0 +1,72 @@
+# Template: Calisthenics Basics – inspired by the r/bodyweightfitness "Recommended Routine".
+# Full body 3×/week. Exercises in pairs (alternating, 3 rounds), 5–8 reps, 90 s rest.
+# Pick the level for each exercise at which you can do 3×5 cleanly. Once you reach 3×8 → next
+# level (see hint on the exercise) and adjust the name in the plan.
+schema_version: 1
+name: Calisthenics Basics
+description: >-
+  Full body 3×/week in pairs: pull-up + squat, dip + hinge, row + push-up, then a core
+  triplet. 5–8 reps; at the upper limit switch to the next level.
+  Inspired by the r/bodyweightfitness Recommended Routine.
+goal: hypertrophy
+defaults:
+  rest_s: 90
+  progression: { type: reps }
+exercises:
+  pull_up: { name: Pull-up (choose level), aliases: [Klimmzug], equipment: bodyweight, image: Pullups,
+             note: "Levels – negative pull-ups → band-assisted → pull-up → weighted." }
+  squat_progression: { name: Squat Progression, aliases: [Kniebeuge-Progression], equipment: bodyweight, image: Split_Squats,
+                       note: "Levels – squat → split squat → Bulgarian split squat → shrimp/pistol." }
+  dip: { name: Dips (choose level), aliases: [Dips], equipment: bodyweight, image: Parallel_Bar_Dip,
+         note: "Levels – support hold → negative dips → parallel bar dips → weighted." }
+  hinge_progression: { name: Hinge Progression, aliases: [Hüftstrecker-Progression], equipment: bodyweight, image: Single_Leg_Glute_Bridge,
+                       note: "Levels – glute bridge → single-leg → Nordic curl negative → Nordic curl." }
+  row: { name: Inverted Row, aliases: [Rudern an der Stange], equipment: bodyweight,
+         note: "Levels – upright → flat → feet elevated → one-arm/archer." }
+  push_up: { name: Push-Ups (choose level), aliases: [Liegestütze], equipment: bodyweight, image: Pushups,
+             note: "Levels – wall → incline → knees → full → diamond → archer." }
+  hanging_knee_raise: { name: Hanging Knee Raise, aliases: [Beinheben hängend], equipment: bodyweight, image: Hanging_Leg_Raise }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge }
+  superman: { name: Superman, aliases: [Rückenstrecker liegend], equipment: bodyweight, image: Superman }
+workouts:
+  - id: a
+    name: Basics
+    blocks:
+      - { type: warmup, note: "Dynamic: arm/hip circles, squats, push-up plank, hanging from the bar." }
+      - type: circuit
+        name: Pair 1 – Pull & Legs
+        rounds: 3
+        rest_after_exercise_s: 90
+        rest_after_round_s: 90
+        rest_after_s: 60
+        exercises:
+          - { exercise: pull_up, reps: { min: 5, max: 8 } }
+          - { exercise: squat_progression, reps: { min: 5, max: 8 }, per_side: true }
+      - type: circuit
+        name: Pair 2 – Push & Hinge
+        rounds: 3
+        rest_after_exercise_s: 90
+        rest_after_round_s: 90
+        rest_after_s: 60
+        exercises:
+          - { exercise: dip, reps: { min: 5, max: 8 } }
+          - { exercise: hinge_progression, reps: { min: 5, max: 8 } }
+      - type: circuit
+        name: Pair 3 – Row & Push-up
+        rounds: 3
+        rest_after_exercise_s: 90
+        rest_after_round_s: 90
+        rest_after_s: 60
+        exercises:
+          - { exercise: row, reps: { min: 5, max: 8 } }
+          - { exercise: push_up, reps: { min: 5, max: 8 } }
+      - type: circuit
+        name: Core
+        rounds: 3
+        rest_after_exercise_s: 30
+        rest_after_round_s: 60
+        exercises:
+          - { exercise: hanging_knee_raise, reps: { min: 8, max: 12 } }
+          - { exercise: side_plank, duration_s: { min: 20, max: 45 }, per_side: true }
+          - { exercise: superman, reps: { min: 8, max: 12 } }
+      - { type: cooldown }

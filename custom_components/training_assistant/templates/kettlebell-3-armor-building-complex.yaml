@@ -1,0 +1,33 @@
+# Template: Armor Building Complex – protocol by Dan John.
+# Two kettlebells: 2 cleans, 1 press, 3 front squats = one round. Classically one round
+# every minute (EMOM), rest for the remainder of the minute, 20 minutes. Here: circuit with a
+# 20-minute time cap; after each round rest until the next full minute.
+schema_version: 1
+name: Kettlebell Armor Building Complex
+description: >-
+  2 cleans, 1 press, 3 front squats with two kettlebells, one round every minute for 20
+  minutes. Weight – something you can press 3–5×. Protocol by Dan John.
+goal: strength
+defaults:
+  rest_s: 0
+  progression: { type: none }
+exercises:
+  kb_double_clean: { name: Double Kettlebell Clean, aliases: [Clean (zwei Kugeln)], equipment: kettlebell, image: Double_Kettlebell_Alternating_Hang_Clean }
+  kb_double_press: { name: Double Kettlebell Press, aliases: [Press (zwei Kugeln)], equipment: kettlebell, image: Two-Arm_Kettlebell_Military_Press }
+  kb_double_front_squat: { name: Double Kettlebell Front Squat, aliases: [Front Squat (zwei Kugeln)], equipment: kettlebell, image: Front_Squats_With_Two_Kettlebells }
+workouts:
+  - id: abc
+    name: Armor Building Complex
+    blocks:
+      - { type: warmup, note: A few easy rounds with half the weight. }
+      - type: circuit
+        name: ABC – 20 minutes
+        time_cap_s: 1200
+        rest_after_exercise_s: 0
+        rest_after_round_s: 30
+        note: One round every minute, rest for the remainder of the minute.
+        exercises:
+          - { exercise: kb_double_clean, reps: 2, weight_kg: 16 }
+          - { exercise: kb_double_press, reps: 1, weight_kg: 16 }
+          - { exercise: kb_double_front_squat, reps: 3, weight_kg: 16 }
+      - { type: cooldown }

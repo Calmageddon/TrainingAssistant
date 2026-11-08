@@ -1,0 +1,4 @@
+# Lokale Entwicklung und Test-Instanz (nicht Teil der Integration selbst)
+homeassistant
+jsonschema
+pyyaml

@@ -1,0 +1,80 @@
+# Template: Push/Pull/Legs – inspired by the r/Fitness "PPL for beginners".
+# Three workouts alternating, ideally 6×/week (every muscle group 2×), also works 3–4×/week.
+# Main lifts linear, accessory exercises with double progression.
+schema_version: 1
+name: Push/Pull/Legs
+description: >-
+  Hypertrophy split with push, pull and leg days alternating, up to 6×/week. One heavy main
+  lift per day, then volume with 8–12 or 15–20 reps. Inspired by the r/Fitness PPL.
+goal: hypertrophy
+defaults:
+  rest_s: 90
+  progression: { type: double, increment_kg: 2.5 }
+exercises:
+  bench_press: { name: Bench Press, aliases: [Bankdrücken], equipment: barbell }
+  overhead_press: { name: Overhead Press, aliases: [Schulterdrücken stehend], equipment: barbell, image: Standing_Military_Press }
+  incline_db_press: { name: Incline Dumbbell Press, aliases: [Schrägbankdrücken Kurzhantel], equipment: dumbbell, image: Incline_Dumbbell_Press }
+  triceps_pushdown: { name: Triceps Pushdown, aliases: [Trizepsdrücken am Kabel], equipment: cable, image: Triceps_Pushdown }
+  overhead_triceps: { name: Overhead Triceps Extension, aliases: [Trizeps über Kopf], equipment: cable, image: Cable_Rope_Overhead_Triceps_Extension }
+  lateral_raise: { name: Lateral Raise, aliases: [Seitheben], equipment: dumbbell, image: Side_Lateral_Raise }
+  deadlift: { name: Deadlift, aliases: [Kreuzheben], equipment: barbell, image: Barbell_Deadlift }
+  lat_pulldown: { name: Lat Pulldown, aliases: [Latziehen], equipment: cable, image: Wide-Grip_Lat_Pulldown }
+  cable_row: { name: Seated Cable Row, aliases: [Rudern am Kabel], equipment: cable, image: Seated_Cable_Rows }
+  face_pull: { name: Face Pulls, equipment: cable, image: Face_Pull }
+  hammer_curl: { name: Hammer Curl, aliases: [Hammercurls], equipment: dumbbell, image: Hammer_Curls }
+  db_curl: { name: Dumbbell Curl, aliases: [Bizepscurls Kurzhantel], equipment: dumbbell, image: Dumbbell_Bicep_Curl }
+  back_squat: { name: Back Squat, aliases: [Kniebeuge], equipment: barbell, image: Barbell_Squat }
+  romanian_deadlift: { name: Romanian Deadlift, aliases: [Rumänisches Kreuzheben], equipment: barbell, image: Romanian_Deadlift }
+  leg_press: { name: Leg Press, aliases: [Beinpresse], equipment: machine, image: Leg_Press }
+  leg_curl: { name: Leg Curl, aliases: [Beinbeuger], equipment: machine, image: Lying_Leg_Curls }
+  calf_raise: { name: Calf Raise, aliases: [Wadenheben], equipment: machine, image: Standing_Calf_Raises }
+workouts:
+  - id: push
+    name: Push
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: bench_press, sets: 5, reps: 5, weight_kg: 40, rest_s: 180,
+          progression: { type: linear, increment_kg: 2.5 } }
+      - { type: sets, exercise: overhead_press, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 25 }
+      - { type: sets, exercise: incline_db_press, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 14,
+          progression: { type: double, increment_kg: 2 } }
+      - type: circuit
+        name: Arms & Shoulders
+        rounds: 3
+        rest_after_exercise_s: 30
+        rest_after_round_s: 60
+        exercises:
+          - { exercise: triceps_pushdown, reps: { min: 8, max: 12 }, weight_kg: 20 }
+          - { exercise: lateral_raise, reps: { min: 15, max: 20 }, weight_kg: 6, progression: { type: double, increment_kg: 1 } }
+          - { exercise: overhead_triceps, reps: { min: 8, max: 12 }, weight_kg: 15 }
+      - { type: cooldown }
+  - id: pull
+    name: Pull
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: deadlift, sets: 1, reps: 5, weight_kg: 60, rest_s: 180,
+          progression: { type: linear, increment_kg: 5 }, note: "One heavy set, as clean as possible." }
+      - { type: sets, exercise: lat_pulldown, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 35 }
+      - { type: sets, exercise: cable_row, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 35 }
+      - { type: sets, exercise: face_pull, sets: 5, reps: { min: 15, max: 20 }, weight_kg: 10, rest_s: 60 }
+      - type: circuit
+        name: Biceps
+        rounds: 4
+        rest_after_exercise_s: 30
+        rest_after_round_s: 60
+        exercises:
+          - { exercise: hammer_curl, reps: { min: 8, max: 12 }, weight_kg: 10, progression: { type: double, increment_kg: 2 } }
+          - { exercise: db_curl, reps: { min: 8, max: 12 }, weight_kg: 8, progression: { type: double, increment_kg: 2 } }
+      - { type: cooldown }
+  - id: legs
+    name: Legs
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: back_squat, sets: 3, reps: 5, weight_kg: 50, rest_s: 180,
+          progression: { type: linear, increment_kg: 2.5 } }
+      - { type: sets, exercise: romanian_deadlift, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 40, rest_s: 120 }
+      - { type: sets, exercise: leg_press, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 80, progression: { type: double, increment_kg: 5 } }
+      - { type: sets, exercise: leg_curl, sets: 3, reps: { min: 8, max: 12 }, weight_kg: 25 }
+      - { type: sets, exercise: calf_raise, sets: 5, reps: { min: 8, max: 12 }, weight_kg: 40, rest_s: 60,
+          progression: { type: double, increment_kg: 5 } }
+      - { type: cooldown }

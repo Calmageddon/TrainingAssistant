@@ -1,0 +1,56 @@
+blueprint:
+  name: TrainingAssistant – Start a workout by voice
+  description: >
+    Starts the next workout when one of the sentences is said to a voice satellite
+    (e.g. "Hey Jarvis, training protocol"). Announcements and questions then go through
+    exactly the satellite that heard the command. The greeting is spoken as the voice
+    assistant's reply. English and German sentences are included by default – adjust the
+    replies below to the language of your voice assistant.
+  domain: automation
+  source_url: https://github.com/Calmageddon/TrainingAssistant/blob/main/blueprints/automation/training_assistant/voice_start.yaml
+  input:
+    sentences:
+      name: Sentences
+      description: One sentence per line. Square brackets = optional, e.g. "start [the] workout".
+      default:
+        - Training Protocol
+        - "start [the|my] workout"
+        - "start [the|my] training"
+        - "[das] Training starten"
+        - Starte [das] Training
+      selector:
+        text:
+          multiple: true
+    reply_prefix:
+      name: Reply before the greeting
+      description: 'Spoken before the workout greeting, e.g. "Very well." (German: "Sehr wohl.").'
+      default: Very well.
+      selector:
+        text:
+    error_reply:
+      name: Reply if the workout cannot start
+      description: 'German: "Das Training kann gerade nicht starten. Läuft schon eines, oder fehlt ein Plan?"'
+      default: The workout can't start right now. Is one already running, or is a plan missing?
+      selector:
+        text:
+
+mode: single
+
+variables:
+  reply_prefix: !input reply_prefix
+  error_reply: !input error_reply
+
+triggers:
+  - trigger: conversation
+    command: !input sentences
+
+actions:
+  - action: training_assistant.start
+    data:
+      device_id: "{{ trigger.device_id }}"
+      speak_intro: false
+    response_variable: result
+    continue_on_error: true
+  - set_conversation_response: >-
+      {% if result is defined and result and result.announcement %}{{ reply_prefix }} {{ result.announcement }}
+      {%- else %}{{ error_reply }}{% endif %}

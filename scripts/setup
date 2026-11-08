@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Einmalig: Python-Umgebung für die lokale Home-Assistant-Testinstanz anlegen.
+# Braucht "uv" (brew install uv). uv lädt die passende Python-Version selbst herunter.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+# Neuere Home-Assistant-Versionen verlangen ein aktuelles Python.
+# Falls die Installation daran scheitert, hier die Version anpassen.
+PYTHON_VERSION="${PYTHON_VERSION:-3.14}"
+
+uv venv --python "$PYTHON_VERSION" .venv
+uv pip install --python .venv -r requirements-dev.txt
+echo "Fertig. Starten mit: scripts/develop"

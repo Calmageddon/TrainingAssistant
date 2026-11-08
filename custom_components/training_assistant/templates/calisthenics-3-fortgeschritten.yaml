@@ -1,0 +1,87 @@
+# Template: Calisthenics Advanced – for anyone who can do 3×8 pull-ups, dips and push-ups.
+# Three workouts alternating (pull/push, legs/core, skills), 3–4×/week.
+schema_version: 1
+name: Calisthenics Advanced
+description: >-
+  For advanced trainees (3×8 pull-ups and dips). Three workouts: pull & push, legs & core,
+  skills (muscle-up, handstand push-up, L-sit). Rep progression, added weight optional.
+goal: hypertrophy
+defaults:
+  rest_s: 120
+  progression: { type: reps }
+exercises:
+  pull_up: { name: Pull-ups, aliases: [Klimmzüge], equipment: bodyweight, image: Pullups }
+  dip: { name: Parallel Bar Dips, aliases: [Dips am Barren, Dips], equipment: bodyweight, image: Parallel_Bar_Dip }
+  archer_push_up: { name: Archer Push-up, aliases: [Archer-Liegestütze], equipment: bodyweight, image: Push-Up_Wide }
+  feet_elevated_row: { name: Feet-Elevated Inverted Row, aliases: [Rudern mit erhöhten Füßen], equipment: bodyweight, image: Inverted_Row }
+  chin_up: { name: Chin-up, aliases: [Klimmzüge Untergriff], equipment: bodyweight, image: Chin-Up }
+  decline_push_up: { name: Decline Push-up, aliases: [Liegestütze Füße erhöht], equipment: bodyweight, image: Push-Ups_With_Feet_Elevated }
+  pistol_progression: { name: Pistol Squat Progression, aliases: [Pistol-Squat-Progression, Pistol Squat], equipment: bodyweight, image: Kettlebell_Pistol_Squat,
+                        note: "Levels – onto a box → with support → free." }
+  nordic_curl: { name: Nordic Curl (Negative), aliases: [Nordic Hamstring Curl], equipment: bodyweight, image: Natural_Glute_Ham_Raise,
+                 note: "Lower as slowly as possible, catch yourself with your hands." }
+  bulgarian_split_squat: { name: Bulgarian Split Squat, aliases: [Bulgarische Kniebeuge], equipment: bodyweight, image: Split_Squat_with_Dumbbells }
+  single_leg_glute_bridge: { name: Single-Leg Glute Bridge, aliases: [Hüftheben einbeinig], equipment: bodyweight }
+  hanging_leg_raise: { name: Hanging Leg Raise, aliases: [Beinheben hängend gestreckt], equipment: bodyweight }
+  l_sit: { name: L-Sit, equipment: bodyweight, note: "Levels – knees tucked → one leg straight → both straight." }
+  muscle_up: { name: Muscle-up Practice, aliases: [Muscle-up], equipment: bodyweight, image: Muscle_Up,
+               note: "Levels – explosive chest-to-bar pull-ups → negative muscle-ups → muscle-up." }
+  pike_push_up: { name: Handstand Push-up Progression, aliases: [Pike Push-up, Handstand Push-up], equipment: bodyweight,
+                  image: Handstand_Push-Ups, note: "Levels – pike push-up → feet elevated → against the wall." }
+workouts:
+  - id: push_pull
+    name: Pull & Push
+    blocks:
+      - { type: warmup }
+      - type: circuit
+        name: Pair 1
+        rounds: 4
+        rest_after_exercise_s: 90
+        rest_after_round_s: 90
+        rest_after_s: 60
+        exercises:
+          - { exercise: pull_up, reps: { min: 6, max: 12 } }
+          - { exercise: dip, reps: { min: 8, max: 15 } }
+      - type: circuit
+        name: Pair 2
+        rounds: 3
+        rest_after_exercise_s: 60
+        rest_after_round_s: 90
+        exercises:
+          - { exercise: feet_elevated_row, reps: { min: 8, max: 15 } }
+          - { exercise: archer_push_up, reps: { min: 4, max: 10 }, per_side: true }
+      - type: circuit
+        name: Pair 3
+        rounds: 3
+        rest_after_exercise_s: 60
+        rest_after_round_s: 90
+        exercises:
+          - { exercise: chin_up, reps: { min: 6, max: 12 } }
+          - { exercise: decline_push_up, reps: { min: 10, max: 20 } }
+      - { type: cooldown }
+  - id: legs_core
+    name: Legs & Core
+    blocks:
+      - { type: warmup }
+      - { type: sets, exercise: pistol_progression, sets: 4, reps: { min: 3, max: 8 }, per_side: true }
+      - { type: sets, exercise: nordic_curl, sets: 3, reps: { min: 3, max: 6 }, rest_s: 150 }
+      - { type: sets, exercise: bulgarian_split_squat, sets: 3, reps: { min: 10, max: 15 }, per_side: true, rest_s: 90 }
+      - { type: sets, exercise: single_leg_glute_bridge, sets: 3, reps: { min: 10, max: 15 }, per_side: true, rest_s: 60 }
+      - type: circuit
+        name: Core
+        rounds: 3
+        rest_after_exercise_s: 45
+        rest_after_round_s: 60
+        exercises:
+          - { exercise: hanging_leg_raise, reps: { min: 6, max: 12 } }
+          - { exercise: l_sit, duration_s: { min: 10, max: 30 } }
+      - { type: cooldown }
+  - id: skills
+    name: Skills
+    blocks:
+      - { type: warmup, note: Warm up wrists and shoulders thoroughly. }
+      - { type: sets, exercise: muscle_up, sets: 5, reps: { min: 2, max: 5 }, rest_s: 150 }
+      - { type: sets, exercise: pike_push_up, sets: 4, reps: { min: 5, max: 10 }, rest_s: 120 }
+      - { type: sets, exercise: l_sit, sets: 4, duration_s: max, rest_s: 60 }
+      - { type: sets, exercise: pull_up, name: Volume, sets: 3, reps: max, rest_s: 90 }
+      - { type: cooldown }
