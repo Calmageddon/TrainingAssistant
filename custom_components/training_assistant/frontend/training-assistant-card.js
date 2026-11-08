@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.4.5";
+const CARD_VERSION = "0.4.6";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -868,12 +868,14 @@ class TrainingAssistantCard extends HTMLElement {
     } else if (step.type === "interval" && step.block_type === "flow") {
       // Flow: aktuelle Haltung groß, Countdown, beim Wechsel die nächste Haltung
       main = `<div class="ex">${esc(iv ? iv.exercise || "" : [...new Set(step.exercise_names)].join(" · "))}</div>
-        ${iv ? `<div class="iv flow ${iv.phase}">${iv.phase === "work" ? `${iv.round}/${iv.rounds}` : t("flow_switch")} · <span data-until="${esc(iv.ends_at)}"></span></div>`
+        ${iv ? `<div class="iv flow ${iv.phase}"><span class="iv-lbl">${iv.phase === "work" ? `${iv.round}/${iv.rounds}` : t("flow_switch")}</span>
+                <span class="iv-time" data-until="${esc(iv.ends_at)}"></span></div>`
              : `<div class="tgt big">${esc(t("pv_flow", { n: (step.segments || []).length, m: Math.max(1, Math.round((step.total_s || 0) / 60)) }))}</div>`}`;
     } else if (step.type === "interval") {
       main = `<div class="ex">${esc(iv ? iv.exercise || "" : step.exercise_names.join(" / "))}</div>
-        <div class="tgt big">${step.rounds}× ${step.work_s} s / ${step.rest_s} s</div>
-        ${iv ? `<div class="iv ${iv.phase}">${iv.phase === "work" ? t("iv_work") : t("iv_rest")} · ${t("pos_round_of", { r: iv.round, n: iv.rounds })} · <span data-until="${esc(iv.ends_at)}"></span></div>` : ""}`;
+        ${iv ? `<div class="iv ${iv.phase}"><span class="iv-lbl">${iv.phase === "work" ? t("iv_work") : t("iv_rest")} · ${t("pos_round_of", { r: iv.round, n: iv.rounds })}</span>
+                <span class="iv-time" data-until="${esc(iv.ends_at)}"></span></div>`
+             : `<div class="tgt big">${step.rounds}× ${step.work_s} s / ${step.rest_s} s</div>`}`;
     } else {
       // Aufwärmen / Cool Down: nur ein großer Titel, kein zusätzliches Etikett
       main = `<div class="ex">${esc(blockTitle(step.block_type, step.block_name))}</div>${step.duration_s ? `<div class="muted">${mmss(step.duration_s)} min</div>` : ""}`;
@@ -1008,21 +1010,23 @@ class TrainingAssistantCard extends HTMLElement {
         const label = STATUS[x.status] ? t(`st_${x.status}`) : x.status;
         const ed = this._editing;
         if (ed && ed.set_id === x.id && (ed.session_id || null) === (sessionId || null)) {
-          return `<tr class="editing"><td colspan="3">
-            <div class="ename">${esc(x.exercise_name)} · ${esc(position(x))}</div>
-            <div class="row edit">
+          // Bearbeiten: eigener Kasten mit Luft – Werte, „Wie war's?“, dann Speichern groß, Nebenaktionen darunter
+          return `<tr class="editing"><td colspan="3"><div class="edit-panel">
+            <div class="ename">${esc(x.exercise_name)}${position(x) ? ` <span class="muted">· ${esc(position(x))}</span>` : ""}</div>
+            <div class="edit-fields">
               ${ed.timed ? `<label>${t("a_seconds")}<input data-field="duration_s" inputmode="numeric" value="${esc(ed.duration_s)}"></label>`
                          : `<label>${t("a_reps")}<input data-field="reps" inputmode="numeric" value="${esc(ed.reps)}"></label>`}
               <label>kg<input data-field="weight_kg" inputmode="decimal" value="${esc(ed.weight_kg)}"></label>
             </div>
-            <div class="row effort">${["easy", "normal", "hard"]
+            <div class="edit-lbl">${t("ef_last")}</div>
+            <div class="edit-effort">${["easy", "normal", "hard"]
               .map((v) => `<button class="chip-btn ef-${v} ${ed.effort === v ? "on" : ""}" data-a="ed-effort" data-v="${v}">${t(`ef_${v}`)}</button>`)
               .join("")}</div>
-            <div class="row btns">
-              <button class="btn primary" data-a="edit-save">${t("e_save")}</button>
+            <button class="btn primary edit-save" data-a="edit-save">${t("e_save")}</button>
+            <div class="edit-sec">
               <button class="btn" data-a="edit-skip">${t("e_skipped")}</button>
               <button class="btn" data-a="edit-cancel">${t("e_cancel")}</button>
-            </div></td></tr>`;
+            </div></div></td></tr>`;
         }
         return `<tr data-a="edit" data-set="${x.id}" ${sessionId ? `data-session="${esc(sessionId)}"` : ""}>
           <td>${esc(x.exercise_name)}<div class="muted small">${esc(position(x))}</div></td>
@@ -1800,6 +1804,29 @@ const STYLE = `
   .timer.st-rest .tbtn { text-transform: none; letter-spacing: 0; }
   .trophy { font-size: .95em; }
   :host { --ta-gold: #e8b44f; }
+  /* Laufendes Intervall/Flow: Phase und Runde klein, Countdown groß */
+  .iv { display: flex; flex-direction: column; align-items: center; gap: 0; line-height: 1.15; }
+  .iv-lbl { font-size: .8em; letter-spacing: .03em; }
+  .iv-time { font-size: 1.7em; font-variant-numeric: tabular-nums; }
+  @container (max-width: 560px) {
+    .current.t-interval, .current.t-flow { height: auto; min-height: 132px; }
+    .current.t-interval .ex, .current.t-flow .ex { font-size: 1.2em; }
+    .iv-time { font-size: 1.5em; }
+  }
+  /* Satz bearbeiten (laufendes Training und Verlauf) */
+  tr.editing > td { padding: 8px 0 12px; }
+  .edit-panel { display: flex; flex-direction: column; gap: 12px; padding: 14px; border-radius: 12px; max-width: 480px;
+                background: var(--secondary-background-color); border: 1px solid var(--divider-color); }
+  .edit-panel .ename { margin: 0; font-size: 1.05em; }
+  .edit-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .edit-fields label { display: flex; flex-direction: column; gap: 4px; font-size: .8em; color: var(--secondary-text-color); }
+  .edit-fields input { font-size: 1.25em; padding: 10px 12px; border-radius: 10px; width: 100%; box-sizing: border-box; }
+  .edit-lbl { font-size: .8em; color: var(--secondary-text-color); margin-bottom: -6px; }
+  .edit-effort { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .edit-effort .chip-btn { padding: 10px 4px; text-align: center; }
+  .edit-panel .edit-save { width: 100%; padding: 13px; font-weight: 600; }
+  .edit-sec { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: -4px; }
+  .edit-sec .btn { padding: 10px 6px; }
   /* Übungsverlauf auf schmalen Bildschirmen: eine Karte pro Übung statt vier Spalten */
   @container (max-width: 560px) {
     .ex-table, .ex-table tbody, .ex-table tr, .ex-table td { display: block; width: 100%; box-sizing: border-box; }
