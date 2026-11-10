@@ -20,7 +20,6 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
 from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers import entity_registry as er
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.event import async_call_later
 from homeassistant.helpers.storage import Store
@@ -39,7 +38,6 @@ from .const import (
     DEFAULT_QUESTION_TIMEOUT,
     DOMAIN,
     EVENT_NAME,
-    IMAGES_DIR,
     PHASE_INTERVAL,
     PHASE_READY,
     SET_CONFIRMED,
@@ -63,7 +61,7 @@ from .plan import (
     rep_bounds,
     slugify,
 )
-from .images import SOURCE_URL, Catalog, map_plan
+from .images import DEFAULT_FIGURE, FIGURES, Catalog, Pictos, map_pictos, map_plan
 from .phrases import Speech, normalize_lang
 from .progression import suggest
 from .spoken import parse_answer
@@ -100,8 +98,7 @@ class TrainingManager:
         self._rest_unsub: CALLBACK_TYPE | None = None
         self._block_unsub: CALLBACK_TYPE | None = None
         self._catalog: Catalog | None = None
-        self._image_task: asyncio.Task | None = None
-        self.image_dir = Path(hass.config.path(IMAGES_DIR))
+        self._pictos: Pictos | None = None
         self._groups_cache: dict[tuple[str | None, str], list[str]] = {}
 
     # ------------------------------------------------------------------
@@ -113,6 +110,7 @@ class TrainingManager:
         if stored:
             self.data.update(stored)
         self._catalog = await self.hass.async_add_executor_job(Catalog.load)
+        self._pictos = await self.hass.async_add_executor_job(Pictos.load)
         if "profiles" not in self.data:
             # Vor den Profilen: der bisherige Verlauf wird das erste Profil (Name des Besitzers)
             owner = await self.hass.auth.async_get_owner()
@@ -127,6 +125,8 @@ class TrainingManager:
         for stored_plan in self.data["plans"].values():
             if "images" not in stored_plan:  # Pläne von vor der Bildfunktion
                 stored_plan["images"] = map_plan(stored_plan["data"], self._catalog)
+            # Bilder bei jedem Start neu zuordnen: So bekommen auch alte Pläne neue Bilder
+            stored_plan["pictos"] = map_pictos(stored_plan["data"], self._pictos, stored_plan["images"])
         if self.data.get("active"):
             self._attach_images(self.data["active"]["steps"], self.data["active"]["plan_id"])
         active = self.data.get("active")
@@ -153,11 +153,8 @@ class TrainingManager:
         self._voice_task = self.entry.async_create_background_task(
             self.hass, self._voice_worker(), f"{DOMAIN}_voice"
         )
-        self._schedule_image_download()
 
     async def async_unload(self) -> None:
-        if self._image_task:
-            self._image_task.cancel()
         self._cancel_rest()
         self._cancel_block_timer()
         self._stop_interval()
@@ -183,25 +180,26 @@ class TrainingManager:
         self._groups_cache.clear()
         plan_id = slugify(plan["name"])
         images = map_plan(plan, self._catalog) if self._catalog else {}
+        pictos = map_pictos(plan, self._pictos, images) if self._pictos else {}
         self.data["plans"][plan_id] = {
             "id": plan_id,
             "name": plan["name"],
             "source": text,
             "data": plan,
             "images": images,
+            "pictos": pictos,
             "imported_at": _now(),
         }
         if self.data.get("program") not in self.data["plans"]:
             self.data["program"] = plan_id
         self._sync_next()
         self._changed()
-        self._schedule_image_download()
-        missing = [plan["exercises"][k]["name"] for k, v in images.items() if not v]
+        missing = [plan["exercises"][k]["name"] for k, v in pictos.items() if not v]
         return {
             "plan_id": plan_id,
             "name": plan["name"],
             "workouts": [w["id"] for w in plan["workouts"]],
-            "images": {"matched": len(images) - len(missing), "total": len(images), "missing": missing},
+            "images": {"matched": len(pictos) - len(missing), "total": len(pictos), "missing": missing},
         }
 
     # -- Mitgelieferte Vorlagen -------------------------------------------
@@ -1120,6 +1118,14 @@ class TrainingManager:
         self.data["profiles"][pid]["name"] = name
         self._changed()
 
+    def set_profile_figure(self, key: str, figure: str) -> None:
+        """Figur auf den Übungsbildern (m = männlich, w = weiblich)."""
+        pid = self._find_profile(key)
+        if figure not in FIGURES:
+            raise error("figure_invalid", figure=figure)
+        self.data["profiles"][pid]["figure"] = figure
+        self._changed()
+
     def delete_profile(self, key: str) -> None:
         """Person samt Verlauf löschen. Die aktive Person kann nicht gelöscht werden."""
         pid = self._find_profile(key)
@@ -1185,7 +1191,7 @@ class TrainingManager:
                     self._groups_cache[key] = ([g for g in ex["muscles"] if g in st.GROUP_ORDER], [], True)
                     break
             else:
-                cid = self.image_for(exercise_id, plan_id)
+                cid = self.catalog_id_for(exercise_id, plan_id)
                 entry = self._catalog.by_id.get(cid, {}) if self._catalog and cid else {}
                 primary = st.groups_for(entry.get("muscles", []))
                 secondary = [g for g in st.groups_for(entry.get("secondary", [])) if g not in primary]
@@ -1193,7 +1199,7 @@ class TrainingManager:
         return self._groups_cache[key]
 
     def groups_of(self, rec: dict, sess: dict | None = None) -> list[str]:
-        """Muskelgruppen einer Übung (aus dem Plan, sonst über das Katalogbild, siehe images.py)."""
+        """Muskelgruppen einer Übung (aus dem Plan, sonst über den Übungskatalog, siehe images.py)."""
         return self._muscle_info(rec["exercise"], (sess or {}).get("plan_id"))[0]
 
     def recovery_groups_of(self, rec: dict, sess: dict | None = None) -> list[str]:
@@ -1344,7 +1350,7 @@ class TrainingManager:
                     "imported_at": p["imported_at"],
                     "workouts": [{"id": w["id"], "name": w["name"]} for w in p["data"]["workouts"]],
                     "images_missing": [p["data"]["exercises"][k]["name"]
-                                       for k, v in p.get("images", {}).items() if not v],
+                                       for k, v in p.get("pictos", {}).items() if not v],
                 }
                 for p in self.data["plans"].values()
             ],
@@ -1354,9 +1360,13 @@ class TrainingManager:
             "last_session_id": self.data.get("last_session_id"),
             "default_satellite": self.entry.options.get(CONF_DEFAULT_SATELLITE),
             "last_same_duration_s": self._last_same_duration(),
-            "profiles": [{"id": p["id"], "name": p["name"], "user_id": p.get("user_id")}
+            "profiles": [{"id": p["id"], "name": p["name"], "user_id": p.get("user_id"),
+                          "figure": p.get("figure", DEFAULT_FIGURE)}
                          for p in self.data["profiles"].values()],
             "profile": self.data["profile"],
+            # Übungsbilder: Figur der aktiven Person, Bilder ohne Endbild
+            "figure": self.profile.get("figure", DEFAULT_FIGURE),
+            "single_images": self._pictos.single() if self._pictos else [],
             "weekly_goal": self.profile.get("weekly_goal", DEFAULT_WEEKLY_GOAL),
         }
 
@@ -1364,15 +1374,22 @@ class TrainingManager:
     # Übungsbilder
     # ------------------------------------------------------------------
 
-    def image_for(self, exercise_id: str, plan_id: str | None = None) -> str | None:
-        """Katalog-ID des Bildes einer Übung (aus dem Plan, sonst aus irgendeinem Plan)."""
+    def _lookup(self, key: str, exercise_id: str, plan_id: str | None) -> str | None:
         plans = [self.data["plans"][plan_id]] if plan_id in self.data["plans"] else []
         plans += list(self.data["plans"].values())
         for p in plans:
-            cid = p.get("images", {}).get(exercise_id)
-            if cid:
-                return cid
+            value = p.get(key, {}).get(exercise_id)
+            if value:
+                return value
         return None
+
+    def image_for(self, exercise_id: str, plan_id: str | None = None) -> str | None:
+        """Bildname einer Übung (aus dem Plan, sonst aus irgendeinem Plan), siehe images.Pictos."""
+        return self._lookup("pictos", exercise_id, plan_id)
+
+    def catalog_id_for(self, exercise_id: str, plan_id: str | None = None) -> str | None:
+        """Katalog-ID einer Übung (für die Muskelgruppen)."""
+        return self._lookup("images", exercise_id, plan_id)
 
     def _attach_images(self, steps: list[dict], plan_id: str) -> None:
         for step in steps:
@@ -1382,52 +1399,6 @@ class TrainingManager:
                 step["muscles"], step["muscles_secondary"] = primary, secondary
             elif step.get("type") == "interval":
                 step["images"] = [self.image_for(e, plan_id) for e in step.get("exercises", [])]
-
-    def _schedule_image_download(self) -> None:
-        """Fehlende Bilder aller Pläne im Hintergrund laden (einmalig, danach lokal)."""
-        if self._image_task and not self._image_task.done():
-            self._image_task.cancel()
-        self._image_task = self.entry.async_create_background_task(
-            self.hass, self._download_images(), f"{DOMAIN}_images"
-        )
-
-    async def _download_images(self) -> None:
-        if not self._catalog:
-            return
-        wanted = {cid for p in self.data["plans"].values() for cid in p.get("images", {}).values() if cid}
-        todo = [
-            (cid, n) for cid in sorted(wanted) for n in range(max(1, self._catalog.image_count(cid)))
-            if not (self.image_dir / cid / f"{n}.jpg").exists()
-        ]
-        if not todo:
-            return
-        session = async_get_clientsession(self.hass)
-        loaded = 0
-        for cid, n in todo:
-            try:
-                async with session.get(SOURCE_URL.format(id=cid, n=n), timeout=30) as resp:
-                    if resp.status != 200:
-                        _LOGGER.warning("Bild %s/%s nicht gefunden (HTTP %s)", cid, n, resp.status)
-                        continue
-                    data = await resp.read()
-            except (TimeoutError, OSError) as err:
-                _LOGGER.warning("Bild %s/%s konnte nicht geladen werden: %s", cid, n, err)
-                continue
-            except Exception as err:  # noqa: BLE001 – Bilder sind optional
-                _LOGGER.warning("Bild %s/%s: %s", cid, n, err)
-                continue
-            await self.hass.async_add_executor_job(self._write_image, cid, n, data)
-            loaded += 1
-        _LOGGER.info("%s Übungsbilder geladen", loaded)
-        if loaded:
-            self._changed()
-
-    def _write_image(self, cid: str, n: int, data: bytes) -> None:
-        target = self.image_dir / cid / f"{n}.jpg"
-        target.parent.mkdir(parents=True, exist_ok=True)
-        tmp = target.with_suffix(".part")
-        tmp.write_bytes(data)
-        tmp.replace(target)
 
     def plan_source(self, plan_id: str) -> str:
         try:

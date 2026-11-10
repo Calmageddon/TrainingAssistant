@@ -1,14 +1,20 @@
-"""Übungsbilder aus free-exercise-db (gemeinfrei) zuordnen.
+"""Übungen dem Übungskatalog und den Übungsbildern (Piktogrammen) zuordnen.
 
-Ohne Home-Assistant-Abhängigkeiten. Das Laden der Bilder übernimmt der Manager.
+Ohne Home-Assistant-Abhängigkeiten.
 
-Zuordnung pro Übung im Plan:
-1. Feld `image` im Plan: Katalog-ID (z. B. "Goblet_Squat") oder false (= kein Bild)
+Katalog (`catalog/exercises.json`): liefert die Muskelgruppen einer Übung. Zuordnung pro Übung im Plan:
+1. Feld `image` im Plan: Katalog-ID (z. B. "Goblet_Squat") oder false (= keine)
 2. sonst automatisch über Name, Aliase und Übungs-ID:
    a) exakter Treffer nach Vereinheitlichung („Push-Ups“ = „Pushups“, „Chin-ups“ = „Chin-Up“)
    b) handgepflegte Liste gängiger Übungen (COMMON), auch mit deutschen Namen
    c) wie a), aber ohne Equipment-Wörter („Barbell Romanian Deadlift“ = „Romanian Deadlift“)
    Bewusst ohne unscharfe Suche: lieber kein Bild als ein falsches.
+
+Bilder (`catalog/pictos.json`, Dateien unter `pictos/<m|w>/<Bild>/<n>.jpg`, siehe tools/import_pictos.py):
+1. Übungs-Kennung aus den mitgelieferten Vorlagen
+2. `image: false` = kein Bild
+3. Name, Aliase oder Kennung = Name aus den Vorlagen oder Bildname („Bodyweight Hip Thrust“)
+4. Feld `image` bzw. die Katalog-ID, wenn es dazu ein Bild gibt
 """
 
 from __future__ import annotations
@@ -18,9 +24,10 @@ from pathlib import Path
 import re
 from typing import Any
 
-CATALOG_FILE = Path(__file__).parent / "catalog" / "free_exercise_db.json"
-SOURCE_URL = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/{id}/{n}.jpg"
-SOURCE_NAME = "free-exercise-db (gemeinfrei)"
+CATALOG_FILE = Path(__file__).parent / "catalog" / "exercises.json"
+PICTOS_FILE = Path(__file__).parent / "catalog" / "pictos.json"
+FIGURES = ("m", "w")
+DEFAULT_FIGURE = "m"
 
 EQUIPMENT_WORDS = {
     "barbell", "dumbbell", "kettlebell", "bodyweight", "body", "weight", "bw", "db", "kb", "cable",
@@ -128,3 +135,45 @@ def map_plan(plan: dict, catalog: Catalog) -> dict[str, str | None]:
         else:
             result[ex_id] = catalog.match([ex.get("name", ""), *ex.get("aliases", []), ex_id.replace("_", " ")])
     return result
+
+
+class Pictos:
+    """Übungsbilder: Bildname → Anzahl der Bilder (1 = nur eine Haltung, 2 = Start und Ende)."""
+
+    def __init__(self, data: dict[str, Any]) -> None:
+        self.images: dict[str, int] = {k: int(v) for k, v in data.get("images", {}).items()}
+        self.by_exercise: dict[str, str] = dict(data.get("exercises", {}))
+        self._names: dict[str, str] = {}
+        for name, bild in data.get("names", {}).items():
+            self._names.setdefault(norm(name), bild)
+        for bild in self.images:
+            self._names.setdefault(norm(bild.replace("_", " ")), bild)
+
+    @classmethod
+    def load(cls, path: Path = PICTOS_FILE) -> Pictos:
+        return cls(json.loads(path.read_text(encoding="utf-8")))
+
+    def single(self) -> list[str]:
+        """Bilder mit nur einer Haltung (kein Endbild)."""
+        return sorted(k for k, v in self.images.items() if v < 2)
+
+    def match(self, ex_id: str, ex: dict, catalog_id: str | None) -> str | None:
+        if ex_id in self.by_exercise:
+            return self.by_exercise[ex_id]
+        if ex.get("image") is False:
+            return None
+        for name in (ex.get("name", ""), *ex.get("aliases", []), ex_id.replace("_", " ")):
+            if name and (bild := self._names.get(norm(name))) is not None:
+                return bild
+        explicit = ex.get("image")
+        if isinstance(explicit, str) and explicit in self.images:
+            return explicit
+        return catalog_id if catalog_id in self.images else None
+
+
+def map_pictos(plan: dict, pictos: Pictos, catalog_ids: dict[str, str | None]) -> dict[str, str | None]:
+    """Übungs-ID im Plan → Bildname (oder None)."""
+    return {
+        ex_id: pictos.match(ex_id, ex, catalog_ids.get(ex_id))
+        for ex_id, ex in plan.get("exercises", {}).items()
+    }

@@ -14,7 +14,7 @@ SKIPPED = "skipped"
 UNCONFIRMED = "unconfirmed"
 PENDING = "pending"
 
-# Hauptmuskeln aus free-exercise-db → Muskelgruppen für Anzeige und Erholung
+# Hauptmuskeln aus dem Übungskatalog → Muskelgruppen für Anzeige und Erholung
 MUSCLE_GROUPS: dict[str, str] = {
     "chest": "chest",
     "lats": "back", "middle back": "back", "lower back": "back", "traps": "back",

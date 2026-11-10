@@ -73,12 +73,11 @@ C) Write it yourself
     { type: none }                        no suggestions
 
   Images: found automatically via the English or German exercise name.
-  Set them yourself with image: <image ID> (folder name from
-  https://github.com/yuhonas/free-exercise-db/tree/main/exercises) or
+  Set them yourself with image: <image name> (e.g. Goblet_Squat) or
   image: false for no image.
 
   Muscle groups (for "sets per muscle group" and recovery): automatic via the
-  image, or set them yourself, e.g. muscles: [hamstrings, glutes, back].
+  exercise name, or set them yourself, e.g. muscles: [hamstrings, glutes, back].
   Groups: chest, back, shoulders, biceps, triceps, core, quads, hamstrings,
   glutes, calves. muscles: [] = whole body, not counted.
 
@@ -118,7 +117,7 @@ Top level:
       aliases: [<other names>]         (optional)
       equipment: bodyweight | dumbbell | kettlebell | barbell | band | machine | cable | other
       note: <technique hint>           (optional)
-      image: <image ID from free-exercise-db> (optional, otherwise automatic; false = no image)
+      image: <image name> (optional, otherwise automatic; false = no image)
       muscles: [chest | back | shoulders | biceps | triceps | core | quads | hamstrings | glutes | calves]
                                        (optional, main muscles; [] = whole body/none)
   workouts:                  list
@@ -167,7 +166,7 @@ Important:
   - Put texts (name, note, description) containing a comma or colon in "quotes".
   - Common exercises get common English IDs (goblet_squat, push_up, pull_up) and
     English names as in common exercise databases – then images are matched automatically.
-    Only set the image field if you know the ID from free-exercise-db for sure.
+    Leave out the image field.
   - For unusual or self-named exercises set muscles (main muscles only, at most 3).
   - Write names and notes in the language I use below.
 

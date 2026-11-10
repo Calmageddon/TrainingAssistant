@@ -59,3 +59,50 @@ def test_examples_coverage():
     for path, minimum in ((EXAMPLES / "ganzkoerper.yaml", 8), (fixtures / "feature-testplan.yaml", 9)):
         mapping = map_plan(yaml.safe_load(path.read_text()), CAT)
         assert sum(1 for v in mapping.values() if v) >= minimum
+
+
+# -- Übungsbilder (Piktogramme) ------------------------------------------------
+
+from custom_components.training_assistant.images import FIGURES, Pictos, map_pictos  # noqa: E402
+
+PICTOS = Pictos.load()
+PICTO_DIR = Path(__file__).resolve().parent.parent / "custom_components" / "training_assistant" / "pictos"
+TEMPLATES = Path(__file__).resolve().parent.parent / "custom_components" / "training_assistant" / "templates"
+
+
+def test_picto_files_complete():
+    """Jedes Bild gibt es in beiden Figuren mit der angegebenen Anzahl Dateien, und nichts darüber hinaus."""
+    for fig in FIGURES:
+        folders = {p.name for p in (PICTO_DIR / fig).iterdir() if p.is_dir()}
+        assert folders == set(PICTOS.images)
+        for bild, count in PICTOS.images.items():
+            files = sorted(p.name for p in (PICTO_DIR / fig / bild).glob("*.jpg"))
+            assert files == [f"{n}.jpg" for n in range(count)], (fig, bild)
+
+
+@pytest.mark.parametrize("path", sorted(TEMPLATES.glob("*.yaml")), ids=lambda p: p.stem)
+def test_every_template_exercise_has_picto(path):
+    plan = yaml.safe_load(path.read_text(encoding="utf-8"))
+    pictos = map_pictos(plan, PICTOS, map_plan(plan, CAT))
+    assert [k for k, v in pictos.items() if not v] == []
+
+
+@pytest.mark.parametrize(
+    ("ex_id", "ex", "catalog_id", "expected"),
+    [
+        ("kb_swing", {"name": "Kettlebell Swing"}, "One-Arm_Kettlebell_Swings", "Two-Arm_Kettlebell_Swing"),
+        ("my_ht", {"name": "Bodyweight Hip Thrust"}, "Barbell_Hip_Thrust", "Bodyweight_Hip_Thrust"),
+        ("x", {"name": "Goblet Squats"}, "Goblet_Squat", "Goblet_Squat"),  # über die Katalog-ID
+        ("x", {"name": "Unbekannt", "aliases": ["Walk"]}, None, "Brisk_Walk"),  # Name aus den Vorlagen
+        ("x", {"name": "Plank", "image": False}, "Plank", None),
+        ("x", {"name": "Zirkeltraining Spezial"}, None, None),
+        ("x", {"name": "Etwas", "image": "Plank"}, None, "Plank"),
+    ],
+)
+def test_picto_match(ex_id, ex, catalog_id, expected):
+    assert PICTOS.match(ex_id, ex, catalog_id) == expected
+
+
+def test_single_images():
+    assert "Brisk_Walk" in PICTOS.single()
+    assert "Goblet_Squat" not in PICTOS.single()

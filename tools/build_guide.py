@@ -96,12 +96,11 @@ C) Write it yourself
     {{ type: none }}                        no suggestions
 
   Images: found automatically via the English or German exercise name.
-  Set them yourself with image: <image ID> (folder name from
-  https://github.com/yuhonas/free-exercise-db/tree/main/exercises) or
+  Set them yourself with image: <image name> (e.g. Goblet_Squat) or
   image: false for no image.
 
   Muscle groups (for "sets per muscle group" and recovery): automatic via the
-  image, or set them yourself, e.g. muscles: [hamstrings, glutes, back].
+  exercise name, or set them yourself, e.g. muscles: [hamstrings, glutes, back].
   Groups: chest, back, shoulders, biceps, triceps, core, quads, hamstrings,
   glutes, calves. muscles: [] = whole body, not counted.
 
@@ -209,8 +208,7 @@ C) Selbst schreiben
     {{ type: none }}                        keine Vorschläge
 
   Bilder: werden über den englischen oder deutschen Übungsnamen automatisch
-  gefunden. Selbst festlegen mit image: <Bild-ID> (Ordnername aus
-  https://github.com/yuhonas/free-exercise-db/tree/main/exercises) oder
+  gefunden. Selbst festlegen mit image: <Bildname> (z. B. Goblet_Squat) oder
   image: false für kein Bild.
 
   Muskelgruppen (für „Sätze pro Muskelgruppe“ und Erholung): automatisch über

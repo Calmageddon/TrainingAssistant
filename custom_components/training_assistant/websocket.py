@@ -206,14 +206,15 @@ def ws_stats(hass: HomeAssistant, connection: websocket_api.ActiveConnection, ms
 @websocket_api.websocket_command(
     {
         vol.Required("type"): WS + "profile",
-        vol.Required("action"): vol.In(["select", "add", "rename", "delete"]),
+        vol.Required("action"): vol.In(["select", "add", "rename", "delete", "figure"]),
         vol.Optional("profile"): str,
         vol.Optional("name"): str,
+        vol.Optional("figure"): str,
     }
 )
 @callback
 def ws_profile(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
-    """Personen: auswählen, anlegen, umbenennen, löschen."""
+    """Personen: auswählen, anlegen, umbenennen, löschen, Figur der Übungsbilder wählen."""
     m = _manager(hass)
     action = msg["action"]
     funcs = {
@@ -221,6 +222,7 @@ def ws_profile(hass: HomeAssistant, connection: websocket_api.ActiveConnection, 
         "add": lambda: m.add_profile(msg.get("name", "")),
         "rename": lambda: m.rename_profile(msg["profile"], msg.get("name", "")),
         "delete": lambda: m.delete_profile(msg["profile"]),
+        "figure": lambda: m.set_profile_figure(msg["profile"], msg.get("figure", "")),
     }
     ok, result = _guard(connection, msg["id"], funcs[action])
     if ok:

@@ -20,7 +20,7 @@ from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.typing import ConfigType
 
 from .errors import error
-from .const import CARD_FILENAME, CARD_URL, DOMAIN, GUIDE_URL, IMAGES_DIR, IMAGES_URL, SIGNAL_UPDATE, VERSION
+from .const import CARD_FILENAME, CARD_URL, DOMAIN, GUIDE_URL, IMAGES_URL, SIGNAL_UPDATE, VERSION
 from .manager import TrainingManager
 from .services import async_setup_services
 from .websocket import async_setup_websocket
@@ -37,13 +37,11 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     async_setup_services(hass)
     async_setup_websocket(hass)
     card = Path(__file__).parent / "frontend" / CARD_FILENAME
-    image_dir = Path(hass.config.path(IMAGES_DIR))
-    await hass.async_add_executor_job(lambda: image_dir.mkdir(parents=True, exist_ok=True))
     await hass.http.async_register_static_paths(
         [
             StaticPathConfig(CARD_URL, str(card), False),
-            # Übungsbilder: einmal geladen, ändern sich nicht → darf der Browser cachen
-            StaticPathConfig(IMAGES_URL, str(image_dir), True),
+            # Übungsbilder: mitgeliefert, ändern sich nur mit der Version (steht in der Adresse) → Cache erlaubt
+            StaticPathConfig(IMAGES_URL, str(Path(__file__).parent / "pictos"), True),
             # Anleitung und Beispielplan für eigene Pläne (Download in der Karte)
             StaticPathConfig(GUIDE_URL, str(Path(__file__).parent / "guide"), False),
         ]

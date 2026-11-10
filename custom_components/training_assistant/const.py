@@ -1,7 +1,7 @@
 """Konstanten für TrainingAssistant."""
 
 DOMAIN = "training_assistant"
-VERSION = "0.6.0"
+VERSION = "0.7.0"
 
 # Version des Importformats für Trainingspläne (siehe schema/plan.schema.json)
 PLAN_SCHEMA_VERSION = 1
@@ -45,9 +45,9 @@ PHASE_ACTIVE = "active"  # Übung/Satz läuft
 PHASE_INTERVAL = "interval"  # HIIT läuft zeitgesteuert
 PHASE_FINISHED = "finished"
 
-# Übungsbilder (free-exercise-db): lokal unter <config>/training_assistant/images/<id>/<n>.jpg
-IMAGES_DIR = f"{DOMAIN}/images"
-IMAGES_URL = f"/{DOMAIN}/images"
+# Übungsbilder (Piktogramme): mitgeliefert unter pictos/<m|w>/<Bild>/<n>.jpg.
+# Die Version steht in der Adresse, damit der Browser nach einem Update neue Bilder lädt.
+IMAGES_URL = f"/{DOMAIN}/pictos/{VERSION}"
 
 # So viele vergangene Trainings zeigen die Verlaufsdiagramme (ca. 4 Wochen)
 CHART_POINTS = 8

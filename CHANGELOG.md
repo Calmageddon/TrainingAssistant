@@ -4,6 +4,17 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.7.0 – 2026-11-10
+
+- New exercise pictures: a uniform pictogram for every template exercise, including yoga, balance and running, which
+  had no picture before. Each person chooses a male or female figure (Plans → People). Exercises in your own plans get a
+  picture when their name matches one.
+  *Deutsch:* Neue Übungsbilder: ein einheitliches Piktogramm zu jeder Vorlagen-Übung, auch zu Yoga, Gleichgewicht und
+  Laufen, die bisher kein Bild hatten. Jede Person wählt eine männliche oder weibliche Figur (Pläne → Personen). Übungen aus eigenen
+  Plänen bekommen ein Bild, wenn ihr Name passt.
+- The pictures ship with the integration: nothing is downloaded on plan import anymore.
+  *Deutsch:* Die Bilder werden mit der Integration ausgeliefert: Beim Plan-Import wird nichts mehr heruntergeladen.
+
 ## 0.6.0 – 2026-11-08
 
 - Six new templates: Full Body 3 Days (Gym), Minimal Strength 2 Days, Exercise Snacks, Balance & Leg Strength

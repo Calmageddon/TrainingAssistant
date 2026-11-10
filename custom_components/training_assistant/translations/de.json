@@ -436,6 +436,9 @@
     "profile_name_missing": {
       "message": "Bitte einen Namen eingeben"
     },
+    "figure_invalid": {
+      "message": "Unbekannte Figur „{figure}“ (m oder w)."
+    },
     "profile_delete_active": {
       "message": "Die aktive Person kann nicht gelöscht werden – erst zu jemand anderem wechseln"
     },

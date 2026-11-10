@@ -26,10 +26,9 @@ auch über verschiedene Pläne hinweg. Eine Übung sollte also in jedem Plan die
 
 ## Übungsbilder
 
-Die Karte zeigt zu jeder Übung Fotos (Start- und Endposition) aus
-[free-exercise-db](https://github.com/yuhonas/free-exercise-db) (gemeinfrei, über 870 Übungen).
-Beim Import lädt Home Assistant nur die Bilder der Übungen im Plan einmal herunter. Danach
-kommen sie lokal von Home Assistant.
+Die Karte zeigt zu jeder Übung ein Bild (Start- und Endposition, bei Halteübungen und Yoga eine
+Haltung). Die Bilder werden mit der Integration ausgeliefert und kommen lokal von Home Assistant. Jede
+Person kann eine männliche oder weibliche Figur wählen (Pläne → Personen).
 
 Die Zuordnung passiert automatisch über `name`, `aliases` und die Übungs-ID. Gängige deutsche
 Namen wie „Kreuzheben“ oder „Klimmzüge“ werden erkannt. Die Karte zeigt beim Import, welche
@@ -39,19 +38,18 @@ Namen wie „Kreuzheben“ oder „Klimmzüge“ werden erkannt. Die Karte zeigt
 exercises:
   javelin_press:
     name: Javelin Press
-    image: Dumbbell_Shoulder_Press   # Ordnername aus free-exercise-db/exercises
+    image: Dumbbell_Shoulder_Press   # Bildname
   burpee:
     name: Burpees
     image: false                     # bewusst kein Bild
 ```
 
-Die Bild-IDs findest du auf der [Katalogseite](https://yuhonas.github.io/free-exercise-db/)
-(Übung öffnen, ID in der Adresse) oder im Ordner
-[exercises](https://github.com/yuhonas/free-exercise-db/tree/main/exercises).
+Die verfügbaren Bildnamen stehen unter `images` in
+[`catalog/pictos.json`](../custom_components/training_assistant/catalog/pictos.json).
 
 ## Muskelgruppen
 
-Sätze pro Muskelgruppe und der Erholungsstatus nutzen die Muskeln des Katalogbilds. Du kannst sie selbst
+Sätze pro Muskelgruppe und der Erholungsstatus nutzen die Muskeln der passenden Katalog-Übung. Du kannst sie selbst
 angeben – das gilt immer vorrangig, z. B. für Übungen ohne Bild:
 
 ```yaml
@@ -185,7 +183,7 @@ Oberste Ebene:
       aliases: [<weitere Namen>]       (optional)
       equipment: bodyweight | dumbbell | kettlebell | barbell | band | machine | cable | other
       note: <Technik-Hinweis>          (optional)
-      image: <Bild-ID aus free-exercise-db> (optional, sonst automatisch; false = kein Bild)
+      image: <Bildname> (optional, sonst automatisch; false = kein Bild)
       muscles: [chest | back | shoulders | biceps | triceps | core | quads | hamstrings | glutes | calves]
                                        (optional, Hauptmuskeln; [] = Ganzkörper/keine)
   workouts:                  Liste
@@ -234,7 +232,7 @@ Wichtig:
   - Texte (name, note, description) mit Komma oder Doppelpunkt in "Anführungszeichen" setzen.
   - Gängige Übungen bekommen gängige englische IDs (goblet_squat, push_up, pull_up) und
     englische Namen wie in gängigen Übungsdatenbanken – dann werden Bilder automatisch zugeordnet.
-    Das Feld image nur setzen, wenn du die ID aus free-exercise-db sicher kennst.
+    Das Feld image weglassen.
   - Bei ungewöhnlichen oder selbst benannten Übungen muscles angeben (nur Hauptmuskeln, höchstens 3).
 
 Meine Wünsche: <HIER BESCHREIBEN: Ziel, Tage pro Woche, Dauer, vorhandenes Equipment,

@@ -29,7 +29,7 @@ the voice language can also be set in the integration options.
 | **Records** | New personal bests (weight, estimated max, reps, time) are announced ("New record!"), marked with 🏆 and fired as an event |
 | **Statistics** | Week view ("3 of 4 workouts this week" with days and muscle groups), weekly goal, streak, training time, sets per muscle group per week, recovery status per muscle group |
 | **People** | Several people on one tablet: each has their own history, suggestions, weekly goal and program position; plans are shared |
-| **Exercise images** | Photos (start/end) from [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (public domain), matched automatically; downloaded once on plan import, served locally afterwards |
+| **Exercise images** | Pictures (start/end) for every template exercise, male or female figure per person, matched automatically; shipped with the integration, no downloads |
 | **Card** | `custom:training-assistant-card` with the tabs Training, History and Plans, loaded automatically |
 | **Entities** | Buttons *Start, Next, Undo, Pause, Skip, Finish, Abort, Reps/Weight up/down, Rest longer/shorter (±15 s)* · numbers *Reps, Weight* (e.g. for a rotary knob) · selects *Person, Program, Next workout* · sensors *Status, Current exercise, Progress, Last set, Workouts this week, Streak* · calendar *Workouts* |
 | **Blueprints** | Zigbee button · start a workout by voice · signals for HIIT/rest (sound, light) |

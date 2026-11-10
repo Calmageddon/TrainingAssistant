@@ -49,12 +49,18 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
 - **Anstrengung** `effort` im Satz ("easy"/"hard", normal = None): per Sprache (`spoken.py`), Karte oder `effort`-Feld.
   Progression: schwer → `hard_hold`, alle leicht → doppelter Schritt (`easy_*`).
 - **Rekorde/Statistik** in `stats.py` (ohne HA). Muskelgruppen kommen aus dem Katalog (`muscles` in
-  `catalog/free_exercise_db.json`, über die Bildzuordnung der Übung; `MUSCLE_GROUPS`). Nebenmuskeln (`secondary`)
+  `catalog/exercises.json`, über die Katalog-Zuordnung der Übung; `MUSCLE_GROUPS`). Nebenmuskeln (`secondary`)
   zählen nur für die Erholung, nicht für das Wochenvolumen. `muscles` im Plan hat Vorrang (dann ohne Nebenmuskeln). Rekord wird nach
   `set_logged`/`set_answered` geprüft (`_check_record`), steht als `record` im Satz, Event `record`.
 - **Flow** (`flow`): zeitgesteuerte Abfolge mit eigener Dauer je Übung (Yoga, 30-20-10). `build_steps` macht daraus
   einen `interval`-Schritt mit `segments` (auch klassische HIIT-Blöcke haben `segments`). Der Manager-Runner
   speichert jeden fertigen Abschnitt als Satz (`Engine.log_segment`). Icon: `brand/icon.png` (Quelle `assets/icon.svg`).
+- **Übungsbilder** (Piktogramme) aus dem privaten Repo `uebungs-piktogramme` (`zuordnung.json`), übernommen mit
+  `python3 tools/import_pictos.py ../uebungs-piktogramme` nach `pictos/<m|w>/<Bild>/<n>.jpg` (512 px, mitgeliefert,
+  URL `/training_assistant/pictos/<VERSION>/…`) und `catalog/pictos.json`. Dort nur Kennungen/Namen aus den Vorlagen
+  (private Pläne nicht!). Zuordnung `Pictos.match`: Kennung → `image: false` → Name/Aliase = Vorlagen- oder Bildname →
+  `image`/Katalog-ID. Im Plan: `images` = Katalog-ID (Muskelgruppen), `pictos` = Bild (bei jedem Start neu berechnet).
+  Figur `m`/`w` pro Person (`profile.figure`, ws `profile` action `figure`); `single_images` = ohne Endbild.
 - **HIIT** (`interval`) ist zeitgesteuert: Signaltöne/Licht statt Sprache, weil TTS zu langsam ist.
 
 ## Code-Aufbau (custom_components/training_assistant/)

@@ -211,7 +211,7 @@
           "description": "Technik-Hinweis."
         },
         "image": {
-          "description": "Bild aus free-exercise-db: Katalog-ID (Ordnername, z. B. \"Goblet_Squat\", siehe https://github.com/yuhonas/free-exercise-db/tree/main/exercises) oder false für kein Bild. Weglassen = automatische Zuordnung über Name und Aliase.",
+          "description": "Übungsbild: Bildname (z. B. \"Goblet_Squat\", siehe catalog/pictos.json) oder false für kein Bild. Weglassen = automatische Zuordnung über Name und Aliase.",
           "oneOf": [
             {
               "type": "string",

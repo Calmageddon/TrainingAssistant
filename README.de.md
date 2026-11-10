@@ -29,7 +29,7 @@ die Sprache der Ansagen lässt sich in den Optionen der Integration auch fest ei
 | **Rekorde** | Neue Bestwerte (Gewicht, geschätztes Maximum, Wiederholungen, Zeit) werden angesagt („Neuer Rekord!“), mit 🏆 markiert und als Event gemeldet |
 | **Statistik** | Wochenansicht („3 von 4 Trainings diese Woche“ mit Tagen und Muskelgruppen), Wochenziel, Serie, Trainingszeit, Sätze pro Muskelgruppe und Woche, Erholungsstatus je Muskelgruppe |
 | **Personen** | Mehrere Personen an einem Tablet: jede mit eigenem Verlauf, eigenen Vorschlägen, Wochenziel und Programm-Position; Pläne sind gemeinsam |
-| **Übungsbilder** | Fotos (Start/Ende) aus [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (gemeinfrei), automatisch zugeordnet; beim Plan-Import einmalig geladen, danach lokal |
+| **Übungsbilder** | Bilder (Start/Ende) zu jeder Vorlagen-Übung, männliche oder weibliche Figur je Person, automatisch zugeordnet; mit der Integration ausgeliefert, kein Download |
 | **Karte** | `custom:training-assistant-card` mit den Reitern Training, Verlauf und Pläne, wird automatisch geladen |
 | **Entitäten** | Tasten *Starten, Weiter, Rückgängig, Pause, Überspringen, Beenden, Abbrechen, Wdh./Gewicht mehr/weniger, Pause länger/kürzer (±15 s)* · Zahlen *Wiederholungen, Gewicht* (z. B. für einen Drehregler) · Auswahl *Person, Programm, Nächstes Workout* · Sensoren *Status, Aktuelle Übung, Fortschritt, Letzter Satz, Trainings diese Woche, Serie* · Kalender *Trainings* |
 | **Blueprints** | Zigbee-Knopf · Training per Sprache starten · Signale für HIIT/Pausen (Ton, Licht) |

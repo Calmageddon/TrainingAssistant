@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.6.0";
+const CARD_VERSION = "0.7.0";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -106,6 +106,7 @@ const I18N = {
     t_record: "🏆 New record: {name}", rest_less: "−15 s", rest_more: "+15 s",
     who: "Who's training?", p_tab_people: "People",
     pp_intro: "Every person has their own history, suggestions, weekly goal and program position. Plans are shared.",
+    pp_figure: "Figure in pictures", fig_m: "Male", fig_w: "Female",
     pp_active: "selected", pp_select: "Select", pp_rename: "Rename", pp_delete: "Delete", pp_c_delete: "Delete incl. history?",
     pp_add: "+ Add person", pp_name: "Name", pp_save: "Save", pp_busy: "You can select someone else after the workout.",
     pp_goal: "Weekly goal: {n} workouts",
@@ -210,6 +211,7 @@ const I18N = {
     t_record: "🏆 Neuer Rekord: {name}", rest_less: "−15 s", rest_more: "+15 s",
     who: "Wer trainiert?", p_tab_people: "Personen",
     pp_intro: "Jede Person hat eigenen Verlauf, eigene Vorschläge, ein eigenes Wochenziel und eine eigene Programm-Position. Pläne sind gemeinsam.",
+    pp_figure: "Figur auf den Bildern", fig_m: "Männlich", fig_w: "Weiblich",
     pp_active: "ausgewählt", pp_select: "Auswählen", pp_rename: "Umbenennen", pp_delete: "Löschen", pp_c_delete: "Mit Verlauf löschen?",
     pp_add: "+ Person hinzufügen", pp_name: "Name", pp_save: "Speichern", pp_busy: "Eine andere Person auswählen geht nach dem Training.",
     pp_goal: "Wochenziel: {n} Trainings",
@@ -244,12 +246,16 @@ const blockTitle = (type, name) => {
   if (!name || name === label) return label;
   return name.toLowerCase().startsWith(label.toLowerCase()) ? name : `${label} · ${name}`;
 };
-// Übungsbild (lokal von Home Assistant). Ohne Bild: leerer Platzhalter, damit alles bündig bleibt.
-const IMG_BASE = "/training_assistant/images";
+// Übungsbild (mitgeliefert, Figur der aktiven Person). Ohne Bild: leerer Platzhalter, damit alles bündig bleibt.
+// Halteübungen haben nur ein Bild (SINGLE): dann gibt es kein Endbild (n = 1).
+const IMG_BASE = `/training_assistant/pictos/${CARD_VERSION}`;
 const GUIDE_BASE = "/training_assistant/guide";
+let FIGURE = "m";
+let SINGLE = new Set();
 const img = (cid, cls = "thumb", n = 0) =>
-  cid ? `<img class="${cls}" src="${IMG_BASE}/${encodeURIComponent(cid)}/${n}.jpg" alt="" loading="lazy">`
-      : `<span class="${cls} noimg"></span>`;
+  cid && !(n > 0 && SINGLE.has(cid))
+    ? `<img class="${cls}" src="${IMG_BASE}/${FIGURE}/${encodeURIComponent(cid)}/${n}.jpg" alt="" loading="lazy">`
+    : n > 0 ? "" : `<span class="${cls} noimg"></span>`;
 const dur = (s) => (s >= 60 ? (s % 60 ? `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")} min` : `${s / 60} min`) : `${s} s`);
 
 const esc = (v) =>
@@ -412,6 +418,8 @@ class TrainingAssistantCard extends HTMLElement {
           this._previewKey = null;
         }
         this._state = state;
+        FIGURE = state.figure === "w" ? "w" : "m";
+        if (!prev || prev.single_images !== state.single_images) SINGLE = new Set(state.single_images || []);
       this._watchLogged(prev, state);
         this._error = null;
         this._autoSelectProfile(state);
@@ -612,6 +620,8 @@ class TrainingAssistantCard extends HTMLElement {
       this._render();
     } else if (a === "pp-select") {
       await this._ws({ type: "profile", action: "select", profile: d.p }).catch(() => {});
+    } else if (a === "pp-figure") {
+      await this._ws({ type: "profile", action: "figure", profile: d.p, figure: d.v }).catch(() => {});
     } else if (a === "pp-delete") {
       await this._ws({ type: "profile", action: "delete", profile: d.p }).catch(() => {});
     } else if (a === "pp-rename" || a === "pp-add") {
@@ -1308,6 +1318,10 @@ class TrainingAssistantCard extends HTMLElement {
       }
       return p.user_id ? `<div class="muted small">${esc(userName(p.user_id) ? t("pp_linked", { name: userName(p.user_id) }) : t("pp_linked_anon"))}</div>` : "";
     };
+    // Figur auf den Übungsbildern (männlich/weiblich)
+    const figure = (p) => `<div class="pp-fig"><span class="muted small">${t("pp_figure")}</span>${["m", "w"]
+      .map((f) => `<button class="chip-btn ${(p.figure || "m") === f ? "on" : ""}" data-a="pp-figure" data-p="${esc(p.id)}" data-v="${f}">${t(`fig_${f}`)}</button>`)
+      .join("")}</div>`;
     const form = (id) => `<div class="row pp-form">
         <input data-field="pp-name" placeholder="${esc(t("pp_name"))}" value="${esc(ed.name)}">
         <button class="btn small primary" data-a="pp-save">${t("pp_save")}</button>
@@ -1317,7 +1331,7 @@ class TrainingAssistantCard extends HTMLElement {
         const on = p.id === st.profile;
         if (ed && ed.id === p.id) return `<div class="plan">${form(p.id)}</div>`;
         return `<div class="plan row between"><div><b>${esc(p.name)}</b>${on ? ` <span class="badge ok">${t("pp_active")}</span>` : ""}
-            ${on ? `<div class="muted small">${t("pp_goal", { n: st.weekly_goal })}</div>` : ""}${link(p)}</div>
+            ${on ? `<div class="muted small">${t("pp_goal", { n: st.weekly_goal })}</div>` : ""}${link(p)}${figure(p)}</div>
           <div class="row">${on ? "" : `<button class="btn small primary" data-a="pp-select" data-p="${esc(p.id)}" ${st.active ? "disabled" : ""}>${t("pp_select")}</button>`}
             <button class="btn small" data-a="pp-rename" data-p="${esc(p.id)}">${t("pp_rename")}</button>
             ${on ? "" : `<button class="btn small danger" data-a="pp-delete" data-p="${esc(p.id)}" data-ck="pp-${esc(p.id)}" data-confirm="${esc(t("pp_c_delete"))}">${t("pp_delete")}</button>`}</div></div>`;
@@ -1827,6 +1841,7 @@ const STYLE = `
   .who { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
   .who .lbl { margin: 0 6px 0 0; }
   .pp-form input { flex: 1; min-width: 160px; width: auto; }
+  .pp-fig { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
   .pp-link { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
   .pp-link select { width: auto; max-width: 220px; padding: 4px 8px; }
   .timer .grow { flex: 1; text-align: center; }

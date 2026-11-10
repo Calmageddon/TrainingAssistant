@@ -155,7 +155,7 @@ async def main() -> int:
 
             res = await ws.call(type="training_assistant/templates")
             tpls = res["result"]["templates"] if res["success"] else []
-            check(len(tpls) >= 27 and len({t["group_key"] for t in tpls}) == 6, f"{len(tpls)} Vorlagen in {len({t['group_key'] for t in tpls})} Gruppen")
+            check(len(tpls) >= 33 and len({t["group_key"] for t in tpls}) == 7, f"{len(tpls)} Vorlagen in {len({t['group_key'] for t in tpls})} Gruppen")
 
             # Sprache der Ansagen = Sprache der Testinstanz (Option voice_language steht dort auf „auto“)
             cfg = await ws.call(type="get_config")
