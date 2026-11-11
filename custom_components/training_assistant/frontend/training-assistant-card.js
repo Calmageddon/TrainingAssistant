@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.7.3";
+const CARD_VERSION = "0.8.0";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -26,7 +26,7 @@ const I18N = {
     wo_auto: " · after finishing, the program moves on automatically.", voice_via: "Announcements via {sat}",
     no_sat: "No default satellite: the workout runs silently on this card (choose a satellite in the integration options or when starting by voice).",
     pv_rounds: "{n} rounds", pv_cap: "{m} min alternating", pv_between_ex: "{d} between exercises",
-    pv_between_rounds: "{d} between rounds", pv_sets: "{n} sets", pv_sets_until: "Sets until {n} reps", pv_rest: "{d} rest",
+    pv_between_rounds: "{d} between rounds", pv_sets: "{n} sets", pv_set1: "1 set", pv_sets_until: "Sets until {n} reps", pv_rest: "{d} rest",
     pv_interval: "{w} s work / {r} s rest", pv_block_rest: "⏸ {d} rest", pv_flow: "{n} steps · about {m} min",
     flow_switch: "Switch", b_end_flow: "End flow",
     tempo: "Tempo {t}", iv_work: "WORK", iv_rest: "REST", t_rest: "Rest", t_left: "Time left",
@@ -43,7 +43,7 @@ const I18N = {
     h_th_ex: "Exercise", h_th_hist: "History", h_last8: "(last 8)", h_th_last: "Last", h_th_next: "Next time",
     h_tab_ex: "Exercises", h_tab_sess: "Workouts",
     tpl_loading: "Loading templates …", n_workout: "{n} workout", n_workouts: "{n} workouts",
-    tpl_reload_c: "Reload? Your own changes will be lost.", tpl_installed: "✓ Added · reload", tpl_take: "Add",
+    tpl_reload_c: "Reload? Your own changes will be lost.", tpl_installed: "✓ Added · reload", tpl_take: "Add", tpl_open: "Show workouts and exercises of {name}", tpl_loading_one: "Loading …",
     p_active: "active program", p_noimg: "No image: {list}", p_edit: "Edit", p_delete: "Delete", p_next_badge: "up next",
     p_set_next: "Up next", p_start: "Start",
     p_tpl_intro: "Proven programs ready to add – afterwards they're ready to start under “My plans”. Weights are starting values; progression adjusts them.",
@@ -131,7 +131,7 @@ const I18N = {
     wo_auto: " · nach dem Beenden geht es im Programm automatisch weiter.", voice_via: "Ansagen über {sat}",
     no_sat: "Kein Standard-Satellit: Das Training läuft stumm über diese Karte (Satellit in den Optionen der Integration wählbar oder beim Start per Sprache).",
     pv_rounds: "{n} Runden", pv_cap: "{m} min im Wechsel", pv_between_ex: "{d} zw. Übungen",
-    pv_between_rounds: "{d} zw. Runden", pv_sets: "{n} Sätze", pv_sets_until: "Sätze bis {n} Wdh.", pv_rest: "{d} Pause",
+    pv_between_rounds: "{d} zw. Runden", pv_sets: "{n} Sätze", pv_set1: "1 Satz", pv_sets_until: "Sätze bis {n} Wdh.", pv_rest: "{d} Pause",
     pv_interval: "{w} s Arbeit / {r} s Pause", pv_block_rest: "⏸ {d} Pause", pv_flow: "{n} Abschnitte · etwa {m} min",
     flow_switch: "Wechsel", b_end_flow: "Flow beenden",
     tempo: "Tempo {t}", iv_work: "ARBEIT", iv_rest: "PAUSE", t_rest: "Pause", t_left: "Zeit übrig",
@@ -148,7 +148,7 @@ const I18N = {
     h_th_ex: "Übung", h_th_hist: "Verlauf", h_last8: "(letzte 8)", h_th_last: "Zuletzt", h_th_next: "Nächstes Mal",
     h_tab_ex: "Übungen", h_tab_sess: "Trainings",
     tpl_loading: "Lade Vorlagen …", n_workout: "{n} Workout", n_workouts: "{n} Workouts",
-    tpl_reload_c: "Neu laden? Eigene Änderungen gehen verloren.", tpl_installed: "✓ Übernommen · neu laden", tpl_take: "Übernehmen",
+    tpl_reload_c: "Neu laden? Eigene Änderungen gehen verloren.", tpl_installed: "✓ Übernommen · neu laden", tpl_take: "Übernehmen", tpl_open: "Workouts und Übungen von {name} anzeigen", tpl_loading_one: "Lade …",
     p_active: "aktives Programm", p_noimg: "Ohne Bild: {list}", p_edit: "Bearbeiten", p_delete: "Löschen",
     p_next_badge: "als Nächstes", p_set_next: "Als Nächstes", p_start: "Starten",
     p_tpl_intro: "Bewährte Programme zum Übernehmen – danach unter „Meine Pläne“ startklar. Gewichte sind Startwerte, die Progression passt sie an.",
@@ -578,6 +578,27 @@ class TrainingAssistantCard extends HTMLElement {
         this._importMsg = { ok: false, text: err.message || String(err) };
       }
       this._render();
+    } else if (a === "tg-toggle") {
+      this._tgOpen = this._tgOpen || new Set();
+      this._tgOpen.has(d.g) ? this._tgOpen.delete(d.g) : this._tgOpen.add(d.g);
+      this._render();
+    } else if (a === "tpl-open") {
+      this._tplOpen = this._tplOpen === d.tpl ? null : d.tpl;
+      this._tplWorkout = 0;
+      this._render();
+      this._tplPreviews = this._tplPreviews || {};
+      if (this._tplOpen && !this._tplPreviews[d.tpl]) {
+        try {
+          this._tplPreviews[d.tpl] = await this._ws({ type: "template_preview", template_id: d.tpl });
+        } catch (err) {
+          this._tplOpen = null;
+          this._importMsg = { ok: false, text: err.message || String(err) };
+        }
+        this._render();
+      }
+    } else if (a === "tpl-wo") {
+      this._tplWorkout = Number(d.i) || 0;
+      this._render();
     } else if (a === "tpl-import") {
       try {
         const res = await this._ws({ type: "import_template", template_id: d.tpl });
@@ -817,10 +838,10 @@ class TrainingAssistantCard extends HTMLElement {
       </div>`;
   }
 
-  _renderPreview() {
-    if (!this._preview) return "";
+  _renderPreview(steps = this._preview) {
+    if (!steps) return "";
     const blocks = [];
-    for (const s of this._preview) {
+    for (const s of steps) {
       let b = blocks[blocks.length - 1];
       if (!b || b.block !== s.block) {
         b = { block: s.block, name: s.block_name, type: s.block_type, items: [], step: s };
@@ -838,7 +859,7 @@ class TrainingAssistantCard extends HTMLElement {
         if (b.items.length > 1 && first.rest_after_s) meta.push(t("pv_between_ex", { d: dur(first.rest_after_s) }));
         if (s.rounds !== 1 && last && last.rest_after_s) meta.push(t("pv_between_rounds", { d: dur(last.rest_after_s) }));
       } else if (b.type === "sets") {
-        meta.push(s.sets ? t("pv_sets", { n: s.sets }) : t("pv_sets_until", { n: s.block_end?.total_reps }));
+        meta.push(s.sets ? t(s.sets === 1 ? "pv_set1" : "pv_sets", { n: s.sets }) : t("pv_sets_until", { n: s.block_end?.total_reps }));
         if (s.rest_after_s) meta.push(t("pv_rest", { d: dur(s.rest_after_s) }));
       } else if (b.type === "flow") {
         if (s.rounds > 1) meta.push(t("pv_rounds", { n: s.rounds }));
@@ -855,7 +876,12 @@ class TrainingAssistantCard extends HTMLElement {
             <span class="tgt">${esc(dur(i.duration_s))}${i.per_side ? ` ${esc(t("per_side"))}` : ""}</span></li>`)
           .join("")}</ul>`;
       } else if (b.type === "interval") {
-        body = `<ul><li><span>${esc(s.exercise_names.join(" · "))}</span></li></ul>`;
+        // Jede Übung einmal, mit Bild (Tabata: eine Übung, Zirkel-HIIT: mehrere im Wechsel)
+        const seen = new Set();
+        body = `<ul>${(s.exercises || []).map((e, i) => [e, s.exercise_names[i]])
+          .filter(([e]) => !seen.has(e) && seen.add(e))
+          .map(([e, n]) => `<li><span class="exn">${img(this._imageFor(e, s))}<span>${esc(n)}</span></span></li>`)
+          .join("") || `<li><span>${esc(s.exercise_names.join(" · "))}</span></li>`}</ul>`;
       } else if (b.items.length) {
         body = `<ul>${b.items
           .map(
@@ -1122,21 +1148,42 @@ class TrainingAssistantCard extends HTMLElement {
       return `<div class="muted small">${t("tpl_loading")}</div>`;
     }
     const groups = {};
+    this._tgOpen = this._tgOpen || new Set(); // aufgeklappte Kategorien (anfangs alle zu)
     this._templates.forEach((tp) => (groups[tp.group_key || tp.group] = groups[tp.group_key || tp.group] || []).push(tp));
     return Object.entries(groups)
-      .map(([g, list]) => `<div class="tgroup">
-          <div class="tghead"><ha-icon icon="${esc(list[0].group_icon || "mdi:dumbbell")}"></ha-icon>
-            <div><div class="tgname">${esc(list[0].group_key ? t(`tg.${g}`) : g)} <span class="cnt">${list.length}</span></div>
-            <div class="tgabout">${esc(list[0].group_key ? t(`tg.${g}.about`) : list[0].group_about || "")}</div></div></div>${list
-        .map((tp) => `<div class="tpl">
-            <div class="tpl-txt"><b>${esc(tp.name)}</b> <span class="muted small">· ${t(tp.workouts.length === 1 ? "n_workout" : "n_workouts", { n: tp.workouts.length })}</span>
-              <div class="muted small">${esc(tp.description || "")}</div></div>
+      .map(([g, list]) => `<div class="tgroup ${this._tgOpen.has(g) ? "open" : ""}">
+          <button class="tghead tg-toggle" data-a="tg-toggle" data-g="${esc(g)}" aria-expanded="${this._tgOpen.has(g)}"><ha-icon icon="${esc(list[0].group_icon || "mdi:dumbbell")}"></ha-icon>
+            <span class="tg-txt"><span class="tgname">${esc(list[0].group_key ? t(`tg.${g}`) : g)} <span class="cnt">${list.length}</span></span>
+            <span class="tgabout">${esc(list[0].group_key ? t(`tg.${g}.about`) : list[0].group_about || "")}</span></span>
+            <span class="tg-chev" aria-hidden="true">›</span></button><div class="tg-body">${list
+        .map((tp) => `<div class="tplw ${this._tplOpen === tp.id ? "open" : ""}"><div class="tpl">
+            <button class="tpl-txt" data-a="tpl-open" data-tpl="${esc(tp.id)}" aria-expanded="${this._tplOpen === tp.id}"
+              aria-label="${esc(t("tpl_open", { name: tp.name }))}"><span class="tpl-chev" aria-hidden="true">›</span><span>
+              <b>${esc(tp.name)}</b> <span class="muted small">· ${t(tp.workouts.length === 1 ? "n_workout" : "n_workouts", { n: tp.workouts.length })}</span>
+              <span class="muted small tpl-desc">${esc(tp.description || "")}</span></span></button>
             <button class="btn small ${tp.installed ? "" : "primary"}" data-a="tpl-import" data-tpl="${esc(tp.id)}"
               ${tp.installed ? `data-ck="tpl-${esc(tp.id)}" data-confirm="${esc(t("tpl_reload_c"))}"` : ""}>
               ${tp.installed ? t("tpl_installed") : t("tpl_take")}</button>
-          </div>`)
-        .join("")}</div>`)
+          </div>${this._tplOpen === tp.id ? this._renderTplDetail(tp.id) : ""}</div>`)
+        .join("")}</div></div>`)
       .join("");
+  }
+
+  /** Aufgeklappte Vorlage: Workouts zum Umschalten, darunter Blöcke und Übungen mit Wdh./Gewicht/Zeit */
+  _renderTplDetail(id) {
+    const pv = (this._tplPreviews || {})[id];
+    if (!pv) return `<div class="tpl-detail muted small">${t("tpl_loading_one")}</div>`;
+    const wi = Math.min(this._tplWorkout || 0, pv.workouts.length - 1);
+    const wo = pv.workouts[wi];
+    const chips = pv.workouts.length > 1
+      ? `<div class="tpl-wos" role="tablist">${pv.workouts
+          .map((w, i) => `<button class="chip-btn ${i === wi ? "on" : ""}" role="tab" aria-selected="${i === wi}"
+            data-a="tpl-wo" data-i="${i}">${esc(w.name)}</button>`).join("")}</div>`
+      : "";
+    return `<div class="tpl-detail">${chips}
+      ${pv.workouts.length > 1 ? "" : `<div class="tpl-woname">${esc(wo.name)}</div>`}
+      ${wo.description ? `<div class="muted small">${esc(wo.description)}</div>` : ""}
+      ${this._renderPreview(wo.steps)}</div>`;
   }
 
   async _loadStarter(force = false) {
@@ -1688,13 +1735,33 @@ const STYLE = `
   .tghead { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px;
             background: var(--secondary-background-color); margin-bottom: 4px; }
   .tghead ha-icon { --mdc-icon-size: 28px; color: var(--primary-color); flex: none; }
+  .tg-toggle { width: 100%; border: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+  .tg-toggle:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+  .tg-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .tg-chev { flex: none; font-size: 1.5em; line-height: 1; color: var(--secondary-text-color); transition: transform .15s; }
+  .tgroup.open .tg-chev { transform: rotate(90deg); }
+  .tgroup:not(.open) .tg-body { display: none; }
+  .tgroup + .tgroup { margin-top: 8px; }
   .tgname { font-size: 1.15em; font-weight: 700; }
   .tgname .cnt { font-size: .7em; font-weight: 500; color: var(--secondary-text-color); margin-left: 4px; }
   .tgabout { font-size: .85em; color: var(--secondary-text-color); }
   .tpl { padding-left: 12px; padding-right: 4px; }
   .tpl { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 8px 0;
          border-bottom: 1px solid var(--divider-color); }
-  .tpl-txt { min-width: 0; }
+  .tpl { flex-wrap: wrap; row-gap: 4px; }
+  .tpl .btn { margin-left: auto; }
+  .tpl-txt { min-width: 0; flex: 1 1 240px; display: flex; gap: 8px; align-items: flex-start; text-align: left; padding: 4px 0;
+             background: none; border: 0; font: inherit; color: inherit; cursor: pointer; border-radius: 8px; }
+  .tpl-txt:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+  .tpl-desc { display: block; }
+  .tpl-chev { flex: none; width: 1em; font-size: 1.3em; line-height: 1.1; color: var(--secondary-text-color);
+              transition: transform .15s; }
+  .tplw.open .tpl-chev { transform: rotate(90deg); }
+  .tplw.open .tpl { border-bottom: 0; }
+  .tpl-detail { padding: 4px 4px 14px 12px; border-bottom: 1px solid var(--divider-color); display: flex;
+                flex-direction: column; gap: 8px; }
+  .tpl-wos { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tpl-woname { font-weight: 600; }
   .tpl .btn { flex: none; }
   .startrow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
   .startrow .btn, .startrow .wo-hint { grid-column: 1 / -1; }

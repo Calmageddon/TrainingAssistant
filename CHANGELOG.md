@@ -4,6 +4,17 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.8.0 – 2026-11-11
+
+- Templates: tap a program to see its workouts and exercises with reps, weight or time before adding it. Several
+  workouts can be switched with buttons; nothing is added until you tap "Add".
+  *Deutsch:* Vorlagen: Tippen auf ein Programm zeigt seine Workouts und Übungen mit Wiederholungen, Gewicht oder Zeit,
+  bevor man es übernimmt. Mehrere Workouts lassen sich per Knopf umschalten; übernommen wird erst mit „Übernehmen“.
+- Template categories can be collapsed; all are collapsed when the list opens.
+  *Deutsch:* Die Kategorien der Vorlagen lassen sich einklappen; beim Öffnen sind alle zugeklappt.
+- HIIT blocks in the workout preview show their exercises with pictures. "1 sets" now reads "1 set".
+  *Deutsch:* HIIT-Blöcke in der Workout-Vorschau zeigen ihre Übungen mit Bild. Aus „1 Sätze“ wird „1 Satz“.
+
 ## 0.7.3 – 2026-11-11
 
 - Updated exercise pictures: start and end position of each exercise are aligned, so the movement preview runs

@@ -29,6 +29,7 @@ def async_setup_websocket(hass: HomeAssistant) -> None:
         ws_delete_session,
         ws_set_next,
         ws_templates,
+        ws_template_preview,
         ws_set_program,
         ws_import_template,
         ws_stats,
@@ -180,6 +181,18 @@ async def ws_import_template(hass: HomeAssistant, connection: websocket_api.Acti
     except PlanError as err:
         connection.send_error(msg["id"], "invalid_plan", "\n".join(err.errors))
         return
+    except HomeAssistantError as err:
+        connection.send_error(msg["id"], "failed", str(err))
+        return
+    connection.send_result(msg["id"], result)
+
+
+@websocket_api.websocket_command({vol.Required("type"): WS + "template_preview", vol.Required("template_id"): str})
+@websocket_api.async_response
+async def ws_template_preview(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
+    """Workouts und Übungen einer Vorlage anzeigen, ohne sie zu übernehmen."""
+    try:
+        result = await _manager(hass).async_template_preview(msg["template_id"])
     except HomeAssistantError as err:
         connection.send_error(msg["id"], "failed", str(err))
         return

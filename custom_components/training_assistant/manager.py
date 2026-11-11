@@ -264,6 +264,26 @@ class TrainingManager:
             raise error("template_not_found", template=template_id)
         return self.import_plan(template["text"])
 
+    async def async_template_preview(self, template_id: str) -> dict[str, Any]:
+        """Vorschau einer Vorlage, ohne sie zu importieren: alle Workouts mit Schritten (Planwerte, ohne Verlauf)."""
+        templates = await self.hass.async_add_executor_job(self._read_templates)
+        template = next((t for t in templates if t["id"] == template_id), None)
+        if template is None:
+            raise error("template_not_found", template=template_id)
+        plan = parse_plan_text(template["text"])
+        images = map_plan(plan, self._catalog) if self._catalog else {}
+        pictos = map_pictos(plan, self._pictos, images) if self._pictos else {}
+        workouts = []
+        for w in plan["workouts"]:
+            steps = build_steps(plan, w["id"])
+            for step in steps:
+                if step.get("exercise"):
+                    step["image"] = pictos.get(step["exercise"])
+                elif step.get("type") == "interval":
+                    step["images"] = [pictos.get(e) for e in step.get("exercises", [])]
+            workouts.append({"id": w["id"], "name": w["name"], "description": w.get("description"), "steps": steps})
+        return {"id": template_id, "name": plan["name"], "description": plan.get("description"), "workouts": workouts}
+
     def delete_plan(self, plan_id: str) -> None:
         self._groups_cache.clear()
         if self.data["plans"].pop(plan_id, None) is None:

@@ -156,6 +156,15 @@ async def main() -> int:
             res = await ws.call(type="training_assistant/templates")
             tpls = res["result"]["templates"] if res["success"] else []
             check(len(tpls) >= 33 and len({t["group_key"] for t in tpls}) == 7, f"{len(tpls)} Vorlagen in {len({t['group_key'] for t in tpls})} Gruppen")
+            plans_before = len(S()["plans"])
+            ok_pv = True
+            for tp in tpls:
+                pv = await ws.call(type="training_assistant/template_preview", template_id=tp["id"])
+                wos = pv["result"]["workouts"] if pv["success"] else []
+                ok_pv = ok_pv and [w["name"] for w in wos] == tp["workouts"] and all(w["steps"] for w in wos)
+            check(ok_pv and len(S()["plans"]) == plans_before, "Vorschau aller Vorlagen, ohne sie zu übernehmen")
+            pv = await ws.call(type="training_assistant/template_preview", template_id="gibt-es-nicht")
+            check(not pv["success"], "Vorschau einer unbekannten Vorlage abgelehnt")
 
             # Sprache der Ansagen = Sprache der Testinstanz (Option voice_language steht dort auf „auto“)
             cfg = await ws.call(type="get_config")

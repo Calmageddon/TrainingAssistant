@@ -1,7 +1,7 @@
 """Konstanten für TrainingAssistant."""
 
 DOMAIN = "training_assistant"
-VERSION = "0.7.3"
+VERSION = "0.8.0"
 
 # Version des Importformats für Trainingspläne (siehe schema/plan.schema.json)
 PLAN_SCHEMA_VERSION = 1
