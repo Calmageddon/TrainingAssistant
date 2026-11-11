@@ -4,6 +4,13 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.7.2 – 2026-11-11
+
+- New pictures for Bulgarian Split Squat (both figures): the end position now shows the deep squat instead of the same
+  height.
+  *Deutsch:* Neue Bilder für Bulgarian Split Squat (beide Figuren): Das Endbild zeigt jetzt die tiefe Position statt
+  derselben Höhe.
+
 ## 0.7.1 – 2026-11-11
 
 - Fix: exercise pictures are always shown in full (head, feet and equipment are no longer cut off), in the current
