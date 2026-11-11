@@ -4,6 +4,13 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.7.1 – 2026-11-11
+
+- Fix: exercise pictures are always shown in full (head, feet and equipment are no longer cut off), in the current
+  exercise, "Up next" and the lists.
+  *Deutsch:* Korrektur: Übungsbilder werden immer vollständig gezeigt (Kopf, Füße und Geräte werden nicht mehr
+  abgeschnitten) – bei der aktuellen Übung, bei „Als Nächstes“ und in den Listen.
+
 ## 0.7.0 – 2026-11-10
 
 - New exercise pictures: a uniform pictogram for every template exercise, including yoga, balance and running, which

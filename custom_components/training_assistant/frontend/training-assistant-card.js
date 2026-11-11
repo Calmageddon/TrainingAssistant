@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.7.0";
+const CARD_VERSION = "0.7.1";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -1632,7 +1632,8 @@ const STYLE = `
             grid-template-areas: "lbl lbl lbl" "img name tgt"; column-gap: 10px; align-items: center; overflow: hidden; }
   .un-lbl { grid-area: lbl; font-size: .7em; text-transform: uppercase; letter-spacing: .06em; color: var(--secondary-text-color); }
   .un-img { grid-area: img; width: 32px; height: 32px; border-radius: 6px; overflow: hidden; position: relative; background: #fff; }
-  .un-img .pic { width: 100%; height: 100%; object-fit: cover; }
+  /* Bilder immer vollständig zeigen (nie beschneiden), auf weißem Grund wie die Bilder selbst */
+  .un-img .pic { width: 100%; height: 100%; object-fit: contain; }
   .un-name { grid-area: name; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .un-tgt { grid-area: tgt; color: var(--secondary-text-color); white-space: nowrap; }
   .un-pos { display: none; }
@@ -1706,14 +1707,14 @@ const STYLE = `
   @container (max-width: 560px) { .startrow { grid-template-columns: 1fr 1fr; } .startrow .btn { grid-column: 1 / -1; } }
   .startrow .btn { padding: 12px; font-size: 1.1em; font-weight: 600; }
   .exn { display: flex; align-items: center; gap: 10px; min-width: 0; }
-  .thumb { width: 40px; height: 40px; flex: none; border-radius: 8px; object-fit: cover; background: var(--secondary-background-color); }
+  .thumb { width: 40px; height: 40px; flex: none; border-radius: 8px; object-fit: contain; background: #fff; }
   .thumb.lg { width: 48px; height: 48px; }
   .thumb.noimg { background: transparent; }
   img.broken { visibility: hidden; }
   .current.has-img { flex-direction: row; align-items: stretch; gap: 14px; padding: 10px; }
   .cur-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
   .cur-img { position: relative; width: 38%; flex: none; border-radius: 10px; overflow: hidden; background: #fff; }
-  .cur-img .pic { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cur-img .pic { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; }
   .cur-img .pic.alt { animation: ta-swap 4s infinite; }
   @keyframes ta-swap { 0%, 45% { opacity: 0; } 50%, 95% { opacity: 1; } 100% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .cur-img .pic.alt { animation: none; opacity: 0; } }
