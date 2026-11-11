@@ -4,6 +4,15 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.7.3 – 2026-11-11
+
+- Updated exercise pictures: start and end position of each exercise are aligned, so the movement preview runs
+  smoothly (equipment and standing foot stay in place). Plank and Feet-Elevated Plank now use a single picture; Push
+  Press shows the standing overhead press.
+  *Deutsch:* Überarbeitete Übungsbilder: Start- und Endposition jeder Übung sind aufeinander ausgerichtet, die Bewegung
+  läuft dadurch ruhig (Gerät und Standfuß bleiben an ihrem Platz). Plank und Feet-Elevated Plank haben nur noch ein
+  Bild; Push Press zeigt das Bild der stehenden Schulterpresse.
+
 ## 0.7.2 – 2026-11-11
 
 - New pictures for Bulgarian Split Squat (both figures): the end position now shows the deep squat instead of the same
