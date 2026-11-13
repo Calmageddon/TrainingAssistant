@@ -58,6 +58,8 @@ DEFAULT_BLOCK_NAMES = {
 }
 
 DEFAULT_REST_S = 60
+# Wechselpause zwischen linker und rechter Seite bei einseitigen Sätzen nach Zeit (Sekunden)
+SIDE_SWITCH_S = 5
 # Obergrenze für offene Blöcke (Zeitlimit / Gesamtwiederholungen ohne feste Anzahl)
 OPEN_LIMIT = 50
 WEIGHT_STEPS = {"barbell": 2.5, "dumbbell": 2, "kettlebell": 2, "machine": 2.5, "cable": 2.5}
@@ -298,7 +300,9 @@ def _validate(plan: Any) -> list[str]:
         for ex_id, ex in catalog.items():
             path = f"exercises/{ex_id}"
             c.ident(ex_id, path)
-            if c.obj(ex, path, {"name"}, {"name", "aliases", "equipment", "note", "image", "muscles"}):
+            if c.obj(ex, path, {"name"}, {"name", "aliases", "equipment", "note", "image", "muscles", "unilateral"}):
+                if "unilateral" in ex and not isinstance(ex["unilateral"], bool):
+                    c.err(f"{path}/unilateral", "muss true oder false sein")
                 if "muscles" in ex and not (
                     isinstance(ex["muscles"], list) and all(m in GROUP_ORDER for m in ex["muscles"])
                 ):
@@ -458,6 +462,13 @@ def find_workout(plan: dict, workout_id: str) -> dict:
 HistoryLookup = Callable[[str], list[dict]]
 
 
+def per_side(item: dict, catalog: dict) -> bool:
+    """Pro Seite? `per_side` am Eintrag gilt, sonst die Markierung `unilateral` der Übung."""
+    if isinstance(item.get("per_side"), bool):
+        return item["per_side"]
+    return bool((catalog.get(item.get("exercise")) or {}).get("unilateral"))
+
+
 def flow_segments(block: dict, catalog: dict) -> list[dict[str, Any]]:
     """Abfolge eines Flow-Blocks in einzelne Zeitabschnitte zerlegen.
 
@@ -471,7 +482,7 @@ def flow_segments(block: dict, catalog: dict) -> list[dict[str, Any]]:
     for r in range(1, rounds + 1):
         for item in block["exercises"]:
             ex = catalog[item["exercise"]]
-            for side in (("left", "right") if item.get("per_side") else (None,)):
+            for side in (("left", "right") if per_side(item, catalog) else (None,)):
                 segs.append({"exercise": item["exercise"], "name": ex["name"], "side": side, "round": r,
                              "work_s": item["duration_s"], "rest_s": rest, "note": item.get("note")})
         if segs:
@@ -505,7 +516,7 @@ def flow_step(block: dict, bi: int, name: str | None, catalog: dict) -> dict[str
         "exercises": [x["exercise"] for x in block["exercises"]],
         "exercise_names": [catalog[x["exercise"]]["name"] for x in block["exercises"]],
         "items": [{"exercise": x["exercise"], "name": catalog[x["exercise"]]["name"], "duration_s": x["duration_s"],
-                   "per_side": bool(x.get("per_side"))} for x in block["exercises"]],
+                   "per_side": per_side(x, catalog)} for x in block["exercises"]],
         "note": block.get("note"),
     }
 
@@ -520,7 +531,7 @@ def build_steps(plan: dict, workout_id: str, history: HistoryLookup | None = Non
     OPEN_LIMIT ausgerollt; die Engine springt zum nächsten Block, sobald die Zeit um
     bzw. die Gesamtzahl erreicht ist (`block_end` im Schritt).
     """
-    from .progression import suggest  # noqa: PLC0415 – lazy, damit Prüfung ohne Paket läuft
+    from .progression import suggest, suggest_duration  # noqa: PLC0415 – lazy, damit Prüfung ohne Paket läuft
 
     defaults = plan.get("defaults", {})
     def_rest = defaults.get("rest_s", DEFAULT_REST_S)
@@ -546,6 +557,13 @@ def build_steps(plan: dict, workout_id: str, history: HistoryLookup | None = Non
             progression=progression,
             plan_weight=plan_weight,
         )
+        # Satz nach fester Zeit: eigene Progression in Sekunden (aus nur mit progression: none am Eintrag)
+        timed = None
+        if dur and item.get("duration_s") != "max":
+            timed = suggest_duration(last, plan_duration=dur[0], plan_weight=plan_weight,
+                                     fixed=(item.get("progression") or {}).get("type") == "none")
+            sug = timed
+        side = per_side(item, catalog)
         return {
             "type": "set",
             "block": block_idx,
@@ -557,14 +575,18 @@ def build_steps(plan: dict, workout_id: str, history: HistoryLookup | None = Non
             "amrap": amrap,
             "target_reps": sug["reps"],
             "target_weight": sug["weight_kg"],
-            "target_duration": dur[0] if dur else None,
+            "target_duration": timed["duration_s"] if timed else (dur[0] if dur else None),
             "duration_range": list(dur) if dur and dur[0] != dur[1] else None,
             "hold_max": item.get("duration_s") == "max",
-            "per_side": bool(item.get("per_side")),
+            "per_side": side,
+            # Einseitig nach Zeit: Seite 1, Wechselpause, Seite 2 – die Zeit gilt pro Seite
+            "side_switch_s": SIDE_SWITCH_S if side and (dur or item.get("duration_s") == "max") else 0,
             # Schrittweite für die Plus/Minus-Tasten der Karte
             "weight_step": progression.get("increment_kg") or WEIGHT_STEPS.get(catalog[ex_id].get("equipment"), 1),
             # bester Wert der letzten Session (Startwert bei reps/duration: max)
             "last_reps": max((x["reps"] for x in last if isinstance(x.get("reps"), (int, float))), default=None),
+            "last_duration": max((x["duration_s"] for x in last if isinstance(x.get("duration_s"), (int, float))),
+                                 default=None),
             "tempo": item.get("tempo") or block.get("tempo"),
             "suggestion": sug["reason"],
             "suggestion_key": sug.get("reason_key"),

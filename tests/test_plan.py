@@ -168,3 +168,44 @@ def test_interval_has_segments():
     plan = load()
     hiit = next(s for w in plan["workouts"] for s in build_steps(plan, w["id"]) if s["type"] == "interval")
     assert len(hiit["segments"]) == hiit["rounds"] and hiit["segments"][-1]["rest_s"] == 0
+
+
+def _sides_plan():
+    return {
+        "schema_version": 1, "name": "Seiten",
+        "exercises": {
+            "side_plank": {"name": "Side Plank", "equipment": "bodyweight", "unilateral": True},
+            "plank": {"name": "Plank", "equipment": "bodyweight"},
+            "lunge": {"name": "Lunge", "equipment": "bodyweight", "unilateral": True},
+        },
+        "workouts": [{"id": "a", "name": "A", "blocks": [
+            {"type": "sets", "exercise": "side_plank", "sets": 2, "duration_s": {"min": 20, "max": 45}},
+            {"type": "sets", "exercise": "lunge", "sets": 1, "reps": 10, "per_side": False},
+            {"type": "sets", "exercise": "plank", "sets": 1, "duration_s": 30, "progression": {"type": "none"}},
+            {"type": "flow", "exercises": [{"exercise": "side_plank", "duration_s": 20}]},
+        ]}],
+    }
+
+
+def test_unilateral_field_and_per_side_default():
+    from custom_components.training_assistant.plan import SIDE_SWITCH_S
+    plan = _sides_plan()
+    assert validate_plan(plan) == []
+    bad = copy.deepcopy(plan)
+    bad["exercises"]["plank"]["unilateral"] = "ja"
+    assert any("unilateral" in e for e in validate_plan(bad))
+    steps = build_steps(plan, "a")
+    side, lunge, plank, flow = steps[0], steps[2], steps[3], steps[4]
+    assert side["per_side"] is True and side["side_switch_s"] == SIDE_SWITCH_S
+    assert lunge["per_side"] is False  # per_side am Eintrag gilt vor unilateral
+    assert plank["per_side"] is False and plank["side_switch_s"] == 0
+    assert [x["side"] for x in flow["segments"]] == ["left", "right"]
+
+
+def test_timed_progression_in_steps():
+    plan = _sides_plan()
+    last = [{"set_no": 1, "duration_s": 45, "target_duration": 45, "status": "confirmed"}]
+    steps = build_steps(plan, "a", lambda ex: last)
+    assert steps[0]["target_duration"] == 50 and steps[0]["suggestion_key"] == "time_add"  # über das Ende des Bereichs
+    assert steps[3]["target_duration"] == 30 and steps[3]["suggestion_key"] == "fixed"  # progression none am Eintrag
+    assert steps[0]["last_duration"] == 45

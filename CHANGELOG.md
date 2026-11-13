@@ -4,6 +4,28 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.9.0 – 2026-11-13
+
+- One-sided timed exercises (e.g. side plank) run per side: left, 5 s to switch, then right – the time counts for each
+  side. With a satellite the switch is announced; the card shows which side is on and a "Switch sides" countdown.
+  New optional exercise field `unilateral` in the plan format; 33 template exercises are marked.
+  *Deutsch:* Einseitige Zeitübungen (z. B. Seitstütz) laufen pro Seite: links, 5 s Seitenwechsel, dann rechts – die Zeit
+  gilt pro Seite. Mit Satellit wird der Wechsel angesagt; die Karte zeigt, welche Seite dran ist, und einen Countdown
+  zum Wechsel. Neues optionales Übungsfeld `unilateral` im Planformat; 33 Übungen der Vorlagen sind markiert.
+- Summary after the workout: duration, sets, reps, time under tension, weight moved, muscles, new bests, what got better
+  than last time, what changes next time, week and streak. Short version when you finish early.
+  *Deutsch:* Abschluss nach dem Training: Dauer, Sätze, Wiederholungen, Zeit unter Spannung, bewegtes Gewicht, Muskeln,
+  neue Bestwerte, was besser wurde als letztes Mal, was sich beim nächsten Mal ändert, Woche und Serie. Kurze Fassung,
+  wenn man vorzeitig beendet.
+- Timed sets now progress: all times done → +5 s next time (all easy → +10 s), with no upper limit.
+  *Deutsch:* Sätze nach Zeit steigern sich: alle Zeiten geschafft → beim nächsten Mal +5 s (alles leicht → +10 s), ohne
+  Obergrenze.
+- 7-Minute Circuit: 5 s to switch, so one round takes 7 minutes.
+  *Deutsch:* 7-Minuten-Zirkel: 5 s Wechsel, eine Runde dauert damit 7 Minuten.
+- The one-arm kettlebell swing is its own exercise with its own picture; earlier swings of that template move along.
+  *Deutsch:* Der einarmige Kettlebell Swing ist eine eigene Übung mit eigenem Bild; bisherige Swings dieser Vorlage
+  ziehen mit um.
+
 ## 0.8.0 – 2026-11-11
 
 - Templates: tap a program to see its workouts and exercises with reps, weight or time before adding it. Several

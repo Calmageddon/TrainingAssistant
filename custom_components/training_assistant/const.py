@@ -1,12 +1,14 @@
 """Konstanten für TrainingAssistant."""
 
 DOMAIN = "training_assistant"
-VERSION = "0.8.0"
+VERSION = "0.9.0"
 
 # Version des Importformats für Trainingspläne (siehe schema/plan.schema.json)
 PLAN_SCHEMA_VERSION = 1
 
 STORAGE_KEY = DOMAIN
+# Satz nach Zeit: so lange zählt der Countdown, bevor die Zeit läuft (Sekunden)
+HOLD_COUNTDOWN_S = 5
 STORAGE_VERSION = 1
 
 # Dispatcher-Signal: Zustand hat sich geändert (Entitäten + Karte aktualisieren)

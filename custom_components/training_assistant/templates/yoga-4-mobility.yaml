@@ -8,20 +8,20 @@ description: >-
 goal: general
 exercises:
   worlds_greatest: { name: World's Greatest Stretch, aliases: [Weltbeste Dehnung], equipment: bodyweight,
-                     image: Worlds_Greatest_Stretch }
-  pigeon: { name: Pigeon Pose, aliases: [Taube], equipment: bodyweight, image: false, muscles: [glutes] }
-  half_split: { name: Half Split, aliases: [Halber Spagat], equipment: bodyweight, image: Runners_Stretch }
+                     image: Worlds_Greatest_Stretch, unilateral: true }
+  pigeon: { name: Pigeon Pose, aliases: [Taube], equipment: bodyweight, image: false, muscles: [glutes], unilateral: true }
+  half_split: { name: Half Split, aliases: [Halber Spagat], equipment: bodyweight, image: Runners_Stretch, unilateral: true }
   frog: { name: Frog Stretch, aliases: [Frosch], equipment: bodyweight, image: false, muscles: [quads, glutes] }
   happy_baby: { name: Happy Baby, aliases: [Glückliches Baby], equipment: bodyweight, image: false, muscles: [glutes] }
-  low_lunge: { name: Low Lunge, aliases: [Tiefer Ausfallschritt], equipment: bodyweight, image: Kneeling_Hip_Flexor }
+  low_lunge: { name: Low Lunge, aliases: [Tiefer Ausfallschritt], equipment: bodyweight, image: Kneeling_Hip_Flexor, unilateral: true }
   cat_cow: { name: Cat-Cow, aliases: [Katze-Kuh], equipment: bodyweight, image: Cat_Stretch }
   thread_needle: { name: Thread the Needle, aliases: [Nadelöhr], equipment: bodyweight, image: false,
-                   muscles: [back, shoulders] }
+                   muscles: [back, shoulders], unilateral: true }
   puppy: { name: Puppy Pose, aliases: [Welpe], equipment: bodyweight, image: false, muscles: [shoulders, back] }
   downward_dog: { name: Downward-Facing Dog, aliases: [Herabschauender Hund], equipment: bodyweight, image: false,
                   muscles: [shoulders, hamstrings, calves] }
   sphinx: { name: Sphinx, aliases: [Sphinx], equipment: bodyweight, image: false, muscles: [back] }
-  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover }
+  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover, unilateral: true }
   child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
 workouts:
   - id: hips

@@ -62,6 +62,15 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
   `image`/Katalog-ID. Im Plan: `images` = Katalog-ID (Muskelgruppen), `pictos` = Bild (bei jedem Start neu berechnet).
   Figur `m`/`w` pro Person (`profile.figure`, ws `profile` action `figure`); `single_images` = ohne Endbild.
 - **HIIT** (`interval`) ist zeitgesteuert: Signaltöne/Licht statt Sprache, weil TTS zu langsam ist.
+- **Sätze nach Zeit** (Manager, wie Hero Upgrade `trainer.ts`): `active["hold"]` mit `phase` ready (Countdown
+  `HOLD_COUNTDOWN_S`) → work → bei einseitigen Sätzen switch (`SIDE_SWITCH_S` in plan.py, Ansage „Seite wechseln“) →
+  work Seite 2; Ende trägt den Satz mit der Zeit pro Seite ein (ohne Rückfrage). Timer per `async_call_later`
+  (`_hold_due`), nach einem Neustart beginnt der Countdown neu. Events `hold_ready/hold_go/hold_switch/hold_done`.
+- **Einseitige Übungen:** `unilateral: true` an der Übung (alle Vorlagen gepflegt) → Einträge pro Seite, solange sie
+  kein eigenes `per_side` haben (`per_side()` in plan.py). Zeit-Progression `suggest_duration` (+5 s, alles leicht +10 s,
+  schwer halten, ohne Obergrenze; aus mit `progression: none` am Eintrag).
+- **Abschluss:** `_archive` speichert sofort, ws `session_summary` wartet darauf (Statistik, Vergleich, Bestwerte,
+  Ausblick, Woche/Serie, `ended_early`). Die Karte zeigt danach die Abschluss-Ansicht – bewusst ohne Konfetti.
 
 ## Code-Aufbau (custom_components/training_assistant/)
 

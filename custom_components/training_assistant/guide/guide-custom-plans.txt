@@ -40,7 +40,7 @@ C) Write it yourself
   name                     name of the plan
   description              (optional) short description
   defaults                 (optional) rest and progression for all exercises
-  exercises                exercise catalog: ID → name, equipment, (image, muscles)
+  exercises                exercise catalog: ID → name, equipment, (image, muscles, unilateral)
   workouts                 workouts, suggested in rotation
     └ blocks               sections in a fixed order
 
@@ -56,7 +56,7 @@ C) Write it yourself
     reps                   8  ·  { min: 8, max: 12 }  ·  max
     duration_s             instead of reps: 30  ·  { min: 30, max: 45 }  ·  max
     weight_kg              weight; omit = bodyweight
-    per_side: true         per arm/leg
+    per_side: true         per arm/leg (reps or time per side)
     tempo: "3-0-1"         gets announced
 
   Rest (seconds):
@@ -80,6 +80,10 @@ C) Write it yourself
   exercise name, or set them yourself, e.g. muscles: [hamstrings, glutes, back].
   Groups: chest, back, shoulders, biceps, triceps, core, quads, hamstrings,
   glutes, calves. muscles: [] = whole body, not counted.
+
+  One-sided exercises (side plank, lunge, one-arm row): unilateral: true in the
+  exercise catalog. Then reps and time count per side; timed sets run left,
+  5 seconds to switch, then right.
 
 
 ==============================================================================
@@ -120,6 +124,7 @@ Top level:
       image: <image name> (optional, otherwise automatic; false = no image)
       muscles: [chest | back | shoulders | biceps | triceps | core | quads | hamstrings | glutes | calves]
                                        (optional, main muscles; [] = whole body/none)
+      unilateral: true                 (optional, one-sided exercise: reps/time count per side)
   workouts:                  list
     - id: <snake_case>
       name: <text>
@@ -138,7 +143,8 @@ Set values:
   reps: number (8) OR range {min: 8, max: 12} OR max
   duration_s: seconds (30) OR range {min: 30, max: 45} OR max   – instead of reps, never both
   weight_kg: number in kg; omit for bodyweight
-  per_side: true if "per arm/leg"
+  per_side: true if "per arm/leg" (reps or time per side)
+  one-sided exercises: unilateral: true in the exercise catalog – then per side everywhere
   tempo: "3-0-1" (optional)
   progression: (optional, overrides defaults)
 
@@ -161,6 +167,7 @@ Progression:
 
 Important:
   - Every exercise used must be listed in the "exercises" catalog.
+  - Mark one-sided exercises (side plank, lunge, one-arm row …) with unilateral: true; reps and time then count per side.
   - Never combine fixed reps (e.g. 8) with double progression; without weight use type: reps.
   - No fields other than the ones listed above.
   - Put texts (name, note, description) containing a comma or colon in "quotes".

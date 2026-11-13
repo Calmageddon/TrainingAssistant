@@ -12,17 +12,17 @@ defaults:
 exercises:
   goblet_squat: { name: Goblet Squat, equipment: dumbbell }
   db_bench_press: { name: Dumbbell Bench Press, aliases: [Kurzhantel-Bankdrücken], equipment: dumbbell, image: Dumbbell_Bench_Press }
-  dumbbell_row: { name: One-Arm Dumbbell Row, aliases: [Kurzhantelrudern einarmig], equipment: dumbbell, image: One-Arm_Dumbbell_Row }
+  dumbbell_row: { name: One-Arm Dumbbell Row, aliases: [Kurzhantelrudern einarmig], equipment: dumbbell, image: One-Arm_Dumbbell_Row, unilateral: true }
   db_romanian_deadlift: { name: Dumbbell Romanian Deadlift, aliases: [Rumänisches Kreuzheben Kurzhantel], equipment: dumbbell, image: Stiff-Legged_Dumbbell_Deadlift }
   db_shoulder_press: { name: Dumbbell Shoulder Press, aliases: [Schulterdrücken Kurzhantel], equipment: dumbbell, image: Dumbbell_Shoulder_Press }
-  split_squat: { name: Split Squat, aliases: [Ausfallschritt stehend], equipment: dumbbell, image: Split_Squat_with_Dumbbells }
+  split_squat: { name: Split Squat, aliases: [Ausfallschritt stehend], equipment: dumbbell, image: Split_Squat_with_Dumbbells, unilateral: true }
   push_up: { name: Push-Ups, aliases: [Liegestütze], equipment: bodyweight, image: Pushups }
   db_floor_press: { name: Dumbbell Floor Press, aliases: [Bodendrücken Kurzhantel], equipment: dumbbell, image: Dumbbell_Floor_Press }
   glute_bridge: { name: Glute Bridge, aliases: [Hüftheben], equipment: dumbbell, image: Butt_Lift_Bridge }
   lateral_raise: { name: Lateral Raise, aliases: [Seitheben], equipment: dumbbell, image: Side_Lateral_Raise }
   db_curl: { name: Dumbbell Curl, aliases: [Bizepscurls Kurzhantel], equipment: dumbbell, image: Dumbbell_Bicep_Curl }
   plank: { name: Plank, aliases: [Unterarmstütz], equipment: bodyweight }
-  dead_bug: { name: Dead Bug, equipment: bodyweight }
+  dead_bug: { name: Dead Bug, equipment: bodyweight, unilateral: true }
 workouts:
   - id: a
     name: Full Body A

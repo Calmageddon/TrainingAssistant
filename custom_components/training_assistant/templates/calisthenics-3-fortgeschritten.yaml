@@ -12,16 +12,16 @@ defaults:
 exercises:
   pull_up: { name: Pull-ups, aliases: [Klimmzüge], equipment: bodyweight, image: Pullups }
   dip: { name: Parallel Bar Dips, aliases: [Dips am Barren, Dips], equipment: bodyweight, image: Parallel_Bar_Dip }
-  archer_push_up: { name: Archer Push-up, aliases: [Archer-Liegestütze], equipment: bodyweight, image: Push-Up_Wide }
+  archer_push_up: { name: Archer Push-up, aliases: [Archer-Liegestütze], equipment: bodyweight, image: Push-Up_Wide, unilateral: true }
   feet_elevated_row: { name: Feet-Elevated Inverted Row, aliases: [Rudern mit erhöhten Füßen], equipment: bodyweight, image: Inverted_Row }
   chin_up: { name: Chin-up, aliases: [Klimmzüge Untergriff], equipment: bodyweight, image: Chin-Up }
   decline_push_up: { name: Decline Push-up, aliases: [Liegestütze Füße erhöht], equipment: bodyweight, image: Push-Ups_With_Feet_Elevated }
   pistol_progression: { name: Pistol Squat Progression, aliases: [Pistol-Squat-Progression, Pistol Squat], equipment: bodyweight, image: Kettlebell_Pistol_Squat,
-                        note: "Levels – onto a box → with support → free." }
+                        note: "Levels – onto a box → with support → free.", unilateral: true }
   nordic_curl: { name: Nordic Curl (Negative), aliases: [Nordic Hamstring Curl], equipment: bodyweight, image: Natural_Glute_Ham_Raise,
                  note: "Lower as slowly as possible, catch yourself with your hands." }
-  bulgarian_split_squat: { name: Bulgarian Split Squat, aliases: [Bulgarische Kniebeuge], equipment: bodyweight, image: Split_Squat_with_Dumbbells }
-  single_leg_glute_bridge: { name: Single-Leg Glute Bridge, aliases: [Hüftheben einbeinig], equipment: bodyweight }
+  bulgarian_split_squat: { name: Bulgarian Split Squat, aliases: [Bulgarische Kniebeuge], equipment: bodyweight, image: Split_Squat_with_Dumbbells, unilateral: true }
+  single_leg_glute_bridge: { name: Single-Leg Glute Bridge, aliases: [Hüftheben einbeinig], equipment: bodyweight, unilateral: true }
   hanging_leg_raise: { name: Hanging Leg Raise, aliases: [Beinheben hängend gestreckt], equipment: bodyweight }
   l_sit: { name: L-Sit, equipment: bodyweight, note: "Levels – knees tucked → one leg straight → both straight." }
   muscle_up: { name: Muscle-up Practice, aliases: [Muscle-up], equipment: bodyweight, image: Muscle_Up,

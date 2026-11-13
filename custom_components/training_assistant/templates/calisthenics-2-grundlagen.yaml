@@ -26,7 +26,7 @@ exercises:
   push_up: { name: Push-Ups (choose level), aliases: [Liegestütze], equipment: bodyweight, image: Pushups,
              note: "Levels – wall → incline → knees → full → diamond → archer." }
   hanging_knee_raise: { name: Hanging Knee Raise, aliases: [Beinheben hängend], equipment: bodyweight, image: Hanging_Leg_Raise }
-  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge, unilateral: true }
   superman: { name: Superman, aliases: [Rückenstrecker liegend], equipment: bodyweight, image: Superman }
 workouts:
   - id: a

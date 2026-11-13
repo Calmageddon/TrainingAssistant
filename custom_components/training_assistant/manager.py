@@ -10,6 +10,7 @@ from __future__ import annotations
 import asyncio
 from datetime import timedelta
 import logging
+import re
 from typing import Any
 from pathlib import Path
 import uuid
@@ -18,7 +19,7 @@ import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
-from homeassistant.exceptions import ServiceValidationError
+from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.event import async_call_later
@@ -38,6 +39,8 @@ from .const import (
     DEFAULT_QUESTION_TIMEOUT,
     DOMAIN,
     EVENT_NAME,
+    HOLD_COUNTDOWN_S,
+    PHASE_ACTIVE,
     PHASE_INTERVAL,
     PHASE_READY,
     SET_CONFIRMED,
@@ -54,6 +57,7 @@ from .const import (
 from .engine import Effects, Engine, edit_set, new_session
 from .plan import (
     DEFAULT_BLOCK_NAMES,
+    SIDE_SWITCH_S,
     PlanError,
     build_steps,
     find_workout,
@@ -72,6 +76,11 @@ _LOGGER = logging.getLogger(__name__)
 SAT_DOMAIN = "assist_satellite"
 # Frühere Standardnamen, die beim Laden ersetzt werden
 RENAMED_DEFAULTS = {"Abwärmen"}
+# Übungen, die eine eigene Kennung bekommen haben: (Planname der Vorlage, alt, neu). Gleich wie Hero Upgrade
+# (RENAMED_EXERCISES). Gilt nur für Pläne dieser Vorlage – z. B. bleibt kb_swing in anderen Plänen beidarmig.
+RENAMED_EXERCISES = [
+    ("Kettlebell Swing & Get-up", "kb_swing", "kb_swing_one_arm"),  # einarmiger Swing ≠ beidarmiger Swing
+]
 # Daten, die jedem Profil (Person) gehören. Pläne sind gemeinsam.
 # Die Daten des aktiven Profils liegen direkt in self.data, die der anderen in data["profile_data"].
 PROFILE_KEYS = ("sessions", "program", "rotation", "next", "active", "last_session_id")
@@ -97,6 +106,9 @@ class TrainingManager:
         self._interval_task: asyncio.Task | None = None
         self._rest_unsub: CALLBACK_TYPE | None = None
         self._block_unsub: CALLBACK_TYPE | None = None
+        self._hold_unsub: CALLBACK_TYPE | None = None
+        # Speichern direkt nach dem Ende eines Trainings – die Zusammenfassung wartet darauf
+        self._saving: asyncio.Task | None = None
         self._catalog: Catalog | None = None
         self._pictos: Pictos | None = None
         self._groups_cache: dict[tuple[str | None, str], list[str]] = {}
@@ -122,6 +134,7 @@ class TrainingManager:
             self.data["program"] = self.data["next"]["plan_id"]
             self.data.setdefault("rotation", {})[self.data["next"]["plan_id"]] = self.data["next"]["workout_id"]
         self._sync_next()
+        self._rename_exercises()
         for stored_plan in self.data["plans"].values():
             if "images" not in stored_plan:  # Pläne von vor der Bildfunktion
                 stored_plan["images"] = map_plan(stored_plan["data"], self._catalog)
@@ -139,6 +152,7 @@ class TrainingManager:
             if active["phase"] == PHASE_INTERVAL:
                 active["phase"] = PHASE_READY
             active["interval"] = None
+            active["hold"] = None  # Satz nach Zeit: nach dem Neustart wieder mit dem Countdown beginnen
             active["rest_until"] = None
             active.pop("rest_remaining", None)
             # Zeitlimit eines Blocks überlebt keinen Neustart: als abgelaufen werten
@@ -153,8 +167,54 @@ class TrainingManager:
         self._voice_task = self.entry.async_create_background_task(
             self.hass, self._voice_worker(), f"{DOMAIN}_voice"
         )
+        if active:
+            self._sync_hold()
+
+    def _rename_exercises(self) -> None:
+        """RENAMED_EXERCISES anwenden – bei jedem Laden, ändert nur, was noch die alte Kennung trägt.
+
+        Plan (Übungsliste, Blöcke, Quelltext, Bildzuordnung), Verlauf aller Personen und laufende Trainings.
+        """
+        d = self.data
+        others = list((d.get("profile_data") or {}).values())
+        for plan_name, old, new in RENAMED_EXERCISES:
+            plan_id = slugify(plan_name)
+
+            def fix(items: list | None) -> None:
+                for x in items or []:
+                    if isinstance(x, dict) and x.get("exercise") == old:
+                        x["exercise"] = new
+
+            stored = d["plans"].get(plan_id)
+            if stored and old in stored["data"].get("exercises", {}) and new not in stored["data"]["exercises"]:
+                exercises = stored["data"]["exercises"]
+                stored["data"]["exercises"] = {(new if k == old else k): v for k, v in exercises.items()}
+                for workout in stored["data"].get("workouts", []):
+                    for block in workout.get("blocks", []):
+                        fix([block])
+                        exs = block.get("exercises")
+                        if isinstance(exs, list):
+                            block["exercises"] = [new if e == old else e for e in exs]
+                            fix(block["exercises"])
+                if stored.get("source"):
+                    stored["source"] = re.sub(rf"\b{re.escape(old)}\b", new, stored["source"])
+                if old in (stored.get("images") or {}):
+                    stored["images"][new] = stored["images"].pop(old)
+            for sessions in [d.get("sessions"), *(o.get("sessions") for o in others)]:
+                for sess in sessions or []:
+                    if sess.get("plan_id") == plan_id:
+                        fix(sess.get("sets"))
+            for active in [d.get("active"), *(o.get("active") for o in others)]:
+                if not active or active.get("plan_id") != plan_id:
+                    continue
+                fix(active.get("sets"))
+                fix(active.get("steps"))
+                for step in active.get("steps") or []:
+                    if isinstance(step.get("exercises"), list):
+                        step["exercises"] = [new if e == old else e for e in step["exercises"]]
 
     async def async_unload(self) -> None:
+        self._cancel_hold()
         self._cancel_rest()
         self._cancel_block_timer()
         self._stop_interval()
@@ -375,7 +435,8 @@ class TrainingManager:
     # ------------------------------------------------------------------
 
     def last_sets(self, exercise_id: str, plan_id: str | None = None, workout_id: str | None = None) -> list[dict]:
-        """Gültige Sätze der letzten Session mit dieser Übung.
+        """Gültige Sätze der letzten Session mit dieser Übung (mit Wiederholungen oder Zeit – die Zeit-Progression
+        braucht die Sätze nach Zeit; die Wdh.-Progression filtert selbst).
 
         Mit plan_id/workout_id zuerst aus demselben Workout (gleiche Vorgaben, z. B. 6–8 statt 10 Wdh.),
         nur wenn es dort noch keinen Verlauf gibt aus irgendeinem.
@@ -386,14 +447,16 @@ class TrainingManager:
                     continue
                 sets = [
                     x for x in sess["sets"]
-                    if x["exercise"] == exercise_id and x["status"] != SET_SKIPPED and x.get("reps") is not None
+                    if x["exercise"] == exercise_id and x["status"] != SET_SKIPPED
+                    and (x.get("reps") is not None or x.get("duration_s") is not None)
                 ]
                 if sets:
                     return sets
         for sess in reversed(self.data["sessions"]):
             sets = [
                 x for x in sess["sets"]
-                if x["exercise"] == exercise_id and x["status"] != SET_SKIPPED and x.get("reps") is not None
+                if x["exercise"] == exercise_id and x["status"] != SET_SKIPPED
+                and (x.get("reps") is not None or x.get("duration_s") is not None)
             ]
             if sets:
                 return sets
@@ -602,6 +665,30 @@ class TrainingManager:
             return
         actual = {k: v for k, v in (("reps", reps), ("weight_kg", weight_kg), ("duration_s", duration_s))
                   if v is not None} or None
+        active = self.active
+        hold = active.get("hold")
+        # Satz nach Zeit: im Countdown startet „Weiter“ sofort, im Seitenwechsel die zweite Seite;
+        # während die Zeit läuft, endet der Satz von selbst (Knopf ohne Wirkung)
+        if hold and not active.get("paused") and actual is None:
+            if hold["phase"] == "ready":
+                self._start_hold(dt_util.utcnow())
+                self._changed()
+                return
+            if hold["phase"] == "switch":
+                self._start_side(dt_util.utcnow())
+                self._changed()
+                return
+            if hold["phase"] == "work":
+                return
+        # Pause vor einem Satz nach Zeit: „Weiter“ beendet die Pause und startet den Countdown
+        if (not hold and actual is None and not active.get("paused") and active["phase"] == PHASE_ACTIVE
+                and active.get("rest_until") and self._timed_step(active)
+                and active.get("pending_question") is None):
+            self._cancel_rest()
+            active["rest_until"] = None
+            self._sync_hold()
+            self._changed()
+            return
         if actual is None:
             # Werte aus Plus/Minus (Karte, Tasten, Drehregler) übernehmen, falls geändert
             adj = self.adjust_state()
@@ -642,7 +729,7 @@ class TrainingManager:
                 "timed": timed,
                 "open": bool(step.get("amrap") or step.get("hold_max")),
                 "reps": reps,
-                "duration": (step.get("target_duration") or 30) if timed else None,
+                "duration": (step.get("target_duration") or step.get("last_duration") or 30) if timed else None,
                 "weight": step.get("target_weight"),
                 "weight_step": step.get("weight_step") or 1,
             }
@@ -665,7 +752,10 @@ class TrainingManager:
                 raise error("no_weight")
             adj["weight"] = max(0, round(adj["weight"] + steps * adj["weight_step"], 2))
         elif adj["timed"]:
-            adj["duration"] = max(0, adj["duration"] + steps * 5)
+            # Dauer nur vor dem Start (im Countdown) änderbar
+            if (self.active.get("hold") or {}).get("phase") in ("work", "switch"):
+                return
+            adj["duration"] = max(5, adj["duration"] + steps * 5)
         else:
             adj["reps"] = max(0, (adj["reps"] or 0) + steps)
         self._changed()
@@ -825,12 +915,14 @@ class TrainingManager:
             elif kind == "finished":
                 self._archive()
                 active = None
+        self._sync_hold()
         self._changed()
 
     def _archive(self) -> None:
         active = self.active
         if not active:
             return
+        self._cancel_hold()
         self._cancel_rest()
         self._cancel_block_timer()
         self._stop_interval()
@@ -842,6 +934,9 @@ class TrainingManager:
                         "status", "sets")
         }
         record["paused_s"] = round(active.get("paused_s") or 0)
+        # Mit „Beenden“ vor dem letzten Schritt beendet (regulär steht idx hinter dem letzten Schritt)
+        if active["status"] == "finished" and active["idx"] < len(active["steps"]):
+            record["ended_early"] = True
         for rec in record["sets"]:
             if rec["status"] == SET_PENDING:
                 rec["status"] = SET_UNCONFIRMED
@@ -851,6 +946,129 @@ class TrainingManager:
             self._advance_rotation(active["plan_id"], active["workout_id"])
         self.data["active"] = None
         self.data["last_session_id"] = record["id"] if record["sets"] else None
+        # Sofort speichern (nicht erst nach der kurzen Verzögerung): erst danach zeigt die Karte den Abschluss
+        self._saving = self.hass.async_create_task(self._store.async_save(self.data))
+
+    # -- Abschluss eines Trainings -------------------------------------------
+
+    # Vorschläge, die als Ausblick erscheinen (ohne „Planwerte“/„wie zuletzt“), und die, bei denen es mehr wird
+    OUTLOOK_KEYS = {"time_add", "time_easy_add", "time_repeat", "all_reps_add_weight", "easy_add_weight",
+                    "all_done_add_weight", "all_reps_add_reps", "easy_add_reps", "easy_target", "hold_weight_target",
+                    "target_reps", "harder_variant", "cap_reached", "hard_hold", "repeat_target", "not_all_hold"}
+    OUTLOOK_UP = {"time_add", "time_easy_add", "all_reps_add_weight", "easy_add_weight", "all_done_add_weight",
+                  "all_reps_add_reps", "easy_add_reps", "easy_target", "hold_weight_target", "target_reps",
+                  "harder_variant"}
+
+    async def async_session_summary(self, session_id: str | None = None) -> dict[str, Any] | None:
+        """Zusammenfassung eines gespeicherten Trainings (wie Hero Upgrade sessionSummary). Wartet aufs Speichern."""
+        if self._saving and not self._saving.done():
+            await self._saving
+        sid = session_id or self.data.get("last_session_id")
+        sessions = self.data["sessions"]
+        sess = next((x for x in sessions if x["id"] == sid), None)
+        if not sess:
+            return None
+        done = [r for r in sess["sets"] if st.counts(r)]
+
+        def sides(rec: dict) -> int:
+            # einseitige Sätze gelten für beide Seiten; Flow-Abschnitte (mit side) sind schon je Seite gespeichert
+            return 2 if rec.get("per_side") and not rec.get("side") else 1
+
+        reps = time_s = 0
+        volume = 0.0
+        group_count: dict[str, int] = {}
+        exercises: set[str] = set()
+        for rec in done:
+            exercises.add(rec["exercise"])
+            if isinstance(rec.get("reps"), (int, float)):
+                reps += rec["reps"] * sides(rec)
+            if isinstance(rec.get("duration_s"), (int, float)):
+                time_s += rec["duration_s"] * sides(rec)
+            if rec.get("weight_kg") and isinstance(rec.get("reps"), (int, float)):
+                volume += rec["weight_kg"] * rec["reps"] * sides(rec)
+            for g in self.groups_of(rec, sess):
+                group_count[g] = group_count.get(g, 0) + 1
+        muscles = [g for g, _ in sorted(group_count.items(), key=lambda x: -x[1])]
+        records = [{"name": r["exercise_name"], **r["record"]} for r in sess["sets"] if r.get("record")]
+
+        # Vergleich mit dem letzten Mal desselben Workouts (Verlauf ist zeitlich sortiert): bester Wert je Übung
+        pos = sessions.index(sess)
+        before = next((x for x in reversed(sessions[:pos]) if x["plan_id"] == sess["plan_id"]
+                       and x["workout_id"] == sess["workout_id"] and any(st.counts(r) for r in x["sets"])), None)
+
+        def best(sets: list[dict]) -> dict[str, dict]:
+            out: dict[str, dict] = {}
+            for rec in (r for r in sets if st.counts(r)):
+                b = out.setdefault(rec["exercise"], {"name": rec["exercise_name"], "weight_kg": None, "reps": None,
+                                                     "duration_s": None})
+                for k in ("weight_kg", "reps", "duration_s"):
+                    v = rec.get(k)
+                    if isinstance(v, (int, float)) and (b[k] is None or v > b[k]):
+                        b[k] = v
+            return out
+
+        improved: list[dict] = []
+        comparison = None
+        if before:
+            now_b, then_b = best(sess["sets"]), best(before["sets"])
+            for ex, b in now_b.items():
+                o = then_b.get(ex)
+                if not o:
+                    continue
+                # Gewicht zuerst; bei gleichem Gewicht zählen mehr Wiederholungen bzw. längere Zeit
+                if b["weight_kg"] is not None and o["weight_kg"] is not None and b["weight_kg"] > o["weight_kg"]:
+                    improved.append({"name": b["name"], "kind": "weight", "before": o["weight_kg"], "now": b["weight_kg"]})
+                elif (b["reps"] is not None and o["reps"] is not None and b["reps"] > o["reps"]
+                      and (b["weight_kg"] or 0) >= (o["weight_kg"] or 0)):
+                    improved.append({"name": b["name"], "kind": "reps", "before": o["reps"], "now": b["reps"]})
+                elif b["duration_s"] is not None and o["duration_s"] is not None and b["duration_s"] > o["duration_s"]:
+                    improved.append({"name": b["name"], "kind": "duration", "before": o["duration_s"],
+                                     "now": b["duration_s"]})
+            prev_done = [r for r in before["sets"] if st.counts(r)]
+            prev_volume = sum(r["weight_kg"] * r["reps"] * sides(r) for r in prev_done
+                              if r.get("weight_kg") and isinstance(r.get("reps"), (int, float)))
+            comparison = {"date": before["started_at"], "duration_s": round(st.duration_min(before) * 60),
+                          "sets": len(prev_done), "volume_kg": round(prev_volume)}
+
+        # Ausblick: Vorschläge der Progression für das nächste Mal dieses Workouts (gleiche Logik wie die Vorschau)
+        outlook: list[dict] = []
+        if sess["status"] == "finished" and sess["plan_id"] in self.data["plans"]:
+            try:
+                seen: set[str] = set()
+                for step in self.preview(sess["plan_id"], sess["workout_id"]):
+                    if step["type"] != "set" or step["exercise"] in seen or step["exercise"] not in exercises:
+                        continue
+                    seen.add(step["exercise"])
+                    if step.get("suggestion_key") not in self.OUTLOOK_KEYS:
+                        continue
+                    outlook.append({"name": step["exercise_name"], "key": step["suggestion_key"],
+                                    "params": step.get("suggestion_params") or {}, "text": step.get("suggestion"),
+                                    "weight_kg": step.get("target_weight"), "reps": step.get("target_reps"),
+                                    "up": step["suggestion_key"] in self.OUTLOOK_UP})
+                outlook.sort(key=lambda o: not o["up"])
+            except (HomeAssistantError, KeyError):
+                outlook = []  # Plan/Workout nicht mehr vorhanden: kein Ausblick
+
+        today = dt_util.now().date()
+        goal = self.profile.get("weekly_goal", DEFAULT_WEEKLY_GOAL)
+        per_week = st.weekly_counts(sessions, self._local_day)
+        week = st.week_summary(sessions, today, self._local_day, self.groups_of, goal)
+        seed = 7
+        for ch in str(sess["id"]):
+            seed = (seed * 31 + ord(ch)) % 4294967296
+        return {
+            "id": sess["id"], "status": sess["status"], "ended_early": bool(sess.get("ended_early")),
+            "workout_name": sess["workout_name"], "plan_name": sess["plan_name"],
+            "duration_s": round(st.duration_min(sess) * 60),
+            "exercises": len(exercises), "sets": len(done), "reps": reps, "time_s": time_s,
+            "volume_kg": round(volume), "muscles": muscles, "records": records, "improved": improved,
+            "comparison": comparison, "outlook": outlook[:6],
+            "week_done": week["done"], "week_goal": goal,
+            "streak_weeks": st.streak_weeks(per_week, today, self._goal_of()),
+            "total": sum(per_week.values()),
+            # Wechselnde Überschrift: fest je Training, damit sie beim Neuzeichnen nicht springt
+            "seed": seed,
+        }
 
     # -- Pausentimer -----------------------------------------------------
 
@@ -875,6 +1093,7 @@ class TrainingManager:
             return
         active["rest_until"] = None
         self.hass.bus.async_fire(EVENT_NAME, {"type": "rest_over", "session_id": active["id"]})
+        self._sync_hold()  # Pause vor einem Satz nach Zeit vorbei: Countdown beginnt
         sat = active.get("satellite")
         if sat and self.entry.options.get(CONF_ANNOUNCE, True):
             self._voice_queue.put_nowait(("announce", sat, Speech(active.get("lang", "de")).t("rest_over")))
@@ -903,6 +1122,11 @@ class TrainingManager:
         if self._interval_task:
             self._interval_task.cancel()
             self._interval_task = None
+        hold = active and active.get("hold")
+        if hold and hold.get("until"):
+            hold["remaining"] = max(0, (dt_util.parse_datetime(hold["until"]) - dt_util.utcnow()).total_seconds())
+            hold["until"] = None
+        self._cancel_hold()
 
     def _resume_timers(self) -> None:
         active = self.active
@@ -917,6 +1141,115 @@ class TrainingManager:
             self._start_block_timer(block_remaining)
         if active["phase"] == PHASE_INTERVAL:
             self._start_interval()
+        hold = active.get("hold")
+        if hold and hold.get("remaining") is not None:
+            remaining = hold.pop("remaining")
+            hold["until"] = (dt_util.utcnow() + timedelta(seconds=remaining)).isoformat()
+            self._schedule_hold()
+
+    # -- Satz nach Zeit: 5 s Countdown (Dauer noch änderbar), dann läuft die Zeit und der Satz wird am Ende von
+    #    selbst eingetragen. Einseitig: Seite 1 → Wechselpause (SIDE_SWITCH_S, mit Ansage) → Seite 2; die Zeit
+    #    gilt pro Seite. Gleicher Ablauf wie Hero Upgrade (trainer.ts). --------------------------------------
+
+    @staticmethod
+    def _timed_step(active: dict) -> dict | None:
+        idx = active["idx"]
+        step = active["steps"][idx] if 0 <= idx < len(active["steps"]) else None
+        if step and step["type"] == "set" and (step.get("target_duration") or step.get("hold_max")):
+            return step
+        return None
+
+    def _sync_hold(self) -> None:
+        """Countdown anlegen, sobald ein Satz nach Zeit dran ist und keine Pause mehr läuft; Veraltetes entfernen."""
+        active = self.active
+        if not active:
+            self._cancel_hold()
+            return
+        key = f"{active['idx']}:{len(active['sets'])}"
+        hold = active.get("hold")
+        if hold and hold.get("key") != key:
+            active["hold"] = hold = None
+            self._cancel_hold()
+        if (not hold and self._timed_step(active) and active["phase"] == PHASE_ACTIVE and not active.get("paused")
+                and not active.get("rest_until")):
+            until = dt_util.utcnow() + timedelta(seconds=HOLD_COUNTDOWN_S)
+            active["hold"] = {"key": key, "phase": "ready", "until": until.isoformat()}
+            self.hass.bus.async_fire(EVENT_NAME, {"type": "hold_ready", "session_id": active["id"]})
+            self._schedule_hold()
+
+    def _schedule_hold(self) -> None:
+        self._cancel_hold()
+        hold = (self.active or {}).get("hold")
+        if not hold or not hold.get("until"):
+            return
+        seconds = max(0.0, (dt_util.parse_datetime(hold["until"]) - dt_util.utcnow()).total_seconds())
+        self._hold_unsub = async_call_later(self.hass, seconds, self._hold_due)
+
+    def _cancel_hold(self) -> None:
+        if self._hold_unsub:
+            self._hold_unsub()
+            self._hold_unsub = None
+
+    def _start_hold(self, at: Any) -> None:
+        """Zeit beginnt (ab `at`). Einseitig: erst Seite 1."""
+        active = self.active
+        hold = active.get("hold") if active else None
+        if not hold:
+            return
+        adj = self.adjust_state()
+        step = self._timed_step(active)
+        hold.update(phase="work", total=(adj or {}).get("duration") or 30, sides=2 if step and step.get("per_side") else 1,
+                    side=1, until=(at + timedelta(seconds=(adj or {}).get("duration") or 30)).isoformat())
+        self.hass.bus.async_fire(EVENT_NAME, {"type": "hold_go", "session_id": active["id"],
+                                              "side": 1 if hold["sides"] == 2 else None})
+        self._schedule_hold()
+
+    def _start_switch(self, at: Any) -> None:
+        """Seite 1 ist um: Wechselpause mit Ansage."""
+        active = self.active
+        hold = active["hold"]
+        step = self._timed_step(active)
+        hold.update(phase="switch", switch_total=(step or {}).get("side_switch_s") or SIDE_SWITCH_S)
+        hold["until"] = (at + timedelta(seconds=hold["switch_total"])).isoformat()
+        self.hass.bus.async_fire(EVENT_NAME, {"type": "hold_switch", "session_id": active["id"]})
+        sat = active.get("satellite")
+        if sat and self.entry.options.get(CONF_ANNOUNCE, True):
+            self._voice_queue.put_nowait(("announce", sat, Speech(active.get("lang", "de")).t("side_switch")))
+        self._schedule_hold()
+
+    def _start_side(self, at: Any) -> None:
+        """Seite 2 beginnt."""
+        active = self.active
+        hold = active["hold"]
+        hold.update(phase="work", side=2, until=(at + timedelta(seconds=hold["total"])).isoformat())
+        self.hass.bus.async_fire(EVENT_NAME, {"type": "hold_go", "session_id": active["id"], "side": 2})
+        self._schedule_hold()
+
+    @callback
+    def _hold_due(self, _now: Any) -> None:
+        self._hold_unsub = None
+        active = self.active
+        hold = active.get("hold") if active else None
+        if not hold or active.get("paused") or not hold.get("until"):
+            return
+        at = dt_util.parse_datetime(hold["until"])
+        if hold["phase"] == "ready":
+            self._start_hold(at)
+        elif hold["phase"] == "work" and hold.get("sides") == 2 and hold.get("side") == 1:
+            self._start_switch(at)
+        elif hold["phase"] == "switch":
+            self._start_side(at)
+        elif hold["phase"] == "work":
+            # Zeit um: Satz mit der geplanten (bzw. im Countdown angepassten) Zeit eintragen, ohne Rückfrage
+            adj = self.adjust_state()
+            values: dict[str, Any] = {"duration_s": hold["total"]}
+            if adj and adj.get("weight") is not None:
+                values["weight_kg"] = adj["weight"]
+            active["hold"] = None
+            self.hass.bus.async_fire(EVENT_NAME, {"type": "hold_done", "session_id": active["id"]})
+            self.hass.async_create_task(self.async_next(**values))
+            return
+        self._changed()
 
     # -- Zeitlimit eines Blocks („5 Minuten im Wechsel“) -----------------
 
@@ -1380,6 +1713,7 @@ class TrainingManager:
             "last_session_id": self.data.get("last_session_id"),
             "default_satellite": self.entry.options.get(CONF_DEFAULT_SATELLITE),
             "last_same_duration_s": self._last_same_duration(),
+            "side_switch_s": SIDE_SWITCH_S,
             "profiles": [{"id": p["id"], "name": p["name"], "user_id": p.get("user_id"),
                           "figure": p.get("figure", DEFAULT_FIGURE)}
                          for p in self.data["profiles"].values()],

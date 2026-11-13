@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.8.0";
+const CARD_VERSION = "0.9.0";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -32,6 +32,28 @@ const I18N = {
     tempo: "Tempo {t}", iv_work: "WORK", iv_rest: "REST", t_rest: "Rest", t_left: "Time left",
     t_up: "Time's up – finish the exercise", t_question: "Voice question … (Next = as planned)",
     b_resume: "▶ Resume", b_go: "▶ Go", b_end_hiit: "End HIIT", b_set_done: "✓ Set done",
+    // Abschluss nach dem Training
+    fin_h1: "Strong work!", fin_h2: "That's a wrap.", fin_h3: "Another step forward.", fin_h4: "Done – and done well.",
+    fin_h5: "Good work today.", fin_h6: "Workout in the bag.",
+    fin_s1: "You did what you set out to do.", fin_s2: "Every workout like this one adds up.",
+    fin_s3: "Your body takes it from here – rest well.",
+    fin_early_h: "That counts too.", fin_early_s: "Not everything today – but you showed up, and it's saved.",
+    fin_saved: "✓ Saved", fin_duration: "Duration", fin_exercises: "Exercises", fin_sets: "Sets", fin_reps: "Reps",
+    fin_time: "Time under tension", fin_volume: "Weight moved", fin_muscles: "Trained", fin_records: "🏆 New personal bests",
+    fin_rec_weight: "{name}: {v} (before {p})", fin_rec_e1rm: "{name}: estimated max {v} (before {p})",
+    fin_rec_reps: "{name}: {v} reps (before {p})", fin_rec_duration: "{name}: {v} s (before {p} s)",
+    fin_better: "Better than last time", fin_vs_last: "Last time ({date}): {d} · {n} sets",
+    fin_vs_volume: "Weight moved: {before} → {now}", fin_next: "Next time",
+    fin_next_hint: "What the progression suggests for this workout next time.",
+    fin_week: "{n} of {g} workouts this week", fin_week_done: "Weekly goal reached – {n} workouts",
+    fin_streak: "🔥 {n} weeks in a row on target", fin_streak1: "🔥 1 week on target", fin_total: "Workout no. {n} overall",
+    fin_done: "✓ Done",
+    // Satz nach Zeit (Countdown, Zeit läuft, einseitig: Seitenwechsel)
+    hold_ready: "Get ready", hold_ready_sides: "Get ready – left side first", hold_run: "Keep going!",
+    hold_side_1: "Left side · 1/2", hold_side_2: "Right side · 2/2", hold_switch: "Switch sides",
+    side_now_1: "Left", side_now_2: "Right", side_next_2: "Next: right side",
+    b_hold_now: "▶ Start now", b_hold_running: "⏱ Running – continues by itself", b_hold_side2: "▶ Start right side now",
+    b_hold_end_rest: "▶ End rest – start countdown",
     b_set_done_changed: "✓ Set done (changed)", b_next: "Next", step: "Step {i}/{n}", b_back: "↶ Back",
     b_pause: "❚❚ Pause", b_continue: "▶ Continue", b_skip: "⤼ Skip", b_finish: "⚑ Finish", c_finish: "Really finish?",
     b_discard: "✕ Discard", c_discard: "Really discard?", coming_up: "Coming up", logged: "Logged (tap to correct)",
@@ -113,6 +135,8 @@ const I18N = {
     pp_user: "Home Assistant user", pp_user_none: "– not linked –",
     pp_user_hint: "A linked person is selected automatically when that user opens the card (e.g. on their own phone).",
     pp_linked: "🔗 {name}", pp_linked_anon: "🔗 linked",
+    "sug.time_add": "All times done → +{add} s ({target} s)", "sug.time_easy_add": "All felt easy → +{add} s ({target} s)",
+    "sug.time_repeat": "Not every set reached {target} s yet – repeat",
     "sug.hard_hold": "Felt hard last time → same again", "sug.easy_target": "Felt easy → aim for {target} reps (up to {max})",
     "sug.easy_add_reps": "All sets felt easy → +{add} reps", "sug.easy_add_weight": "All sets felt easy → +{kg} kg",
   },
@@ -137,6 +161,28 @@ const I18N = {
     tempo: "Tempo {t}", iv_work: "ARBEIT", iv_rest: "PAUSE", t_rest: "Pause", t_left: "Zeit übrig",
     t_up: "Zeit um – Übung beenden", t_question: "Rückfrage läuft … (Weiter = wie geplant)",
     b_resume: "▶ Fortsetzen", b_go: "▶ Los", b_end_hiit: "HIIT beenden", b_set_done: "✓ Satz fertig",
+    // Abschluss nach dem Training
+    fin_h1: "Stark gemacht!", fin_h2: "Das sitzt.", fin_h3: "Wieder ein Schritt nach vorn.", fin_h4: "Erledigt – und zwar richtig.",
+    fin_h5: "Gute Arbeit heute.", fin_h6: "Training im Kasten.",
+    fin_s1: "Du hast durchgezogen, was du dir vorgenommen hast.", fin_s2: "Jedes Training wie dieses zahlt ein.",
+    fin_s3: "Den Rest erledigt jetzt dein Körper – gute Erholung.",
+    fin_early_h: "Auch das zählt.", fin_early_s: "Heute nicht alles – aber du warst da, und es ist gespeichert.",
+    fin_saved: "✓ Gespeichert", fin_duration: "Dauer", fin_exercises: "Übungen", fin_sets: "Sätze", fin_reps: "Wiederholungen",
+    fin_time: "Zeit unter Spannung", fin_volume: "Bewegtes Gewicht", fin_muscles: "Trainiert", fin_records: "🏆 Neue Bestwerte",
+    fin_rec_weight: "{name}: {v} (vorher {p})", fin_rec_e1rm: "{name}: geschätztes Maximum {v} (vorher {p})",
+    fin_rec_reps: "{name}: {v} Wdh. (vorher {p})", fin_rec_duration: "{name}: {v} s (vorher {p} s)",
+    fin_better: "Besser als letztes Mal", fin_vs_last: "Letztes Mal ({date}): {d} · {n} Sätze",
+    fin_vs_volume: "Bewegtes Gewicht: {before} → {now}", fin_next: "Nächstes Mal",
+    fin_next_hint: "Das schlägt die Progression für dieses Workout beim nächsten Mal vor.",
+    fin_week: "{n} von {g} Trainings diese Woche", fin_week_done: "Wochenziel erreicht – {n} Trainings",
+    fin_streak: "🔥 {n} Wochen am Stück im Ziel", fin_streak1: "🔥 1 Woche im Ziel", fin_total: "Training Nr. {n} insgesamt",
+    fin_done: "✓ Fertig",
+    // Satz nach Zeit (Countdown, Zeit läuft, einseitig: Seitenwechsel)
+    hold_ready: "Gleich geht's los", hold_ready_sides: "Gleich geht's los – erst links", hold_run: "Durchhalten!",
+    hold_side_1: "Linke Seite · 1/2", hold_side_2: "Rechte Seite · 2/2", hold_switch: "Seite wechseln",
+    side_now_1: "Links", side_now_2: "Rechts", side_next_2: "Gleich: rechte Seite",
+    b_hold_now: "▶ Jetzt los", b_hold_running: "⏱ Läuft – geht von selbst weiter", b_hold_side2: "▶ Rechte Seite jetzt starten",
+    b_hold_end_rest: "▶ Pause beenden – Countdown",
     b_set_done_changed: "✓ Satz fertig (geändert)", b_next: "Weiter", step: "Schritt {i}/{n}", b_back: "↶ Zurück",
     b_pause: "❚❚ Pause", b_continue: "▶ Weiter", b_skip: "⤼ Überspringen", b_finish: "⚑ Beenden", c_finish: "Wirklich beenden?",
     b_discard: "✕ Verwerfen", c_discard: "Wirklich verwerfen?", coming_up: "Danach", logged: "Erfasst (antippen zum Korrigieren)",
@@ -218,6 +264,8 @@ const I18N = {
     pp_user: "Home-Assistant-Benutzer", pp_user_none: "– nicht verknüpft –",
     pp_user_hint: "Eine verknüpfte Person wird automatisch ausgewählt, wenn dieser Benutzer die Karte öffnet (z. B. auf dem eigenen Handy).",
     pp_linked: "🔗 {name}", pp_linked_anon: "🔗 verknüpft",
+    "sug.time_add": "Alle Zeiten geschafft → +{add} s ({target} s)", "sug.time_easy_add": "Alles leicht → +{add} s ({target} s)",
+    "sug.time_repeat": "{target} s noch nicht in jedem Satz geschafft – nochmal",
     "sug.hard_hold": "Zuletzt schwer → gleiche Vorgabe nochmal", "sug.easy_target": "Leicht → Ziel {target} Wdh. (bis {max})",
     "sug.easy_add_reps": "Alle Sätze leicht → +{add} Wdh.", "sug.easy_add_weight": "Alle Sätze leicht → +{kg} kg",
   },
@@ -233,7 +281,10 @@ const setLanguage = (hass) => {
 const t = (key, p = {}) =>
   String(I18N[LANG][key] ?? I18N.en[key] ?? key).replace(/\{(\w+)\}/g, (_, n) => (p[n] ?? ""));
 // Vorschlag (Progression) in der Kartensprache; ältere Daten ohne Schlüssel: Text der Integration
-const sugText = (o) => (o && o.key ? t(`sug.${o.key}`, o.params || {}) : (o && o.text) || "");
+// Zahlen in Vorschlägen im Format der Sprache („+2,5 kg“)
+const sugText = (o) => (o && o.key
+  ? t(`sug.${o.key}`, Object.fromEntries(Object.entries(o.params || {}).map(([k, v]) => [k, typeof v === "number" ? num(v) : v])))
+  : (o && o.text) || "");
 const stepSug = (s) => sugText({ key: s.suggestion_key, params: s.suggestion_params, text: s.suggestion });
 const reasonSug = (s) => sugText({ key: s.reason_key, params: s.reason_params, text: s.reason });
 
@@ -285,8 +336,8 @@ const date = (iso) =>
 function targetText(s) {
   let out;
   if (s.hold_max) out = t("hold_max_short");
+  else if (s.target_duration) out = `${s.target_duration} s`; // Zeit-Progression: Ziel kann über dem Bereich liegen
   else if (s.duration_range) out = `${s.duration_range[0]}–${s.duration_range[1]} s`;
-  else if (s.target_duration) out = `${s.target_duration} s`;
   else if (s.amrap) out = t("amrap_short");
   else if (s.target_reps) out = t("reps_n", { n: s.target_reps });
   else out = "";
@@ -303,8 +354,9 @@ function targetTiles(s) {
   const parts = [];
   const side = s.per_side ? t("per_side") : "";
   if (s.hold_max) parts.push(tile("max", t("tile_hold")));
+  else if (s.target_duration) parts.push(tile(s.target_duration, t("u_sec"),
+    [s.duration_range ? `${s.duration_range[0]}–${s.duration_range[1]} s` : "", side].filter(Boolean).join(" · ")));
   else if (s.duration_range) parts.push(tile(`${s.duration_range[0]}–${s.duration_range[1]}`, t("u_sec"), side));
-  else if (s.target_duration) parts.push(tile(s.target_duration, t("u_sec"), side));
   else if (s.amrap) parts.push(tile("max", t("u_reps"), side));
   else if (s.target_reps) {
     const range = s.rep_range && s.rep_range[0] !== s.rep_range[1] ? t("goal_range", { lo: s.rep_range[0], hi: s.rep_range[1] }) : "";
@@ -327,7 +379,7 @@ function setValue(x) {
   if (x.status === "skipped") return "–";
   const parts = [];
   if (x.reps !== null && x.reps !== undefined) parts.push(`${x.reps}${x.per_side ? t("per_side_short") : ""}`);
-  if (x.duration_s !== null && x.duration_s !== undefined) parts.push(`${x.duration_s} s`);
+  if (x.duration_s !== null && x.duration_s !== undefined) parts.push(`${x.duration_s} s${x.per_side ? t("per_side_short") : ""}`);
   if (x.weight_kg !== null && x.weight_kg !== undefined) parts.push(kg(x.weight_kg));
   return parts.join(" × ") || "?";
 }
@@ -417,7 +469,10 @@ class TrainingAssistantCard extends HTMLElement {
           this._history = null;
           this._previewKey = null;
         }
+        // Training gerade zu Ende (und gespeichert, sonst gäbe es keine last_session_id): Abschluss zeigen
+        const ended = prev && prev.active && !state.active && state.last_session_id ? state.last_session_id : null;
         this._state = state;
+        if (ended) this._openSummary(ended);
         FIGURE = state.figure === "w" ? "w" : "m";
         if (!prev || prev.single_images !== state.single_images) SINGLE = new Set(state.single_images || []);
       this._watchLogged(prev, state);
@@ -500,6 +555,10 @@ class TrainingAssistantCard extends HTMLElement {
     } else if (a === "adj") {
       // Werte liegen in der Integration – dieselben wie bei Drehregler/Tasten-Entitäten
       await this._service("adjust", { field: d.k === "weight" ? "weight" : "reps", steps: Number(d.d) });
+    } else if (a === "fin-done") {
+      // Abschluss schließen → zurück zur Startseite des Trainings
+      this._summary = null;
+      this._render();
     } else if (a === "next") {
       await this._service("next");
     } else if (a === "svc") {
@@ -745,8 +804,20 @@ class TrainingAssistantCard extends HTMLElement {
   _tickTimers() {
     const now = Date.now();
     this.shadowRoot.querySelectorAll("[data-until]").forEach((el) => {
+      if (!el.dataset.until) return; // angehalten
       const left = (new Date(el.dataset.until).getTime() - now) / 1000;
       el.textContent = mmss(left);
+    });
+    // Countdown vor einem Satz nach Zeit und Seitenwechsel: ganze Sekunden
+    this.shadowRoot.querySelectorAll("[data-until-s]").forEach((el) => {
+      if (!el.dataset.untilS) return;
+      el.textContent = Math.max(0, Math.ceil((new Date(el.dataset.untilS).getTime() - now) / 1000));
+    });
+    // Laufender Satz nach Zeit: Balken läuft von voll nach leer
+    this.shadowRoot.querySelectorAll("[data-fill-until]").forEach((el) => {
+      if (!el.dataset.fillUntil) return;
+      const left = (new Date(el.dataset.fillUntil).getTime() - now) / 1000;
+      el.style.width = `${Math.min(100, Math.max(0, (left / Number(el.dataset.total)) * 100))}%`;
     });
     // Trainingszeit ohne Pausen: bisherige Pausen abziehen, während einer Pause steht die Uhr
     const active = (el, since) => {
@@ -785,7 +856,8 @@ class TrainingAssistantCard extends HTMLElement {
     else if (!this._state) body = `<div class="muted pad">${t("loading")}</div>`;
     else if (this._tab === "history") body = this._renderHistory();
     else if (this._tab === "plans") body = this._renderPlans();
-    else body = this._state.active ? this._renderActive(this._state.active) : this._renderIdle();
+    else body = this._state.active ? this._renderActive(this._state.active)
+      : this._summary ? this._renderSummary() : this._renderIdle();
 
     const tab = (id, label) =>
       `<button class="tab ${this._tab === id ? "on" : ""}" data-a="tab" data-tab="${id}">${label}</button>`;
@@ -902,6 +974,73 @@ class TrainingAssistantCard extends HTMLElement {
     return `<div class="preview">${parts.join("")}</div>`;
   }
 
+  // ----------------------------------------------------------------- Abschluss nach dem Training (ohne Konfetti)
+
+  async _openSummary(sessionId) {
+    this._summary = { loading: true, id: sessionId };
+    this._tab = "training";
+    try {
+      const res = await this._ws({ type: "session_summary", session_id: sessionId });
+      this._summary = res.summary;
+    } catch (_) {
+      this._summary = null;
+    }
+    this._render();
+  }
+
+  _renderSummary() {
+    const s = this._summary;
+    if (s.loading) return `<div class="pad muted">${t("loading")}</div>`;
+    const early = s.status === "aborted" || s.ended_early;
+    const head = early ? t("fin_early_h") : t(`fin_h${1 + (s.seed % 6)}`);
+    const sub = early ? t("fin_early_s") : t(`fin_s${1 + (Math.floor(s.seed / 6) % 3)}`);
+    const mins = (sec) => {
+      const m = Math.max(1, Math.round(sec / 60));
+      return m >= 60 ? `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")} min` : `${m} min`;
+    };
+    const bigKg = (v) => `${Math.round(v).toLocaleString(LOCALE)} kg`;
+    const tile = (value, label) => `<div class="fin-tile"><b>${esc(value)}</b><span>${esc(label)}</span></div>`;
+    const tiles = [
+      tile(mins(s.duration_s), t("fin_duration")),
+      early ? "" : tile(String(s.exercises), t("fin_exercises")),
+      tile(String(s.sets), t("fin_sets")),
+      s.reps ? tile(String(s.reps), t("fin_reps")) : "",
+      s.time_s ? tile(s.time_s >= 60 ? `${mmss(s.time_s)} min` : `${s.time_s} s`, t("fin_time")) : "",
+      s.volume_kg ? tile(bigKg(s.volume_kg), t("fin_volume")) : "",
+    ].join("");
+    const muscles = s.muscles.length
+      ? `<div class="fin-sec"><div class="lbl">${t("fin_muscles")}</div><div class="fin-chips">${s.muscles
+          .map((m) => `<span class="chip">${esc(t(`mg.${m}`))}</span>`).join("")}</div></div>` : "";
+    const heavy = (kind) => kind === "weight" || kind === "e1rm";
+    const val = (kind, v) => (heavy(kind) ? kg(v) : kind === "duration" ? `${v} s` : String(v));
+    const records = s.records.length
+      ? `<div class="fin-sec fin-rec"><div class="lbl">${t("fin_records")}</div><ul>${s.records
+          .map((r) => `<li>${esc(t(`fin_rec_${r.kind}`, { name: r.name, v: heavy(r.kind) ? kg(r.value) : r.value,
+            p: heavy(r.kind) ? kg(r.previous) : r.previous }))}</li>`).join("")}</ul></div>` : "";
+    const better = s.improved.length
+      ? `<div class="fin-sec"><div class="lbl">${t("fin_better")}</div><ul>${s.improved
+          .map((x) => `<li><span>${esc(x.name)}</span><span class="fin-up">${esc(val(x.kind, x.before))} → <b>${esc(val(x.kind, x.now))}</b></span></li>`).join("")}</ul></div>` : "";
+    const c = s.comparison;
+    const vs = c ? `<div class="muted small">${esc(t("fin_vs_last", { date: date(c.date), d: mins(c.duration_s), n: c.sets }))}${c.volume_kg && s.volume_kg
+      ? ` · ${esc(t("fin_vs_volume", { before: bigKg(c.volume_kg), now: bigKg(s.volume_kg) }))}` : ""}</div>` : "";
+    const outlook = !early && s.outlook.length
+      ? `<div class="fin-sec"><div class="lbl">${t("fin_next")}</div><div class="muted small">${t("fin_next_hint")}</div><ul>${s.outlook
+          .map((o) => `<li class="${o.up ? "up" : ""}"><span>${esc(o.name)}</span><span class="muted small">${esc(sugText({ key: o.key, params: o.params, text: o.text }))}</span></li>`).join("")}</ul></div>` : "";
+    const week = s.week_done >= s.week_goal ? t("fin_week_done", { n: s.week_done }) : t("fin_week", { n: s.week_done, g: s.week_goal });
+    const streak = s.streak_weeks ? t(s.streak_weeks === 1 ? "fin_streak1" : "fin_streak", { n: s.streak_weeks }) : "";
+    return `<div class="pad fin ${early ? "early" : ""}">
+        <div class="fin-head">
+          <h2>${esc(head)}</h2>
+          <p>${esc(sub)}</p>
+          <div class="fin-meta"><span class="badge ok">${t("fin_saved")}</span> <span class="muted small">${esc(s.workout_name)} · ${esc(s.plan_name)}</span></div>
+        </div>
+        <div class="fin-tiles">${tiles}</div>
+        ${records}${better}${vs ? `<div class="fin-sec">${vs}</div>` : ""}${muscles}${outlook}
+        <div class="fin-sec fin-cont"><span>${esc(week)}</span>${streak ? `<span>${esc(streak)}</span>` : ""}<span>${esc(t("fin_total", { n: s.total }))}</span></div>
+        <button class="btn primary big fin-done" data-a="fin-done">${t("fin_done")}</button>
+      </div>`;
+  }
+
   _renderActive(a) {
     const step = a.steps[a.idx] || {};
     const total = a.steps.length;
@@ -911,7 +1050,11 @@ class TrainingAssistantCard extends HTMLElement {
       : a.phase === "interval" && step.block_type === "flow" ? t("ty_flow") : t(`ph_${a.phase}`);
     let main;
     if (step.type === "set") {
-      main = `<div class="ex">${esc(step.exercise_name)}</div>
+      // Einseitig nach Zeit: dezent zeigen, welche Seite dran ist (bzw. als Nächstes kommt)
+      const h = a.hold && a.hold.sides === 2 && !a.rest_until ? a.hold : null;
+      const sideNow = h && h.phase === "work" ? `<div class="side-now">${esc(t(`side_now_${h.side}`))}<span>${h.side}/2</span></div>`
+        : h && h.phase === "switch" ? `<div class="side-now next">${esc(t("side_next_2"))}</div>` : "";
+      main = `<div class="ex">${esc(step.exercise_name)}</div>${sideNow}
         ${this._muscleTags(step.muscles, step.muscles_secondary)}
         ${targetTiles(step)}
         ${step.tempo ? `<div class="chip">${esc(t("tempo", { t: step.tempo }))}</div>` : ""}
@@ -943,6 +1086,15 @@ class TrainingAssistantCard extends HTMLElement {
               ? `<div class="timer st st-go st-iv"><span>${t("st_go")} · ${esc(pos)}</span><span class="st-time" data-until="${esc(iv.ends_at)}"></span></div>`
               : `<div class="timer st st-rest st-iv"><span class="grow">${step.block_type === "flow" ? t("flow_switch") : t("t_rest")} <span class="st-time" data-until="${esc(iv.ends_at)}"></span></span></div>`;
           })()
+      : a.hold && a.phase === "active" && !a.rest_until
+        ? a.hold.phase === "ready"
+          ? `<div class="timer st st-wait st-hold"><span class="grow">${t(step.per_side ? "hold_ready_sides" : "hold_ready")} <span class="st-time" data-until-s="${esc(a.hold.until || "")}"></span></span></div>`
+          : a.hold.phase === "switch"
+            // Wechselpause zwischen den Seiten: eigene Anzeige mit Countdown
+            ? `<div class="timer st st-rest st-hold"><span class="grow">${t("hold_switch")} <span class="st-time" data-until-s="${esc(a.hold.until || "")}"></span></span>
+                <i class="st-fill" data-fill-until="${esc(a.hold.until || "")}" data-total="${a.hold.switch_total}"></i></div>`
+            : `<div class="timer st st-go st-hold"><span>${a.hold.sides === 2 ? t(`hold_side_${a.hold.side}`) : t("hold_run")}</span><span class="st-time" data-until="${esc(a.hold.until || "")}"></span>
+                <i class="st-fill" data-fill-until="${esc(a.hold.until || "")}" data-total="${a.hold.total}"></i></div>`
       : a.rest_until
         ? `<div class="timer st st-rest"><button class="tbtn" data-a="rest" data-d="-15" aria-label="${t("rest_less")}">−15</button>
           <span class="grow">${t("t_rest")} <span data-until="${esc(a.rest_until)}"></span></span>
@@ -966,6 +1118,14 @@ class TrainingAssistantCard extends HTMLElement {
         ? t("b_go")
         : a.phase === "interval"
           ? t(step.block_type === "flow" ? "b_end_flow" : "b_end_hiit")
+          : a.hold && a.hold.phase === "ready" && !a.rest_until
+            ? t("b_hold_now")
+          : a.hold && a.hold.phase === "switch"
+            ? t("b_hold_side2")
+          : a.hold && a.hold.phase === "work"
+            ? t("b_hold_running")
+          : a.rest_until && step.type === "set" && (step.target_duration || step.hold_max)
+            ? t("b_hold_end_rest")
           : step.type === "set"
             ? a.adjust && a.adjust.changed ? t("b_set_done_changed") : t("b_set_done")
             : t("b_next");
@@ -1002,7 +1162,7 @@ class TrainingAssistantCard extends HTMLElement {
         <div class="status">${timers}</div>
         <div class="controls">
           ${adjust}
-          <button class="btn primary big" data-a="next">${nextLabel}</button>
+          <button class="btn primary big" data-a="next" ${a.hold && a.hold.phase === "work" && !a.paused ? "disabled" : ""}>${nextLabel}</button>
         <div class="row btns">
           <button class="btn" data-a="svc" data-svc="undo">${t("b_back")}</button>
           <button class="btn" data-a="svc" data-svc="pause">${a.paused ? t("b_continue") : t("b_pause")}</button>
@@ -1932,6 +2092,39 @@ const STYLE = `
   .timer.st-wait { --st: #ef5350; }
   .timer.st-rest { --st: #fbc02d; }
   .timer.st-go { --st: #66bb6a; }
+  .timer.st-hold { position: relative; overflow: hidden; justify-content: space-between; }
+  .timer.st-hold .st-time { font-size: 1.35em; font-weight: 800; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+  .timer.st-hold.st-wait .grow { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .st-fill { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: var(--st); transition: width .25s linear; }
+  /* Abschluss nach dem Training */
+  .fin { display: flex; flex-direction: column; gap: 14px; container-type: inline-size; }
+  .fin-head { text-align: center; padding: 8px 0 4px; }
+  .fin-head h2 { margin: 6px 0 4px; font-size: 1.6em; line-height: 1.2; }
+  .fin-head p { margin: 0 0 10px; color: var(--secondary-text-color); }
+  .fin.early .fin-head h2 { font-size: 1.35em; }
+  .fin-meta { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; }
+  .fin-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  @container (max-width: 560px) { .fin-tiles { grid-template-columns: 1fr 1fr; } }
+  .fin-tile { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 12px;
+              background: var(--secondary-background-color); min-width: 0; }
+  .fin-tile b { font-size: 1.3em; font-variant-numeric: tabular-nums; }
+  .fin-tile span { font-size: .8em; color: var(--secondary-text-color); }
+  .fin-sec ul { list-style: none; margin: 4px 0 0; padding: 0; }
+  .fin-sec li { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 5px 0;
+                border-bottom: 1px solid var(--divider-color); }
+  .fin-sec li:last-child { border-bottom: 0; }
+  .fin-sec li.up > span:first-child::before { content: "↑ "; color: var(--primary-color); font-weight: 700; }
+  .fin-up b { color: var(--primary-color); }
+  .fin-rec { border-radius: 12px; padding: 10px 12px; background: color-mix(in srgb, var(--primary-color) 12%, transparent); }
+  .fin-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .fin-cont { display: flex; flex-direction: column; gap: 4px; align-items: center; text-align: center;
+              color: var(--secondary-text-color); font-size: .9em; }
+  .fin-done { width: 100%; }
+  .side-now { align-self: center; display: inline-flex; align-items: baseline; gap: 6px; margin: 2px auto 4px; padding: 2px 12px;
+              border-radius: 999px; font-size: .95em; font-weight: 700; color: var(--primary-color);
+              border: 1px solid color-mix(in srgb, var(--primary-color) 45%, transparent); }
+  .side-now span { font-size: .8em; font-weight: 500; color: var(--secondary-text-color); }
+  .side-now.next { color: var(--secondary-text-color); border-color: var(--divider-color); font-weight: 600; }
   .timer.st-paused { --st: var(--secondary-text-color); }
   .timer.st-wait::before, .timer.st-go::before { animation: ta-pulse 1.4s ease-in-out infinite; }
   @keyframes ta-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.7); } }

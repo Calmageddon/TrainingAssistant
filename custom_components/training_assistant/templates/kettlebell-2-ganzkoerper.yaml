@@ -13,13 +13,13 @@ defaults:
   rest_s: 60
   progression: { type: double, increment_kg: 4 }
 exercises:
-  kb_clean_press: { name: Clean & Press, aliases: [Kettlebell Clean and Press], equipment: kettlebell, image: One-Arm_Kettlebell_Military_Press_To_The_Side }
-  kb_row: { name: Kettlebell Row, aliases: [Kettlebell-Rudern], equipment: kettlebell, image: One-Arm_Kettlebell_Row }
+  kb_clean_press: { name: Clean & Press, aliases: [Kettlebell Clean and Press], equipment: kettlebell, image: One-Arm_Kettlebell_Military_Press_To_The_Side, unilateral: true }
+  kb_row: { name: Kettlebell Row, aliases: [Kettlebell-Rudern], equipment: kettlebell, image: One-Arm_Kettlebell_Row, unilateral: true }
   kb_swing: { name: Two-Arm Kettlebell Swing, aliases: [Kettlebell Swing beidarmig], equipment: kettlebell, image: One-Arm_Kettlebell_Swings }
   goblet_squat: { name: Goblet Squat, equipment: kettlebell }
-  kb_single_leg_deadlift: { name: Kettlebell Single-Leg Deadlift, aliases: [Kreuzheben einbeinig], equipment: kettlebell, image: Kettlebell_One-Legged_Deadlift }
+  kb_single_leg_deadlift: { name: Kettlebell Single-Leg Deadlift, aliases: [Kreuzheben einbeinig], equipment: kettlebell, image: Kettlebell_One-Legged_Deadlift, unilateral: true }
   turkish_get_up: { name: Turkish Get-up, aliases: [Türkisches Aufstehen], equipment: kettlebell, image: Kettlebell_Turkish_Get-Up_Squat_style }
-  farmers_walk: { name: One-Arm Farmer's Walk, aliases: [Farmer's Walk einarmig, Suitcase Carry], equipment: kettlebell, image: Farmers_Walk }
+  farmers_walk: { name: One-Arm Farmer's Walk, aliases: [Farmer's Walk einarmig, Suitcase Carry], equipment: kettlebell, image: Farmers_Walk, unilateral: true }
 workouts:
   - id: a
     name: Full Body A – Ladders

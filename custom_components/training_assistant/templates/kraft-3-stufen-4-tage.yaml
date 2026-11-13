@@ -16,7 +16,7 @@ exercises:
   overhead_press: { name: Overhead Press, aliases: [Schulterdrücken stehend], equipment: barbell, image: Standing_Military_Press }
   deadlift: { name: Deadlift, aliases: [Kreuzheben], equipment: barbell, image: Barbell_Deadlift }
   lat_pulldown: { name: Lat Pulldown, aliases: [Latziehen], equipment: cable, image: Wide-Grip_Lat_Pulldown }
-  dumbbell_row: { name: One-Arm Dumbbell Row, aliases: [Kurzhantelrudern einarmig], equipment: dumbbell, image: One-Arm_Dumbbell_Row }
+  dumbbell_row: { name: One-Arm Dumbbell Row, aliases: [Kurzhantelrudern einarmig], equipment: dumbbell, image: One-Arm_Dumbbell_Row, unilateral: true }
 workouts:
   - id: a1
     name: A1 – Squat

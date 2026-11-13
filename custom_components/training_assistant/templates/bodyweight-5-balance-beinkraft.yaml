@@ -17,13 +17,13 @@ exercises:
   calf_raise: { name: Calf Raise, aliases: [Wadenheben], equipment: bodyweight, image: Standing_Calf_Raises }
   toe_raise: { name: Toe Raise, aliases: [Zehenheben], equipment: bodyweight, image: false, muscles: [] }
   side_leg_raise: { name: Standing Side Leg Raise, aliases: [Bein seitlich heben im Stand], equipment: bodyweight,
-                    image: false, muscles: [glutes] }
+                    image: false, muscles: [glutes], unilateral: true }
   knee_extension: { name: Seated Knee Extension, aliases: [Knie strecken im Sitzen], equipment: bodyweight,
-                    image: false, muscles: [quads] }
+                    image: false, muscles: [quads], unilateral: true }
   standing_knee_curl: { name: Standing Knee Curl, aliases: [Knie beugen im Stand], equipment: bodyweight,
-                        image: false, muscles: [hamstrings] }
-  tandem_stand: { name: Tandem Stand, aliases: [Fuß vor Fuß stehen], equipment: bodyweight, image: false, muscles: [] }
-  single_leg_stand: { name: Single-Leg Stand, aliases: [Einbeinstand], equipment: bodyweight, image: false, muscles: [] }
+                        image: false, muscles: [hamstrings], unilateral: true }
+  tandem_stand: { name: Tandem Stand, aliases: [Fuß vor Fuß stehen], equipment: bodyweight, image: false, muscles: [], unilateral: true }
+  single_leg_stand: { name: Single-Leg Stand, aliases: [Einbeinstand], equipment: bodyweight, image: false, muscles: [], unilateral: true }
   heel_toe_walk: { name: Heel-to-Toe Walk, aliases: [Seiltänzergang], equipment: bodyweight, image: false, muscles: [] }
   backwards_walk: { name: Walking Backwards, aliases: [Rückwärtsgehen], equipment: bodyweight, image: false, muscles: [] }
   sideways_walk: { name: Sideways Walk, aliases: [Seitwärtsgehen], equipment: bodyweight, image: false, muscles: [] }

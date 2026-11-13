@@ -40,7 +40,7 @@ C) Selbst schreiben
   name                     Name des Plans
   description              (optional) kurze Beschreibung
   defaults                 (optional) Pause und Progression für alle Übungen
-  exercises                Übungskatalog: ID → Name, Ausrüstung, (Bild, Muskeln)
+  exercises                Übungskatalog: ID → Name, Ausrüstung, (Bild, Muskeln, einseitig)
   workouts                 Workouts, werden reihum vorgeschlagen
     └ blocks               Abschnitte in fester Reihenfolge
 
@@ -56,7 +56,7 @@ C) Selbst schreiben
     reps                   8  ·  { min: 8, max: 12 }  ·  max
     duration_s             statt reps: 30  ·  { min: 30, max: 45 }  ·  max
     weight_kg              Gewicht; weglassen = Körpergewicht
-    per_side: true         pro Arm/Bein
+    per_side: true         pro Arm/Bein (Wdh. bzw. Zeit pro Seite)
     tempo: "3-0-1"         wird angesagt
 
   Pausen (Sekunden):
@@ -80,6 +80,10 @@ C) Selbst schreiben
   das Bild, oder selbst angeben, z. B. muscles: [hamstrings, glutes, back].
   Gruppen: chest, back, shoulders, biceps, triceps, core, quads, hamstrings,
   glutes, calves. muscles: [] = Ganzkörper, wird nicht gezählt.
+
+  Einseitige Übungen (Seitstütz, Ausfallschritt, einarmiges Rudern):
+  unilateral: true im Übungskatalog. Dann gelten Wdh. und Zeit pro Seite;
+  Sätze nach Zeit laufen links, 5 Sekunden Wechsel, dann rechts.
 
 
 ==============================================================================
@@ -121,6 +125,7 @@ Oberste Ebene:
       image: <Bildname> (optional, sonst automatisch; false = kein Bild)
       muscles: [chest | back | shoulders | biceps | triceps | core | quads | hamstrings | glutes | calves]
                                        (optional, Hauptmuskeln; [] = Ganzkörper/keine)
+      unilateral: true                 (optional, einseitige Übung: Wdh./Zeit gelten pro Seite)
   workouts:                  Liste
     - id: <snake_case>
       name: <Text>
@@ -139,7 +144,8 @@ Satz-Werte:
   reps: Zahl (8) ODER Bereich {min: 8, max: 12} ODER max
   duration_s: Sekunden (30) ODER Bereich {min: 30, max: 45} ODER max   – statt reps, nie beides
   weight_kg: Zahl in kg; weglassen bei Körpergewicht
-  per_side: true, wenn „pro Arm/Bein“
+  per_side: true, wenn „pro Arm/Bein“ (Wdh. bzw. Zeit pro Seite)
+  einseitige Übungen: unilateral: true im Übungskatalog – dann überall pro Seite
   tempo: "3-0-1" (optional)
   progression: (optional, überschreibt defaults)
 
@@ -162,6 +168,7 @@ Progression:
 
 Wichtig:
   - Jede verwendete Übung muss im Katalog "exercises" stehen.
+  - Einseitige Übungen (Seitstütz, Ausfallschritt, einarmiges Rudern …) mit unilateral: true markieren; Wdh. und Zeit gelten dann pro Seite.
   - Feste reps (z. B. 8) nie mit double-Progression kombinieren; ohne Gewicht type: reps nehmen.
   - Keine weiteren Felder als die oben genannten.
   - Texte (name, note, description) mit Komma oder Doppelpunkt in "Anführungszeichen" setzen.

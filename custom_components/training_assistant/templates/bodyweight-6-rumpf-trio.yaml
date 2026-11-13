@@ -14,9 +14,9 @@ defaults:
 exercises:
   curl_up: { name: McGill Curl-Up, aliases: [Curl-up], equipment: bodyweight, image: false, muscles: [core],
              note: "One leg bent, hands under the lower back. Lift head and shoulders only slightly." }
-  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge, unilateral: true }
   bird_dog: { name: Bird Dog, aliases: [Vierfüßlerstand diagonal], equipment: bodyweight, image: false,
-              muscles: [core, glutes, back] }
+              muscles: [core, glutes, back], unilateral: true }
 workouts:
   - id: trio
     name: Core Trio

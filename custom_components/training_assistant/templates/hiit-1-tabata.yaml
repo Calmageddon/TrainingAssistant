@@ -11,7 +11,7 @@ exercises:
   squat: { name: Bodyweight Squat, aliases: [Kniebeugen], equipment: bodyweight, image: Bodyweight_Squat }
   push_up: { name: Push-Ups, aliases: [Liegestütze], equipment: bodyweight, image: Pushups }
   mountain_climber: { name: Mountain Climbers, equipment: bodyweight }
-  lunge: { name: Alternating Lunges, aliases: [Ausfallschritte im Wechsel], equipment: bodyweight, image: Bodyweight_Walking_Lunge }
+  lunge: { name: Alternating Lunges, aliases: [Ausfallschritte im Wechsel], equipment: bodyweight, image: Bodyweight_Walking_Lunge, unilateral: true }
 workouts:
   - id: tabata
     name: Tabata ×4

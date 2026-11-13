@@ -16,15 +16,15 @@ exercises:
   child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
   sphinx: { name: Sphinx, aliases: [Sphinx], equipment: bodyweight, image: false, muscles: [back] }
   bird_dog: { name: Bird Dog, aliases: [Vierfüßlerstand diagonal], equipment: bodyweight, image: false,
-              muscles: [core, back, glutes] }
+              muscles: [core, back, glutes], unilateral: true }
   bridge: { name: Bridge Pose, aliases: [Brücke], equipment: bodyweight, image: Butt_Lift_Bridge }
-  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover }
+  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover, unilateral: true }
   legs_up_wall: { name: Legs Up the Wall, aliases: [Beine an der Wand], equipment: bodyweight, image: false, muscles: [] }
   savasana: { name: Final Relaxation, aliases: [Endentspannung, Savasana], equipment: bodyweight, image: false, muscles: [] }
   mountain_pose: { name: Mountain Pose, aliases: [Berg], equipment: bodyweight, image: false, muscles: [] }
-  low_lunge: { name: Low Lunge, aliases: [Tiefer Ausfallschritt], equipment: bodyweight, image: Kneeling_Hip_Flexor }
-  warrior_2: { name: Warrior II, aliases: [Krieger II], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders] }
-  triangle: { name: Triangle Pose, aliases: [Dreieck], equipment: bodyweight, image: false, muscles: [hamstrings, core] }
+  low_lunge: { name: Low Lunge, aliases: [Tiefer Ausfallschritt], equipment: bodyweight, image: Kneeling_Hip_Flexor, unilateral: true }
+  warrior_2: { name: Warrior II, aliases: [Krieger II], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders], unilateral: true }
+  triangle: { name: Triangle Pose, aliases: [Dreieck], equipment: bodyweight, image: false, muscles: [hamstrings, core], unilateral: true }
   locust: { name: Locust, aliases: [Heuschrecke], equipment: bodyweight, image: Superman }
 workouts:
   - id: gentle

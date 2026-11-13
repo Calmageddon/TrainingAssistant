@@ -16,19 +16,19 @@ exercises:
            note: "Harder – lower slowly (3 s), pause at the bottom, then split squat." }
   push_up: { name: Push-Ups, aliases: [Liegestütze], equipment: bodyweight, image: Pushups,
              note: "Levels – elevated → floor → feet elevated → archer." }
-  reverse_lunge: { name: Reverse Lunge, aliases: [Ausfallschritt rückwärts], equipment: bodyweight, image: Crossover_Reverse_Lunge }
+  reverse_lunge: { name: Reverse Lunge, aliases: [Ausfallschritt rückwärts], equipment: bodyweight, image: Crossover_Reverse_Lunge, unilateral: true }
   pike_push_up: { name: Pike Push-up, aliases: [Pike-Liegestütze], equipment: bodyweight, image: Handstand_Push-Ups,
                   note: "Hips high, head towards the floor – trains the shoulders." }
-  single_leg_glute_bridge: { name: Single-Leg Glute Bridge, aliases: [Hüftheben einbeinig], equipment: bodyweight }
+  single_leg_glute_bridge: { name: Single-Leg Glute Bridge, aliases: [Hüftheben einbeinig], equipment: bodyweight, unilateral: true }
   superman: { name: Superman, aliases: [Rückenstrecker liegend], equipment: bodyweight }
   plank: { name: Plank, aliases: [Unterarmstütz], equipment: bodyweight }
-  bulgarian_split_squat: { name: Bulgarian Split Squat on Sofa, aliases: [Bulgarische Kniebeuge am Sofa, Bulgarian Split Squat], equipment: bodyweight, image: Split_Squat_with_Dumbbells }
+  bulgarian_split_squat: { name: Bulgarian Split Squat on Sofa, aliases: [Bulgarische Kniebeuge am Sofa, Bulgarian Split Squat], equipment: bodyweight, image: Split_Squat_with_Dumbbells, unilateral: true }
   decline_push_up: { name: Decline Push-up (Feet on Chair), aliases: [Liegestütze Füße auf Stuhl, Decline Push-up], equipment: bodyweight, image: Push-Ups_With_Feet_Elevated }
-  step_up: { name: Step-up onto Chair, aliases: [Aufsteigen auf Stuhl], equipment: bodyweight, image: Dumbbell_Step_Ups }
+  step_up: { name: Step-up onto Chair, aliases: [Aufsteigen auf Stuhl], equipment: bodyweight, image: Dumbbell_Step_Ups, unilateral: true }
   chair_dip: { name: Triceps Dips on Chair, aliases: [Trizeps-Dips am Stuhl, Bench Dips], equipment: bodyweight, image: Bench_Dips }
   hip_thrust: { name: Hip Thrust on Sofa, aliases: [Hip Thrust am Sofa, Bodyweight Hip Thrust], equipment: bodyweight, image: Barbell_Hip_Thrust }
-  dead_bug: { name: Dead Bug, equipment: bodyweight }
-  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge }
+  dead_bug: { name: Dead Bug, equipment: bodyweight, unilateral: true }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge, unilateral: true }
 workouts:
   - id: a
     name: Full Body A

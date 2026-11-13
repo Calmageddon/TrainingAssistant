@@ -16,11 +16,11 @@ exercises:
   half_lift: { name: Half Lift, aliases: [Halbe Vorbeuge], equipment: bodyweight, image: false, muscles: [back] }
   downward_dog: { name: Downward-Facing Dog, aliases: [Herabschauender Hund], equipment: bodyweight, image: false,
                   muscles: [shoulders, hamstrings, calves] }
-  low_lunge: { name: Low Lunge, aliases: [Tiefer Ausfallschritt], equipment: bodyweight, image: Kneeling_Hip_Flexor }
-  warrior_1: { name: Warrior I, aliases: [Krieger I], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders] }
-  warrior_2: { name: Warrior II, aliases: [Krieger II], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders] }
-  triangle: { name: Triangle Pose, aliases: [Dreieck], equipment: bodyweight, image: false, muscles: [hamstrings, core] }
-  tree: { name: Tree Pose, aliases: [Baum], equipment: bodyweight, image: false, muscles: [glutes, calves, core] }
+  low_lunge: { name: Low Lunge, aliases: [Tiefer Ausfallschritt], equipment: bodyweight, image: Kneeling_Hip_Flexor, unilateral: true }
+  warrior_1: { name: Warrior I, aliases: [Krieger I], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders], unilateral: true }
+  warrior_2: { name: Warrior II, aliases: [Krieger II], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders], unilateral: true }
+  triangle: { name: Triangle Pose, aliases: [Dreieck], equipment: bodyweight, image: false, muscles: [hamstrings, core], unilateral: true }
+  tree: { name: Tree Pose, aliases: [Baum], equipment: bodyweight, image: false, muscles: [glutes, calves, core], unilateral: true }
   chair_pose: { name: Chair Pose, aliases: [Stuhl], equipment: bodyweight, image: false, muscles: [quads, glutes] }
   cobra: { name: Cobra, aliases: [Kobra], equipment: bodyweight, image: false, muscles: [back] }
   bridge: { name: Bridge Pose, aliases: [Brücke], equipment: bodyweight, image: Butt_Lift_Bridge }
@@ -28,7 +28,7 @@ exercises:
                          image: Seated_Floor_Hamstring_Stretch }
   butterfly: { name: Butterfly, aliases: [Schmetterling], equipment: bodyweight, image: false, muscles: [quads] }
   knee_to_chest: { name: Knees to Chest, aliases: [Knie zur Brust], equipment: bodyweight, image: One_Knee_To_Chest }
-  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover }
+  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover, unilateral: true }
   savasana: { name: Final Relaxation, aliases: [Endentspannung, Savasana], equipment: bodyweight, image: false, muscles: [] }
 workouts:
   - id: a

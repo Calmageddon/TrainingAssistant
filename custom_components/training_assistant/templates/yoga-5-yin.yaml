@@ -8,11 +8,11 @@ description: >-
 goal: general
 exercises:
   butterfly: { name: Butterfly, aliases: [Schmetterling], equipment: bodyweight, image: false, muscles: [quads] }
-  dragon: { name: Dragon, aliases: [Drache], equipment: bodyweight, image: Kneeling_Hip_Flexor }
+  dragon: { name: Dragon, aliases: [Drache], equipment: bodyweight, image: Kneeling_Hip_Flexor, unilateral: true }
   caterpillar: { name: Caterpillar, aliases: [Raupe], equipment: bodyweight, image: Seated_Floor_Hamstring_Stretch }
   sphinx: { name: Sphinx, aliases: [Sphinx], equipment: bodyweight, image: false, muscles: [back] }
   shoelace: { name: Shoelace, aliases: [Schnürsenkel], equipment: bodyweight, image: false, muscles: [glutes] }
-  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover }
+  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover, unilateral: true }
   child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
   legs_up_wall: { name: Legs Up the Wall, aliases: [Beine an der Wand], equipment: bodyweight, image: false, muscles: [] }
   savasana: { name: Final Relaxation, aliases: [Endentspannung, Savasana], equipment: bodyweight, image: false, muscles: [] }

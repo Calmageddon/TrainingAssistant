@@ -98,3 +98,33 @@ def test_effort_hard_holds_and_easy_doubles():
     assert sug(sets([5] * 5, "easy"), rep_range=(5, 5), progression=lin, plan_weight=20)["weight_kg"] == 25
     mixed = sets([5] * 4, None) + sets([5], "hard")
     assert sug(mixed, rep_range=(5, 5), progression=lin, plan_weight=20)["reason_key"] == "hard_hold"
+
+
+# -- Sätze nach Zeit (gleiche Regeln wie Hero Upgrade suggestDuration) -------------------------------
+
+from custom_components.training_assistant.progression import suggest_duration  # noqa: E402
+
+
+def timed(d, target, effort=None, set_no=1):
+    return {"set_no": set_no, "duration_s": d, "target_duration": target, "status": "confirmed", "effort": effort}
+
+
+def test_timed_adds_5_or_10_seconds():
+    assert suggest_duration([timed(30, 30), timed(30, 30)], plan_duration=30, plan_weight=None)["duration_s"] == 35
+    s = suggest_duration([timed(30, 30, "easy"), timed(30, 30, "easy")], plan_duration=30, plan_weight=None)
+    assert (s["duration_s"], s["reason_key"], s["increased"]) == (40, "time_easy_add", True)
+
+
+def test_timed_holds_when_hard_or_missed():
+    assert suggest_duration([timed(30, 30, "hard")], plan_duration=30, plan_weight=None)["reason_key"] == "hard_hold"
+    s = suggest_duration([timed(25, 30)], plan_duration=30, plan_weight=None)
+    assert (s["duration_s"], s["reason_key"]) == (30, "time_repeat")
+
+
+def test_timed_plan_values_switch_off_and_no_upper_limit():
+    s = suggest_duration([], plan_duration=20, plan_weight=16)
+    assert (s["duration_s"], s["weight_kg"], s["reason_key"]) == (20, 16, "plan_values")
+    assert suggest_duration([timed(30, 30)], plan_duration=30, plan_weight=None, fixed=True)["reason_key"] == "fixed"
+    assert suggest_duration([timed(45, 45)], plan_duration=20, plan_weight=None)["duration_s"] == 50
+    # HIIT-/Flow-Abschnitte (ohne set_no) zählen nicht
+    assert suggest_duration([timed(60, 60, set_no=None)], plan_duration=20, plan_weight=None)["reason_key"] == "plan_values"

@@ -24,9 +24,9 @@ exercises:
   leg_curl: { name: Leg Curl, aliases: [Beinbeuger], equipment: machine, image: Lying_Leg_Curls }
   db_curl: { name: Dumbbell Curl, aliases: [Bizepscurls Kurzhantel], equipment: dumbbell, image: Dumbbell_Bicep_Curl }
   triceps_pushdown: { name: Triceps Pushdown, aliases: [Trizepsdrücken am Kabel], equipment: cable, image: Triceps_Pushdown }
-  split_squat: { name: Split Squat, aliases: [Ausfallschritt stehend], equipment: dumbbell, image: Split_Squat_with_Dumbbells }
+  split_squat: { name: Split Squat, aliases: [Ausfallschritt stehend], equipment: dumbbell, image: Split_Squat_with_Dumbbells, unilateral: true }
   db_shoulder_press: { name: Dumbbell Shoulder Press, aliases: [Schulterdrücken Kurzhantel], equipment: dumbbell, image: Dumbbell_Shoulder_Press }
-  dumbbell_row: { name: One-Arm Dumbbell Row, aliases: [Kurzhantelrudern einarmig], equipment: dumbbell, image: One-Arm_Dumbbell_Row }
+  dumbbell_row: { name: One-Arm Dumbbell Row, aliases: [Kurzhantelrudern einarmig], equipment: dumbbell, image: One-Arm_Dumbbell_Row, unilateral: true }
   hip_thrust: { name: Hip Thrust, equipment: barbell, image: Barbell_Hip_Thrust }
   face_pull: { name: Face Pulls, equipment: cable, image: Face_Pull }
   calf_raise: { name: Calf Raise, aliases: [Wadenheben], equipment: machine, image: Standing_Calf_Raises }

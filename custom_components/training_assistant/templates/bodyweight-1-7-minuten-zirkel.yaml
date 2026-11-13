@@ -1,25 +1,26 @@
 # Template: 7-minute circuit – after Klika & Jordan, "High-Intensity Circuit Training Using Body
-# Weight", ACSM's Health & Fitness Journal 2013. 12 exercises of 30 s, 10 s rest, muscle groups
-# alternate. The authors recommend 2–3 rounds. Only a chair and a wall needed.
+# Weight", ACSM's Health & Fitness Journal 2013. 12 exercises of 30 s, muscle groups alternate.
+# 5 s to switch so one round takes 7 minutes (12 × 30 s + 11 × 5 s = 6:55). The authors recommend
+# 2–3 rounds. Only a chair and a wall needed.
 schema_version: 1
 name: 7-Minute Circuit
 description: >-
   The scientifically described classic (Klika & Jordan, ACSM 2013) – 12 exercises of 30 s,
-  10 s rest, two rounds. Only a chair and a wall needed. Timed, beeps recommended.
+  5 s to switch, 7 minutes per round, two rounds. Only a chair and a wall needed. Timed, beeps recommended.
 goal: endurance
 exercises:
   jumping_jack: { name: Jumping Jacks, aliases: [Hampelmann], equipment: bodyweight, image: false }
   wall_sit: { name: Wall Sit, aliases: [Wandsitzen], equipment: bodyweight, image: false }
   push_up: { name: Push-Ups, aliases: [Liegestütze], equipment: bodyweight, image: Pushups }
   crunch: { name: Crunches, equipment: bodyweight }
-  step_up: { name: Step-up onto Chair, aliases: [Aufsteigen auf Stuhl], equipment: bodyweight, image: Dumbbell_Step_Ups }
+  step_up: { name: Step-up onto Chair, aliases: [Aufsteigen auf Stuhl], equipment: bodyweight, image: Dumbbell_Step_Ups, unilateral: true }
   squat: { name: Bodyweight Squat, aliases: [Kniebeugen], equipment: bodyweight, image: Bodyweight_Squat }
   chair_dip: { name: Triceps Dips on Chair, aliases: [Trizeps-Dips am Stuhl, Bench Dips], equipment: bodyweight, image: Bench_Dips }
   plank: { name: Plank, aliases: [Unterarmstütz], equipment: bodyweight }
   high_knees: { name: High Knees, aliases: [Kniehebelauf auf der Stelle], equipment: bodyweight, image: false }
-  lunge: { name: Lunges, aliases: [Ausfallschritte], equipment: bodyweight, image: Bodyweight_Walking_Lunge }
+  lunge: { name: Lunges, aliases: [Ausfallschritte], equipment: bodyweight, image: Bodyweight_Walking_Lunge, unilateral: true }
   push_up_rotation: { name: Push-up with Rotation, aliases: [Liegestütz mit Drehung], equipment: bodyweight, image: Push_Up_to_Side_Plank }
-  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge, unilateral: true }
 workouts:
   - id: seven
     name: 7-Minute Circuit (2 rounds)
@@ -29,14 +30,14 @@ workouts:
         name: Round 1
         rounds: 12
         work_s: 30
-        rest_s: 10
+        rest_s: 5
         rest_after_s: 60
         exercises: [jumping_jack, wall_sit, push_up, crunch, step_up, squat, chair_dip, plank, high_knees, lunge, push_up_rotation, side_plank]
       - type: interval
         name: Round 2
         rounds: 12
         work_s: 30
-        rest_s: 10
+        rest_s: 5
         note: Add a third round if you like.
         exercises: [jumping_jack, wall_sit, push_up, crunch, step_up, squat, chair_dip, plank, high_knees, lunge, push_up_rotation, side_plank]
       - { type: cooldown }

@@ -33,6 +33,7 @@ exercises:
   b: {name: Übung B}
   p: {name: Pull-Ups}
   h: {name: Hampelmann}
+  s: {name: Seitstütz, unilateral: true}
 defaults: {progression: {type: double, increment_kg: 2}}
 workouts:
   - id: t
@@ -43,6 +44,10 @@ workouts:
       - {type: sets, exercise: p, total_reps: 10, reps: max, rest_s: 1}
       - {type: interval, rounds: 2, work_s: 1, rest_s: 1, exercises: [h]}
       - {type: cooldown}
+  - id: s
+    name: Seiten
+    blocks:
+      - {type: sets, exercise: s, sets: 1, duration_s: 2}
 """
 
 FAILED: list[str] = []
@@ -58,9 +63,9 @@ def check(cond: bool, what: str) -> None:
 # Testantworten des Satelliten und erwartete Ansagen je Sprache
 VOICE = {
     "de": {"answers": ["ja", "acht mal sechzehn", "", "nur sechs"], "warmup": "Aufwärmen", "effort": "acht, war schwer",
-           "planned": "wie geplant", "finished": "Training beendet"},
+           "planned": "wie geplant", "finished": "Training beendet", "switch": "Seite wechseln"},
     "en": {"answers": ["yes", "eight times sixteen", "", "only six"], "warmup": "warm-up", "effort": "eight, that was hard",
-           "planned": "as planned", "finished": "Workout complete"},
+           "planned": "as planned", "finished": "Workout complete", "switch": "Switch sides"},
 }
 
 async def login(session: aiohttp.ClientSession) -> str:
@@ -392,6 +397,39 @@ async def main() -> int:
             await ws.service("training_assistant", "next")
             await wait_for(lambda: S()["active"] is None)
             check(S()["active"] is None, "Training fertig")
+
+            print("Satz nach Zeit, einseitig (mit Satellit), Abschluss")
+            log_before = len((await ws.service("fake_voice", "get_log", response=True))["result"]["response"]["log"])
+            await ws.service("training_assistant", "start", {"plan_id": "e2e_test", "workout_id": "s", "satellite": SAT})
+            await wait_for(lambda: S()["active"] is not None)
+            await ws.service("training_assistant", "next")  # Block-Start („Los“)
+            await wait_for(lambda: (S()["active"] or {}).get("hold") is not None)
+            check(((S()["active"] or {}).get("hold") or {}).get("phase") == "ready", "Countdown vor dem Satz nach Zeit")
+            await ws.service("training_assistant", "next")  # im Countdown: sofort los
+            await wait_for(lambda: (S()["active"]["hold"] or {}).get("phase") == "work")
+            hold = S()["active"]["hold"] or {}
+            check(hold.get("side") == 1 and hold.get("sides") == 2 and hold.get("total") == 2,
+                  f"einseitig: Seite 1 von 2, 2 s pro Seite ({hold})")
+            await ws.service("training_assistant", "next")  # während die Zeit läuft: ohne Wirkung
+            check(not S()["active"]["sets"], "„Weiter“ während die Zeit läuft: ohne Wirkung")
+            await wait_for(lambda: ((S()["active"] or {}).get("hold") or {}).get("phase") == "switch", 5)
+            check(((S()["active"] or {}).get("hold") or {}).get("phase") == "switch", "Seitenwechsel")
+            await wait_for(lambda: ((S()["active"] or {}).get("hold") or {}).get("side") == 2, 8)
+            check(((S()["active"] or {}).get("hold") or {}).get("side") == 2, "Seite 2 läuft")
+            await wait_for(lambda: S()["active"] is None, 6)
+            check(S()["active"] is None, "Satz von selbst eingetragen, Training fertig")
+            log = (await ws.service("fake_voice", "get_log", response=True))["result"]["response"]["log"]
+            check(any(V["switch"] in " ".join(map(str, x)) for x in log[log_before:]), f"Ansage „{V['switch']}“")
+            res = await ws.call(type="training_assistant/session_summary")
+            summary = res["result"]["summary"] if res["success"] else {}
+            check(summary.get("status") == "finished" and summary.get("sets") == 1 and summary.get("time_s") == 4,
+                  f"Zusammenfassung: {summary.get('sets')} Satz, {summary.get('time_s')} s unter Spannung (beide Seiten)")
+            pv = await ws.call(type="training_assistant/preview", plan_id="e2e_test", workout_id="s")
+            step = pv["result"]["steps"][0] if pv["success"] else {}
+            check(step.get("target_duration") == 7 and step.get("suggestion_key") == "time_add",
+                  f"Zeit-Progression: nächstes Mal {step.get('target_duration')} s")
+            if summary.get("id"):
+                await ws.call(type="training_assistant/delete_session", session_id=summary["id"])
 
             print("Aufräumen")
             await ws.call(type="training_assistant/delete_plan", plan_id="e2e_test")

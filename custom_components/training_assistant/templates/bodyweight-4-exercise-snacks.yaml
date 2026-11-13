@@ -16,7 +16,7 @@ exercises:
   stair_climb: { name: Stair Climbing (brisk), aliases: [Treppensteigen zügig], equipment: bodyweight, image: Stairmaster,
                  muscles: [quads, glutes] }
   bodyweight_squat: { name: Bodyweight Squat, aliases: [Kniebeugen, Air Squat], equipment: bodyweight, image: Bodyweight_Squat }
-  reverse_lunge: { name: Reverse Lunge, aliases: [Ausfallschritt rückwärts], equipment: bodyweight, image: Crossover_Reverse_Lunge }
+  reverse_lunge: { name: Reverse Lunge, aliases: [Ausfallschritt rückwärts], equipment: bodyweight, image: Crossover_Reverse_Lunge, unilateral: true }
   calf_raise: { name: Calf Raise, aliases: [Wadenheben], equipment: bodyweight, image: Standing_Calf_Raises }
   incline_push_up: { name: Incline Push-Up, aliases: [Liegestütze erhöht], equipment: bodyweight, image: Incline_Push-Up,
                      note: Hands on a table or windowsill. }

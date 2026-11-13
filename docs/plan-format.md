@@ -124,12 +124,19 @@ as a set with its duration, so flows count in the history, weekly view and muscl
 | `reps`        | `8` · `{min: 8, max: 12}` · `max` (as many as possible)       |
 | `duration_s`  | `30` · `{min: 30, max: 45}` · `max` (hold as long as possible) |
 | `weight_kg`   | number; omit = bodyweight                                     |
-| `per_side`    | `true` = reps per arm/leg                                     |
+| `per_side`    | `true` = reps or time per arm/leg; omit = `unilateral` of the exercise |
 | `tempo`       | e.g. `"3-0-1"`, gets announced                                |
 | `progression` | see below                                                     |
 | `note`        | hint, e.g. "within 45 seconds"                                |
 
 `reps` and `duration_s` are mutually exclusive: exactly one of them.
+
+**One-sided exercises:** mark the exercise with `unilateral: true` (side plank, lunge, one-arm row …). Then
+every use of it counts per side without `per_side` (an explicit `per_side: false` switches it off). `reps: 10`
+means 10 left and 10 right. Timed sets run left first, then 5 seconds to switch sides (announced), then right –
+`duration_s: 30` means 30 s per side. A timed set gets 5 s more next time once all sets were done (10 s if all felt
+easy, same again if one felt hard), also beyond the top of a range; `progression: { type: none }` on the entry
+switches that off.
 
 ## Progression (suggestions for the next session)
 
@@ -186,6 +193,7 @@ Top level:
       image: <image name> (optional, otherwise automatic; false = no image)
       muscles: [chest | back | shoulders | biceps | triceps | core | quads | hamstrings | glutes | calves]
                                        (optional, main muscles; [] = whole body/none)
+      unilateral: true                 (optional, one-sided exercise: reps/time count per side)
   workouts:                  list
     - id: <snake_case>
       name: <text>
@@ -204,7 +212,8 @@ Set values:
   reps: number (8) OR range {min: 8, max: 12} OR max
   duration_s: seconds (30) OR range {min: 30, max: 45} OR max   – instead of reps, never both
   weight_kg: number in kg; omit for bodyweight
-  per_side: true if "per arm/leg"
+  per_side: true if "per arm/leg" (reps or time per side)
+  one-sided exercises: unilateral: true in the exercise catalog – then per side everywhere
   tempo: "3-0-1" (optional)
   progression: (optional, overrides defaults)
 
@@ -227,6 +236,7 @@ Progression:
 
 Important:
   - Every exercise used must be listed in the "exercises" catalog.
+  - Mark one-sided exercises (side plank, lunge, one-arm row …) with unilateral: true; reps and time then count per side.
   - Never combine fixed reps (e.g. 8) with double progression; without weight use type: reps.
   - No fields other than the ones listed above.
   - Put texts (name, note, description) containing a comma or colon in "quotes".

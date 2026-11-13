@@ -10,14 +10,14 @@ exercises:
   cat_cow: { name: Cat-Cow, aliases: [Katze-Kuh], equipment: bodyweight, image: Cat_Stretch }
   downward_dog: { name: Downward-Facing Dog, aliases: [Herabschauender Hund], equipment: bodyweight, image: false,
                   muscles: [shoulders, hamstrings, calves] }
-  warrior_1: { name: Warrior I, aliases: [Krieger I], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders] }
-  warrior_2: { name: Warrior II, aliases: [Krieger II], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders] }
-  warrior_3: { name: Warrior III, aliases: [Krieger III], equipment: bodyweight, image: false, muscles: [hamstrings, glutes, core] }
-  tree: { name: Tree Pose, aliases: [Baum], equipment: bodyweight, image: false, muscles: [glutes, calves, core] }
+  warrior_1: { name: Warrior I, aliases: [Krieger I], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders], unilateral: true }
+  warrior_2: { name: Warrior II, aliases: [Krieger II], equipment: bodyweight, image: false, muscles: [quads, glutes, shoulders], unilateral: true }
+  warrior_3: { name: Warrior III, aliases: [Krieger III], equipment: bodyweight, image: false, muscles: [hamstrings, glutes, core], unilateral: true }
+  tree: { name: Tree Pose, aliases: [Baum], equipment: bodyweight, image: false, muscles: [glutes, calves, core], unilateral: true }
   chair_pose: { name: Chair Pose, aliases: [Stuhl], equipment: bodyweight, image: false, muscles: [quads, glutes] }
   boat_pose: { name: Boat Pose, aliases: [Boot], equipment: bodyweight, image: false, muscles: [core] }
   plank: { name: Plank, aliases: [Brett], equipment: bodyweight }
-  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge, unilateral: true }
   child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
   savasana: { name: Final Relaxation, aliases: [Endentspannung, Savasana], equipment: bodyweight, image: false, muscles: [] }
 workouts:

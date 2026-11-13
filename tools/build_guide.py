@@ -63,7 +63,7 @@ C) Write it yourself
   name                     name of the plan
   description              (optional) short description
   defaults                 (optional) rest and progression for all exercises
-  exercises                exercise catalog: ID → name, equipment, (image, muscles)
+  exercises                exercise catalog: ID → name, equipment, (image, muscles, unilateral)
   workouts                 workouts, suggested in rotation
     └ blocks               sections in a fixed order
 
@@ -79,7 +79,7 @@ C) Write it yourself
     reps                   8  ·  {{ min: 8, max: 12 }}  ·  max
     duration_s             instead of reps: 30  ·  {{ min: 30, max: 45 }}  ·  max
     weight_kg              weight; omit = bodyweight
-    per_side: true         per arm/leg
+    per_side: true         per arm/leg (reps or time per side)
     tempo: "3-0-1"         gets announced
 
   Rest (seconds):
@@ -103,6 +103,10 @@ C) Write it yourself
   exercise name, or set them yourself, e.g. muscles: [hamstrings, glutes, back].
   Groups: chest, back, shoulders, biceps, triceps, core, quads, hamstrings,
   glutes, calves. muscles: [] = whole body, not counted.
+
+  One-sided exercises (side plank, lunge, one-arm row): unilateral: true in the
+  exercise catalog. Then reps and time count per side; timed sets run left,
+  5 seconds to switch, then right.
 
 
 {LINE}
@@ -175,7 +179,7 @@ C) Selbst schreiben
   name                     Name des Plans
   description              (optional) kurze Beschreibung
   defaults                 (optional) Pause und Progression für alle Übungen
-  exercises                Übungskatalog: ID → Name, Ausrüstung, (Bild, Muskeln)
+  exercises                Übungskatalog: ID → Name, Ausrüstung, (Bild, Muskeln, einseitig)
   workouts                 Workouts, werden reihum vorgeschlagen
     └ blocks               Abschnitte in fester Reihenfolge
 
@@ -191,7 +195,7 @@ C) Selbst schreiben
     reps                   8  ·  {{ min: 8, max: 12 }}  ·  max
     duration_s             statt reps: 30  ·  {{ min: 30, max: 45 }}  ·  max
     weight_kg              Gewicht; weglassen = Körpergewicht
-    per_side: true         pro Arm/Bein
+    per_side: true         pro Arm/Bein (Wdh. bzw. Zeit pro Seite)
     tempo: "3-0-1"         wird angesagt
 
   Pausen (Sekunden):
@@ -215,6 +219,10 @@ C) Selbst schreiben
   das Bild, oder selbst angeben, z. B. muscles: [hamstrings, glutes, back].
   Gruppen: chest, back, shoulders, biceps, triceps, core, quads, hamstrings,
   glutes, calves. muscles: [] = Ganzkörper, wird nicht gezählt.
+
+  Einseitige Übungen (Seitstütz, Ausfallschritt, einarmiges Rudern):
+  unilateral: true im Übungskatalog. Dann gelten Wdh. und Zeit pro Seite;
+  Sätze nach Zeit laufen links, 5 Sekunden Wechsel, dann rechts.
 
 
 {LINE}

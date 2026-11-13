@@ -16,6 +16,9 @@ Regeln:
 Anstrengung (effort im Satz, „leicht“/„schwer“ per Sprache oder Karte):
 - War ein Satz schwer, wird nicht gesteigert (gleiche Vorgabe nochmal).
 - Waren alle Sätze leicht, wird doppelt gesteigert (+2 Wdh. bzw. +2× increment).
+
+Sätze nach Zeit (suggest_duration): alle Zeiten geschafft → +TIME_STEP_S Sekunden, alle leicht → doppelt,
+schwer → halten. Ohne Obergrenze – auch über das Ende eines Zeitbereichs im Plan hinaus.
 """
 
 from __future__ import annotations
@@ -23,6 +26,8 @@ from __future__ import annotations
 from typing import Any
 
 SKIPPED = "skipped"
+# Schritt der Zeit-Progression (Sekunden)
+TIME_STEP_S = 5
 
 
 def _round(value: float) -> float:
@@ -175,3 +180,43 @@ def suggest(
 
     return {"weight_kg": base, "reps": lo, "reason": "Feste Vorgabe aus dem Plan (ohne Progression)", "reason_key": "fixed", "reason_params": {},
             "increased": False}
+
+
+def suggest_duration(
+    last_sets: list[dict],
+    *,
+    plan_duration: int,
+    plan_weight: float | None,
+    fixed: bool = False,
+) -> dict[str, Any]:
+    """Vorschlag für einen Satz nach Zeit (gleiche Regeln wie Hero Upgrade `suggestDuration`).
+
+    Gezählt werden nur Sätze nach Zeit aus Satz-Blöcken (mit set_no), nicht HIIT-/Flow-Abschnitte.
+    fixed = Progression am Eintrag ausdrücklich abgeschaltet. Rückgabe wie suggest() plus "duration_s".
+    """
+    done = [s for s in last_sets if s.get("status") != SKIPPED and isinstance(s.get("duration_s"), (int, float))
+            and s.get("set_no") is not None]
+    weights = [s["weight_kg"] for s in done if s.get("weight_kg") is not None]
+    weight = min(weights) if weights else plan_weight
+
+    def r(duration: int, key: str, reason: str, params: dict | None = None, increased: bool = False) -> dict[str, Any]:
+        return {"weight_kg": weight, "reps": None, "duration_s": duration, "reason": reason, "reason_key": key,
+                "reason_params": params or {}, "increased": increased}
+
+    if fixed:
+        return r(plan_duration, "fixed", "Feste Vorgabe aus dem Plan (ohne Progression)")
+    if not done:
+        return r(plan_duration, "plan_values", "Planwerte (noch kein Verlauf)")
+    targets = [s["target_duration"] if isinstance(s.get("target_duration"), (int, float)) else s["duration_s"] for s in done]
+    target = int(max([plan_duration, *targets]))
+    efforts = [s.get("effort") for s in done]
+    if not all(s["duration_s"] >= (s["target_duration"] if isinstance(s.get("target_duration"), (int, float)) else target)
+               for s in done):
+        return r(target, "time_repeat", f"{target} s noch nicht in jedem Satz geschafft – nochmal", {"target": target})
+    if "hard" in efforts:
+        return r(target, "hard_hold", "Zuletzt schwer → gleiche Vorgabe nochmal")
+    easy = all(e == "easy" for e in efforts)
+    add = 2 * TIME_STEP_S if easy else TIME_STEP_S
+    key = "time_easy_add" if easy else "time_add"
+    reason = f"{'Alles leicht' if easy else 'Alle Zeiten geschafft'} → +{add} s ({target + add} s)"
+    return r(target + add, key, reason, {"add": add, "target": target + add}, True)

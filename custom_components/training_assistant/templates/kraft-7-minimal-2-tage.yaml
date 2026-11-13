@@ -21,7 +21,7 @@ exercises:
   db_shoulder_press: { name: Dumbbell Shoulder Press, aliases: [Schulterdrücken Kurzhantel], equipment: dumbbell, image: Dumbbell_Shoulder_Press }
   cable_row: { name: Seated Cable Row, aliases: [Rudern am Kabel], equipment: cable, image: Seated_Cable_Rows }
   romanian_deadlift: { name: Romanian Deadlift, aliases: [Rumänisches Kreuzheben], equipment: barbell, image: Romanian_Deadlift }
-  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge, unilateral: true }
 workouts:
   - id: minimal_a
     name: Workout A

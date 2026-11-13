@@ -33,6 +33,7 @@ def async_setup_websocket(hass: HomeAssistant) -> None:
         ws_set_program,
         ws_import_template,
         ws_stats,
+        ws_session_summary,
         ws_profile,
         ws_set_weekly_goal,
         ws_ha_users,
@@ -214,6 +215,18 @@ def ws_stats(hass: HomeAssistant, connection: websocket_api.ActiveConnection, ms
     ok, result = _guard(connection, msg["id"], lambda: _manager(hass).stats())
     if ok:
         connection.send_result(msg["id"], result)
+
+
+@websocket_api.websocket_command({vol.Required("type"): WS + "session_summary", vol.Optional("session_id"): str})
+@websocket_api.async_response
+async def ws_session_summary(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
+    """Zusammenfassung eines gespeicherten Trainings (Abschluss-Ansicht der Karte). Wartet aufs Speichern."""
+    try:
+        result = await _manager(hass).async_session_summary(msg.get("session_id"))
+    except HomeAssistantError as err:
+        connection.send_error(msg["id"], "failed", str(err))
+        return
+    connection.send_result(msg["id"], {"summary": result})
 
 
 @websocket_api.websocket_command(

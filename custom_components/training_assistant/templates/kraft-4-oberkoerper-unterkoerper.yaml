@@ -31,7 +31,7 @@ exercises:
   leg_curl: { name: Leg Curl, aliases: [Beinbeuger], equipment: machine, image: Lying_Leg_Curls }
   calf_raise: { name: Calf Raise, aliases: [Wadenheben], equipment: machine, image: Standing_Calf_Raises }
   deadlift: { name: Deadlift, aliases: [Kreuzheben], equipment: barbell, image: Barbell_Deadlift }
-  bulgarian_split_squat: { name: Bulgarian Split Squat, aliases: [Bulgarische Kniebeuge], equipment: dumbbell, image: Split_Squat_with_Dumbbells }
+  bulgarian_split_squat: { name: Bulgarian Split Squat, aliases: [Bulgarische Kniebeuge], equipment: dumbbell, image: Split_Squat_with_Dumbbells, unilateral: true }
   hip_thrust: { name: Hip Thrust, equipment: barbell, image: Barbell_Hip_Thrust }
   leg_extension: { name: Leg Extension, aliases: [Beinstrecker], equipment: machine, image: Leg_Extensions }
   plank: { name: Plank, aliases: [Unterarmstütz], equipment: bodyweight }
