@@ -23,7 +23,7 @@ exercises:
   bulgarian_split_squat: { name: Bulgarian Split Squat, aliases: [Bulgarische Kniebeuge], equipment: bodyweight, image: Split_Squat_with_Dumbbells, unilateral: true }
   single_leg_glute_bridge: { name: Single-Leg Glute Bridge, aliases: [Hüftheben einbeinig], equipment: bodyweight, unilateral: true }
   hanging_leg_raise: { name: Hanging Leg Raise, aliases: [Beinheben hängend gestreckt], equipment: bodyweight }
-  l_sit: { name: L-Sit, equipment: bodyweight, note: "Levels – knees tucked → one leg straight → both straight." }
+  l_sit: { name: L-Sit, equipment: bodyweight, muscles: [core], note: "Levels – knees tucked → one leg straight → both straight." }
   muscle_up: { name: Muscle-up Practice, aliases: [Muscle-up], equipment: bodyweight, image: Muscle_Up,
                note: "Levels – explosive chest-to-bar pull-ups → negative muscle-ups → muscle-up." }
   pike_push_up: { name: Handstand Push-up Progression, aliases: [Pike Push-up, Handstand Push-up], equipment: bodyweight,

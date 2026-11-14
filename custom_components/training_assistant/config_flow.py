@@ -27,6 +27,8 @@ from .const import (
     CONF_ANNOUNCE,
     CONF_ASK_AFTER_SET,
     CONF_DEFAULT_SATELLITE,
+    CONF_DEFAULT_LIGHT,
+    CONF_SATELLITE_LIGHT,
     CONF_NOTIFY,
     CONF_QUESTION_TIMEOUT,
     CONF_VOICE_LANGUAGE,
@@ -80,6 +82,10 @@ class TrainingAssistantOptionsFlow(OptionsFlow):
                 vol.Optional(CONF_NOTIFY, description={"suggested_value": opts.get(CONF_NOTIFY)}): SelectSelector(
                     SelectSelectorConfig(options=notify, custom_value=True)
                 ),
+                vol.Optional(
+                    CONF_DEFAULT_LIGHT, description={"suggested_value": opts.get(CONF_DEFAULT_LIGHT)}
+                ): EntitySelector(EntitySelectorConfig(domain="light")),
+                vol.Required(CONF_SATELLITE_LIGHT, default=opts.get(CONF_SATELLITE_LIGHT, True)): BooleanSelector(),
             }
         )
         return self.async_show_form(step_id="init", data_schema=schema)

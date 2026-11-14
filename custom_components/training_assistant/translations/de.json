@@ -13,7 +13,7 @@
   "options": {
     "step": {
       "init": {
-        "title": "Spracheinstellungen",
+        "title": "Sprache und Licht",
         "description": "Der Satellit wird normalerweise beim Start per Sprache mitgegeben. Der Standard-Satellit gilt für Trainings, die per Knopf oder Dashboard gestartet werden.",
         "data": {
           "default_satellite": "Standard-Satellit",
@@ -21,13 +21,17 @@
           "ask_after_set": "Nach jedem Satz Wiederholungen/Gewicht abfragen",
           "question_timeout": "Auf Antwort warten (Sekunden)",
           "voice_language": "Sprache für Ansagen",
-          "notify_service": "Handy-Benachrichtigung"
+          "notify_service": "Handy-Benachrichtigung",
+          "default_light": "Lichtsignal (RGB-Lampe)",
+          "satellite_light": "Licht des Satelliten nutzen"
         },
         "data_description": {
           "ask_after_set": "Knopf während der Frage heißt „wie geplant“.",
           "question_timeout": "Ohne verwertbare Antwort wird der Satz als „unbestätigt“ gespeichert und kann an der Karte korrigiert werden.",
           "voice_language": "Automatisch = Sprache von Home Assistant.",
-          "notify_service": "Benachrichtigungsdienst (z. B. mobile_app_…) für Pausenende und neue Rekorde. Leer = aus."
+          "notify_service": "Benachrichtigungsdienst (z. B. mobile_app_…) für Pausenende und neue Rekorde. Leer = aus.",
+          "default_light": "Optional. Zeigt die Phase als Farbe: grün beim Trainieren, gelb in der Pause, rot in den letzten Sekunden vor dem Start, golden bei einem neuen Rekord. Danach ist die Lampe wieder wie vorher.",
+          "satellite_light": "Ohne Lampe oben: ein Licht am Gerät des Satelliten nutzen, z. B. den LED-Ring des Voice PE."
         }
       }
     }
@@ -150,6 +154,10 @@
         "speak_intro": {
           "name": "Begrüßung sprechen",
           "description": "Aus, wenn die Begrüßung stattdessen als Antwort der Sprachsteuerung zurückgegeben wird."
+        },
+        "light": {
+          "name": "Lampe",
+          "description": "RGB-Lampe für das Lichtsignal (optional; sonst die Lampe aus den Optionen bzw. das Licht am Satelliten)."
         }
       }
     },

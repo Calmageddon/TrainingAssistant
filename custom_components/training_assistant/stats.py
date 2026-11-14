@@ -223,14 +223,29 @@ def muscle_volume(
     return out
 
 
+# Vorsprung sekundär trainierter Muskelgruppen: zählen, als wäre das Training so viele Stunden früher gewesen
+# (direkt danach höchstens „erholt sich“, nach einem Tag bereit).
+SECONDARY_HEAD_START_H = 24
+
+
 def recovery(
     sessions: list[dict],
     now: datetime,
     groups_of: Callable[[dict, dict], list[str]],
     relevant: set[str],
+    secondary_of: Callable[[dict, dict], list[str]] | None = None,
 ) -> list[dict[str, Any]]:
-    """Erholungsstatus je Muskelgruppe: fresh (<24 h) / recovering (<48 h) / ready / soon / overdue (nie: none)."""
+    """Erholungsstatus je Muskelgruppe: fresh (<24 h) / recovering (<48 h) / ready / soon / overdue (nie: none).
+
+    groups_of = primäre Gruppen (zählen voll), secondary_of = sekundäre (mit SECONDARY_HEAD_START_H Vorsprung).
+    """
     last: dict[str, datetime] = {}
+
+    def note(g: str, t: datetime) -> None:
+        if g not in last or t > last[g]:
+            last[g] = t
+
+    head_start = timedelta(hours=SECONDARY_HEAD_START_H)
     for sess in sessions:
         try:
             when = datetime.fromisoformat(sess.get("finished_at") or sess["started_at"])
@@ -240,8 +255,10 @@ def recovery(
             if not counts(rec):
                 continue
             for g in groups_of(rec, sess):
-                if g not in last or when > last[g]:
-                    last[g] = when
+                note(g, when)
+            if secondary_of:
+                for g in secondary_of(rec, sess):
+                    note(g, when - head_start)
     out = []
     for g in GROUP_ORDER:
         if g not in relevant and g not in last:

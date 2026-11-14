@@ -118,6 +118,22 @@ def test_recovery_levels():
     assert [status(h) for h in (5, 30, 60, 6 * 24, 9 * 24)] == ["fresh", "recovering", "ready", "soon", "overdue"]
 
 
+def test_recovery_secondary_head_start():
+    # Liegestütze: Brust primär, Trizeps sekundär; Dips: Trizeps primär
+    prim = lambda rec, sess: {"push": ["chest"], "dip": ["triceps"]}.get(rec["exercise"], [])
+    sec = lambda rec, sess: {"push": ["triceps"]}.get(rec["exercise"], [])
+    mon = week_start(TODAY)
+    now = datetime(mon.year, mon.month, mon.day, 18, 45, tzinfo=timezone.utc)
+    def at(sets, hours):
+        sess = _sess(mon, sets, hour=18, minutes=45)
+        return {r["group"]: r for r in recovery([sess], now + timedelta(hours=hours), prim, set(), sec)}
+    assert at([_set("push")], 0)["chest"]["status"] == "fresh"
+    assert at([_set("push")], 0)["triceps"]["status"] == "recovering"  # sekundär: nie „gerade trainiert“
+    assert at([_set("push")], 24)["triceps"]["status"] == "ready"
+    assert at([_set("push"), _set("dip")], 0)["triceps"]["status"] == "fresh"  # primär gewinnt
+    assert [r["group"] for r in recovery([_sess(mon, [_set("push")])], now, prim, set())] == ["chest"]
+
+
 def test_duration_without_pauses():
     from custom_components.training_assistant.stats import duration_min
     sess = {"started_at": "2026-11-06T18:00:00+00:00", "finished_at": "2026-11-06T19:00:00+00:00"}

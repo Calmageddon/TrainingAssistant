@@ -22,6 +22,8 @@ START_SCHEMA = vol.Schema(
         vol.Optional("satellite"): vol.Any(None, "", cv.entity_id),
         vol.Optional("device_id"): vol.Any(None, cv.string),
         vol.Optional("speak_intro", default=True): cv.boolean,
+        # RGB-Lampe als Lichtsignal (leer = Standard aus den Optionen bzw. Licht am Satelliten)
+        vol.Optional("light"): vol.Any(None, "", cv.entity_id),
     }
 )
 NEXT_SCHEMA = vol.Schema(

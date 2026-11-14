@@ -4,6 +4,33 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.10.0 – 2026-11-14
+
+- Light signal (optional): an RGB light shows the phase of the workout – green while you train (bright for a moment
+  when a rest ends), yellow during rests and side switches, red in the last 3 seconds before you go, gold for a new
+  record. Pick the light in the options, pass `light:` when starting, or let TrainingAssistant use the light of the
+  satellite's device (e.g. the LED ring of the Voice PE). Paused, waiting or finished, the light returns to how it was.
+  *Deutsch:* Lichtsignal (optional): eine RGB-Lampe zeigt die Phase des Trainings – grün beim Trainieren (kurz hell,
+  wenn eine Pause endet), gelb in Pausen und beim Seitenwechsel, rot in den letzten 3 Sekunden vor dem Start, golden bei
+  einem neuen Rekord. Lampe in den Optionen wählen, beim Start `light:` mitgeben oder das Licht am Gerät des Satelliten
+  nutzen lassen (z. B. den LED-Ring des Voice PE). Pausiert, wartend oder nach dem Training ist die Lampe wie vorher.
+- Card: tap an exercise picture (workout preview, templates, history) to see it large with start and end pose.
+  *Deutsch:* Karte: Tippen auf ein Übungsbild (Workout-Vorschau, Vorlagen, Verlauf) zeigt es groß mit Start- und Endpose.
+- One-sided exercises show "/side" right at the big number ("10 /side"); the "Up next" list stays on one line.
+  *Deutsch:* Einseitige Übungen zeigen „/Seite“ direkt an der großen Zahl („10 /Seite“); die Liste „Danach“ bleibt einzeilig.
+- The "New record" banner no longer takes half of the status line during the next exercise – records stay in the list
+  of logged sets and in the summary.
+  *Deutsch:* Das Banner „Neuer Rekord“ nimmt während der nächsten Übung nicht mehr die halbe Statuszeile ein – Rekorde
+  stehen weiter in der Liste der erfassten Sätze und im Abschluss.
+- Muscle groups checked for all template exercises: 23 corrected (e.g. reverse lunge: quads and glutes instead of back),
+  wall sit and L-sit now have muscle groups.
+  *Deutsch:* Muskelgruppen aller Vorlagen-Übungen geprüft: 23 korrigiert (z. B. Ausfallschritt rückwärts: Oberschenkel
+  vorn und Po statt Rücken), Wandsitzen und L-Sit haben jetzt Muskelgruppen.
+- Recovery: muscles that only helped (secondary) count with a 24-hour head start – right after training at most
+  "recovering", ready after one day. Main muscles count as before.
+  *Deutsch:* Erholung: Muskeln, die nur mitgeholfen haben (sekundär), zählen mit 24 Stunden Vorsprung – direkt danach
+  höchstens „erholt sich“, nach einem Tag bereit. Hauptmuskeln zählen wie bisher.
+
 ## 0.9.0 – 2026-11-13
 
 - One-sided timed exercises (e.g. side plank) run per side: left, 5 s to switch, then right – the time counts for each

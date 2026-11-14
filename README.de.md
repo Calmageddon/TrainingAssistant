@@ -51,6 +51,12 @@ Benötigt Home Assistant 2025.7 oder neuer.
 Rückfragen an/aus, Wartezeit auf eine Antwort, Sprache der Ansagen (automatisch, Englisch, Deutsch),
 Handy-Benachrichtigung (ein `notify`-Dienst wie `mobile_app_…` für Pausenende und neue Rekorde).
 
+**Lichtsignal** (optional): in den Optionen eine RGB-Lampe wählen, beim Start `light:` an `training_assistant.start`
+übergeben oder das Licht am Gerät des Satelliten nutzen lassen (z. B. den LED-Ring des Home Assistant Voice PE).
+Die Lampe zeigt die Phase: grün beim Trainieren (kurz hell, wenn eine Pause endet), gelb in Pausen und beim
+Seitenwechsel, rot in den letzten 3 Sekunden vor dem Start und im Countdown eines Satzes nach Zeit, golden bei einem
+neuen Rekord. Pausiert, wartend auf „Los“ oder nach dem Training ist die Lampe wieder wie vorher.
+
 ## Datenschutz
 
 Beim Import eines Plans lädt Home Assistant die passenden Übungsbilder einmalig von

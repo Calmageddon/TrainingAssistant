@@ -20,5 +20,7 @@ logger:
   logs:
     custom_components.training_assistant: debug
 
-# Test-Satellit aus scripts/dev_components (nur Testinstanz)
+# Test-Satellit aus scripts/dev_components (nur Testinstanz), dazu die Test-Lampe light.test_rgb
 fake_voice:
+light:
+  - platform: fake_voice

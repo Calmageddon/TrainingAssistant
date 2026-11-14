@@ -13,7 +13,7 @@
   "options": {
     "step": {
       "init": {
-        "title": "Voice settings",
+        "title": "Voice and light",
         "description": "The satellite is normally passed when a workout is started by voice. The default satellite is used for workouts started from a button or dashboard.",
         "data": {
           "default_satellite": "Default satellite",
@@ -21,13 +21,17 @@
           "ask_after_set": "Ask for reps/weight after each set",
           "question_timeout": "Wait for an answer (seconds)",
           "voice_language": "Voice language",
-          "notify_service": "Phone notification"
+          "notify_service": "Phone notification",
+          "default_light": "Light signal (RGB light)",
+          "satellite_light": "Use the satellite's light"
         },
         "data_description": {
           "ask_after_set": "Pressing the button during the question means 'as planned'.",
           "question_timeout": "No usable answer: the set is stored as 'unconfirmed' and can be fixed in the card.",
           "voice_language": "Automatic = Home Assistant's language.",
-          "notify_service": "Notify service (e.g. mobile_app_…) for the end of rest and new records. Empty = off."
+          "notify_service": "Notify service (e.g. mobile_app_…) for the end of rest and new records. Empty = off.",
+          "default_light": "Optional. Shows the phase as a colour: green while training, yellow during rests, red in the last seconds before you go, gold for a new record. Afterwards the light returns to how it was.",
+          "satellite_light": "Without a light above: use a light on the satellite's device, e.g. the LED ring of the Voice PE."
         }
       }
     }
@@ -150,6 +154,10 @@
         "speak_intro": {
           "name": "Speak intro",
           "description": "Off when the intro is returned as conversation response instead."
+        },
+        "light": {
+          "name": "Light",
+          "description": "RGB light for the light signal (optional; otherwise the light from the options or the satellite's light)."
         }
       }
     },

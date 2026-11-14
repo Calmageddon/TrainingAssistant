@@ -50,7 +50,8 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
   Progression: schwer → `hard_hold`, alle leicht → doppelter Schritt (`easy_*`).
 - **Rekorde/Statistik** in `stats.py` (ohne HA). Muskelgruppen kommen aus dem Katalog (`muscles` in
   `catalog/exercises.json`, über die Katalog-Zuordnung der Übung; `MUSCLE_GROUPS`). Nebenmuskeln (`secondary`)
-  zählen nur für die Erholung, nicht für das Wochenvolumen. `muscles` im Plan hat Vorrang (dann ohne Nebenmuskeln). Rekord wird nach
+  zählen nur für die Erholung, und zwar abgeschwächt (`SECONDARY_HEAD_START_H` = 24 h Vorsprung: direkt danach höchstens
+  „erholt sich“, nach einem Tag bereit), nicht für das Wochenvolumen. `muscles` im Plan hat Vorrang (dann ohne Nebenmuskeln). Rekord wird nach
   `set_logged`/`set_answered` geprüft (`_check_record`), steht als `record` im Satz, Event `record`.
 - **Flow** (`flow`): zeitgesteuerte Abfolge mit eigener Dauer je Übung (Yoga, 30-20-10). `build_steps` macht daraus
   einen `interval`-Schritt mit `segments` (auch klassische HIIT-Blöcke haben `segments`). Der Manager-Runner
@@ -62,6 +63,11 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
   `image`/Katalog-ID. Im Plan: `images` = Katalog-ID (Muskelgruppen), `pictos` = Bild (bei jedem Start neu berechnet).
   Figur `m`/`w` pro Person (`profile.figure`, ws `profile` action `figure`); `single_images` = ohne Endbild.
 - **HIIT** (`interval`) ist zeitgesteuert: Signaltöne/Licht statt Sprache, weil TTS zu langsam ist.
+- **Lichtsignal** (`glow.py`, ohne HA; wie der Leuchtrand von Hero Upgrade): optionale RGB-Lampe `active["light"]` –
+  Start-Parameter `light` → Option `default_light` → Licht am Gerät des Satelliten (Option `satellite_light`, Standard an).
+  Zustand vor dem Training in `active["light_restore"]`, wiederhergestellt bei off (wartet/pausiert/Ende).
+  `_sync_light` läuft in `_changed()`, Timer bis „rot“ (`seconds_to_count`), Rekord bleibt `RECORD_S` golden.
+  Testinstanz: Test-Lampe `light.test_rgb` (`fake_voice/light.py`), Befehle im `fake_voice.get_log`.
 - **Sätze nach Zeit** (Manager, wie Hero Upgrade `trainer.ts`): `active["hold"]` mit `phase` ready (Countdown
   `HOLD_COUNTDOWN_S`) → work → bei einseitigen Sätzen switch (`SIDE_SWITCH_S` in plan.py, Ansage „Seite wechseln“) →
   work Seite 2; Ende trägt den Satz mit der Zeit pro Seite ein (ohne Rückfrage). Timer per `async_call_later`

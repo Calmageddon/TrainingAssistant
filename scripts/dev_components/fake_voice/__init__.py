@@ -6,6 +6,8 @@ Ansagen werden protokolliert, Rückfragen mit vorher gesetzten Antworten beantwo
   fake_voice.set_answers  {answers: ["ja", "acht mal sechzehn", ""]}
   fake_voice.get_log      → {"log": [[art, entity_id, text], ...]}
   fake_voice.clear
+Dazu eine Test-Lampe light.test_rgb (configuration.yaml: light: - platform: fake_voice), ihre Befehle stehen im
+Log als ["light", "turn_on"/"turn_off", Daten].
 """
 
 from __future__ import annotations
@@ -42,6 +44,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         log.clear()
         answers.clear()
 
+    hass.data[DOMAIN] = log  # Lampe (light.py) schreibt ins selbe Protokoll
     hass.services.async_register("assist_satellite", "announce", announce)
     hass.services.async_register("assist_satellite", "ask_question", ask, supports_response=SupportsResponse.ONLY)
     hass.services.async_register(DOMAIN, "set_answers", set_answers)

@@ -11,6 +11,7 @@ import asyncio
 from datetime import timedelta
 import logging
 import re
+import time
 from typing import Any
 from pathlib import Path
 import uuid
@@ -31,6 +32,8 @@ from .const import (
     CONF_ANNOUNCE,
     CONF_ASK_AFTER_SET,
     CONF_DEFAULT_SATELLITE,
+    CONF_DEFAULT_LIGHT,
+    CONF_SATELLITE_LIGHT,
     CONF_NOTIFY,
     CHART_POINTS,
     DEFAULT_WEEKLY_GOAL,
@@ -66,6 +69,7 @@ from .plan import (
     slugify,
 )
 from .images import DEFAULT_FIGURE, FIGURES, Catalog, Pictos, map_pictos, map_plan
+from . import glow
 from .phrases import Speech, normalize_lang
 from .progression import suggest
 from .spoken import parse_answer
@@ -107,6 +111,12 @@ class TrainingManager:
         self._rest_unsub: CALLBACK_TYPE | None = None
         self._block_unsub: CALLBACK_TYPE | None = None
         self._hold_unsub: CALLBACK_TYPE | None = None
+        # Lichtsignal: Lampe der laufenden Session, zuletzt gesetzter Zustand, Timer bis „rot“ und für Aufleuchten
+        self._light: dict[str, Any] | None = None
+        self._light_state: str | None = None
+        self._light_unsub: CALLBACK_TYPE | None = None
+        self._light_flash_unsub: CALLBACK_TYPE | None = None
+        self._light_hold_until = 0.0  # bis dahin bleibt das goldene Rekord-Leuchten stehen (time.monotonic)
         # Speichern direkt nach dem Ende eines Trainings – die Zusammenfassung wartet darauf
         self._saving: asyncio.Task | None = None
         self._catalog: Catalog | None = None
@@ -214,6 +224,7 @@ class TrainingManager:
                         step["exercises"] = [new if e == old else e for e in step["exercises"]]
 
     async def async_unload(self) -> None:
+        self._cancel_light_timers()
         self._cancel_hold()
         self._cancel_rest()
         self._cancel_block_timer()
@@ -226,6 +237,7 @@ class TrainingManager:
     def _changed(self) -> None:
         self._store.async_delay_save(lambda: self.data, 1)
         async_dispatcher_send(self.hass, SIGNAL_UPDATE)
+        self._sync_light()
 
     # ------------------------------------------------------------------
     # Pläne
@@ -628,6 +640,7 @@ class TrainingManager:
         satellite: str | None = None,
         device_id: str | None = None,
         speak_intro: bool = True,
+        light: str | None = None,
     ) -> dict[str, Any]:
         if self.active:
             raise error("already_running")
@@ -646,6 +659,8 @@ class TrainingManager:
             satellite=self._resolve_satellite(satellite, device_id),
             now=_now(),
         )
+        state["light"] = self._resolve_light(light, state.get("satellite"))
+        state["light_restore"] = self._light_snapshot(state["light"])
         self.data["active"] = state
         effects = Engine(state).start()
         intro = " ".join(e["text"] for e in effects if e["kind"] == "announce")
@@ -1555,10 +1570,9 @@ class TrainingManager:
         """Muskelgruppen einer Übung (aus dem Plan, sonst über den Übungskatalog, siehe images.py)."""
         return self._muscle_info(rec["exercise"], (sess or {}).get("plan_id"))[0]
 
-    def recovery_groups_of(self, rec: dict, sess: dict | None = None) -> list[str]:
-        """Haupt- und Nebengruppen (für die Erholung)."""
-        primary, secondary, _ = self._muscle_info(rec["exercise"], (sess or {}).get("plan_id"))
-        return primary + secondary
+    def secondary_groups_of(self, rec: dict, sess: dict | None = None) -> list[str]:
+        """Nebengruppen (zählen für die Erholung mit Vorsprung, siehe stats.SECONDARY_HEAD_START_H)."""
+        return self._muscle_info(rec["exercise"], (sess or {}).get("plan_id"))[1]
 
     def _unassigned(self, today) -> dict[str, Any]:
         """Sätze dieser Woche ohne Muskelgruppe (weder Katalogbild noch `muscles` im Plan)."""
@@ -1609,7 +1623,7 @@ class TrainingManager:
             "time": st.time_stats(sessions, today, self._local_day),
             "volume": st.muscle_volume(sessions, today, self._local_day, self.groups_of),
             "unassigned": self._unassigned(today),
-            "recovery": st.recovery(sessions, dt_util.utcnow(), self.recovery_groups_of, self._program_groups()),
+            "recovery": st.recovery(sessions, dt_util.utcnow(), self.groups_of, self._program_groups(), self.secondary_groups_of),
             "records": records[:8],
         }
 
@@ -1653,8 +1667,121 @@ class TrainingManager:
         if sat and self.entry.options.get(CONF_ANNOUNCE, True):
             self._voice_queue.put_nowait(("announce", sat, text))
         self._notify(text)
+        self._flash_light("record")
         self.hass.bus.async_fire(EVENT_NAME, {"type": "record", "session_id": active["id"],
                                               "exercise": rec["exercise_name"], **found})
+
+    # -- Lichtsignal (glow.py) -------------------------------------------
+
+    def _resolve_light(self, light: str | None, satellite: str | None) -> str | None:
+        """Lampe: beim Start angegeben → Standard aus den Optionen → Licht am Gerät des Satelliten (falls erlaubt)."""
+        if light:
+            return light
+        if self.entry.options.get(CONF_DEFAULT_LIGHT):
+            return self.entry.options[CONF_DEFAULT_LIGHT]
+        if satellite and self.entry.options.get(CONF_SATELLITE_LIGHT, True):
+            registry = er.async_get(self.hass)
+            sat = registry.async_get(satellite)
+            if sat and sat.device_id:
+                lights = [e for e in er.async_entries_for_device(registry, sat.device_id)
+                          if e.domain == "light" and not e.disabled_by]
+                if lights:
+                    return lights[0].entity_id
+        return None
+
+    def _light_snapshot(self, entity_id: str | None) -> dict[str, Any] | None:
+        """Zustand der Lampe vor dem Training (zum Wiederherstellen)."""
+        st_ = self.hass.states.get(entity_id) if entity_id else None
+        if st_ is None:
+            return None
+        if st_.state != "on":
+            return {"on": False}
+        attrs = st_.attributes
+        out: dict[str, Any] = {"on": True}
+        if attrs.get("brightness") is not None:
+            out["brightness"] = attrs["brightness"]
+        mode = attrs.get("color_mode")
+        if mode == "color_temp" and attrs.get("color_temp_kelvin"):
+            out["color_temp_kelvin"] = attrs["color_temp_kelvin"]
+        elif mode in ("hs", "rgb", "rgbw", "rgbww", "xy") and attrs.get("hs_color"):
+            out["hs_color"] = list(attrs["hs_color"])
+        return out
+
+    def _cancel_light_timers(self) -> None:
+        for name in ("_light_unsub", "_light_flash_unsub"):
+            unsub = getattr(self, name)
+            if unsub:
+                unsub()
+                setattr(self, name, None)
+
+    @callback
+    def _sync_light(self, *_: Any) -> None:
+        """Lampe an den Trainingszustand anpassen (nach jeder Änderung und zum Countdown-Zeitpunkt)."""
+        active = self.active
+        if active and active.get("light"):
+            self._light = {"entity": active["light"], "restore": active.get("light_restore")}
+        if not self._light:
+            return
+        if self._light_unsub:
+            self._light_unsub()
+            self._light_unsub = None
+        now = dt_util.utcnow()
+        state = glow.glow_state(active, now) if active else "off"
+        wait = glow.seconds_to_count(active, now)
+        if wait is not None:
+            self._light_unsub = async_call_later(self.hass, wait + 0.05, self._sync_light)
+        if state == self._light_state:
+            if not active:
+                self._light = None  # Training vorbei, Lampe ist wiederhergestellt
+            return
+        burst = state == "work" and self._light_state in ("rest", "count")
+        self._light_state = state
+        light = self._light
+        if active and time.monotonic() < self._light_hold_until:
+            return  # Rekord leuchtet noch golden – _light_settle zeigt danach den aktuellen Zustand
+        if not active:
+            self._cancel_light_timers()
+            self._light = None
+            self._light_state = None
+        self.hass.async_create_task(self._apply_light(light, state, burst))
+
+    async def _apply_light(self, light: dict[str, Any], state: str, burst: bool = False) -> None:
+        """Farbe setzen bzw. (off) den Zustand von vor dem Training wiederherstellen. Fehler stoppen nie das Training."""
+        entity = light["entity"]
+        try:
+            if state == "off":
+                restore = light.get("restore") or {"on": False}
+                if not restore.get("on"):
+                    await self.hass.services.async_call("light", "turn_off", {"entity_id": entity}, blocking=True)
+                else:
+                    data = {k: v for k, v in restore.items() if k != "on"}
+                    await self.hass.services.async_call("light", "turn_on", {"entity_id": entity, **data}, blocking=True)
+                return
+            full = burst or state in ("count", "record")
+            await self.hass.services.async_call("light", "turn_on", {
+                "entity_id": entity, "rgb_color": list(glow.COLORS[state]),
+                "brightness": glow.BRIGHT_FULL if full else glow.BRIGHT_SOFT}, blocking=True)
+            if burst or state == "record":
+                if self._light_flash_unsub:
+                    self._light_flash_unsub()
+                self._light_flash_unsub = async_call_later(
+                    self.hass, glow.RECORD_S if state == "record" else glow.BURST_S, self._light_settle)
+        except Exception:  # noqa: BLE001 – Licht darf das Training nie stoppen
+            _LOGGER.warning("Lichtsignal für %s fehlgeschlagen", entity, exc_info=True)
+
+    @callback
+    def _light_settle(self, *_: Any) -> None:
+        """Nach dem Aufleuchten (Wechsel in die Arbeit, Rekord) zurück zum gedämpften Zustand."""
+        self._light_flash_unsub = None
+        self._light_hold_until = 0.0
+        if self._light and self._light_state and self.active:
+            self.hass.async_create_task(self._apply_light(self._light, self._light_state))
+
+    def _flash_light(self, kind: str) -> None:
+        """Kurz aufleuchten (record = golden, bleibt glow.RECORD_S stehen)."""
+        if self._light and self.active:
+            self._light_hold_until = time.monotonic() + glow.RECORD_S
+            self.hass.async_create_task(self._apply_light(self._light, kind))
 
     def _notify(self, message: str) -> None:
         """Handy-Hinweis über den in den Optionen gewählten notify-Dienst (optional)."""

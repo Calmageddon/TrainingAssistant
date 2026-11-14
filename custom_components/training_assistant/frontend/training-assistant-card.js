@@ -3,7 +3,7 @@
  * Wird von der Integration automatisch geladen (keine Ressource nötig).
  * Karte im Dashboard: type: custom:training-assistant-card
  */
-const CARD_VERSION = "0.9.0";
+const CARD_VERSION = "0.10.0";
 const DOMAIN = "training_assistant";
 
 /* ------------------------------------------------------------------ Sprachen
@@ -18,6 +18,7 @@ const I18N = {
     st_edited: "edited", st_unconfirmed: "unconfirmed", st_skipped: "skipped",
     ph_ready: "Ready", ph_active: "Training", ph_interval: "HIIT", ph_finished: "Done", ph_paused: "Paused",
     ty_warmup: "Warm-up", ty_circuit: "Circuit", ty_sets: "Sets", ty_interval: "HIIT", ty_flow: "Flow", ty_cooldown: "Cool-down",
+    ex_preview: "Show {name}", ex_close: "Close",
     u_reps: "reps", u_sec: "sec", per_side: "per side", per_side_short: "/side",
     hold_max_short: "hold max", amrap_short: "max reps", reps_n: "{n} reps", tile_hold: "sec hold", goal_range: "goal {lo}–{hi}",
     pos_round_of: "Round {r}/{n}", pos_round: "Round {r}", pos_set_of: "Set {s}/{n}", pos_set: "Set {s}",
@@ -147,6 +148,7 @@ const I18N = {
     st_edited: "geändert", st_unconfirmed: "unbestätigt", st_skipped: "übersprungen",
     ph_ready: "Bereit", ph_active: "Training", ph_interval: "HIIT", ph_finished: "Fertig", ph_paused: "Pausiert",
     ty_warmup: "Aufwärmen", ty_circuit: "Zirkel", ty_sets: "Sätze", ty_interval: "HIIT", ty_flow: "Flow", ty_cooldown: "Cool Down",
+    ex_preview: "{name} ansehen", ex_close: "Schließen",
     u_reps: "Wdh.", u_sec: "Sek.", per_side: "pro Seite", per_side_short: "/Seite",
     hold_max_short: "max. halten", amrap_short: "max. Wdh.", reps_n: "{n} Wdh.", tile_hold: "Sek. halten", goal_range: "Ziel {lo}–{hi}",
     pos_round_of: "Runde {r}/{n}", pos_round: "Runde {r}", pos_set_of: "Satz {s}/{n}", pos_set: "Satz {s}",
@@ -307,6 +309,14 @@ const img = (cid, cls = "thumb", n = 0) =>
   cid && !(n > 0 && SINGLE.has(cid))
     ? `<img class="${cls}" src="${IMG_BASE}/${FIGURE}/${encodeURIComponent(cid)}/${n}.jpg" alt="" loading="lazy">`
     : n > 0 ? "" : `<span class="${cls} noimg"></span>`;
+// Alle Bilder einer Übung (für die Vorschau mit Animation)
+const imgUrls = (cid) => (cid ? [0, 1].filter((n) => !(n > 0 && SINGLE.has(cid))).map((n) => `${IMG_BASE}/${FIGURE}/${encodeURIComponent(cid)}/${n}.jpg`) : []);
+// Kleines Übungsbild als Schaltfläche: Tippen öffnet die Vorschau. Überall außer im laufenden Training.
+const thumbBtn = (cid, name, cls = "thumb") =>
+  cid
+    ? `<button class="ex-img" type="button" data-a="ex-preview" data-img="${esc(cid)}" data-name="${esc(name)}"
+        aria-label="${esc(t("ex_preview", { name }))}">${img(cid, cls)}</button>`
+    : img(null, cls);
 const dur = (s) => (s >= 60 ? (s % 60 ? `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")} min` : `${s / 60} min`) : `${s} s`);
 
 const esc = (v) =>
@@ -339,32 +349,34 @@ function targetText(s) {
   else if (s.target_duration) out = `${s.target_duration} s`; // Zeit-Progression: Ziel kann über dem Bereich liegen
   else if (s.duration_range) out = `${s.duration_range[0]}–${s.duration_range[1]} s`;
   else if (s.amrap) out = t("amrap_short");
-  else if (s.target_reps) out = t("reps_n", { n: s.target_reps });
+  // Einseitig kompakt „9/Seite“, damit die Angabe in der Zeile bleibt
+  else if (s.target_reps) out = s.per_side ? String(s.target_reps) : t("reps_n", { n: s.target_reps });
   else out = "";
+  if (s.per_side) out += t("per_side_short");
   if (s.rep_range && s.rep_range[0] !== s.rep_range[1]) out += ` (${s.rep_range[0]}–${s.rep_range[1]})`;
-  if (s.per_side) out += ` ${t("per_side")}`;
   if (s.target_weight !== null && s.target_weight !== undefined) out += ` · ${kg(s.target_weight)}`;
   return out;
 }
 
 /* Zielwerte als große Zahlen-Kacheln: „10 Wdh. × 12 kg“ */
 function targetTiles(s) {
-  const tile = (value, unit, hint = "") =>
-    `<div class="tg-v"><b>${esc(value)}</b><span>${esc(unit)}</span>${hint ? `<em>${esc(hint)}</em>` : ""}</div>`;
+  // Einseitig: „/ Seite“ direkt an der großen Zahl, darunter nur Einheit und Ziel
+  const side = s.per_side ? t("per_side_short") : "";
+  const tile = (value, unit, hint = "", suffix = side) =>
+    `<div class="tg-v"><b>${esc(value)}${suffix ? `<small class="tg-side">${esc(suffix)}</small>` : ""}</b><span>${esc(unit)}</span>${hint ? `<em>${esc(hint)}</em>` : ""}</div>`;
   const parts = [];
-  const side = s.per_side ? t("per_side") : "";
   if (s.hold_max) parts.push(tile("max", t("tile_hold")));
   else if (s.target_duration) parts.push(tile(s.target_duration, t("u_sec"),
-    [s.duration_range ? `${s.duration_range[0]}–${s.duration_range[1]} s` : "", side].filter(Boolean).join(" · ")));
-  else if (s.duration_range) parts.push(tile(`${s.duration_range[0]}–${s.duration_range[1]}`, t("u_sec"), side));
-  else if (s.amrap) parts.push(tile("max", t("u_reps"), side));
+    s.duration_range ? `${s.duration_range[0]}–${s.duration_range[1]} s` : ""));
+  else if (s.duration_range) parts.push(tile(`${s.duration_range[0]}–${s.duration_range[1]}`, t("u_sec")));
+  else if (s.amrap) parts.push(tile("max", t("u_reps")));
   else if (s.target_reps) {
     const range = s.rep_range && s.rep_range[0] !== s.rep_range[1] ? t("goal_range", { lo: s.rep_range[0], hi: s.rep_range[1] }) : "";
-    parts.push(tile(s.target_reps, t("u_reps"), [range, side].filter(Boolean).join(" · ")));
+    parts.push(tile(s.target_reps, t("u_reps"), range));
   }
   if (s.target_weight !== null && s.target_weight !== undefined) {
     if (parts.length) parts.push(`<div class="tg-x">×</div>`);
-    parts.push(tile(num(s.target_weight), "kg"));
+    parts.push(tile(num(s.target_weight), "kg", "", ""));
   }
   return `<div class="tg">${parts.join("")}</div>`;
 }
@@ -545,7 +557,9 @@ class TrainingAssistantCard extends HTMLElement {
     // Gefährliche Aktionen: erst antippen = „Wirklich …?“, nochmal antippen = ausführen.
     // (Browser-Dialoge wie confirm() werden in Apps/Kiosk-Browsern oft still unterdrückt.)
     if (d.confirm && !this._confirmed(d.ck)) return;
-    if (a === "note") {
+    if (a === "ex-preview") {
+      openExercisePreview({ urls: imgUrls(d.img), title: d.name, closeLabel: t("ex_close"), returnFocus: el });
+    } else if (a === "note") {
       el.classList.toggle("open"); // Hinweis auf dem Handy auf- und zuklappen, ohne neu zu zeichnen
     } else if (a === "tab") {
       this._tab = d.tab;
@@ -944,7 +958,7 @@ class TrainingAssistantCard extends HTMLElement {
       let body = "";
       if (b.type === "flow") {
         body = `<ul>${(s.items || [])
-          .map((i) => `<li><span class="exn">${img(this._imageFor(i.exercise, s))}<span>${esc(i.name)}</span></span>
+          .map((i) => `<li><span class="exn">${thumbBtn(this._imageFor(i.exercise, s), i.name)}<span>${esc(i.name)}</span></span>
             <span class="tgt">${esc(dur(i.duration_s))}${i.per_side ? ` ${esc(t("per_side"))}` : ""}</span></li>`)
           .join("")}</ul>`;
       } else if (b.type === "interval") {
@@ -952,12 +966,12 @@ class TrainingAssistantCard extends HTMLElement {
         const seen = new Set();
         body = `<ul>${(s.exercises || []).map((e, i) => [e, s.exercise_names[i]])
           .filter(([e]) => !seen.has(e) && seen.add(e))
-          .map(([e, n]) => `<li><span class="exn">${img(this._imageFor(e, s))}<span>${esc(n)}</span></span></li>`)
+          .map(([e, n]) => `<li><span class="exn">${thumbBtn(this._imageFor(e, s), n)}<span>${esc(n)}</span></span></li>`)
           .join("") || `<li><span>${esc(s.exercise_names.join(" · "))}</span></li>`}</ul>`;
       } else if (b.items.length) {
         body = `<ul>${b.items
           .map(
-            (i) => `<li><span class="exn">${img(i.image)}<span>${esc(i.exercise_name)}</span></span><span class="tgt">${esc(targetText(i))}</span>
+            (i) => `<li><span class="exn">${thumbBtn(i.image, i.exercise_name)}<span>${esc(i.exercise_name)}</span></span><span class="tgt">${esc(targetText(i))}</span>
               ${i.suggestion && i.suggestion_key !== "plan_values" && i.suggestion !== "Planwerte (noch kein Verlauf)" ? `<div class="sug">${esc(stepSug(i))}</div>` : ""}</li>`
           )
           .join("")}</ul>`;
@@ -1072,7 +1086,6 @@ class TrainingAssistantCard extends HTMLElement {
     }
     const showLabel = step.type === "set" || step.type === "interval";
     const note = step.block_note && a.phase === "ready" ? step.block_note : step.note;
-    const lastSet = a.sets.length ? a.sets[a.sets.length - 1] : null;
     // Bild: Übung des Schritts, bei HIIT/Flow die gerade laufende (bzw. nächste) Übung
     const curImg = step.image || (iv && iv.image) || null;
     // Statuszeile: immer vorhanden und gleich hoch, damit die Tasten darunter nicht springen
@@ -1106,7 +1119,6 @@ class TrainingAssistantCard extends HTMLElement {
             : "";
     const timers = [
       stateChip,
-      lastSet && lastSet.record && !a.rest_until ? `<div class="timer rec">${esc(t("t_record", { name: lastSet.exercise_name }))}</div>` : "",
       a.block_until ? `<div class="timer cap">${t("t_left")} <span data-until="${esc(a.block_until)}"></span></div>` : "",
       a.block_expired && step.block_end?.time_cap_s && a.phase === "active" ? `<div class="timer cap">${t("t_up")}</div>` : "",
       a.pending_question !== null && a.pending_question !== undefined ? `<div class="timer q">${t("t_question")}</div>` : "",
@@ -1258,7 +1270,7 @@ class TrainingAssistantCard extends HTMLElement {
         const last = e.last_sets.map(setValue).join(" · ");
         const s = e.suggestion;
         const next = s ? `${s.reps ? t("reps_n", { n: s.reps }) : ""}${s.weight_kg !== null && s.weight_kg !== undefined ? ` · ${kg(s.weight_kg)}` : ""}` : "";
-        return `<tr><td><div class="exn">${img(e.image, "thumb lg")}<div><b>${esc(e.name)}</b><div class="muted small">${esc(t("h_ex_meta", { n: e.sessions, d: date(e.last_date) }))}${bestText(e.bests)}</div></div></div></td>
+        return `<tr><td><div class="exn">${thumbBtn(e.image, e.name, "thumb lg")}<div><b>${esc(e.name)}</b><div class="muted small">${esc(t("h_ex_meta", { n: e.sessions, d: date(e.last_date) }))}${bestText(e.bests)}</div></div></div></td>
           <td data-label="${esc(t("h_th_hist"))}">${spark(e.points)}</td>
           <td class="small" data-label="${esc(t("h_th_last"))}">${esc(last)}</td>
           <td class="small" data-label="${esc(t("h_th_next"))}">${s ? `<b class="${s.increased ? "up" : ""}">${esc(next)}</b><div class="muted">${esc(reasonSug(s))}</div>` : ""}</td></tr>`;
@@ -1829,6 +1841,11 @@ const STYLE = `
   .tg-v span { font-size: .8em; color: var(--secondary-text-color); margin-top: 3px; }
   .tg-v em { font-style: normal; font-size: .72em; color: var(--secondary-text-color); margin-top: 2px; opacity: .8; }
   .tg-x { font-size: 1.4em; color: var(--secondary-text-color); padding-top: 6px; }
+  .tg-side { font-size: .42em; font-weight: 600; margin-left: 3px; color: var(--primary-text-color); opacity: .85; }
+  /* Liste „Danach“: Name darf kürzen, die Zielangabe bleibt rechts in derselben Zeile */
+  .upc .list li { flex-wrap: nowrap; }
+  .upc .exn > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upc .tgt { flex-shrink: 0; white-space: nowrap; }
   .chip { align-self: center; font-size: .75em; padding: 2px 8px; border-radius: 10px; background: var(--divider-color);
           color: var(--secondary-text-color); flex-shrink: 0; }
   .cur-chart .chart { margin-top: 0; }
@@ -1934,6 +1951,10 @@ const STYLE = `
   @container (max-width: 560px) { .startrow { grid-template-columns: 1fr 1fr; } .startrow .btn { grid-column: 1 / -1; } }
   .startrow .btn { padding: 12px; font-size: 1.1em; font-weight: 600; }
   .exn { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  /* Bild als Schaltfläche (Vorschau); in Listen ohne Abstand, damit alles bündig bleibt */
+  .ex-img { flex: none; display: inline-flex; padding: 0; margin: 0; border: 1px solid transparent; border-radius: 9px;
+            background: none; cursor: zoom-in; }
+  .ex-img:hover, .ex-img:focus-visible { border-color: var(--primary-color); outline: none; }
   .thumb { width: 40px; height: 40px; flex: none; border-radius: 8px; object-fit: contain; background: #fff; }
   .thumb.lg { width: 48px; height: 48px; }
   .thumb.noimg { background: transparent; }
@@ -2073,7 +2094,6 @@ const STYLE = `
   .pp-link { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
   .pp-link select { width: auto; max-width: 220px; padding: 4px 8px; }
   .timer .grow { flex: 1; text-align: center; }
-  .timer.rec { background: color-mix(in srgb, var(--ta-gold) 25%, transparent); }
   /* Zustandsanzeige – bewusst kein Knopf: nur leicht getönt, Farbkante links, farbiger Text mit Punkt */
   .timer.st { --st: var(--divider-color); background: color-mix(in srgb, var(--st) 13%, transparent);
               border-left: 5px solid var(--st); border-radius: 6px; color: var(--st); cursor: default;
@@ -2275,4 +2295,88 @@ if (!customElements.get("training-assistant-card")) {
     preview: false,
   });
   console.info(`%c TRAINING-ASSISTANT-CARD %c ${CARD_VERSION} `, "background:#03a9f4;color:#fff", "");
+}
+
+/*
+ * Übungsvorschau (aus Hero Upgrade, preview.js): großes Bild, Start- und Endpose im Wechsel.
+ * Hängt als eigenes Element am <body>, weil die Karte sich oft neu zeichnet.
+ * Schließen: X, Tippen außerhalb des Bildes, Escape.
+ */
+const PREVIEW_FRAME_MS = 800;
+const PREVIEW_TAG = "ta-exercise-preview";
+
+const PREVIEW_STYLE = `
+  :host { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+    padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
+    background: rgba(0, 0, 0, .6); animation: fade .15s ease-out; }
+  @keyframes fade { from { opacity: 0; } }
+  .box { position: relative; width: min(92vw, 440px); background: #fff; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .35); }
+  .stage { position: relative; width: 100%; aspect-ratio: 1 / 1; background: #fff; }
+  .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center;
+    opacity: 0; }
+  .stage img.on { opacity: 1; }
+  .title { margin: 0; padding: 10px 52px 12px 16px; font: 600 1rem/1.3 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: #141414; border-top: 1px solid #e6e8e6; }
+  .x { position: absolute; top: 8px; right: 8px; width: 40px; height: 40px; border: 0; border-radius: 50%;
+    background: rgba(20, 20, 20, .08); color: #141414; font-size: 22px; line-height: 1; cursor: pointer; }
+  .x:hover, .x:focus-visible { background: rgba(20, 20, 20, .16); outline: none; }
+`;
+
+class ExercisePreview extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this._onKey = (e) => { if (e.key === "Escape") this.close(); };
+  }
+
+  /** Inhalt setzen und Wechsel starten */
+  show({ urls, title = "", closeLabel = "Close" }) {
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+    this.setAttribute("role", "dialog");
+    this.setAttribute("aria-modal", "true");
+    this.setAttribute("aria-label", title);
+    this.shadowRoot.innerHTML = `<style>${PREVIEW_STYLE}</style>
+      <div class="box">
+        <div class="stage">${urls.map((u, i) => `<img src="${esc(u)}" alt="${i ? "" : esc(title)}" class="${i ? "" : "on"}">`).join("")}</div>
+        ${title ? `<p class="title">${esc(title)}</p>` : ""}
+        <button class="x" type="button" aria-label="${esc(closeLabel)}">✕</button>
+      </div>`;
+    this.shadowRoot.querySelector(".x").addEventListener("click", () => this.close());
+    // Tippen außerhalb des Bildes (auf den abgedunkelten Hintergrund) schließt
+    // (e.target zeigt aus dem Shadow DOM immer auf das Element selbst – darum den echten Klickpunkt prüfen)
+    this.addEventListener("click", (e) => { if (e.composedPath()[0] === this) this.close(); });
+    document.addEventListener("keydown", this._onKey);
+    clearInterval(this._loop);
+    const imgs = [...this.shadowRoot.querySelectorAll(".stage img")];
+    if (imgs.length > 1) {
+      let i = 0;
+      this._loop = setInterval(() => {
+        imgs[i].classList.remove("on");
+        i = (i + 1) % imgs.length;
+        imgs[i].classList.add("on");
+      }, PREVIEW_FRAME_MS);
+    }
+    this.shadowRoot.querySelector(".x").focus();
+  }
+
+  close() {
+    clearInterval(this._loop);
+    document.removeEventListener("keydown", this._onKey);
+    this.remove();
+    if (this._returnFocus && this._returnFocus.focus) this._returnFocus.focus();
+  }
+}
+
+if (!customElements.get(PREVIEW_TAG)) customElements.define(PREVIEW_TAG, ExercisePreview);
+
+/** Vorschau öffnen (eine offene Vorschau wird ersetzt). urls: 1 oder 2 Bildadressen. */
+function openExercisePreview({ urls, title, closeLabel, returnFocus } = {}) {
+  if (!urls || !urls.length) return null;
+  document.querySelectorAll(PREVIEW_TAG).forEach((el) => el.close());
+  const el = document.createElement(PREVIEW_TAG);
+  el._returnFocus = returnFocus || null;
+  document.body.append(el);
+  el.show({ urls, title, closeLabel });
+  return el;
 }

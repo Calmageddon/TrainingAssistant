@@ -1,7 +1,7 @@
 """Konstanten für TrainingAssistant."""
 
 DOMAIN = "training_assistant"
-VERSION = "0.9.0"
+VERSION = "0.10.0"
 
 # Version des Importformats für Trainingspläne (siehe schema/plan.schema.json)
 PLAN_SCHEMA_VERSION = 1
@@ -23,6 +23,8 @@ CONF_ANNOUNCE = "announce"
 CONF_QUESTION_TIMEOUT = "question_timeout"
 CONF_VOICE_LANGUAGE = "voice_language"
 CONF_NOTIFY = "notify_service"  # z. B. "mobile_app_pixel" – Handy-Hinweis bei Pausenende und Rekord
+CONF_DEFAULT_LIGHT = "default_light"  # RGB-Lampe als Lichtsignal (grün Arbeit, gelb Pause, rot Countdown), optional
+CONF_SATELLITE_LIGHT = "satellite_light"  # ohne Lampe: Licht am Gerät des Satelliten nutzen (z. B. LED-Ring des Voice PE)
 
 DEFAULT_QUESTION_TIMEOUT = 20
 DEFAULT_WEEKLY_GOAL = 3

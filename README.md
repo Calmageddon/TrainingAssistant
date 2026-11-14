@@ -51,6 +51,12 @@ Requires Home Assistant 2025.7 or newer.
 questions on/off, time to wait for an answer, voice language (automatic, English, German),
 phone notification (a `notify` service such as `mobile_app_…` for the end of rest and new records).
 
+**Light signal** (optional): pick an RGB light in the options, pass `light:` to `training_assistant.start`, or let
+TrainingAssistant use a light on the satellite's own device (e.g. the LED ring of the Home Assistant Voice PE).
+The light shows the phase: green while you train (bright for a moment when a rest ends), yellow during rests and side
+switches, red in the last 3 seconds before you go and during the countdown of a timed set, gold for a new record.
+When the workout is paused, waiting for "Go" or finished, the light returns to how it was before.
+
 ## Privacy
 
 When a plan is imported, Home Assistant downloads the matching exercise images once from

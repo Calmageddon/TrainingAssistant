@@ -17,6 +17,10 @@ start:
       default: true
       selector:
         boolean:
+    light:
+      selector:
+        entity:
+          domain: light
 next:
   fields:
     effort:

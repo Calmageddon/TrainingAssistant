@@ -10,7 +10,7 @@ description: >-
 goal: endurance
 exercises:
   jumping_jack: { name: Jumping Jacks, aliases: [Hampelmann], equipment: bodyweight, image: false }
-  wall_sit: { name: Wall Sit, aliases: [Wandsitzen], equipment: bodyweight, image: false }
+  wall_sit: { name: Wall Sit, aliases: [Wandsitzen], equipment: bodyweight, image: false, muscles: [quads, glutes] }
   push_up: { name: Push-Ups, aliases: [Liegestütze], equipment: bodyweight, image: Pushups }
   crunch: { name: Crunches, equipment: bodyweight }
   step_up: { name: Step-up onto Chair, aliases: [Aufsteigen auf Stuhl], equipment: bodyweight, image: Dumbbell_Step_Ups, unilateral: true }
