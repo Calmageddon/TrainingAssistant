@@ -54,8 +54,8 @@ Handy-Benachrichtigung (ein `notify`-Dienst wie `mobile_app_…` für Pausenende
 **Lichtsignal** (optional): in den Optionen eine RGB-Lampe wählen, beim Start `light:` an `training_assistant.start`
 übergeben oder das Licht am Gerät des Satelliten nutzen lassen (z. B. den LED-Ring des Home Assistant Voice PE).
 Die Lampe zeigt die Phase: grün beim Trainieren (kurz hell, wenn eine Pause endet), gelb in Pausen und beim
-Seitenwechsel, rot in den letzten 3 Sekunden vor dem Start und im Countdown eines Satzes nach Zeit, golden bei einem
-neuen Rekord. Pausiert, wartend auf „Los“ oder nach dem Training ist die Lampe wieder wie vorher.
+Seitenwechsel, gedämpft rot beim Warten auf „Los“, rot in den letzten 3 Sekunden vor dem Start und im Countdown eines
+Satzes nach Zeit, golden bei einem neuen Rekord. Pausiert oder nach dem Training ist die Lampe wieder wie vorher.
 
 ## Datenschutz
 

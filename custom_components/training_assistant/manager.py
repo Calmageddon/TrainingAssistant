@@ -1884,7 +1884,7 @@ class TrainingManager:
             if not active:
                 self._light = None  # Training vorbei, Lampe ist wiederhergestellt
             return
-        burst = state == "work" and self._light_state in ("rest", "count")
+        burst = state == "work" and self._light_state in ("rest", "count", "wait")
         self._light_state = state
         light = self._light
         if active and time.monotonic() < self._light_hold_until:

@@ -54,8 +54,9 @@ phone notification (a `notify` service such as `mobile_app_…` for the end of r
 **Light signal** (optional): pick an RGB light in the options, pass `light:` to `training_assistant.start`, or let
 TrainingAssistant use a light on the satellite's own device (e.g. the LED ring of the Home Assistant Voice PE).
 The light shows the phase: green while you train (bright for a moment when a rest ends), yellow during rests and side
-switches, red in the last 3 seconds before you go and during the countdown of a timed set, gold for a new record.
-When the workout is paused, waiting for "Go" or finished, the light returns to how it was before.
+switches, dimmed red while waiting for "Go", red in the last 3 seconds before you go and during the countdown of a
+timed set, gold for a new record.
+When the workout is paused or finished, the light returns to how it was before.
 
 ## Privacy
 

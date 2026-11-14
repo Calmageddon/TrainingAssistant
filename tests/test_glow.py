@@ -14,7 +14,8 @@ def iso(seconds):
 def test_no_session_or_paused_is_off():
     assert glow_state(None, NOW) == "off"
     assert glow_state({"phase": "active", "paused": True}, NOW) == "off"
-    assert glow_state({"phase": "ready"}, NOW) == "off"  # wartet auf „Los“
+    assert glow_state({"phase": "ready"}, NOW) == "wait"  # wartet auf „Los“: gedämpft rot
+    assert glow_state({"phase": "finished"}, NOW) == "off"
 
 
 def test_set_rest_and_countdown():

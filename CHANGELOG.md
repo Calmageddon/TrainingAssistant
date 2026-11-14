@@ -24,6 +24,8 @@ Deutsche Fassung jeweils darunter.
   but only control their own – or that of a person not linked to a Home Assistant user.
   *Deutsch:* Zuschauen ja, bedienen nein: In der Karte kann jeder zum Training einer anderen Person wechseln und
   zuschauen („Wessen Training?“), bedienen aber nur das eigene – oder das einer Person ohne verknüpften Benutzer.
+- Light signal: dimmed red while waiting for "Go" (like the status line), bright green as soon as it starts.
+  *Deutsch:* Lichtsignal: gedämpft rot beim Warten auf „Los“ (wie die Statuszeile), hell grün, sobald es losgeht.
 - Existing data moves over automatically.
   *Deutsch:* Vorhandene Daten werden automatisch übernommen.
 

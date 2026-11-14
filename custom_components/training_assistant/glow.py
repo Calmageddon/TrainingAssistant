@@ -2,7 +2,7 @@
 
   work  = grün (Satz/Arbeitsphase läuft)        rest = gelb (Pause, Seitenwechsel, HIIT-Pause)
   count = rot (letzte COUNT_S Sekunden vor „Los“, Countdown vor einem Satz nach Zeit)
-  off   = Lampe wie vor dem Training (wartet auf „Los“, pausiert)
+  wait  = rot, gedämpft (wartet auf „Los“)      off  = Lampe wie vor dem Training (pausiert, Training vorbei)
 Beim Wechsel aus Pause/Countdown in die Arbeit leuchtet die Lampe kurz mit voller Helligkeit, bei einem Rekord golden.
 Ohne HA-Abhängigkeit.
 """
@@ -17,6 +17,7 @@ COLORS: dict[str, tuple[int, int, int]] = {
     "work": (0, 230, 118),
     "rest": (255, 190, 0),
     "count": (255, 23, 68),
+    "wait": (229, 57, 53),
     "record": (255, 200, 40),
 }
 # Helligkeit (0–255): dauerhaft gedämpft, beim Wechsel in die Arbeit, im Countdown und beim Rekord voll
@@ -69,6 +70,8 @@ def glow_state(active: dict[str, Any] | None, now: datetime) -> str:
             left = _left(hold.get("until"), now)
             return "count" if left is not None and left <= COUNT_S else "rest"
         return "work"
+    if active.get("phase") == "ready":
+        return "wait"  # wartet auf „Los“
     return "work" if active.get("phase") == "active" else "off"
 
 
