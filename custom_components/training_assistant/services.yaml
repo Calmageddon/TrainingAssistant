@@ -2,31 +2,37 @@ start:
   fields:
     plan_id:
       selector:
-        text:
+        text: null
     workout_id:
       selector:
-        text:
+        text: null
     satellite:
       selector:
         entity:
           domain: assist_satellite
     device_id:
       selector:
-        text:
+        text: null
     speak_intro:
       default: true
       selector:
-        boolean:
+        boolean: null
     light:
       selector:
         entity:
           domain: light
+    person:
+      selector:
+        text: {}
 next:
   fields:
     effort:
       selector:
         select:
-          options: ["easy", "normal", "hard"]
+          options:
+          - easy
+          - normal
+          - hard
           translation_key: effort
     reps:
       selector:
@@ -49,16 +55,38 @@ next:
           max: 3600
           mode: box
           unit_of_measurement: s
+    person:
+      selector:
+        text: {}
 undo:
+  fields:
+    person:
+      selector:
+        text: {}
 skip:
+  fields:
+    person:
+      selector:
+        text: {}
 pause:
+  fields:
+    person:
+      selector:
+        text: {}
 finish:
+  fields:
+    person:
+      selector:
+        text: {}
 abort:
   fields:
     keep:
       default: true
       selector:
-        boolean:
+        boolean: null
+    person:
+      selector:
+        text: {}
 import_plan:
   fields:
     plan:
@@ -71,28 +99,34 @@ delete_plan:
     plan_id:
       required: true
       selector:
-        text:
+        text: null
 set_next_workout:
   fields:
     plan_id:
       required: true
       selector:
-        text:
+        text: null
     workout_id:
       required: true
       selector:
-        text:
+        text: null
+    person:
+      selector:
+        text: {}
 log_set:
   fields:
     effort:
       selector:
         select:
-          options: ["easy", "normal", "hard"]
+          options:
+          - easy
+          - normal
+          - hard
           translation_key: effort
     text:
-      example: "8 mal 15 Kilo"
+      example: 8 mal 15 Kilo
       selector:
-        text:
+        text: null
     reps:
       selector:
         number:
@@ -114,16 +148,22 @@ log_set:
           max: 3600
           mode: box
           unit_of_measurement: s
+    person:
+      selector:
+        text: {}
 edit_set:
   fields:
     effort:
       selector:
         select:
-          options: ["easy", "normal", "hard"]
+          options:
+          - easy
+          - normal
+          - hard
           translation_key: effort
     session_id:
       selector:
-        text:
+        text: null
     set_id:
       required: true
       selector:
@@ -155,7 +195,10 @@ edit_set:
     skipped:
       default: false
       selector:
-        boolean:
+        boolean: null
+    person:
+      selector:
+        text: {}
 get_history:
   fields:
     limit:
@@ -165,13 +208,18 @@ get_history:
           min: 1
           max: 500
           mode: box
+    person:
+      selector:
+        text: {}
 adjust:
   fields:
     field:
       required: true
       selector:
         select:
-          options: [reps, weight]
+          options:
+          - reps
+          - weight
     steps:
       default: 1
       selector:
@@ -179,13 +227,18 @@ adjust:
           min: -50
           max: 50
           mode: box
+    person:
+      selector:
+        text: {}
 set_value:
   fields:
     field:
       required: true
       selector:
         select:
-          options: [reps, weight]
+          options:
+          - reps
+          - weight
     value:
       required: true
       selector:
@@ -194,13 +247,18 @@ set_value:
           max: 600
           step: 0.25
           mode: box
+    person:
+      selector:
+        text: {}
 set_program:
   fields:
     plan_id:
       required: true
       selector:
-        text:
-
+        text: null
+    person:
+      selector:
+        text: {}
 rest_adjust:
   fields:
     seconds:
@@ -212,13 +270,11 @@ rest_adjust:
           step: 15
           mode: box
           unit_of_measurement: s
-
-set_profile:
-  fields:
-    profile:
-      required: true
-      example: "Alex"
+    person:
       selector:
-        text:
-
+        text: {}
 get_stats:
+  fields:
+    person:
+      selector:
+        text: {}

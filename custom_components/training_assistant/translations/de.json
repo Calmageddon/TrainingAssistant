@@ -84,9 +84,6 @@
       },
       "program": {
         "name": "Programm"
-      },
-      "profile": {
-        "name": "Person"
       }
     },
     "sensor": {
@@ -158,6 +155,10 @@
         "light": {
           "name": "Lampe",
           "description": "RGB-Lampe für das Lichtsignal (optional; sonst die Lampe aus den Optionen bzw. das Licht am Satelliten)."
+        },
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
@@ -180,24 +181,52 @@
         "effort": {
           "name": "Anstrengung",
           "description": "Wie sich der Satz angefühlt hat: leicht, normal oder schwer. Schwer = nächstes Mal nicht steigern, alle leicht = größerer Schritt."
+        },
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
     "undo": {
       "name": "Rückgängig",
-      "description": "Einen Schritt zurück, dort erfassten Satz verwerfen."
+      "description": "Einen Schritt zurück, dort erfassten Satz verwerfen.",
+      "fields": {
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
+        }
+      }
     },
     "skip": {
       "name": "Überspringen",
-      "description": "Aktuellen Satz auslassen, bzw. den ganzen Block, wenn er noch nicht begonnen hat."
+      "description": "Aktuellen Satz auslassen, bzw. den ganzen Block, wenn er noch nicht begonnen hat.",
+      "fields": {
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
+        }
+      }
     },
     "pause": {
       "name": "Pause / Fortsetzen",
-      "description": "Hält Timer an oder setzt sie fort."
+      "description": "Hält Timer an oder setzt sie fort.",
+      "fields": {
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
+        }
+      }
     },
     "finish": {
       "name": "Training beenden",
-      "description": "Speichert das Training und merkt das nächste Workout vor."
+      "description": "Speichert das Training und merkt das nächste Workout vor.",
+      "fields": {
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
+        }
+      }
     },
     "abort": {
       "name": "Training abbrechen",
@@ -206,6 +235,10 @@
         "keep": {
           "name": "Sätze behalten",
           "description": "Bisher erfasste Sätze speichern."
+        },
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
@@ -240,6 +273,10 @@
         "workout_id": {
           "name": "Workout-ID",
           "description": "ID des Workouts."
+        },
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
@@ -266,6 +303,10 @@
         "effort": {
           "name": "Anstrengung",
           "description": "Wie sich der Satz angefühlt hat: leicht, normal oder schwer. Schwer = nächstes Mal nicht steigern, alle leicht = größerer Schritt."
+        },
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
@@ -300,6 +341,10 @@
         "effort": {
           "name": "Anstrengung",
           "description": "Wie sich der Satz angefühlt hat: leicht, normal oder schwer. Schwer = nächstes Mal nicht steigern, alle leicht = größerer Schritt."
+        },
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
@@ -310,6 +355,10 @@
         "limit": {
           "name": "Anzahl",
           "description": "Anzahl Trainings."
+        },
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
@@ -324,6 +373,10 @@
         "steps": {
           "name": "Schritte",
           "description": "Anzahl Schritte, negativ = weniger."
+        },
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
@@ -338,6 +391,10 @@
         "value": {
           "name": "Wert",
           "description": "Neuer Wert."
+        },
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
@@ -348,6 +405,10 @@
         "plan_id": {
           "name": "Plan-ID",
           "description": "ID des Plans."
+        },
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
@@ -358,22 +419,22 @@
         "seconds": {
           "name": "Sekunden",
           "description": "Positiv = länger, negativ = kürzer."
-        }
-      }
-    },
-    "set_profile": {
-      "name": "Person wechseln",
-      "description": "Wer trainiert? Jede Person hat eigenen Verlauf, eigene Vorschläge und eigene Programm-Position. Nicht während eines Trainings.",
-      "fields": {
-        "profile": {
+        },
+        "person": {
           "name": "Person",
-          "description": "Name oder ID der Person."
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
         }
       }
     },
     "get_stats": {
       "name": "Statistik abrufen",
-      "description": "Woche, Serie, Trainingszeit, Sätze pro Muskelgruppe, Erholung und letzte Rekorde der aktiven Person."
+      "description": "Woche, Serie, Trainingszeit, Sätze pro Muskelgruppe, Erholung und letzte Rekorde der aktiven Person.",
+      "fields": {
+        "person": {
+          "name": "Person",
+          "description": "Wessen Training (ID oder Name). Leer: die Person des Satelliten bzw. des aufrufenden Benutzers oder die einzige Person."
+        }
+      }
     }
   },
   "selector": {
@@ -461,6 +522,12 @@
     },
     "plan_in_use": {
       "message": "Dieser Plan wird im laufenden Training benutzt – beende es zuerst"
+    },
+    "person_required": {
+      "message": "Mehrere Personen nutzen TrainingAssistant – bitte angeben, wessen Training gemeint ist (Feld „person“)"
+    },
+    "not_your_workout": {
+      "message": "Das ist das Training einer anderen Person – zuschauen ja, bedienen nein"
     }
   }
 }

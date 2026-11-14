@@ -11,7 +11,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import TrainingConfigEntry
 from .const import REST_STEP_S
-from .entity import TrainingEntity
+from .entity import TrainingEntity, setup_person_entities
 
 BUTTONS = ("start", "next", "undo", "pause", "skip", "finish", "abort")
 # Plus/Minus für den laufenden Satz – z. B. für einen Drehregler
@@ -24,10 +24,10 @@ REST_BUTTONS = {"rest_longer": REST_STEP_S, "rest_shorter": -REST_STEP_S}
 async def async_setup_entry(
     hass: HomeAssistant, entry: TrainingConfigEntry, async_add_entities: AddConfigEntryEntitiesCallback
 ) -> None:
-    async_add_entities([
-        *(TrainingButton(entry.runtime_data, key) for key in BUTTONS),
-        *(AdjustButton(entry.runtime_data, key) for key in ADJUST_BUTTONS),
-        *(RestButton(entry.runtime_data, key) for key in REST_BUTTONS),
+    setup_person_entities(hass, entry, async_add_entities, lambda m: [
+        *(TrainingButton(m, key) for key in BUTTONS),
+        *(AdjustButton(m, key) for key in ADJUST_BUTTONS),
+        *(RestButton(m, key) for key in REST_BUTTONS),
     ])
 
 

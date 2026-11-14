@@ -28,7 +28,7 @@ the voice language can also be set in the integration options.
 | **Effort** | Say "eight, that was hard" or tap *Easy / Normal / Hard*: hard = no increase next time, all easy = bigger step |
 | **Records** | New personal bests (weight, estimated max, reps, time) are announced ("New record!"), marked with 🏆 and fired as an event |
 | **Statistics** | Week view ("3 of 4 workouts this week" with days and muscle groups), weekly goal, streak, training time, sets per muscle group per week, recovery status per muscle group |
-| **People** | Several people on one tablet: each has their own history, suggestions, weekly goal and program position; plans are shared |
+| **People** | Several people, training at the same time if they like: each has their own device, history, suggestions, weekly goal, program position, satellite and light; watch the others in the card; plans are shared |
 | **Exercise images** | Pictures (start/end) for every template exercise, male or female figure per person, matched automatically; shipped with the integration, no downloads |
 | **Card** | `custom:training-assistant-card` with the tabs Training, History and Plans, loaded automatically |
 | **Entities** | Buttons *Start, Next, Undo, Pause, Skip, Finish, Abort, Reps/Weight up/down, Rest longer/shorter (±15 s)* · numbers *Reps, Weight* (e.g. for a rotary knob) · selects *Person, Program, Next workout* · sensors *Status, Current exercise, Progress, Last set, Workouts this week, Streak* · calendar *Workouts* |
@@ -103,15 +103,19 @@ Settings → Automations & scenes → Blueprints → *Import blueprint*:
 
 Actions: `training_assistant.start`, `next`, `undo`, `skip`, `pause`, `finish`, `abort`,
 `adjust`, `set_value`, `import_plan`, `delete_plan`, `set_program`, `set_next_workout`, `log_set`,
-`edit_set`, `get_history`, `get_stats`, `rest_adjust`, `set_profile`. `next`, `log_set` and `edit_set`
-accept `effort` (`easy`, `normal`, `hard`).
+`edit_set`, `get_history`, `get_stats`, `rest_adjust`. `next`, `log_set` and `edit_set`
+accept `effort` (`easy`, `normal`, `hard`). Every action except `import_plan`/`delete_plan` takes `person`
+(ID or name) – see below. Events carry `profile` (ID) and `person` (name).
 
-**People:** Add people under *Settings → People*. "Who's training?" appears above the start button as
-soon as there is more than one person (also as the select entity *Person* and the action
-`set_profile`, e.g. for an NFC tag per person). Switching is not possible during a workout.
-People are not Home Assistant users, so guests don't need an account. Optionally an admin can link a
-person to a Home Assistant user (*Settings → People*): when that user opens the card, e.g. on their own phone,
-their person is selected automatically (once on opening, never during a workout).
+**People:** Add people under *Settings → People*. Everyone trains on their own – several people can train at the
+same time, e.g. one in the basement with a satellite and one on the road with the card in the app. Each person gets
+their own device *TrainingAssistant ‹name›* with all buttons, sensors and selects, and can have their own
+satellite, light and phone notification (*Settings → People*; empty = the default from the integration options).
+Whose workout an action means: the `person` field → the person whose satellite heard the command → the person
+linked to the calling user → the only person. People are not Home Assistant users, so guests don't need an
+account. Optionally an admin links a person to a Home Assistant user: the card then shows that person's workout
+when the user opens it, e.g. on their own phone. Everyone can watch the other workouts in the card ("Whose
+workout?"), but only control their own – or that of a person who isn't linked to anyone (e.g. a gym tablet).
 
 **Programs:** You move within an *active program*. After each finished workout the next workout
 of that program is queued, after the last one the first again. Every program remembers its

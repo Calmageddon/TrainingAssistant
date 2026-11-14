@@ -30,6 +30,8 @@ MESSAGES: dict[str, str] = {
     "profile_name_missing": "Please enter a name",
     "profile_delete_active": "The active person cannot be deleted – switch to someone else first",
     "user_not_found": "This Home Assistant user does not exist",
+    "person_required": "Several people use TrainingAssistant – please say whose workout this is (field 'person')",
+    "not_your_workout": "This is another person's workout – you can watch it, but not control it",
     "category_missing": "Please choose a category for the plan",
     "plan_readonly": "Templates can't be changed – save your changes as a copy",
     "plan_in_use": "This plan is in use by the running workout – finish it first",

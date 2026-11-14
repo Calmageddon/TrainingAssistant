@@ -11,13 +11,13 @@ from homeassistant.util import dt as dt_util
 
 from . import TrainingConfigEntry
 from .const import SET_SKIPPED
-from .entity import TrainingEntity
+from .entity import TrainingEntity, setup_person_entities
 
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: TrainingConfigEntry, async_add_entities: AddConfigEntryEntitiesCallback
 ) -> None:
-    async_add_entities([TrainingCalendar(entry.runtime_data, "calendar")])
+    setup_person_entities(hass, entry, async_add_entities, lambda m: [TrainingCalendar(m, "calendar")])
 
 
 def _event(sess: dict) -> CalendarEvent:

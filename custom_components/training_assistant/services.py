@@ -65,22 +65,40 @@ EDIT_SET_SCHEMA = vol.Schema(
     }
 )
 REST_SCHEMA = vol.Schema({vol.Optional("seconds", default=15): vol.Coerce(int)})
-PROFILE_SCHEMA = vol.Schema({vol.Required("profile"): cv.string})
 HISTORY_SCHEMA = vol.Schema({vol.Optional("limit", default=30): vol.All(vol.Coerce(int), vol.Range(min=1))})
+EMPTY_SCHEMA = vol.Schema({})
+
+
+def _person(schema: vol.Schema) -> vol.Schema:
+    """Jede Aktion kann sagen, wessen Training gemeint ist (ID oder Name der Person)."""
+    return schema.extend({vol.Optional("person"): vol.Any(None, "", cv.string)})
 
 
 def async_setup_services(hass: HomeAssistant) -> None:
-    from . import get_manager  # noqa: PLC0415 – Zirkelimport vermeiden
+    from . import get_hub  # noqa: PLC0415 – Zirkelimport vermeiden
+
+    def pick(call: ServiceCall, *, control: bool = True):
+        """Trainer der gemeinten Person: Feld person → Satellit/Gerät → aufrufender Benutzer → einzige Person.
+        Bedienen darf man nur das eigene Training (bzw. das einer Person ohne verknüpften Benutzer)."""
+        hub = get_hub(hass)
+        manager = hub.resolve(call.data.get("person") or None, user_id=call.context.user_id,
+                              satellite=call.data.get("satellite") or None, device_id=call.data.get("device_id") or None)
+        if control and not hub.can_control(manager.pid, call.context.user_id):
+            raise error("not_your_workout")
+        return manager
+
+    def data(call: ServiceCall, *drop: str) -> dict[str, Any]:
+        return {k: v for k, v in call.data.items() if k not in ("person", *drop)}
 
     async def start(call: ServiceCall) -> ServiceResponse:
-        result = await get_manager(hass).async_start(**call.data)
+        result = await pick(call).async_start(**data(call))
         return result if call.return_response else None
 
     async def next_(call: ServiceCall) -> None:
-        await get_manager(hass).async_next(**call.data)
+        await pick(call).async_next(**data(call))
 
     async def simple(call: ServiceCall) -> None:
-        manager = get_manager(hass)
+        manager = pick(call)
         await {
             "undo": manager.async_undo,
             "skip": manager.async_skip,
@@ -89,71 +107,70 @@ def async_setup_services(hass: HomeAssistant) -> None:
         }[call.service]()
 
     async def abort(call: ServiceCall) -> None:
-        await get_manager(hass).async_abort(keep=call.data["keep"])
+        await pick(call).async_abort(keep=call.data["keep"])
 
     async def import_plan(call: ServiceCall) -> ServiceResponse:
+        # Pläne sind gemeinsam – egal über welche Person
+        manager = next(iter(get_hub(hass).persons.values()))
         try:
-            result = get_manager(hass).import_plan(call.data["plan"])
+            result = manager.import_plan(call.data["plan"])
         except PlanError as err:
             raise error("invalid_plan", errors="\n".join(err.errors)) from err
         return result if call.return_response else None
 
     async def delete_plan(call: ServiceCall) -> None:
-        get_manager(hass).delete_plan(call.data["plan_id"])
+        next(iter(get_hub(hass).persons.values())).delete_plan(call.data["plan_id"])
 
     async def set_next_workout(call: ServiceCall) -> None:
-        get_manager(hass).set_next(call.data["plan_id"], call.data["workout_id"])
+        pick(call).set_next(call.data["plan_id"], call.data["workout_id"])
 
     async def log_set(call: ServiceCall) -> None:
-        await get_manager(hass).async_log_set(**call.data)
+        await pick(call).async_log_set(**data(call))
 
     async def edit(call: ServiceCall) -> None:
-        data: dict[str, Any] = dict(call.data)
-        session_id = data.pop("session_id", None)
-        set_id = data.pop("set_id")
-        get_manager(hass).edit_set(session_id, set_id, data)
+        values: dict[str, Any] = data(call)
+        session_id = values.pop("session_id", None)
+        set_id = values.pop("set_id")
+        pick(call).edit_set(session_id, set_id, values)
 
     async def history(call: ServiceCall) -> ServiceResponse:
-        return get_manager(hass).history(call.data["limit"])
+        return pick(call, control=False).history(call.data["limit"])
 
-    hass.services.async_register(DOMAIN, "start", start, START_SCHEMA, supports_response=SupportsResponse.OPTIONAL)
-    hass.services.async_register(DOMAIN, "next", next_, NEXT_SCHEMA)
+    hass.services.async_register(DOMAIN, "start", start, _person(START_SCHEMA), supports_response=SupportsResponse.OPTIONAL)
+    hass.services.async_register(DOMAIN, "next", next_, _person(NEXT_SCHEMA))
     for name in ("undo", "skip", "pause", "finish"):
-        hass.services.async_register(DOMAIN, name, simple)
-    hass.services.async_register(DOMAIN, "abort", abort, ABORT_SCHEMA)
+        hass.services.async_register(DOMAIN, name, simple, _person(EMPTY_SCHEMA))
+    hass.services.async_register(DOMAIN, "abort", abort, _person(ABORT_SCHEMA))
 
     async def adjust(call: ServiceCall) -> None:
-        get_manager(hass).async_adjust(call.data["field"], call.data["steps"])
+        pick(call).async_adjust(call.data["field"], call.data["steps"])
 
     async def set_value(call: ServiceCall) -> None:
-        get_manager(hass).async_set_value(call.data["field"], call.data["value"])
+        pick(call).async_set_value(call.data["field"], call.data["value"])
 
-    hass.services.async_register(DOMAIN, "adjust", adjust, ADJUST_SCHEMA)
-    hass.services.async_register(DOMAIN, "set_value", set_value, SET_VALUE_SCHEMA)
+    hass.services.async_register(DOMAIN, "adjust", adjust, _person(ADJUST_SCHEMA))
+    hass.services.async_register(DOMAIN, "set_value", set_value, _person(SET_VALUE_SCHEMA))
     hass.services.async_register(
         DOMAIN, "import_plan", import_plan, IMPORT_SCHEMA, supports_response=SupportsResponse.OPTIONAL
     )
     hass.services.async_register(DOMAIN, "delete_plan", delete_plan, PLAN_ID_SCHEMA)
-    hass.services.async_register(DOMAIN, "set_next_workout", set_next_workout, NEXT_WORKOUT_SCHEMA)
+    hass.services.async_register(DOMAIN, "set_next_workout", set_next_workout, _person(NEXT_WORKOUT_SCHEMA))
 
     async def set_program(call: ServiceCall) -> None:
-        get_manager(hass).set_program(call.data["plan_id"])
+        pick(call).set_program(call.data["plan_id"])
 
-    hass.services.async_register(DOMAIN, "set_program", set_program, PLAN_ID_SCHEMA)
-    hass.services.async_register(DOMAIN, "log_set", log_set, LOG_SET_SCHEMA)
-    hass.services.async_register(DOMAIN, "edit_set", edit, EDIT_SET_SCHEMA)
-    hass.services.async_register(DOMAIN, "get_history", history, HISTORY_SCHEMA,
+    hass.services.async_register(DOMAIN, "set_program", set_program, _person(PLAN_ID_SCHEMA))
+    hass.services.async_register(DOMAIN, "log_set", log_set, _person(LOG_SET_SCHEMA))
+    hass.services.async_register(DOMAIN, "edit_set", edit, _person(EDIT_SET_SCHEMA))
+    hass.services.async_register(DOMAIN, "get_history", history, _person(HISTORY_SCHEMA),
                                  supports_response=SupportsResponse.ONLY)
 
     async def rest_adjust(call: ServiceCall) -> None:
-        get_manager(hass).async_rest_adjust(call.data["seconds"])
-
-    async def set_profile(call: ServiceCall) -> None:
-        get_manager(hass).set_profile(call.data["profile"])
+        pick(call).async_rest_adjust(call.data["seconds"])
 
     async def get_stats(call: ServiceCall) -> ServiceResponse:
-        return get_manager(hass).stats()
+        return pick(call, control=False).stats()
 
-    hass.services.async_register(DOMAIN, "rest_adjust", rest_adjust, REST_SCHEMA)
-    hass.services.async_register(DOMAIN, "set_profile", set_profile, PROFILE_SCHEMA)
-    hass.services.async_register(DOMAIN, "get_stats", get_stats, supports_response=SupportsResponse.ONLY)
+    hass.services.async_register(DOMAIN, "rest_adjust", rest_adjust, _person(REST_SCHEMA))
+    hass.services.async_register(DOMAIN, "get_stats", get_stats, _person(EMPTY_SCHEMA),
+                                 supports_response=SupportsResponse.ONLY)

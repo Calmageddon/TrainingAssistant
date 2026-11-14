@@ -12,7 +12,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from . import TrainingConfigEntry
 from .const import SET_SKIPPED
 from .phrases import Speech
-from .entity import TrainingEntity
+from .entity import TrainingEntity, setup_person_entities
 
 STATUS_OPTIONS = ["idle", "ready", "active", "interval", "paused"]
 
@@ -20,11 +20,9 @@ STATUS_OPTIONS = ["idle", "ready", "active", "interval", "paused"]
 async def async_setup_entry(
     hass: HomeAssistant, entry: TrainingConfigEntry, async_add_entities: AddConfigEntryEntitiesCallback
 ) -> None:
-    m = entry.runtime_data
-    async_add_entities(
-        [StatusSensor(m, "status"), ExerciseSensor(m, "current_exercise"), ProgressSensor(m, "progress"),
-         LastSetSensor(m, "last_set"), WeekSensor(m, "workouts_this_week"), StreakSensor(m, "streak")]
-    )
+    setup_person_entities(hass, entry, async_add_entities, lambda m: [
+        StatusSensor(m, "status"), ExerciseSensor(m, "current_exercise"), ProgressSensor(m, "progress"),
+        LastSetSensor(m, "last_set"), WeekSensor(m, "workouts_this_week"), StreakSensor(m, "streak")])
 
 
 class StatusSensor(TrainingEntity, SensorEntity):

@@ -8,14 +8,14 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import TrainingConfigEntry
-from .entity import TrainingEntity
+from .entity import TrainingEntity, setup_person_entities
 
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: TrainingConfigEntry, async_add_entities: AddConfigEntryEntitiesCallback
 ) -> None:
-    m = entry.runtime_data
-    async_add_entities([RepsNumber(m, "set_reps"), WeightNumber(m, "set_weight")])
+    setup_person_entities(hass, entry, async_add_entities,
+                          lambda m: [RepsNumber(m, "set_reps"), WeightNumber(m, "set_weight")])
 
 
 class RepsNumber(TrainingEntity, NumberEntity):

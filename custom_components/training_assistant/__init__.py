@@ -13,15 +13,18 @@ from homeassistant.components.frontend import add_extra_js_url
 from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers import config_validation as cv
-from homeassistant.helpers.dispatcher import async_dispatcher_send
+from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers.dispatcher import async_dispatcher_connect, async_dispatcher_send
 from homeassistant.helpers.typing import ConfigType
 
 from .errors import error
-from .const import CARD_FILENAME, CARD_URL, DOMAIN, GUIDE_URL, IMAGES_URL, SIGNAL_UPDATE, VERSION
-from .manager import TrainingManager
+from .const import (CARD_FILENAME, CARD_URL, DOMAIN, GUIDE_URL, IMAGES_URL, SIGNAL_PERSON_REMOVED, SIGNAL_UPDATE,
+                    VERSION)
+from .entity import person_device_id
+from .manager import TrainingHub, TrainingManager
 from .services import async_setup_services
 from .websocket import async_setup_websocket
 
@@ -29,7 +32,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 PLATFORMS: list[Platform] = [Platform.BUTTON, Platform.CALENDAR, Platform.NUMBER, Platform.SELECT, Platform.SENSOR]
 
-type TrainingConfigEntry = ConfigEntry[TrainingManager]
+type TrainingConfigEntry = ConfigEntry[TrainingHub]
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
@@ -58,11 +61,34 @@ def _file_digest(path: Path) -> str:
 
 async def async_setup_entry(hass: HomeAssistant, entry: TrainingConfigEntry) -> bool:
     """Integration aus einem Konfigurationseintrag einrichten."""
-    manager = TrainingManager(hass, entry)
-    await manager.async_load()
-    entry.runtime_data = manager
+    hub = TrainingHub(hass, entry)
+    await hub.async_load()
+    entry.runtime_data = hub
+    devices = dr.async_get(hass)
+    # Früher gab es ein gemeinsames Gerät für alle – jetzt eines pro Person
+    old = devices.async_get_device(identifiers={(DOMAIN, entry.entry_id)})
+    if old:
+        devices.async_remove_device(old.id)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(entry.add_update_listener(_async_options_updated))
+
+    @callback
+    def person_removed(pid: str) -> None:
+        device = devices.async_get_device(identifiers={person_device_id(entry.entry_id, pid)})
+        if device:
+            devices.async_remove_device(device.id)
+
+    @callback
+    def names_changed() -> None:
+        # Person umbenannt → Gerätename „TrainingAssistant ‹Name›“ nachziehen
+        for pid, prof in hub.root["profiles"].items():
+            device = devices.async_get_device(identifiers={person_device_id(entry.entry_id, pid)})
+            name = f"TrainingAssistant {prof['name']}"
+            if device and device.name != name:
+                devices.async_update_device(device.id, name=name)
+
+    entry.async_on_unload(async_dispatcher_connect(hass, SIGNAL_PERSON_REMOVED, person_removed))
+    entry.async_on_unload(async_dispatcher_connect(hass, SIGNAL_UPDATE, names_changed))
     return True
 
 
@@ -79,10 +105,10 @@ async def async_unload_entry(hass: HomeAssistant, entry: TrainingConfigEntry) ->
     return unloaded
 
 
-def get_manager(hass: HomeAssistant) -> TrainingManager:
-    """Den Manager der (einzigen) geladenen Instanz holen."""
+def get_hub(hass: HomeAssistant) -> TrainingHub:
+    """Die Zentrale der (einzigen) geladenen Instanz holen."""
     for entry in hass.config_entries.async_entries(DOMAIN):
-        manager = getattr(entry, "runtime_data", None)
-        if isinstance(manager, TrainingManager):
-            return manager
+        hub = getattr(entry, "runtime_data", None)
+        if isinstance(hub, TrainingHub):
+            return hub
     raise error("not_set_up")

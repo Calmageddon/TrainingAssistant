@@ -10,6 +10,13 @@ blueprint:
   domain: automation
   source_url: https://github.com/Calmageddon/TrainingAssistant/blob/main/blueprints/automation/training_assistant/button.yaml
   input:
+    person:
+      name: Person
+      description: >
+        Whose workout the button controls (name of the person in TrainingAssistant). Empty: the only person.
+      default: ""
+      selector:
+        text:
     action_entity:
       name: Button action
       description: Sensor or event entity that reports the pressed action.
@@ -78,6 +85,7 @@ triggers:
     not_to: [unavailable, unknown]
 
 variables:
+  person: !input person
   entity: !input action_entity
   single_value: !input single_value
   double_value: !input double_value
@@ -100,3 +108,5 @@ conditions:
 
 actions:
   - action: "training_assistant.{{ todo }}"
+    data:
+      person: "{{ person }}"

@@ -1,7 +1,7 @@
 """Konstanten für TrainingAssistant."""
 
 DOMAIN = "training_assistant"
-VERSION = "0.11.0"
+VERSION = "0.12.0"
 
 # Version des Importformats für Trainingspläne (siehe schema/plan.schema.json)
 PLAN_SCHEMA_VERSION = 1
@@ -13,6 +13,9 @@ STORAGE_VERSION = 1
 
 # Dispatcher-Signal: Zustand hat sich geändert (Entitäten + Karte aktualisieren)
 SIGNAL_UPDATE = f"{DOMAIN}_update"
+# Person angelegt/gelöscht (Entitäten der Person anlegen bzw. entfernen); Argument: Personen-ID
+SIGNAL_PERSON_ADDED = f"{DOMAIN}_person_added"
+SIGNAL_PERSON_REMOVED = f"{DOMAIN}_person_removed"
 # HA-Event für Automationen (Signaltöne, Licht …)
 EVENT_NAME = f"{DOMAIN}_event"
 

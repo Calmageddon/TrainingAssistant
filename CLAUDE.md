@@ -41,12 +41,19 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
   das aktive Programm wechselt nur per `set_program`/`set_next`.
 - **Progression** regelbasiert (`double`, `linear`, `reps` für Körpergewicht, `none`), ohne LLM.
   `reps` baut auf dem im Satz gespeicherten `target_reps` der letzten Session auf, nicht auf dem Planwert.
-- **Personen (Profile):** `data["profiles"]`, aktive Person `data["profile"]`. Die Daten der aktiven Person
-  (`PROFILE_KEYS`: sessions, program, rotation, next, active, last_session_id) liegen direkt in `self.data`,
-  die der anderen in `data["profile_data"][id]` – beim Wechsel wird getauscht, der übrige Code bleibt unverändert.
-  Wechsel nur ohne laufendes Training. Pläne sind gemeinsam. Alte Daten → Profil `p1` (Name des HA-Besitzers).
-  Personen sind keine HA-Benutzer; optional `user_id` (Admin verknüpft, ws `link_profile`). Die Karte wählt die
-  Person des angemeldeten Benutzers einmal beim Öffnen aus (`_autoSelectProfile`), nie während eines Trainings.
+- **Personen trainieren unabhängig (auch gleichzeitig):** `TrainingHub` (Speicher, Pläne, Personen; `entry.runtime_data`,
+  `get_hub`) hat je Person einen `TrainingManager` mit eigenen Timern, Sprach-Warteschlange und Licht. Speicher:
+  `profiles`, `plans` gemeinsam, `persons[pid]` = `PERSON_KEYS` (sessions, program, rotation, next, active,
+  last_session_id) + `profile`. Der Manager sieht beides als `self.data = ChainMap(persons[pid], root)` – Schreiben auf
+  oberster Ebene landet bei der Person, Pläne/Personen sind gemeinsame Objekte. Nach Plan-Änderungen `hub.changed()`
+  (alle Personen: `_sync_next`, Cache). Altes Format (aktive Person direkt + `profile_data`) wird beim Laden umgebaut.
+- Pro Person: Gerät „TrainingAssistant ‹Name›“ (`entity.setup_person_entities`, `SIGNAL_PERSON_ADDED/REMOVED`, Gerät beim
+  Löschen entfernt, beim Umbenennen nachgezogen), `satellite`/`light`/`notify` im Profil (ws `profile` action `devices`;
+  leer = Optionen). Aktionen/ws mit `person`: Angabe → Satellit/Gerät (`person_of_satellite`) → Benutzer
+  (`person_of_user`) → einzige Person → Fehler `person_required`. **Bedienen** nur eigenes Training oder Person ohne
+  `user_id` (`hub.can_control`, Fehler `not_your_workout`; Automationen ohne Benutzer dürfen alles); **ansehen** alle.
+  Abo liefert `can_control`, `multi: true`; die Karte schaltet nur die Ansicht um (`_viewPerson`). Events mit
+  `profile`/`person`. Personen sind keine HA-Benutzer; optional `user_id` (Admin verknüpft, ws `link_profile`).
 - **Anstrengung** `effort` im Satz ("easy"/"hard", normal = None): per Sprache (`spoken.py`), Karte oder `effort`-Feld.
   Progression: schwer → `hard_hold`, alle leicht → doppelter Schritt (`easy_*`).
 - **Rekorde/Statistik** in `stats.py` (ohne HA). Muskelgruppen kommen aus dem Katalog (`muscles` in

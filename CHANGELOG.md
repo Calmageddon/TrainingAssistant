@@ -4,6 +4,29 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.12.0 – 2026-11-14
+
+- Several people can now train at the same time – e.g. one in the basement with a satellite and one on the road with
+  the card in the app. Each person has their own device *TrainingAssistant ‹name›* with all buttons, sensors and selects
+  (the *Person* select is gone), and their own satellite, light and phone notification (*Settings → People*).
+  *Deutsch:* Mehrere Personen können jetzt gleichzeitig trainieren – z. B. eine im Keller mit Satellit und eine unterwegs
+  mit der Karte in der App. Jede Person hat ein eigenes Gerät *TrainingAssistant ‹Name›* mit allen Tasten, Sensoren und
+  Auswahlen (die Auswahl *Person* entfällt) und einen eigenen Satelliten, eine eigene Lampe und einen eigenen
+  Handy-Hinweis (*Einstellungen → Personen*).
+- Whose workout? Actions take `person`; without it, the person of the satellite that heard the command, then the person
+  linked to the calling user, then the only person. Events carry `profile` and `person`. The button blueprint asks for
+  the person, the signals blueprint can filter by person. The action `set_profile` is gone.
+  *Deutsch:* Wessen Training? Aktionen nehmen `person`; ohne Angabe gilt die Person des Satelliten, der den Befehl gehört
+  hat, dann die mit dem aufrufenden Benutzer verknüpfte Person, dann die einzige Person. Events enthalten `profile` und
+  `person`. Der Knopf-Blueprint fragt nach der Person, der Signal-Blueprint kann nach Person filtern. Die Aktion
+  `set_profile` entfällt.
+- Watch, don't touch: in the card everyone can switch to another person's workout and watch it ("Whose workout?"),
+  but only control their own – or that of a person not linked to a Home Assistant user.
+  *Deutsch:* Zuschauen ja, bedienen nein: In der Karte kann jeder zum Training einer anderen Person wechseln und
+  zuschauen („Wessen Training?“), bedienen aber nur das eigene – oder das einer Person ohne verknüpften Benutzer.
+- Existing data moves over automatically.
+  *Deutsch:* Vorhandene Daten werden automatisch übernommen.
+
 ## 0.11.0 – 2026-11-14
 
 - Plan editor in the card (*Settings → Editor*): build your own plans with workouts, blocks and exercises – pick

@@ -1,4 +1,4 @@
-/* TrainingAssistant card 0.11.0 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
+/* TrainingAssistant card 0.12.0 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
 // src/ui/texts.js
 var EXTRA_I18N = {
 	en: {
@@ -1875,6 +1875,16 @@ var I18N = {
 		pp_name: "Name",
 		pp_save: "Save",
 		pp_busy: "You can select someone else after the workout.",
+		who_view: "Whose workout?",
+		pp_view: "Show",
+		pp_viewing: "shown",
+		pp_training: "training now",
+		pp_intro_multi: "Everyone has their own history, suggestions, weekly goal and program position – and trains on their own, at the same time if you like. Here you choose whose workout the card shows. Plans are shared.",
+		ro_note: "This is {name}'s workout – you can watch, but only {name} can control it.",
+		pp_sat: "Satellite",
+		pp_light: "Light",
+		pp_notify: "Phone notification",
+		pp_default: "– default –",
 		pp_goal: "Weekly goal: {n} workouts",
 		pp_user: "Home Assistant user",
 		pp_user_none: "– not linked –",
@@ -2151,6 +2161,16 @@ var I18N = {
 		pp_name: "Name",
 		pp_save: "Speichern",
 		pp_busy: "Eine andere Person auswählen geht nach dem Training.",
+		who_view: "Wessen Training?",
+		pp_view: "Ansehen",
+		pp_viewing: "angezeigt",
+		pp_training: "trainiert gerade",
+		pp_intro_multi: "Jede Person hat eigenen Verlauf, eigene Vorschläge, ein eigenes Wochenziel und eine eigene Programm-Position – und trainiert für sich, auch gleichzeitig. Hier wählst du, wessen Training die Karte zeigt. Pläne sind gemeinsam.",
+		ro_note: "Das ist das Training von {name} – zuschauen geht, bedienen kann nur {name}.",
+		pp_sat: "Satellit",
+		pp_light: "Lampe",
+		pp_notify: "Handy-Hinweis",
+		pp_default: "– Standard –",
 		pp_goal: "Wochenziel: {n} Trainings",
 		pp_user: "Home-Assistant-Benutzer",
 		pp_user_none: "– nicht verknüpft –",
@@ -2367,6 +2387,25 @@ var TrainerUI = class extends HTMLElement {
 	get _effortMs() {
 		return this._caps && this._caps.effortMs || EFFORT_PROMPT_MS;
 	}
+	/** Nur zuschauen: TA mit mehreren Personen, angezeigt wird das Training einer anderen Person */
+	get _readOnly() {
+		return !!(this._state && this._state.multi && this._state.can_control === false);
+	}
+	/** TA: andere Person ansehen (jede Person trainiert für sich – umschalten ändert nichts an den Daten) */
+	_viewPerson(pid) {
+		if (!this._backend.setPerson) return;
+		this._backend.setPerson(pid);
+		if (this._unsub) this._unsub();
+		this._unsub = null;
+		this._subscribed = false;
+		this._stats = null;
+		this._history = null;
+		this._previewKey = null;
+		this._summary = null;
+		this._editing = null;
+		this._closePrompt();
+		this._subscribe();
+	}
 	connectedCallback() {
 		this._timer = setInterval(() => this._tickTimers(), 1e3);
 		this._onWake = () => {
@@ -2400,9 +2439,9 @@ var TrainerUI = class extends HTMLElement {
 				this._history = null;
 				this._previewKey = null;
 			}
-			const ended = prev && prev.active && !state.active && state.last_session_id ? state.last_session_id : null;
+			const ended = prev && !profileChanged && prev.active && !state.active && state.last_session_id ? state.last_session_id : null;
 			this._state = state;
-			if (ended) this._openSummary(ended);
+			if (ended && !(state.multi && state.can_control === false)) this._openSummary(ended);
 			FIGURE = state.figure === "w" ? "w" : "m";
 			if (!prev || prev.single_images !== state.single_images) SINGLE = new Set(state.single_images || []);
 			this._watchLogged(prev, state);
@@ -2715,12 +2754,14 @@ var TrainerUI = class extends HTMLElement {
 		} else if (a === "ed-effort") {
 			this._editing.effort = d.v;
 			this._render();
-		} else if (a === "pp-select") await this._ws({
-			type: "profile",
-			action: "select",
-			profile: d.p
-		}).catch(() => {});
-		else if (a === "pp-figure") await this._ws({
+		} else if (a === "pp-select") {
+			if (this._state && this._state.multi) this._viewPerson(d.p);
+			else await this._ws({
+				type: "profile",
+				action: "select",
+				profile: d.p
+			}).catch(() => {});
+		} else if (a === "pp-figure") await this._ws({
 			type: "profile",
 			action: "figure",
 			profile: d.p,
@@ -2844,6 +2885,16 @@ var TrainerUI = class extends HTMLElement {
 	}
 	async _onChange(e) {
 		const el = e.target;
+		if (el.dataset.field === "pp-dev") {
+			await this._ws({
+				type: "profile",
+				action: "devices",
+				profile: el.dataset.p,
+				[el.dataset.k]: el.value || null
+			}).catch(() => {});
+			el.blur();
+			return;
+		}
 		if (el.dataset.field === "pp-link") {
 			await this._ws({
 				type: "link_profile",
@@ -3049,7 +3100,7 @@ var TrainerUI = class extends HTMLElement {
 		this._ensureStats();
 		return `
       <div class="pad live">
-        ${(st.profiles || []).length > 1 ? `<div class="who"><span class="lbl">${t("who")}</span>${st.profiles.map((p) => `<button class="chip-btn ${p.id === st.profile ? "on" : ""}" data-a="pp-select" data-p="${esc(p.id)}">${esc(p.name)}</button>`).join("")}</div>` : ""}
+        ${this._renderWho(st)}
         ${this._stats ? weekCard(this._stats) : ""}
         <div class="startrow">
           <label class="sel"><span class="lbl">${t("program")}</span><select data-field="program-select">${progOpts}</select></label>
@@ -3058,7 +3109,7 @@ var TrainerUI = class extends HTMLElement {
 			p: cur.position,
 			n: cur.count
 		})}</span>${pw.length > 1 && after ? `<span class="wo-sep"> · </span><span>${esc(t("wo_after", { name: after.name }).replace(/^\s*·\s*/, ""))}</span>` : ""}<span class="wo-auto">${t("wo_auto")}</span></div>` : ""}
-          <button class="btn primary" data-a="start">${t("start")}</button>
+          <button class="btn primary" data-a="start" ${this._readOnly ? "disabled" : ""}>${t("start")}</button>
         </div>
         ${this._renderPreview()}
         ${this._caps.voice ? st.default_satellite ? `<div class="muted small">${esc(t("voice_via", { sat: st.default_satellite }))}</div>` : `<div class="muted small">${t("no_sat")}</div>` : ""}
@@ -3174,6 +3225,7 @@ var TrainerUI = class extends HTMLElement {
 		const upcoming = a.steps.slice(a.idx + 2).filter((s) => s.type === "set").slice(0, 3).map((s) => `<li><span class="exn">${img(s.image)}<span>${esc(s.exercise_name)}</span></span><span class="tgt">${esc(targetText(s))}</span></li>`).join("");
 		return `
       <div class="pad live">
+        ${this._state.multi ? this._renderWho(this._state) : ""}
         <div class="row between"><div><b>${esc(a.workout_name)}</b> <span class="muted"><span class="sep">· </span>${esc(a.plan_name)}</span></div>
           <span class="row"><span class="badge ${a.paused ? "warn" : "info"}">${esc(phase)}</span>
           <span class="elapsed" title="${esc(t("el_title"))}">
@@ -3196,7 +3248,7 @@ var TrainerUI = class extends HTMLElement {
             </div></div>
           ${upnext}
         <div class="status">${timers}</div>
-        <div class="controls">
+        ${this._readOnly ? `<div class="msg ro">${esc(t("ro_note", { name: this._personName() }))}</div><div class="controls" hidden>` : `<div class="controls">`}
           ${adjust}
           <button class="btn primary big" data-a="next" ${a.hold && a.hold.phase === "work" && !a.paused ? "disabled" : ""}>${nextLabel}</button>
         <div class="row btns">
@@ -3260,7 +3312,7 @@ var TrainerUI = class extends HTMLElement {
               <button class="btn" data-a="edit-skip">${t("e_skipped")}</button>
               <button class="btn" data-a="edit-cancel">${t("e_cancel")}</button>
             </div></div></td></tr>`;
-			return `<tr data-a="edit" data-set="${x.id}" ${sessionId ? `data-session="${esc(sessionId)}"` : ""}>
+			return `<tr ${this._readOnly ? "" : `data-a="edit"`} data-set="${x.id}" ${sessionId ? `data-session="${esc(sessionId)}"` : ""}>
           <td>${esc(x.exercise_name)}<div class="muted small">${esc(position(x))}</div></td>
           <td class="val">${x.record ? `<span class="trophy" title="${esc(t("t_record", { name: "" }))}">⟦trophy⟧</span> ` : ""}${esc(setValue(x))}${x.effort ? ` <span class="ef-dot ef-${x.effort}">${t(`ef_${x.effort}`)}</span>` : ""}</td><td><span class="badge ${cls}">${esc(label)}</span></td></tr>`;
 		}).join("")}</table>`;
@@ -3441,7 +3493,7 @@ var TrainerUI = class extends HTMLElement {
 	_renderEffortPrompt() {
 		const p = this._prompt;
 		const a = this._state && this._state.active;
-		if (!p || !a) return "";
+		if (!p || !a || this._readOnly) return "";
 		const rec = a.sets.find((x) => x.id === p.setId);
 		if (!rec) return "";
 		const left = Math.max(0, p.until - Date.now());
@@ -3504,7 +3556,7 @@ var TrainerUI = class extends HTMLElement {
 	}
 	_autoSelectProfile(state) {
 		const user = this._backend && this._backend.user;
-		if (this._autoProfileDone || !this._caps.linkUsers || !user) return;
+		if (this._autoProfileDone || !this._caps.linkUsers || !user || state.multi) return;
 		this._autoProfileDone = true;
 		const mine = (state.profiles || []).find((p) => p.user_id && p.user_id === user.id);
 		if (mine && mine.id !== state.profile && !state.active) this._ws({
@@ -3518,6 +3570,15 @@ var TrainerUI = class extends HTMLElement {
 		if (this._haUsers !== void 0 || !user || !user.is_admin) return;
 		this._haUsers = null;
 		this._ws({ type: "ha_users" }).then((r) => this._haUsers = r.users).catch(() => this._haUsers = []).finally(() => this._render());
+	}
+	_personName(pid) {
+		const st = this._state || {};
+		return ((st.profiles || []).find((p) => p.id === (pid || st.profile)) || {}).name || "";
+	}
+	/** „Wer trainiert?“ – HU: Person wechseln; TA (mehrere gleichzeitig): ansehen, wer gezeigt wird */
+	_renderWho(st) {
+		if ((st.profiles || []).length < 2) return "";
+		return `<div class="who"><span class="lbl">${t(st.multi ? "who_view" : "who")}</span>${st.profiles.map((p) => `<button class="chip-btn ${p.id === st.profile ? "on" : ""}" data-a="pp-select" data-p="${esc(p.id)}">${esc(p.name)}${st.multi && p.training ? ` <span class="dot-live" title="${esc(t("pp_training"))}"></span>` : ""}</button>`).join("")}</div>`;
 	}
 	_renderPeople() {
 		const st = this._state;
@@ -3537,16 +3598,28 @@ var TrainerUI = class extends HTMLElement {
         <input data-field="pp-name" placeholder="${esc(t("pp_name"))}" value="${esc(ed.name)}">
         <button class="btn small primary" data-a="pp-save">${t("pp_save")}</button>
         <button class="btn small" data-a="pp-cancel">${t("e_cancel")}</button></div>`;
+		const multi = !!st.multi;
+		const devices = (p) => {
+			if (!this._caps.personDevices || !this._backend.entityOptions) return "";
+			const sel = (field, list, label) => `<label class="pp-link"><span class="muted small">${label}</span>
+        <select data-field="pp-dev" data-k="${field}" data-p="${esc(p.id)}"><option value="">${t("pp_default")}</option>${list.map((o) => `<option value="${esc(o.id)}" ${o.id === p[field] ? "selected" : ""}>${esc(o.name)}</option>`).join("")}
+          ${p[field] && !list.some((o) => o.id === p[field]) ? `<option value="${esc(p[field])}" selected>${esc(p[field])}</option>` : ""}</select></label>`;
+			return `<div class="pp-devs">${sel("satellite", this._backend.entityOptions("assist_satellite"), t("pp_sat"))}
+        ${sel("light", this._backend.entityOptions("light"), t("pp_light"))}
+        ${sel("notify", this._backend.entityOptions("notify"), t("pp_notify"))}</div>`;
+		};
 		const rows = (st.profiles || []).map((p) => {
 			const on = p.id === st.profile;
 			if (ed && ed.id === p.id) return `<div class="plan">${form(p.id)}</div>`;
-			return `<div class="plan row between"><div><b>${esc(p.name)}</b>${on ? ` <span class="badge ok">${t("pp_active")}</span>` : ""}
-            ${on ? `<div class="muted small">${t("pp_goal", { n: st.weekly_goal })}</div>` : ""}${link(p)}${figure(p)}</div>
-          <div class="row">${on ? "" : `<button class="btn small primary" data-a="pp-select" data-p="${esc(p.id)}" ${st.active ? "disabled" : ""}>${t("pp_select")}</button>`}
+			const pick = multi ? on ? "" : `<button class="btn small primary" data-a="pp-select" data-p="${esc(p.id)}">${t("pp_view")}</button>` : on ? "" : `<button class="btn small primary" data-a="pp-select" data-p="${esc(p.id)}" ${st.active ? "disabled" : ""}>${t("pp_select")}</button>`;
+			return `<div class="plan row between"><div><b>${esc(p.name)}</b>${on ? ` <span class="badge ok">${t(multi ? "pp_viewing" : "pp_active")}</span>` : ""}
+            ${multi && p.training ? ` <span class="badge info">${t("pp_training")}</span>` : ""}
+            ${on ? `<div class="muted small">${t("pp_goal", { n: st.weekly_goal })}</div>` : ""}${link(p)}${figure(p)}${devices(p)}</div>
+          <div class="row">${pick}
             <button class="btn small" data-a="pp-rename" data-p="${esc(p.id)}">${t("pp_rename")}</button>
-            ${on ? "" : `<button class="btn small danger" data-a="pp-delete" data-p="${esc(p.id)}" data-ck="pp-${esc(p.id)}" data-confirm="${esc(t("pp_c_delete"))}">${t("pp_delete")}</button>`}</div></div>`;
+            ${on || multi && p.training ? "" : `<button class="btn small danger" data-a="pp-delete" data-p="${esc(p.id)}" data-ck="pp-${esc(p.id)}" data-confirm="${esc(t("pp_c_delete"))}">${t("pp_delete")}</button>`}</div></div>`;
 		}).join("");
-		return `<div class="muted small">${t("pp_intro")}${this._caps.linkUsers ? ` ${t("pp_user_hint")}` : ""}${st.active ? ` ${t("pp_busy")}` : ""}</div>${rows}
+		return `<div class="muted small">${t(multi ? "pp_intro_multi" : "pp_intro")}${this._caps.linkUsers ? ` ${t("pp_user_hint")}` : ""}${st.active && !multi ? ` ${t("pp_busy")}` : ""}</div>${rows}
       ${ed && !ed.id ? `<div class="plan">${form(null)}</div>` : `<button class="btn" data-a="pp-add">${t("pp_add")}</button>`}`;
 	}
 	_renderData() {
@@ -3648,8 +3721,8 @@ var TrainerUI = class extends HTMLElement {
           <ul class="list">${p.workouts.map((w) => {
 			const isNext = st.next && st.next.plan_id === p.id && st.next.workout_id === w.id;
 			return `<li><span>${esc(w.name)} ${isNext ? `<span class="badge info">${t("p_next_badge")}</span>` : ""}</span>
-                <span>${isNext ? "" : `<button class="btn small" data-a="next-workout" data-plan="${esc(p.id)}" data-workout="${esc(w.id)}">${t("p_set_next")}</button>`}
-                ${st.active ? "" : `<button class="btn small primary" data-a="start" data-plan="${esc(p.id)}" data-workout="${esc(w.id)}">${t("p_start")}</button>`}</span></li>`;
+                <span>${isNext || this._readOnly ? "" : `<button class="btn small" data-a="next-workout" data-plan="${esc(p.id)}" data-workout="${esc(w.id)}">${t("p_set_next")}</button>`}
+                ${st.active || this._readOnly ? "" : `<button class="btn small primary" data-a="start" data-plan="${esc(p.id)}" data-workout="${esc(w.id)}">${t("p_start")}</button>`}</span></li>`;
 		}).join("")}</ul></div>`;
 		const order = [.../* @__PURE__ */ new Set([...(this._templates || []).map((x) => x.group_key), "other"])];
 		const byCat = {};
@@ -4221,6 +4294,11 @@ var STYLE = `
   .pp-form input { flex: 1; min-width: 160px; width: auto; }
   .pp-fig { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
   .pp-link { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .pp-devs { display: flex; flex-direction: column; gap: 2px; }
+  .controls[hidden] { display: none; }
+  .msg.ro { text-align: center; }
+  .dot-live { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #66bb6a; margin-left: 4px;
+              vertical-align: 1px; animation: ta-pulse 1.4s ease-in-out infinite; }
   .pp-link select { width: auto; max-width: 220px; padding: 4px 8px; }
   .timer .grow { flex: 1; text-align: center; }
   /* Zustandsanzeige – bewusst kein Knopf: nur leicht getönt, Farbkante links, farbiger Text mit Punkt */
@@ -4435,25 +4513,34 @@ var STYLE = `
 `;
 // src/card/card.js
 var DOMAIN = "training_assistant";
-var CARD_VERSION = "0.11.0";
+var CARD_VERSION = "0.12.0";
 var CAPS = {
 	voice: true,
 	yamlImport: true,
 	linkUsers: true,
 	editor: true,
+	personDevices: true,
 	data: false,
 	confetti: false,
 	effortMs: 5e3,
 	shell: "ha-card"
 };
 function haBackend(card) {
+	let person = null;
+	const withPerson = (data) => person ? {
+		person,
+		...data
+	} : data;
 	return {
+		setPerson(pid) {
+			person = pid;
+		},
 		async ws(msg) {
 			try {
-				return await card._hass.callWS({
+				return await card._hass.callWS(withPerson({
 					...msg,
 					type: `${DOMAIN}/${msg.type}`
-				});
+				}));
 			} catch (err) {
 				if (err && err.code === "invalid_plan") throw Object.assign(new Error(err.message), {
 					key: "plan_invalid",
@@ -4462,9 +4549,12 @@ function haBackend(card) {
 				throw err;
 			}
 		},
-		service: (name, data = {}) => card._hass.callService(DOMAIN, name, data),
+		service: (name, data = {}) => card._hass.callService(DOMAIN, name, withPerson(data)),
 		subscribe(cb, onError) {
-			const sub = card._hass.connection.subscribeMessage(cb, { type: `${DOMAIN}/subscribe` });
+			const sub = card._hass.connection.subscribeMessage((state) => {
+				if (!person) person = state.profile;
+				cb(state);
+			}, withPerson({ type: `${DOMAIN}/subscribe` }));
 			sub.catch((err) => onError && onError(err));
 			return () => sub.then((unsub) => unsub()).catch(() => {});
 		},
@@ -4475,6 +4565,18 @@ function haBackend(card) {
 		})),
 		imgBase: `/${DOMAIN}/pictos/${CARD_VERSION}`,
 		guideBase: `/${DOMAIN}/guide`,
+		/** Auswahl für Satellit/Lampe/Handy-Hinweis einer Person */
+		entityOptions(domain) {
+			const hass = card._hass;
+			if (domain === "notify") return Object.keys(hass.services && hass.services.notify || {}).sort().map((id) => ({
+				id,
+				name: id
+			}));
+			return Object.values(hass.states || {}).filter((st) => st.entity_id.startsWith(`${domain}.`)).map((st) => ({
+				id: st.entity_id,
+				name: st.attributes && st.attributes.friendly_name || st.entity_id
+			})).sort((a, b) => a.name.localeCompare(b.name));
+		},
 		get user() {
 			const u = card._hass && card._hass.user;
 			return u ? {

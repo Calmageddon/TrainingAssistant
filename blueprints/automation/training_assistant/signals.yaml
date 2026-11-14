@@ -7,6 +7,12 @@ blueprint:
   domain: automation
   source_url: https://github.com/Calmageddon/TrainingAssistant/blob/main/blueprints/automation/training_assistant/signals.yaml
   input:
+    person:
+      name: Person
+      description: Only react to this person's workout (name in TrainingAssistant). Empty = everyone.
+      default: ""
+      selector:
+        text:
     work_action:
       name: HIIT – work phase starts
       default: []
@@ -41,9 +47,18 @@ blueprint:
 mode: queued
 max: 10
 
+variables:
+  person: !input person
+
 triggers:
   - trigger: event
     event_type: training_assistant_event
+
+conditions:
+  - condition: template
+    value_template: >-
+      {{ not person or (trigger.event.data.person | default('') | lower) == (person | lower)
+         or (trigger.event.data.profile | default('')) == person }}
 
 actions:
   - choose:

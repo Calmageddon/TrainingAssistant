@@ -85,22 +85,42 @@ async def login(session: aiohttp.ClientSession) -> str:
 
 
 class WS:
+    """Verbindung zur Testinstanz. Mehrere Personen: jeder Befehl/jede Aktion geht an `person` (falls nicht angegeben),
+    Zustände je Abo in `states` (Abo der Hauptperson: `state`)."""
+
     def __init__(self, ws: aiohttp.ClientWebSocketResponse) -> None:
         self.ws = ws
         self.id = 0
-        self.state: dict | None = None
+        self.states: dict[int, dict] = {}
         self.pending: dict[int, asyncio.Future] = {}
         self.sub_id: int | None = None
+        self.person: str | None = None
+
+    @property
+    def state(self) -> dict | None:
+        return self.states.get(self.sub_id)
 
     async def reader(self) -> None:
         async for msg in self.ws:
             data = json.loads(msg.data)
-            if data.get("type") == "event" and data["id"] == self.sub_id:
-                self.state = data["event"]
+            if data.get("type") == "event" and data["id"] in self.states:
+                self.states[data["id"]] = data["event"]
+            elif data.get("type") == "event" and data["id"] == self.sub_id:
+                self.states[data["id"]] = data["event"]
             elif data.get("type") == "result" and data["id"] in self.pending:
                 self.pending.pop(data["id"]).set_result(data)
 
+    async def subscribe(self, person: str | None = None) -> int:
+        """Zustand einer Person abonnieren; liefert die Abo-ID (ws.states[id])."""
+        sid = self.id + 1
+        self.states[sid] = None
+        await self.call(type="training_assistant/subscribe", **({"person": person} if person else {}))
+        await wait_for(lambda: self.states.get(sid) is not None)
+        return sid
+
     async def call(self, **msg) -> dict:
+        if self.person and str(msg.get("type", "")).startswith("training_assistant/") and "person" not in msg:
+            msg["person"] = self.person
         self.id += 1
         fut = asyncio.get_running_loop().create_future()
         self.pending[self.id] = fut
@@ -109,8 +129,17 @@ class WS:
         return res
 
     async def service(self, domain: str, service: str, data: dict | None = None, response: bool = False) -> dict:
-        return await self.call(type="call_service", domain=domain, service=service, service_data=data or {},
+        data = dict(data or {})
+        if domain == "training_assistant" and self.person and "person" not in data:
+            data["person"] = self.person
+        return await self.call(type="call_service", domain=domain, service=service, service_data=data,
                                return_response=response)
+
+    async def entity(self, person: str, key: str) -> str | None:
+        """entity_id einer Entität der Person (über die eindeutige Kennung …_<person>_<key>)."""
+        res = await self.call(type="config/entity_registry/list")
+        return next((e["entity_id"] for e in res["result"]
+                     if e["platform"] == "training_assistant" and e["unique_id"].endswith(f"_{person}_{key}")), None)
 
 
 async def wait_for(pred, timeout: float = 10.0) -> bool:
@@ -131,9 +160,8 @@ async def main() -> int:
             assert (await raw.receive_json())["type"] == "auth_ok"
             ws = WS(raw)
             reader = asyncio.create_task(ws.reader())
-            ws.sub_id = ws.id + 1
-            await ws.call(type="training_assistant/subscribe")
-            await wait_for(lambda: ws.state is not None)
+            ws.sub_id = await ws.subscribe()  # Person des angemeldeten Benutzers (bzw. die erste)
+            ws.person = ws.state["profile"]  # alle folgenden Aufrufe gehen an diese Person
             S = lambda: ws.state  # noqa: E731
 
             if S()["active"]:
@@ -236,7 +264,7 @@ async def main() -> int:
             await ws.service("training_assistant", "adjust", {"field": "reps", "steps": -2})
             if adj0["weight"] is not None:
                 await ws.call(type="call_service", domain="button", service="press",
-                              target={"entity_id": "button.trainingassistant_weight_up"})
+                              target={"entity_id": await ws.entity(ws.person, "weight_up")})
             await wait_for(lambda: S()["active"]["adjust"]["changed"])
             adj = S()["active"]["adjust"]
             check(adj["reps"] == adj0["reps"] - 2, f"Wdh. per Aktion: {adj0['reps']} → {adj['reps']}")
@@ -244,7 +272,7 @@ async def main() -> int:
                 check(adj["weight"] == adj0["weight"] + adj0["weight_step"],
                       f"Gewicht per Taste: {adj0['weight']} → {adj['weight']}")
             states = {x["entity_id"]: x for x in (await ws.call(type="get_states"))["result"]}
-            num = states.get("number.trainingassistant_reps_current_set")
+            num = states.get(await ws.entity(ws.person, "set_reps"))
             check(num is not None and float(num["state"]) == adj["reps"], f"Zahl-Entität zeigt {num and num['state']}")
             n = len(S()["active"]["sets"])
             await ws.service("training_assistant", "next")  # ohne Werte → übernimmt Plus/Minus
@@ -256,11 +284,14 @@ async def main() -> int:
             await wait_for(lambda: len(S()["active"]["sets"]) == n)
 
             # Entitäten
-            states = {s["entity_id"]: s for s in (await ws.call(type="get_states"))["result"]
-                      if "trainingassistant" in s["entity_id"]}
-            status = next((s for k, s in states.items() if k.startswith("sensor.") and k.endswith("status")), None)
+            # Entitäten der Person (ein Gerät pro Person)
+            reg = (await ws.call(type="config/entity_registry/list"))["result"]
+            mine = [e["entity_id"] for e in reg if e["platform"] == "training_assistant" and f"_{ws.person}_" in e["unique_id"]]
+            states = {s["entity_id"]: s for s in (await ws.call(type="get_states"))["result"] if s["entity_id"] in mine}
+            status = states.get(await ws.entity(ws.person, "status"))
             check(status is not None and status["state"] == "active", f"Status-Sensor = {status and status['state']}")
-            check(len([k for k in states if k.startswith("button.")]) == 13, "13 Tasten vorhanden")
+            check(len([k for k in states if k.startswith("button.")]) == 13, "13 Tasten für die Person vorhanden")
+            check(not any(k.startswith("select.") and k.endswith("_profile") for k in states), "keine Personen-Auswahl mehr")
 
             await ws.service("training_assistant", "finish")
             await wait_for(lambda: S()["active"] is None)
@@ -292,81 +323,116 @@ async def main() -> int:
             check(res["success"] and len(res["result"]["week"]["days"]) == 7, "Statistik: Woche mit 7 Tagen")
             home = S()["profile"]
             home_sessions = len((await ws.call(type="training_assistant/history"))["result"]["sessions"])
+            links_before = {x["id"]: x.get("user_id") for x in S()["profiles"]}
             res = await ws.call(type="training_assistant/profile", action="add", name="E2E Gast")
             guest = res["result"]["id"] if res["success"] else None
             check(guest is not None, "Person angelegt")
+            await wait_for(lambda: guest in [x["id"] for x in S()["profiles"]])
+            check(bool(await ws.entity(guest, "next")), "eigenes Gerät mit Entitäten für die neue Person")
             bad = await ws.call(type="training_assistant/profile", action="add", name="e2e gast")
             check(not bad["success"], "doppelter Name abgelehnt")
             me = (await ws.call(type="auth/current_user"))["result"]["id"]
             users = (await ws.call(type="training_assistant/ha_users"))["result"]["users"]
             check(any(u["id"] == me for u in users), f"{len(users)} HA-Benutzer zum Verknüpfen")
             res = await ws.call(type="training_assistant/link_profile", profile=guest, user_id=me)
-            await wait_for(lambda: any(x.get("user_id") == me for x in S()["profiles"]))
+            await wait_for(lambda: any(x.get("user_id") == me and x["id"] == guest for x in S()["profiles"]))
             check(res["success"] and next(x for x in S()["profiles"] if x["id"] == guest).get("user_id") == me,
                   "Person mit HA-Benutzer verknüpft")
             bad = await ws.call(type="training_assistant/link_profile", profile=guest, user_id="gibt_es_nicht")
             check(not bad["success"], "unbekannter Benutzer abgelehnt")
             await ws.call(type="training_assistant/link_profile", profile=guest, user_id=None)
-            await wait_for(lambda: not any(x.get("user_id") for x in S()["profiles"]))
-            check(not any(x.get("user_id") for x in S()["profiles"]), "Verknüpfung gelöst")
-            await ws.call(type="training_assistant/profile", action="select", profile=guest)
-            await wait_for(lambda: S()["profile"] == guest)
-            hist = (await ws.call(type="training_assistant/history"))["result"]
-            check(S()["profile"] == guest and not hist["sessions"], "Person gewechselt: eigener, leerer Verlauf")
+            for pid, uid in links_before.items():  # Verknüpfungen wie vorher
+                if uid:
+                    await ws.call(type="training_assistant/link_profile", profile=pid, user_id=uid)
+            await wait_for(lambda: not next(x for x in S()["profiles"] if x["id"] == guest).get("user_id"))
+            check(not next(x for x in S()["profiles"] if x["id"] == guest).get("user_id"), "Verknüpfung gelöst")
+            gsid = await ws.subscribe(guest)
+            G = lambda: ws.states[gsid]  # noqa: E731 – Zustand der zweiten Person
+            hist = (await ws.call(type="training_assistant/history", person=guest))["result"]
+            check(G()["profile"] == guest and not hist["sessions"], "zweite Person: eigener, leerer Verlauf")
 
-            async def first_set(effort_text=None):
-                await ws.service("training_assistant", "start", {"plan_id": "ganzkoerper_hypertrophie", "workout_id": "a"})
-                await wait_for(lambda: S()["active"] is not None)
-                await ws.service("training_assistant", "next")  # Aufwärmen fertig
-                await wait_for(lambda: S()["active"]["phase"] == "ready")
-                await ws.service("training_assistant", "next")  # los
-                await wait_for(lambda: S()["active"]["phase"] == "active")
-                return S()["active"]["steps"][S()["active"]["idx"]]
+            async def first_set(person):
+                state = (lambda: ws.states[gsid]) if person == guest else S
+                await ws.service("training_assistant", "start",
+                                 {"plan_id": "ganzkoerper_hypertrophie", "workout_id": "a", "person": person})
+                await wait_for(lambda: state()["active"] is not None)
+                await ws.service("training_assistant", "next", {"person": person})  # Aufwärmen fertig
+                await wait_for(lambda: state()["active"]["phase"] == "ready")
+                await ws.service("training_assistant", "next", {"person": person})  # los
+                await wait_for(lambda: state()["active"]["phase"] == "active")
+                return state()["active"]["steps"][state()["active"]["idx"]]
 
-            step = await first_set()
-            await ws.service("training_assistant", "next")
-            await wait_for(lambda: len(S()["active"]["sets"]) == 1)
-            await ws.service("training_assistant", "log_set", {"text": V["effort"]})
-            await wait_for(lambda: S()["active"]["sets"][0].get("effort") == "hard")
-            rec = S()["active"]["sets"][0]
+            print("Zwei Personen trainieren gleichzeitig")
+            await first_set(home)
+            step = await first_set(guest)
+            check(S()["active"] is not None and G()["active"] is not None and S()["active"]["id"] != G()["active"]["id"],
+                  "zwei Trainings laufen gleichzeitig")
+            home_sets = len(S()["active"]["sets"])
+            await ws.service("training_assistant", "next", {"person": guest})
+            await wait_for(lambda: len(G()["active"]["sets"]) == 1)
+            check(len(S()["active"]["sets"]) == home_sets, "Satz der zweiten Person ändert das andere Training nicht")
+            await ws.service("training_assistant", "log_set", {"text": V["effort"], "person": guest})
+            await wait_for(lambda: G()["active"]["sets"][0].get("effort") == "hard")
+            rec = G()["active"]["sets"][0]
             check(rec.get("effort") == "hard" and rec["reps"] == 8, f"„{V['effort']}“: {rec['reps']} Wdh., {rec.get('effort')}")
-            res = await ws.call(type="training_assistant/edit_set", set_id=rec["id"], effort="easy")
+            res = await ws.call(type="training_assistant/edit_set", set_id=rec["id"], effort="easy", person=guest)
             check(res["success"] and res["result"]["effort"] == "easy" and res["result"]["status"] == rec["status"],
                   "Anstrengung an der Karte geändert, Status bleibt")
-            await ws.service("training_assistant", "rest_adjust", {"seconds": 15})
-            await wait_for(lambda: S()["active"]["rest_until"] is not None)
-            first = S()["active"]["rest_until"]
-            await ws.service("training_assistant", "rest_adjust", {"seconds": 15})
-            await wait_for(lambda: S()["active"]["rest_until"] != first)
-            check(S()["active"]["rest_until"] > first, "Pause +15 s verlängert")
-            await ws.service("training_assistant", "rest_adjust", {"seconds": -300})
-            await wait_for(lambda: S()["active"]["rest_until"] is None)
-            check(S()["active"]["rest_until"] is None, "Pause −15 s bis auf null beendet")
-            bad = await ws.call(type="training_assistant/profile", action="select", profile=home)
-            check(not bad["success"], "Personenwechsel während des Trainings abgelehnt")
-            await ws.service("training_assistant", "finish")
-            await wait_for(lambda: S()["active"] is None)
+            await ws.service("training_assistant", "rest_adjust", {"seconds": 15, "person": guest})
+            await wait_for(lambda: G()["active"]["rest_until"] is not None)
+            first = G()["active"]["rest_until"]
+            await ws.service("training_assistant", "rest_adjust", {"seconds": 15, "person": guest})
+            await wait_for(lambda: G()["active"]["rest_until"] != first)
+            check(G()["active"]["rest_until"] > first, "Pause +15 s verlängert")
+            await ws.service("training_assistant", "rest_adjust", {"seconds": -300, "person": guest})
+            await wait_for(lambda: G()["active"]["rest_until"] is None)
+            check(G()["active"]["rest_until"] is None, "Pause −15 s bis auf null beendet")
+            bad = await ws.call(type="training_assistant/profile", action="delete", profile=guest)
+            check(not bad["success"], "Person während ihres Trainings nicht löschbar")
 
-            step = await first_set()
+            # Zuschauen ja, bedienen nein: Gast gehört einem anderen (Test-)Benutzer
+            other = await ws.call(type="config/auth/create", name="E2E Zweitbenutzer", group_ids=["system-users"])
+            other_id = other["result"]["user"]["id"] if other["success"] else None
+            if other_id:
+                await ws.call(type="training_assistant/link_profile", profile=guest, user_id=other_id)
+                await wait_for(lambda: next(x for x in S()["profiles"] if x["id"] == guest).get("user_id") == other_id)
+                bad = await ws.service("training_assistant", "next", {"person": guest})
+                check(not bad["success"], "fremdes Training per Aktion nicht bedienbar")
+                bad = await ws.call(type="training_assistant/set_weekly_goal", goal=4, person=guest)
+                check(not bad["success"], "fremdes Wochenziel nicht änderbar")
+                look = await ws.call(type="training_assistant/history", person=guest)
+                check(look["success"], "fremden Verlauf ansehen erlaubt")
+                vsid = await ws.subscribe(guest)
+                check(ws.states[vsid]["can_control"] is False and S()["can_control"] is True,
+                      "Karte: fremdes Training nur ansehen (can_control)")
+                await ws.call(type="training_assistant/link_profile", profile=guest, user_id=None)
+                await ws.call(type="config/auth/delete", user_id=other_id)
+            check(bool(other_id), "Zweitbenutzer für den Test angelegt")
+
+            await ws.service("training_assistant", "abort", {"keep": False, "person": home})
+            await ws.service("training_assistant", "finish", {"person": guest})
+            await wait_for(lambda: G()["active"] is None and S()["active"] is None)
+
+            step = await first_set(guest)
             if step.get("target_weight") is not None:
-                await ws.service("training_assistant", "next", {"weight_kg": step["target_weight"] + 10})
+                await ws.service("training_assistant", "next", {"weight_kg": step["target_weight"] + 10, "person": guest})
             else:
-                await ws.service("training_assistant", "next", {"reps": (step.get("target_reps") or 8) + 10})
-            await wait_for(lambda: S()["active"]["sets"] and S()["active"]["sets"][0].get("record"))
-            check(bool(S()["active"]["sets"][0].get("record")), f"Rekord erkannt: {S()['active']['sets'][0].get('record')}")
-            await ws.service("training_assistant", "finish")
-            await wait_for(lambda: S()["active"] is None)
-            res = (await ws.call(type="training_assistant/stats"))["result"]
+                await ws.service("training_assistant", "next", {"reps": (step.get("target_reps") or 8) + 10, "person": guest})
+            await wait_for(lambda: G()["active"]["sets"] and G()["active"]["sets"][0].get("record"))
+            check(bool(G()["active"]["sets"][0].get("record")), f"Rekord erkannt: {G()['active']['sets'][0].get('record')}")
+            await ws.service("training_assistant", "finish", {"person": guest})
+            await wait_for(lambda: G()["active"] is None)
+            res = (await ws.call(type="training_assistant/stats", person=guest))["result"]
             check(res["week"]["done"] == 2 and res["records"], f"Statistik der Person: {res['week']['done']} Trainings, "
                   f"{len(res['records'])} Rekord(e)")
 
-            await ws.call(type="training_assistant/profile", action="select", profile=home)
-            await wait_for(lambda: S()["profile"] == home)
             hist = (await ws.call(type="training_assistant/history"))["result"]
-            check(len(hist["sessions"]) == home_sessions, "zurück: eigener Verlauf unverändert")
+            check(len(hist["sessions"]) == home_sessions, "Hauptperson: eigener Verlauf unverändert")
             res = await ws.call(type="training_assistant/profile", action="delete", profile=guest)
             await wait_for(lambda: guest not in [x["id"] for x in S()["profiles"]])
             check(res["success"] and guest not in [x["id"] for x in S()["profiles"]], "Person gelöscht")
+            await asyncio.sleep(0.5)
+            check(not await ws.entity(guest, "next"), "Gerät und Entitäten der Person entfernt")
 
             print("Offene Blöcke und HIIT (stumm, ohne Satellit)")
             await ws.service("training_assistant", "start", {"plan_id": "e2e_test", "workout_id": "t"})

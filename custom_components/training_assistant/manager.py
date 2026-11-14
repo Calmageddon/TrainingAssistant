@@ -8,6 +8,7 @@ sowie die Dashboard-Karte über Änderungen informieren.
 from __future__ import annotations
 
 import asyncio
+from collections import ChainMap
 import copy
 from datetime import timedelta
 import logging
@@ -56,6 +57,8 @@ from .const import (
     SET_PLANNED,
     SET_SKIPPED,
     SET_UNCONFIRMED,
+    SIGNAL_PERSON_ADDED,
+    SIGNAL_PERSON_REMOVED,
     SIGNAL_UPDATE,
     STORAGE_KEY,
     STORAGE_VERSION,
@@ -88,9 +91,14 @@ RENAMED_DEFAULTS = {"Abwärmen"}
 RENAMED_EXERCISES = [
     ("Kettlebell Swing & Get-up", "kb_swing", "kb_swing_one_arm"),  # einarmiger Swing ≠ beidarmiger Swing
 ]
-# Daten, die jedem Profil (Person) gehören. Pläne sind gemeinsam.
-# Die Daten des aktiven Profils liegen direkt in self.data, die der anderen in data["profile_data"].
-PROFILE_KEYS = ("sessions", "program", "rotation", "next", "active", "last_session_id")
+# Daten, die jeder Person gehören (Speicher: data["persons"][pid]). Pläne und die Personenliste sind gemeinsam.
+# Jede Person hat ihren eigenen TrainingManager – mehrere Personen können gleichzeitig trainieren.
+PERSON_KEYS = ("sessions", "program", "rotation", "next", "active", "last_session_id")
+
+
+def _fresh_person(pid: str) -> dict[str, Any]:
+    return {"profile": pid, "sessions": [], "program": None, "rotation": {}, "next": None, "active": None,
+            "last_session_id": None}
 # Sätze, die als „gemacht“ für Rekorde zählen
 RECORD_STATUSES = {SET_PLANNED, SET_CONFIRMED, SET_CORRECTED, SET_EDITED}
 
@@ -99,14 +107,281 @@ def _now() -> str:
     return dt_util.utcnow().isoformat()
 
 
-class TrainingManager:
-    """Ein Manager pro Config-Entry (es gibt nur einen)."""
+class TrainingHub:
+    """Zentrale pro Config-Entry: Speicher, gemeinsame Pläne, Personen – und ein TrainingManager je Person.
+
+    Speicher: {"plans": {...}, "profiles": {pid: {...}}, "persons": {pid: {sessions, program, rotation, next, active,
+    last_session_id, profile}}}. Jede Person trainiert unabhängig (eigene Timer, Sprache, Licht).
+    """
 
     def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
         self.hass = hass
         self.entry = entry
         self._store: Store[dict[str, Any]] = Store(hass, STORAGE_VERSION, STORAGE_KEY)
-        self.data: dict[str, Any] = {"plans": {}, "sessions": [], "active": None, "next": None}
+        self.root: dict[str, Any] = {"plans": {}, "profiles": {}, "persons": {}}
+        self.persons: dict[str, TrainingManager] = {}
+        self.catalog: Catalog | None = None
+        self.pictos: Pictos | None = None
+
+    # -- Laden / Speichern ------------------------------------------------
+
+    async def async_load(self) -> None:
+        stored = await self._store.async_load()
+        root = self.root
+        if stored:
+            root.update(stored)
+        self.catalog = await self.hass.async_add_executor_job(Catalog.load)
+        self.pictos = await self.hass.async_add_executor_job(Pictos.load)
+        if not root.get("profiles"):
+            # Vor den Profilen: der bisherige Verlauf wird das erste Profil (Name des Besitzers)
+            owner = await self.hass.auth.async_get_owner()
+            name = owner.name if owner and owner.name else "Me"
+            root["profiles"] = {"p1": {"id": "p1", "name": name, "weekly_goal": DEFAULT_WEEKLY_GOAL}}
+            root.setdefault("profile", "p1")
+        persons = root.setdefault("persons", {})
+        if "profile_data" in root or any(k in root for k in PERSON_KEYS):
+            # Altes Format (eine aktive Person direkt im Speicher, die anderen in profile_data) → je Person ein Bereich
+            current = root.pop("profile", None) or next(iter(root["profiles"]))
+            persons[current] = {k: root.pop(k, None) for k in PERSON_KEYS}
+            for pid, pdata in (root.pop("profile_data", None) or {}).items():
+                persons[pid] = {k: (pdata or {}).get(k) for k in PERSON_KEYS}
+        root.pop("profile", None)
+        root.pop("profile_data", None)
+        for pid in root["profiles"]:
+            pdata = persons.setdefault(pid, _fresh_person(pid))
+            for key, value in _fresh_person(pid).items():
+                if pdata.get(key) is None:
+                    pdata[key] = value
+            pdata["profile"] = pid
+            if "program" not in pdata and pdata.get("next"):
+                pdata["program"] = pdata["next"]["plan_id"]
+        for pid in list(persons):
+            if pid not in root["profiles"]:
+                persons.pop(pid)
+        for stored_plan in root["plans"].values():
+            if "images" not in stored_plan:  # Pläne von vor der Bildfunktion
+                stored_plan["images"] = map_plan(stored_plan["data"], self.catalog)
+            # Bilder bei jedem Start neu zuordnen: So bekommen auch alte Pläne neue Bilder
+            stored_plan["pictos"] = map_pictos(stored_plan["data"], self.pictos, stored_plan["images"])
+        self._rename_exercises()
+        for pid in root["profiles"]:
+            await self._add_manager(pid)
+
+    async def _add_manager(self, pid: str) -> TrainingManager:
+        manager = TrainingManager(self, pid)
+        self.persons[pid] = manager
+        await manager.async_load()
+        return manager
+
+    async def async_unload(self) -> None:
+        for manager in self.persons.values():
+            await manager.async_unload()
+        await self._store.async_save(self.root)
+
+    @callback
+    def save(self) -> None:
+        self._store.async_delay_save(lambda: self.root, 1)
+
+    def save_now(self) -> asyncio.Task:
+        """Sofort speichern (Ende eines Trainings – die Zusammenfassung wartet darauf)."""
+        return self.hass.async_create_task(self._store.async_save(self.root))
+
+    @callback
+    def changed(self) -> None:
+        """Gemeinsames hat sich geändert (Pläne, Personen): speichern, alle Personen aktualisieren."""
+        for manager in self.persons.values():
+            manager._groups_cache.clear()
+            manager._sync_next()
+        self.save()
+        async_dispatcher_send(self.hass, SIGNAL_UPDATE)
+
+    def _rename_exercises(self) -> None:
+        """RENAMED_EXERCISES anwenden – bei jedem Laden, ändert nur, was noch die alte Kennung trägt.
+
+        Plan (Übungsliste, Blöcke, Quelltext, Bildzuordnung), Verlauf aller Personen und laufende Trainings.
+        """
+        d = self.root
+        persons = list(d["persons"].values())
+        for plan_name, old, new in RENAMED_EXERCISES:
+            plan_id = slugify(plan_name)
+
+            def fix(items: list | None) -> None:
+                for x in items or []:
+                    if isinstance(x, dict) and x.get("exercise") == old:
+                        x["exercise"] = new
+
+            stored = d["plans"].get(plan_id)
+            if stored and old in stored["data"].get("exercises", {}) and new not in stored["data"]["exercises"]:
+                exercises = stored["data"]["exercises"]
+                stored["data"]["exercises"] = {(new if k == old else k): v for k, v in exercises.items()}
+                for workout in stored["data"].get("workouts", []):
+                    for block in workout.get("blocks", []):
+                        fix([block])
+                        exs = block.get("exercises")
+                        if isinstance(exs, list):
+                            block["exercises"] = [new if e == old else e for e in exs]
+                            fix(block["exercises"])
+                if stored.get("source"):
+                    stored["source"] = re.sub(rf"\b{re.escape(old)}\b", new, stored["source"])
+                if old in (stored.get("images") or {}):
+                    stored["images"][new] = stored["images"].pop(old)
+            for person in persons:
+                for sess in person.get("sessions") or []:
+                    if sess.get("plan_id") == plan_id:
+                        fix(sess.get("sets"))
+                active = person.get("active")
+                if not active or active.get("plan_id") != plan_id:
+                    continue
+                fix(active.get("sets"))
+                fix(active.get("steps"))
+                for step in active.get("steps") or []:
+                    if isinstance(step.get("exercises"), list):
+                        step["exercises"] = [new if e == old else e for e in step["exercises"]]
+
+    # -- Personen ---------------------------------------------------------
+
+    def find_profile(self, key: str) -> str:
+        """Person über ID oder Namen (ohne Groß-/Kleinschreibung)."""
+        profiles = self.root["profiles"]
+        if key in profiles:
+            return key
+        for pid, prof in profiles.items():
+            if prof["name"].casefold() == str(key).strip().casefold():
+                return pid
+        raise error("profile_not_found", profile=key)
+
+    def manager(self, key: str) -> TrainingManager:
+        return self.persons[self.find_profile(key)]
+
+    def person_of_user(self, user_id: str | None) -> str | None:
+        """Person, die mit diesem HA-Benutzer verknüpft ist."""
+        if not user_id:
+            return None
+        return next((pid for pid, p in self.root["profiles"].items() if p.get("user_id") == user_id), None)
+
+    def person_of_satellite(self, satellite: str | None, device_id: str | None = None) -> str | None:
+        """Person, der dieser Satellit gehört (Einstellung der Person)."""
+        sats = {satellite} if satellite else set()
+        if device_id:
+            registry = er.async_get(self.hass)
+            sats |= {e.entity_id for e in er.async_entries_for_device(registry, device_id) if e.domain == SAT_DOMAIN}
+        if not sats:
+            return None
+        return next((pid for pid, p in self.root["profiles"].items() if p.get("satellite") in sats), None)
+
+    def resolve(self, person: str | None = None, *, user_id: str | None = None, satellite: str | None = None,
+                device_id: str | None = None) -> TrainingManager:
+        """Wessen Training? Angabe → Satellit/Gerät → angemeldeter Benutzer → einzige Person → Fehler."""
+        if person:
+            return self.manager(person)
+        pid = self.person_of_satellite(satellite, device_id) or self.person_of_user(user_id)
+        if pid:
+            return self.persons[pid]
+        if len(self.persons) == 1:
+            return next(iter(self.persons.values()))
+        raise error("person_required")
+
+    def can_control(self, pid: str, user_id: str | None) -> bool:
+        """Bedienen darf man das eigene Training und das von Personen ohne verknüpften Benutzer (z. B. Tablet)."""
+        owner = self.root["profiles"][pid].get("user_id")
+        return not owner or owner == user_id or user_id is None
+
+    async def async_add_profile(self, name: str) -> dict[str, Any]:
+        name = name.strip()
+        if not name:
+            raise error("profile_name_missing")
+        profiles = self.root["profiles"]
+        if any(p["name"].casefold() == name.casefold() for p in profiles.values()):
+            raise error("profile_exists", profile=name)
+        base = slugify(name) or "p"
+        pid, n = base, 2
+        while pid in profiles:
+            pid, n = f"{base}_{n}", n + 1
+        goal = next(iter(profiles.values()), {}).get("weekly_goal", DEFAULT_WEEKLY_GOAL)
+        prof = {"id": pid, "name": name, "weekly_goal": goal}
+        profiles[pid] = prof
+        self.root["persons"][pid] = _fresh_person(pid)
+        await self._add_manager(pid)
+        async_dispatcher_send(self.hass, SIGNAL_PERSON_ADDED, pid)
+        self.changed()
+        return prof
+
+    def rename_profile(self, key: str, name: str) -> None:
+        pid = self.find_profile(key)
+        name = name.strip()
+        if not name:
+            raise error("profile_name_missing")
+        if any(p["name"].casefold() == name.casefold() and i != pid for i, p in self.root["profiles"].items()):
+            raise error("profile_exists", profile=name)
+        self.root["profiles"][pid]["name"] = name
+        self.changed()
+
+    def set_profile_figure(self, key: str, figure: str) -> None:
+        """Figur auf den Übungsbildern (m = männlich, w = weiblich)."""
+        pid = self.find_profile(key)
+        if figure not in FIGURES:
+            raise error("figure_invalid", figure=figure)
+        self.root["profiles"][pid]["figure"] = figure
+        self.changed()
+
+    def set_profile_devices(self, key: str, changes: dict[str, Any]) -> None:
+        """Satellit, Lampe und Handy-Hinweis einer Person (leer = Standard aus den Optionen)."""
+        pid = self.find_profile(key)
+        prof = self.root["profiles"][pid]
+        for field in ("satellite", "light", "notify"):
+            if field in changes:
+                if changes[field]:
+                    prof[field] = changes[field]
+                else:
+                    prof.pop(field, None)
+        self.changed()
+
+    async def async_delete_profile(self, key: str) -> None:
+        """Person samt Verlauf löschen – nicht während ihres Trainings, nicht die letzte Person."""
+        pid = self.find_profile(key)
+        if len(self.root["profiles"]) <= 1:
+            raise error("profile_delete_active")
+        manager = self.persons[pid]
+        if manager.active:
+            raise error("profile_busy")
+        await manager.async_unload()
+        self.persons.pop(pid)
+        self.root["profiles"].pop(pid)
+        self.root["persons"].pop(pid, None)
+        async_dispatcher_send(self.hass, SIGNAL_PERSON_REMOVED, pid)
+        self.changed()
+
+    async def async_ha_users(self) -> list[dict[str, str]]:
+        """Echte Home-Assistant-Benutzer (ohne System-Benutzer) zum Verknüpfen."""
+        users = await self.hass.auth.async_get_users()
+        return sorted(({"id": u.id, "name": u.name or u.id} for u in users
+                       if u.is_active and not u.system_generated), key=lambda u: u["name"].lower())
+
+    async def async_link_profile(self, key: str, user_id: str | None) -> None:
+        """Person mit einem HA-Benutzer verknüpfen (None = lösen). Ein Benutzer gehört zu höchstens einer Person."""
+        pid = self.find_profile(key)
+        if user_id:
+            if await self.hass.auth.async_get_user(user_id) is None:
+                raise error("user_not_found")
+            for prof in self.root["profiles"].values():
+                if prof.get("user_id") == user_id:
+                    prof.pop("user_id")
+            self.root["profiles"][pid]["user_id"] = user_id
+        else:
+            self.root["profiles"][pid].pop("user_id", None)
+        self.changed()
+
+
+class TrainingManager:
+    """Training einer Person. Sieht ihre eigenen Daten und die gemeinsamen (Pläne, Personen) als eine Tabelle."""
+
+    def __init__(self, hub: TrainingHub, pid: str) -> None:
+        self.hub = hub
+        self.hass = hub.hass
+        self.entry = hub.entry
+        self.pid = pid
+        # Lesen: erst die Daten der Person, dann die gemeinsamen. Schreiben auf oberster Ebene: Daten der Person.
+        self.data: ChainMap = ChainMap(hub.root["persons"][pid], hub.root)
         self._voice_queue: asyncio.Queue[tuple] = asyncio.Queue()
         self._voice_task: asyncio.Task | None = None
         self._ask_cancel: asyncio.Event | None = None
@@ -122,37 +397,23 @@ class TrainingManager:
         self._light_hold_until = 0.0  # bis dahin bleibt das goldene Rekord-Leuchten stehen (time.monotonic)
         # Speichern direkt nach dem Ende eines Trainings – die Zusammenfassung wartet darauf
         self._saving: asyncio.Task | None = None
-        self._catalog: Catalog | None = None
-        self._pictos: Pictos | None = None
         self._groups_cache: dict[tuple[str | None, str], list[str]] = {}
 
     # ------------------------------------------------------------------
     # Laden / Speichern
     # ------------------------------------------------------------------
 
+    @property
+    def _catalog(self) -> Catalog | None:
+        return self.hub.catalog
+
+    @property
+    def _pictos(self) -> Pictos | None:
+        return self.hub.pictos
+
     async def async_load(self) -> None:
-        stored = await self._store.async_load()
-        if stored:
-            self.data.update(stored)
-        self._catalog = await self.hass.async_add_executor_job(Catalog.load)
-        self._pictos = await self.hass.async_add_executor_job(Pictos.load)
-        if "profiles" not in self.data:
-            # Vor den Profilen: der bisherige Verlauf wird das erste Profil (Name des Besitzers)
-            owner = await self.hass.auth.async_get_owner()
-            name = owner.name if owner and owner.name else "Me"
-            self.data["profiles"] = {"p1": {"id": "p1", "name": name, "weekly_goal": DEFAULT_WEEKLY_GOAL}}
-            self.data["profile"] = "p1"
-            self.data["profile_data"] = {}
-        if "program" not in self.data and self.data.get("next"):
-            self.data["program"] = self.data["next"]["plan_id"]
-            self.data.setdefault("rotation", {})[self.data["next"]["plan_id"]] = self.data["next"]["workout_id"]
+        """Daten der Person vorbereiten (nach dem Laden des Speichers bzw. beim Anlegen)."""
         self._sync_next()
-        self._rename_exercises()
-        for stored_plan in self.data["plans"].values():
-            if "images" not in stored_plan:  # Pläne von vor der Bildfunktion
-                stored_plan["images"] = map_plan(stored_plan["data"], self._catalog)
-            # Bilder bei jedem Start neu zuordnen: So bekommen auch alte Pläne neue Bilder
-            stored_plan["pictos"] = map_pictos(stored_plan["data"], self._pictos, stored_plan["images"])
         if self.data.get("active"):
             self._attach_images(self.data["active"]["steps"], self.data["active"]["plan_id"])
         active = self.data.get("active")
@@ -178,53 +439,10 @@ class TrainingManager:
                         rec["status"] = SET_UNCONFIRMED
                 active["pending_question"] = None
         self._voice_task = self.entry.async_create_background_task(
-            self.hass, self._voice_worker(), f"{DOMAIN}_voice"
+            self.hass, self._voice_worker(), f"{DOMAIN}_voice_{self.pid}"
         )
         if active:
             self._sync_hold()
-
-    def _rename_exercises(self) -> None:
-        """RENAMED_EXERCISES anwenden – bei jedem Laden, ändert nur, was noch die alte Kennung trägt.
-
-        Plan (Übungsliste, Blöcke, Quelltext, Bildzuordnung), Verlauf aller Personen und laufende Trainings.
-        """
-        d = self.data
-        others = list((d.get("profile_data") or {}).values())
-        for plan_name, old, new in RENAMED_EXERCISES:
-            plan_id = slugify(plan_name)
-
-            def fix(items: list | None) -> None:
-                for x in items or []:
-                    if isinstance(x, dict) and x.get("exercise") == old:
-                        x["exercise"] = new
-
-            stored = d["plans"].get(plan_id)
-            if stored and old in stored["data"].get("exercises", {}) and new not in stored["data"]["exercises"]:
-                exercises = stored["data"]["exercises"]
-                stored["data"]["exercises"] = {(new if k == old else k): v for k, v in exercises.items()}
-                for workout in stored["data"].get("workouts", []):
-                    for block in workout.get("blocks", []):
-                        fix([block])
-                        exs = block.get("exercises")
-                        if isinstance(exs, list):
-                            block["exercises"] = [new if e == old else e for e in exs]
-                            fix(block["exercises"])
-                if stored.get("source"):
-                    stored["source"] = re.sub(rf"\b{re.escape(old)}\b", new, stored["source"])
-                if old in (stored.get("images") or {}):
-                    stored["images"][new] = stored["images"].pop(old)
-            for sessions in [d.get("sessions"), *(o.get("sessions") for o in others)]:
-                for sess in sessions or []:
-                    if sess.get("plan_id") == plan_id:
-                        fix(sess.get("sets"))
-            for active in [d.get("active"), *(o.get("active") for o in others)]:
-                if not active or active.get("plan_id") != plan_id:
-                    continue
-                fix(active.get("sets"))
-                fix(active.get("steps"))
-                for step in active.get("steps") or []:
-                    if isinstance(step.get("exercises"), list):
-                        step["exercises"] = [new if e == old else e for e in step["exercises"]]
 
     async def async_unload(self) -> None:
         self._cancel_light_timers()
@@ -234,11 +452,13 @@ class TrainingManager:
         self._stop_interval()
         if self._voice_task:
             self._voice_task.cancel()
-        await self._store.async_save(self.data)
+        # Lampe nach dem Entladen wie vor dem Training
+        if self._light:
+            await self._apply_light(self._light, "off")
 
     @callback
     def _changed(self) -> None:
-        self._store.async_delay_save(lambda: self.data, 1)
+        self.hub.save()
         async_dispatcher_send(self.hass, SIGNAL_UPDATE)
         self._sync_light()
 
@@ -277,6 +497,7 @@ class TrainingManager:
             self.data["program"] = plan_id
         self._sync_next()
         self._changed()
+        self.hub.changed()  # andere Personen ohne Programm bekommen den neuen Plan
         missing = [plan["exercises"][k]["name"] for k, v in pictos.items() if not v]
         return {
             "plan_id": plan_id,
@@ -371,9 +592,10 @@ class TrainingManager:
         self._groups_cache.clear()
         if self.data["plans"].pop(plan_id, None) is None:
             raise error("plan_not_found", plan=plan_id)
-        self.data.setdefault("rotation", {}).pop(plan_id, None)
-        self._sync_next()
+        for person in self.hub.root["persons"].values():
+            (person.get("rotation") or {}).pop(plan_id, None)
         self._changed()
+        self.hub.changed()  # alle Personen: nächstes Workout neu bestimmen
 
     # -- Aktives Programm und Reihenfolge ----------------------------------
     #  program  = Plan, in dem man sich bewegt
@@ -642,7 +864,12 @@ class TrainingManager:
             for ent in er.async_entries_for_device(registry, device_id):
                 if ent.domain == SAT_DOMAIN:
                     return ent.entity_id
-        return self.entry.options.get(CONF_DEFAULT_SATELLITE) or None
+        return self.default_satellite
+
+    @property
+    def default_satellite(self) -> str | None:
+        """Satellit der Person, sonst der Standard aus den Optionen."""
+        return self.profile.get("satellite") or self.entry.options.get(CONF_DEFAULT_SATELLITE) or None
 
     async def async_start(
         self,
@@ -933,9 +1160,7 @@ class TrainingManager:
             elif kind == "event":
                 if eff["type"] == "set_answered" and self._ask_cancel:
                     self._ask_cancel.set()
-                self.hass.bus.async_fire(
-                    EVENT_NAME, {"type": eff["type"], "session_id": active["id"] if active else None, **eff["data"]}
-                )
+                self._fire({"type": eff["type"], "session_id": active["id"] if active else None, **eff["data"]})
                 if eff["type"] in ("set_logged", "set_answered") and active:
                     self._check_record(eff["data"]["set_id"])
             elif kind == "finished":
@@ -973,7 +1198,7 @@ class TrainingManager:
         self.data["active"] = None
         self.data["last_session_id"] = record["id"] if record["sets"] else None
         # Sofort speichern (nicht erst nach der kurzen Verzögerung): erst danach zeigt die Karte den Abschluss
-        self._saving = self.hass.async_create_task(self._store.async_save(self.data))
+        self._saving = self.hub.save_now()
 
     # -- Abschluss eines Trainings -------------------------------------------
 
@@ -1118,7 +1343,7 @@ class TrainingManager:
         if not active:
             return
         active["rest_until"] = None
-        self.hass.bus.async_fire(EVENT_NAME, {"type": "rest_over", "session_id": active["id"]})
+        self._fire({"type": "rest_over", "session_id": active["id"]})
         self._sync_hold()  # Pause vor einem Satz nach Zeit vorbei: Countdown beginnt
         sat = active.get("satellite")
         if sat and self.entry.options.get(CONF_ANNOUNCE, True):
@@ -1200,7 +1425,7 @@ class TrainingManager:
                 and not active.get("rest_until")):
             until = dt_util.utcnow() + timedelta(seconds=HOLD_COUNTDOWN_S)
             active["hold"] = {"key": key, "phase": "ready", "until": until.isoformat()}
-            self.hass.bus.async_fire(EVENT_NAME, {"type": "hold_ready", "session_id": active["id"]})
+            self._fire({"type": "hold_ready", "session_id": active["id"]})
             self._schedule_hold()
 
     def _schedule_hold(self) -> None:
@@ -1226,7 +1451,7 @@ class TrainingManager:
         step = self._timed_step(active)
         hold.update(phase="work", total=(adj or {}).get("duration") or 30, sides=2 if step and step.get("per_side") else 1,
                     side=1, until=(at + timedelta(seconds=(adj or {}).get("duration") or 30)).isoformat())
-        self.hass.bus.async_fire(EVENT_NAME, {"type": "hold_go", "session_id": active["id"],
+        self._fire({"type": "hold_go", "session_id": active["id"],
                                               "side": 1 if hold["sides"] == 2 else None})
         self._schedule_hold()
 
@@ -1237,7 +1462,7 @@ class TrainingManager:
         step = self._timed_step(active)
         hold.update(phase="switch", switch_total=(step or {}).get("side_switch_s") or SIDE_SWITCH_S)
         hold["until"] = (at + timedelta(seconds=hold["switch_total"])).isoformat()
-        self.hass.bus.async_fire(EVENT_NAME, {"type": "hold_switch", "session_id": active["id"]})
+        self._fire({"type": "hold_switch", "session_id": active["id"]})
         sat = active.get("satellite")
         if sat and self.entry.options.get(CONF_ANNOUNCE, True):
             self._voice_queue.put_nowait(("announce", sat, Speech(active.get("lang", "de")).t("side_switch")))
@@ -1248,7 +1473,7 @@ class TrainingManager:
         active = self.active
         hold = active["hold"]
         hold.update(phase="work", side=2, until=(at + timedelta(seconds=hold["total"])).isoformat())
-        self.hass.bus.async_fire(EVENT_NAME, {"type": "hold_go", "session_id": active["id"], "side": 2})
+        self._fire({"type": "hold_go", "session_id": active["id"], "side": 2})
         self._schedule_hold()
 
     @callback
@@ -1272,7 +1497,7 @@ class TrainingManager:
             if adj and adj.get("weight") is not None:
                 values["weight_kg"] = adj["weight"]
             active["hold"] = None
-            self.hass.bus.async_fire(EVENT_NAME, {"type": "hold_done", "session_id": active["id"]})
+            self._fire({"type": "hold_done", "session_id": active["id"]})
             self.hass.async_create_task(self.async_next(**values))
             return
         self._changed()
@@ -1300,7 +1525,7 @@ class TrainingManager:
             return
         active["block_until"] = None
         active["block_expired"] = True
-        self.hass.bus.async_fire(EVENT_NAME, {"type": "time_cap_over", "session_id": active["id"]})
+        self._fire({"type": "time_cap_over", "session_id": active["id"]})
         sat = active.get("satellite")
         if sat and self.entry.options.get(CONF_ANNOUNCE, True):
             self._voice_queue.put_nowait(
@@ -1357,11 +1582,8 @@ class TrainingManager:
                                             active["plan_id"]) if seg.get("exercise") else None,
                     "ends_at": (dt_util.utcnow() + timedelta(seconds=seconds)).isoformat(),
                 }
-                self.hass.bus.async_fire(
-                    EVENT_NAME,
-                    {"type": f"interval_{phase}", "session_id": session_id, "round": i, "rounds": count,
-                     "exercise": active["interval"]["exercise"], "seconds": seconds},
-                )
+                self._fire({"type": f"interval_{phase}", "session_id": session_id, "round": i, "rounds": count,
+                            "exercise": active["interval"]["exercise"], "seconds": seconds})
                 self._changed()
                 await asyncio.sleep(seconds)
                 if phase == "work":
@@ -1446,93 +1668,7 @@ class TrainingManager:
 
     @property
     def profile(self) -> dict[str, Any]:
-        return self.data["profiles"][self.data["profile"]]
-
-    def _find_profile(self, key: str) -> str:
-        """Profil über ID oder Namen (ohne Groß-/Kleinschreibung)."""
-        if key in self.data["profiles"]:
-            return key
-        for pid, prof in self.data["profiles"].items():
-            if prof["name"].casefold() == str(key).strip().casefold():
-                return pid
-        raise error("profile_not_found", profile=key)
-
-    def set_profile(self, key: str) -> None:
-        """Person wechseln. Nicht während eines Trainings."""
-        pid = self._find_profile(key)
-        if pid == self.data["profile"]:
-            return
-        if self.active:
-            raise error("profile_busy")
-        self.data["profile_data"][self.data["profile"]] = {k: self.data.get(k) for k in PROFILE_KEYS}
-        fresh = {"sessions": [], "program": None, "rotation": {}, "next": None, "active": None,
-                 "last_session_id": None}
-        self.data.update(self.data["profile_data"].pop(pid, None) or fresh)
-        self.data["profile"] = pid
-        self._sync_next()
-        self._changed()
-
-    def add_profile(self, name: str) -> dict[str, Any]:
-        name = name.strip()
-        if not name:
-            raise error("profile_name_missing")
-        if any(p["name"].casefold() == name.casefold() for p in self.data["profiles"].values()):
-            raise error("profile_exists", profile=name)
-        base = slugify(name) or "p"
-        pid, n = base, 2
-        while pid in self.data["profiles"]:
-            pid, n = f"{base}_{n}", n + 1
-        prof = {"id": pid, "name": name, "weekly_goal": self.profile.get("weekly_goal", DEFAULT_WEEKLY_GOAL)}
-        self.data["profiles"][pid] = prof
-        self._changed()
-        return prof
-
-    def rename_profile(self, key: str, name: str) -> None:
-        pid = self._find_profile(key)
-        name = name.strip()
-        if not name:
-            raise error("profile_name_missing")
-        if any(p["name"].casefold() == name.casefold() and i != pid for i, p in self.data["profiles"].items()):
-            raise error("profile_exists", profile=name)
-        self.data["profiles"][pid]["name"] = name
-        self._changed()
-
-    def set_profile_figure(self, key: str, figure: str) -> None:
-        """Figur auf den Übungsbildern (m = männlich, w = weiblich)."""
-        pid = self._find_profile(key)
-        if figure not in FIGURES:
-            raise error("figure_invalid", figure=figure)
-        self.data["profiles"][pid]["figure"] = figure
-        self._changed()
-
-    def delete_profile(self, key: str) -> None:
-        """Person samt Verlauf löschen. Die aktive Person kann nicht gelöscht werden."""
-        pid = self._find_profile(key)
-        if pid == self.data["profile"]:
-            raise error("profile_delete_active")
-        self.data["profiles"].pop(pid)
-        self.data["profile_data"].pop(pid, None)
-        self._changed()
-
-    async def async_ha_users(self) -> list[dict[str, str]]:
-        """Echte Home-Assistant-Benutzer (ohne System-Benutzer) zum Verknüpfen."""
-        users = await self.hass.auth.async_get_users()
-        return sorted(({"id": u.id, "name": u.name or u.id} for u in users
-                       if u.is_active and not u.system_generated), key=lambda u: u["name"].lower())
-
-    async def async_link_profile(self, key: str, user_id: str | None) -> None:
-        """Person mit einem HA-Benutzer verknüpfen (None = lösen). Ein Benutzer gehört zu höchstens einer Person."""
-        pid = self._find_profile(key)
-        if user_id:
-            if await self.hass.auth.async_get_user(user_id) is None:
-                raise error("user_not_found")
-            for prof in self.data["profiles"].values():
-                if prof.get("user_id") == user_id:
-                    prof.pop("user_id")
-            self.data["profiles"][pid]["user_id"] = user_id
-        else:
-            self.data["profiles"][pid].pop("user_id", None)
-        self._changed()
+        return self.data["profiles"][self.pid]
 
     def set_weekly_goal(self, goal: int) -> None:
         """Wochenziel ändern. Gilt ab dieser Woche; frühere Wochen behalten ihr damaliges Ziel (für die Serie)."""
@@ -1680,7 +1816,7 @@ class TrainingManager:
             self._voice_queue.put_nowait(("announce", sat, text))
         self._notify(text)
         self._flash_light("record")
-        self.hass.bus.async_fire(EVENT_NAME, {"type": "record", "session_id": active["id"],
+        self._fire({"type": "record", "session_id": active["id"],
                                               "exercise": rec["exercise_name"], **found})
 
     # -- Lichtsignal (glow.py) -------------------------------------------
@@ -1689,6 +1825,8 @@ class TrainingManager:
         """Lampe: beim Start angegeben → Standard aus den Optionen → Licht am Gerät des Satelliten (falls erlaubt)."""
         if light:
             return light
+        if self.profile.get("light"):
+            return self.profile["light"]
         if self.entry.options.get(CONF_DEFAULT_LIGHT):
             return self.entry.options[CONF_DEFAULT_LIGHT]
         if satellite and self.entry.options.get(CONF_SATELLITE_LIGHT, True):
@@ -1795,9 +1933,13 @@ class TrainingManager:
             self._light_hold_until = time.monotonic() + glow.RECORD_S
             self.hass.async_create_task(self._apply_light(self._light, kind))
 
+    def _fire(self, data: dict[str, Any]) -> None:
+        """Event für Automationen (Töne, Licht …) – mit der Person, damit man danach filtern kann."""
+        self.hass.bus.async_fire(EVENT_NAME, {**data, "profile": self.pid, "person": self.profile["name"]})
+
     def _notify(self, message: str) -> None:
-        """Handy-Hinweis über den in den Optionen gewählten notify-Dienst (optional)."""
-        service = (self.entry.options.get(CONF_NOTIFY) or "").removeprefix("notify.")
+        """Handy-Hinweis über den notify-Dienst der Person bzw. aus den Optionen (optional)."""
+        service = (self.profile.get("notify") or self.entry.options.get(CONF_NOTIFY) or "").removeprefix("notify.")
         if service and self.hass.services.has_service("notify", service):
             self.hass.async_create_task(self.hass.services.async_call(
                 "notify", service, {"title": "TrainingAssistant", "message": message}))
@@ -1852,13 +1994,17 @@ class TrainingManager:
             "program": self.data.get("program"),
             "program_workouts": self.program_workouts(),
             "last_session_id": self.data.get("last_session_id"),
-            "default_satellite": self.entry.options.get(CONF_DEFAULT_SATELLITE),
+            "default_satellite": self.default_satellite,
             "last_same_duration_s": self._last_same_duration(),
             "side_switch_s": SIDE_SWITCH_S,
+            # Alle Personen mit ihren Geräten und ob sie gerade trainieren (Karte: zuschauen/umschalten)
             "profiles": [{"id": p["id"], "name": p["name"], "user_id": p.get("user_id"),
-                          "figure": p.get("figure", DEFAULT_FIGURE)}
+                          "figure": p.get("figure", DEFAULT_FIGURE), "satellite": p.get("satellite"),
+                          "light": p.get("light"), "notify": p.get("notify"),
+                          "training": bool((self.hub.root["persons"].get(p["id"]) or {}).get("active"))}
                          for p in self.data["profiles"].values()],
-            "profile": self.data["profile"],
+            "profile": self.pid,
+            "multi": True,  # mehrere Personen können gleichzeitig trainieren (Hero Upgrade: nein)
             # Übungsbilder: Figur der aktiven Person, Bilder ohne Endbild
             "figure": self.profile.get("figure", DEFAULT_FIGURE),
             "single_images": self._pictos.single() if self._pictos else [],

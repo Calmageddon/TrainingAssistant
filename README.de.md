@@ -28,7 +28,7 @@ die Sprache der Ansagen lässt sich in den Optionen der Integration auch fest ei
 | **Anstrengung** | „acht, war schwer“ sagen oder *Leicht / Normal / Schwer* antippen: schwer = nächstes Mal nicht steigern, alle leicht = größerer Schritt |
 | **Rekorde** | Neue Bestwerte (Gewicht, geschätztes Maximum, Wiederholungen, Zeit) werden angesagt („Neuer Rekord!“), mit 🏆 markiert und als Event gemeldet |
 | **Statistik** | Wochenansicht („3 von 4 Trainings diese Woche“ mit Tagen und Muskelgruppen), Wochenziel, Serie, Trainingszeit, Sätze pro Muskelgruppe und Woche, Erholungsstatus je Muskelgruppe |
-| **Personen** | Mehrere Personen an einem Tablet: jede mit eigenem Verlauf, eigenen Vorschlägen, Wochenziel und Programm-Position; Pläne sind gemeinsam |
+| **Personen** | Mehrere Personen, auch gleichzeitig: jede mit eigenem Gerät, Verlauf, Vorschlägen, Wochenziel, Programm-Position, Satellit und Lampe; den anderen in der Karte zuschauen; Pläne sind gemeinsam |
 | **Übungsbilder** | Bilder (Start/Ende) zu jeder Vorlagen-Übung, männliche oder weibliche Figur je Person, automatisch zugeordnet; mit der Integration ausgeliefert, kein Download |
 | **Karte** | `custom:training-assistant-card` mit den Reitern Training, Verlauf und Pläne, wird automatisch geladen |
 | **Entitäten** | Tasten *Starten, Weiter, Rückgängig, Pause, Überspringen, Beenden, Abbrechen, Wdh./Gewicht mehr/weniger, Pause länger/kürzer (±15 s)* · Zahlen *Wiederholungen, Gewicht* (z. B. für einen Drehregler) · Auswahl *Person, Programm, Nächstes Workout* · Sensoren *Status, Aktuelle Übung, Fortschritt, Letzter Satz, Trainings diese Woche, Serie* · Kalender *Trainings* |
@@ -102,15 +102,20 @@ Einstellungen → Automationen & Szenen → Blueprints → *Blueprint importiere
 
 Aktionen: `training_assistant.start`, `next`, `undo`, `skip`, `pause`, `finish`, `abort`,
 `adjust`, `set_value`, `import_plan`, `delete_plan`, `set_program`, `set_next_workout`, `log_set`,
-`edit_set`, `get_history`, `get_stats`, `rest_adjust`, `set_profile`. `next`, `log_set` und `edit_set`
-nehmen `effort` (`easy`, `normal`, `hard`) an.
+`edit_set`, `get_history`, `get_stats`, `rest_adjust`. `next`, `log_set` und `edit_set`
+nehmen `effort` (`easy`, `normal`, `hard`) an. Jede Aktion außer `import_plan`/`delete_plan` nimmt `person`
+(ID oder Name) – siehe unten. Events enthalten `profile` (ID) und `person` (Name).
 
-**Personen:** Personen legst du unter *Einstellungen → Personen* an. „Wer trainiert?“ erscheint über dem
-Startknopf, sobald es mehr als eine Person gibt (auch als Auswahl-Entität *Person* und Aktion
-`set_profile`, z. B. für einen NFC-Tag pro Person). Während eines Trainings kann nicht gewechselt werden.
-Personen sind keine Home-Assistant-Benutzer, Gäste brauchen also kein Konto. Optional kann ein Admin eine
-Person mit einem Home-Assistant-Benutzer verknüpfen (*Einstellungen → Personen*): Öffnet dieser Benutzer die Karte,
-z. B. auf seinem Handy, wird seine Person automatisch ausgewählt (einmal beim Öffnen, nie während eines Trainings).
+**Personen:** Personen legst du unter *Einstellungen → Personen* an. Jede Person trainiert für sich – auch mehrere
+gleichzeitig, z. B. eine im Keller mit Satellit und eine unterwegs mit der Karte in der App. Jede Person bekommt ein
+eigenes Gerät *TrainingAssistant ‹Name›* mit allen Tasten, Sensoren und Auswahlen und kann einen eigenen Satelliten,
+eine eigene Lampe und einen eigenen Handy-Hinweis haben (*Einstellungen → Personen*; leer = Standard aus den Optionen
+der Integration). Wessen Training eine Aktion meint: Feld `person` → die Person, deren Satellit den Befehl gehört hat
+→ die mit dem aufrufenden Benutzer verknüpfte Person → die einzige Person. Personen sind keine Home-Assistant-Benutzer,
+Gäste brauchen also kein Konto. Optional verknüpft ein Admin eine Person mit einem Home-Assistant-Benutzer: Die Karte
+zeigt dann beim Öffnen deren Training, z. B. auf dem eigenen Handy. In der Karte kann jeder den anderen zuschauen
+(„Wessen Training?“), bedienen aber nur das eigene – oder das einer Person, die mit niemandem verknüpft ist (z. B. ein
+Tablet im Studio).
 
 **Programme:** Du bewegst dich in einem *aktiven Programm*. Nach jedem beendeten Training ist das
 nächste Workout dieses Programms vorgemerkt, nach dem letzten wieder das erste. Jedes Programm merkt
