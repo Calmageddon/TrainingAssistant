@@ -102,6 +102,10 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
 - Editor-Backend: ws `exercise_library`, `save_plan` (Prüfung wie beim Import, Fehler `invalid_plan` mit allen Meldungen),
   `plan_source` (Daten + Text). Pläne tragen `template` (aus einer Vorlage → im Editor nur als Kopie) und `category`
   (Gruppen der Vorlagen + `other`). `tests/test_card_i18n.py` liest die Texte aus der gebauten Datei.
+- **Gemeinsame Testfälle** `tests/fixtures/shared_cases.json` (erzeugt in HU mit `npm run cases`, nicht von Hand ändern):
+  Progression, Zeit-Progression, Rekorde, e1RM, Erholungsstufen, Muskelgruppen, slugify und `build_steps` aller Vorlagen.
+  `tests/test_shared_cases.py` rechnet sie in Python nach – schlägt er fehl, rechnen die Apps unterschiedlich.
+  Logik-Änderung hier → dieselbe in HU, dort `npm run cases`, beide Tests grün.
 
 ## Importformat
 
