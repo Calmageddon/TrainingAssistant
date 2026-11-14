@@ -1,4 +1,4 @@
-/* TrainingAssistant card 0.12.0 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
+/* TrainingAssistant card 0.12.1 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
 // src/ui/texts.js
 var EXTRA_I18N = {
 	en: {
@@ -201,6 +201,9 @@ var EXTRA_I18N = {
 		"sug.time_repeat": "Not every set reached {target} s yet – repeat",
 		"tg.other.about": "Your own programs without a matching category.",
 		"err.category_missing": "Choose a category for the program.",
+		"err.unknown": "Something went wrong.",
+		"err.not_your_workout": "This is another person's workout – you can watch, but not control it.",
+		"err.person_required": "Please choose whose workout this is.",
 		"hold_ready": "Get ready",
 		"hold_run": "Keep going!",
 		"b_hold_now": "⟦play⟧ Start now",
@@ -451,6 +454,9 @@ var EXTRA_I18N = {
 		"sug.time_repeat": "{target} s noch nicht in jedem Satz geschafft – nochmal",
 		"tg.other.about": "Eigene Programme ohne passende Kategorie.",
 		"err.category_missing": "Wähle eine Kategorie für das Programm.",
+		"err.unknown": "Da ist etwas schiefgegangen.",
+		"err.not_your_workout": "Das ist das Training einer anderen Person – zuschauen ja, bedienen nein.",
+		"err.person_required": "Bitte auswählen, wessen Training gemeint ist.",
 		"hold_ready": "Gleich geht's los",
 		"hold_run": "Durchhalten!",
 		"b_hold_now": "⟦play⟧ Jetzt los",
@@ -2458,8 +2464,10 @@ var TrainerUI = class extends HTMLElement {
 		});
 	}
 	_errText(err) {
-		if (err && err.key) return t(`err.${err.key}`, err.params || {});
-		return err && err.message || String(err);
+		if (err && err.key && t(`err.${err.key}`) !== `err.${err.key}`) return t(`err.${err.key}`, err.params || {});
+		if (err && typeof err.message === "string" && err.message) return err.message;
+		if (err && err.code) return String(err.code);
+		return typeof err === "string" ? err : t("err.unknown");
 	}
 	async _ws(msg) {
 		try {
@@ -2473,7 +2481,7 @@ var TrainerUI = class extends HTMLElement {
 		try {
 			await this._backend.service(name, data);
 		} catch (err) {
-			this._toast(this._errText(err));
+			if (!this._backend.serviceErrorsShown) this._toast(this._errText(err));
 		}
 	}
 	_toast(message) {
@@ -4513,7 +4521,7 @@ var STYLE = `
 `;
 // src/card/card.js
 var DOMAIN = "training_assistant";
-var CARD_VERSION = "0.12.0";
+var CARD_VERSION = "0.12.1";
 var CAPS = {
 	voice: true,
 	yamlImport: true,
@@ -4525,6 +4533,16 @@ var CAPS = {
 	effortMs: 5e3,
 	shell: "ha-card"
 };
+/** Fehler von Home Assistant ({code, message, translation_key, translation_placeholders}) → Error mit Text */
+function haError(err) {
+	if (err instanceof Error) return err;
+	const message = err && (err.message || err.code) || String(err);
+	return Object.assign(new Error(message), {
+		code: err && err.code,
+		key: err && err.translation_key,
+		params: err && err.translation_placeholders || {}
+	});
+}
 function haBackend(card) {
 	let person = null;
 	const withPerson = (data) => person ? {
@@ -4546,10 +4564,13 @@ function haBackend(card) {
 					key: "plan_invalid",
 					params: { errors: err.message }
 				});
-				throw err;
+				throw haError(err);
 			}
 		},
-		service: (name, data = {}) => card._hass.callService(DOMAIN, name, withPerson(data)),
+		serviceErrorsShown: true,
+		service: (name, data = {}) => card._hass.callService(DOMAIN, name, withPerson(data)).catch((err) => {
+			throw haError(err);
+		}),
 		subscribe(cb, onError) {
 			const sub = card._hass.connection.subscribeMessage((state) => {
 				if (!person) person = state.profile;

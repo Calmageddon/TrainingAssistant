@@ -4,6 +4,15 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.12.1 – 2026-11-14
+
+- Error messages are readable again: no more "[object Object]", no double message when an action fails, and names
+  appear in the text instead of "{plan}". Messages from the card are shown in your language.
+  *Deutsch:* Fehlermeldungen sind wieder lesbar: kein „[object Object]“ mehr, keine doppelte Meldung, wenn eine Aktion
+  fehlschlägt, und Namen stehen im Text statt „{plan}“. Meldungen der Karte erscheinen in deiner Sprache.
+- Uses the newer device lookup of Home Assistant where available (no deprecation warning in the log).
+  *Deutsch:* Nutzt die neuere Gerätesuche von Home Assistant, wo vorhanden (keine Warnung mehr im Log).
+
 ## 0.12.0 – 2026-11-14
 
 - Several people can now train at the same time – e.g. one in the basement with a satellite and one on the road with

@@ -458,16 +458,16 @@
       "message": "TrainingAssistant ist nicht eingerichtet"
     },
     "template_not_found": {
-      "message": "Vorlage '{template}' gibt es nicht"
+      "message": "Vorlage „{template}“ gibt es nicht"
     },
     "plan_not_found": {
-      "message": "Plan '{plan}' gibt es nicht"
+      "message": "Plan „{plan}“ gibt es nicht"
     },
     "workout_not_found": {
-      "message": "Workout '{workout}' gibt es in '{plan}' nicht"
+      "message": "Workout „{workout}“ gibt es in „{plan}“ nicht"
     },
     "session_not_found": {
-      "message": "Training '{session}' gibt es nicht"
+      "message": "Training „{session}“ gibt es nicht"
     },
     "set_not_found": {
       "message": "Satz {set} gibt es nicht"
@@ -494,13 +494,13 @@
       "message": "Plan ist ungültig:\n{errors}"
     },
     "profile_not_found": {
-      "message": "Person '{profile}' gibt es nicht"
+      "message": "Person „{profile}“ gibt es nicht"
     },
     "profile_busy": {
       "message": "Erst das laufende Training beenden oder abbrechen, dann die Person wechseln"
     },
     "profile_exists": {
-      "message": "Eine Person namens '{profile}' gibt es schon"
+      "message": "Eine Person namens „{profile}“ gibt es schon"
     },
     "profile_name_missing": {
       "message": "Bitte einen Namen eingeben"

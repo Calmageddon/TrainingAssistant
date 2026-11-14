@@ -77,9 +77,20 @@ def _guard(connection: websocket_api.ActiveConnection, msg_id: int, func) -> Any
         return True, func()
     except PlanError as err:
         connection.send_error(msg_id, "invalid_plan", "\n".join(err.errors))
-    except (HomeAssistantError, KeyError, ValueError) as err:
+    except HomeAssistantError as err:
+        _send_error(connection, msg_id, err)
+    except (KeyError, ValueError) as err:
         connection.send_error(msg_id, "failed", str(err))
     return False, None
+
+
+def _send_error(connection: websocket_api.ActiveConnection, msg_id: int, err: HomeAssistantError) -> None:
+    """Fehler mit Übersetzungsschlüssel weitergeben – die Karte zeigt ihn in der Sprache des Nutzers."""
+    if getattr(err, "translation_key", None):
+        connection.send_error(msg_id, "failed", str(err), translation_key=err.translation_key,
+                              translation_domain=DOMAIN, translation_placeholders=err.translation_placeholders)
+    else:
+        connection.send_error(msg_id, "failed", str(err))
 
 
 @websocket_api.websocket_command({vol.Required("type"): WS + "subscribe", vol.Optional("person"): vol.Any(None, str)})
@@ -150,7 +161,10 @@ async def ws_exercise_library(hass: HomeAssistant, connection: websocket_api.Act
     """Übungsauswahl im Editor: alle bekannten Übungen und die Kategorien für eigene Pläne."""
     try:
         result = await _manager(hass, connection, msg).async_exercise_library()
-    except (HomeAssistantError, KeyError, ValueError) as err:
+    except HomeAssistantError as err:
+        _send_error(connection, msg["id"], err)
+        return
+    except (KeyError, ValueError) as err:
         connection.send_error(msg["id"], "failed", str(err))
         return
     connection.send_result(msg["id"], result)
@@ -230,7 +244,7 @@ async def ws_templates(hass: HomeAssistant, connection: websocket_api.ActiveConn
     try:
         result = await _manager(hass, connection, msg).async_templates()
     except HomeAssistantError as err:
-        connection.send_error(msg["id"], "failed", str(err))
+        _send_error(connection, msg["id"], err)
         return
     connection.send_result(msg["id"], {"templates": result})
 
@@ -244,7 +258,7 @@ async def ws_import_template(hass: HomeAssistant, connection: websocket_api.Acti
         connection.send_error(msg["id"], "invalid_plan", "\n".join(err.errors))
         return
     except HomeAssistantError as err:
-        connection.send_error(msg["id"], "failed", str(err))
+        _send_error(connection, msg["id"], err)
         return
     connection.send_result(msg["id"], result)
 
@@ -256,7 +270,7 @@ async def ws_template_preview(hass: HomeAssistant, connection: websocket_api.Act
     try:
         result = await _manager(hass, connection, msg).async_template_preview(msg["template_id"])
     except HomeAssistantError as err:
-        connection.send_error(msg["id"], "failed", str(err))
+        _send_error(connection, msg["id"], err)
         return
     connection.send_result(msg["id"], result)
 
@@ -285,7 +299,7 @@ async def ws_session_summary(hass: HomeAssistant, connection: websocket_api.Acti
     try:
         result = await _manager(hass, connection, msg).async_session_summary(msg.get("session_id"))
     except HomeAssistantError as err:
-        connection.send_error(msg["id"], "failed", str(err))
+        _send_error(connection, msg["id"], err)
         return
     connection.send_result(msg["id"], {"summary": result})
 
@@ -318,10 +332,10 @@ def ws_profile(hass: HomeAssistant, connection: websocket_api.ActiveConnection, 
         try:
             pid = hub.find_profile(msg.get("profile", ""))
         except HomeAssistantError as err:
-            connection.send_error(msg["id"], "failed", str(err))
+            _send_error(connection, msg["id"], err)
             return
         if not (user and user.is_admin) and not hub.can_control(pid, user.id if user else None):
-            connection.send_error(msg["id"], "failed", str(error("not_your_workout")))
+            _send_error(connection, msg["id"], error("not_your_workout"))
             return
     if action == "select":
         connection.send_result(msg["id"])
@@ -332,7 +346,7 @@ def ws_profile(hass: HomeAssistant, connection: websocket_api.ActiveConnection, 
                 result = await (hub.async_add_profile(msg.get("name", "")) if action == "add"
                                 else hub.async_delete_profile(msg["profile"]))
             except HomeAssistantError as err:
-                connection.send_error(msg["id"], "failed", str(err))
+                _send_error(connection, msg["id"], err)
                 return
             connection.send_result(msg["id"], result)
 
@@ -376,6 +390,6 @@ async def ws_link_profile(hass: HomeAssistant, connection: websocket_api.ActiveC
     try:
         await _hub(hass).async_link_profile(msg["profile"], msg.get("user_id") or None)
     except HomeAssistantError as err:
-        connection.send_error(msg["id"], "failed", str(err))
+        _send_error(connection, msg["id"], err)
         return
     connection.send_result(msg["id"])

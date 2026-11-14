@@ -23,15 +23,15 @@
           "voice_language": "Voice language",
           "notify_service": "Phone notification",
           "default_light": "Light signal (RGB light)",
-          "satellite_light": "Use the satellite's light"
+          "satellite_light": "Use the satellite’s light"
         },
         "data_description": {
-          "ask_after_set": "Pressing the button during the question means 'as planned'.",
-          "question_timeout": "No usable answer: the set is stored as 'unconfirmed' and can be fixed in the card.",
-          "voice_language": "Automatic = Home Assistant's language.",
+          "ask_after_set": "Pressing the button during the question means ’as planned’.",
+          "question_timeout": "No usable answer: the set is stored as “unconfirmed” and can be fixed in the card.",
+          "voice_language": "Automatic = Home Assistant’s language.",
           "notify_service": "Notify service (e.g. mobile_app_…) for the end of rest and new records. Empty = off.",
           "default_light": "Optional. Shows the phase as a colour: green while training, yellow during rests, red in the last seconds before you go, gold for a new record. Afterwards the light returns to how it was.",
-          "satellite_light": "Without a light above: use a light on the satellite's device, e.g. the LED ring of the Voice PE."
+          "satellite_light": "Without a light above: use a light on the satellite’s device, e.g. the LED ring of the Voice PE."
         }
       }
     }
@@ -154,7 +154,7 @@
         },
         "light": {
           "name": "Light",
-          "description": "RGB light for the light signal (optional; otherwise the light from the options or the satellite's light)."
+          "description": "RGB light for the light signal (optional; otherwise the light from the options or the satellite’s light)."
         },
         "person": {
           "name": "Person",
@@ -286,7 +286,7 @@
       "fields": {
         "text": {
           "name": "Text",
-          "description": "Spoken answer, e.g. '8 times 15 kilo' (German)."
+          "description": "Spoken answer, e.g. ’8 times 15 kilo’ (German)."
         },
         "reps": {
           "name": "Reps",
@@ -364,7 +364,7 @@
     },
     "adjust": {
       "name": "Adjust current set",
-      "description": "Changes reps (seconds for timed sets) or weight of the current set by steps. Used by 'Set done'.",
+      "description": "Changes reps (seconds for timed sets) or weight of the current set by steps. Used by ’Set done’.",
       "fields": {
         "field": {
           "name": "Field",
@@ -458,16 +458,16 @@
       "message": "TrainingAssistant is not set up"
     },
     "template_not_found": {
-      "message": "Template '{template}' does not exist"
+      "message": "Template “{template}” does not exist"
     },
     "plan_not_found": {
-      "message": "Plan '{plan}' does not exist"
+      "message": "Plan “{plan}” does not exist"
     },
     "workout_not_found": {
-      "message": "Workout '{workout}' does not exist in '{plan}'"
+      "message": "Workout “{workout}” does not exist in “{plan}”"
     },
     "session_not_found": {
-      "message": "Workout session '{session}' does not exist"
+      "message": "Workout session “{session}” does not exist"
     },
     "set_not_found": {
       "message": "Set {set} does not exist"
@@ -494,13 +494,13 @@
       "message": "Plan is invalid:\n{errors}"
     },
     "profile_not_found": {
-      "message": "Person '{profile}' does not exist"
+      "message": "Person “{profile}” does not exist"
     },
     "profile_busy": {
       "message": "Finish or abort the running workout before switching person"
     },
     "profile_exists": {
-      "message": "A person named '{profile}' already exists"
+      "message": "A person named “{profile}” already exists"
     },
     "profile_name_missing": {
       "message": "Please enter a name"
@@ -518,16 +518,16 @@
       "message": "Please choose a category for the plan"
     },
     "plan_readonly": {
-      "message": "Templates can't be changed – save your changes as a copy"
+      "message": "Templates can’t be changed – save your changes as a copy"
     },
     "plan_in_use": {
       "message": "This plan is in use by the running workout – finish it first"
     },
     "person_required": {
-      "message": "Several people use TrainingAssistant – please say whose workout this is (field 'person')"
+      "message": "Several people use TrainingAssistant – please say whose workout this is (field “person”)"
     },
     "not_your_workout": {
-      "message": "This is another person's workout – you can watch it, but not control it"
+      "message": "This is another person’s workout – you can watch it, but not control it"
     }
   }
 }

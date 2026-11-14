@@ -55,6 +55,13 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     return True
 
 
+def _device(devices: dr.DeviceRegistry, identifier: tuple[str, str], entry_id: str) -> dr.DeviceEntry | None:
+    """Gerät dieser Integration suchen – neue Abfrage ab HA 2026.x, sonst die alte (Mindestversion 2025.7)."""
+    if hasattr(devices, "async_get_device_by_identifier"):
+        return devices.async_get_device_by_identifier(identifier, entry_id)
+    return devices.async_get_device(identifiers={identifier})
+
+
 def _file_digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()[:10]
 
@@ -66,7 +73,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: TrainingConfigEntry) -> 
     entry.runtime_data = hub
     devices = dr.async_get(hass)
     # Früher gab es ein gemeinsames Gerät für alle – jetzt eines pro Person
-    old = devices.async_get_device(identifiers={(DOMAIN, entry.entry_id)})
+    old = _device(devices, (DOMAIN, entry.entry_id), entry.entry_id)
     if old:
         devices.async_remove_device(old.id)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
@@ -74,7 +81,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: TrainingConfigEntry) -> 
 
     @callback
     def person_removed(pid: str) -> None:
-        device = devices.async_get_device(identifiers={person_device_id(entry.entry_id, pid)})
+        device = _device(devices, person_device_id(entry.entry_id, pid), entry.entry_id)
         if device:
             devices.async_remove_device(device.id)
 
@@ -82,7 +89,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: TrainingConfigEntry) -> 
     def names_changed() -> None:
         # Person umbenannt → Gerätename „TrainingAssistant ‹Name›“ nachziehen
         for pid, prof in hub.root["profiles"].items():
-            device = devices.async_get_device(identifiers={person_device_id(entry.entry_id, pid)})
+            device = _device(devices, person_device_id(entry.entry_id, pid), entry.entry_id)
             name = f"TrainingAssistant {prof['name']}"
             if device and device.name != name:
                 devices.async_update_device(device.id, name=name)
