@@ -4,6 +4,23 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.11.0 – 2026-11-14
+
+- Plan editor in the card (*Settings → Editor*): build your own plans with workouts, blocks and exercises – pick
+  exercises with pictures from a list, set reps, weight or time, rests and progression. Templates are edited as a copy.
+  Pasting YAML/JSON still works under *Own plan*.
+  *Deutsch:* Plan-Editor in der Karte (*Einstellungen → Editor*): eigene Pläne mit Workouts, Blöcken und Übungen
+  bauen – Übungen mit Bild aus einer Liste wählen, Wiederholungen, Gewicht oder Zeit, Pausen und Progression einstellen.
+  Vorlagen bearbeitet man als Kopie. YAML/JSON einfügen geht weiter unter *Eigener Plan*.
+- The card now shares its interface with the Hero Upgrade web app, so both get the same improvements: search in plans
+  and templates, plans grouped by category, recovery colours in six steps (red to green, with legend), a clearer
+  "How did it feel?" prompt with a close button, and consistent icons.
+  *Deutsch:* Die Karte teilt sich jetzt die Oberfläche mit der Web-App Hero Upgrade, beide bekommen dieselben
+  Verbesserungen: Suche in Plänen und Vorlagen, Pläne nach Kategorie gruppiert, Erholungsfarben in sechs Stufen (rot bis
+  grün, mit Legende), ein deutlicherer „Wie war's?“-Dialog mit Schließen-Knopf und einheitliche Symbole.
+- Exercise thumbnails show the end pose; timed one-sided flow segments show the side.
+  *Deutsch:* Kleine Übungsbilder zeigen die Endpose; einseitige Flow-Abschnitte zeigen die Seite.
+
 ## 0.10.0 – 2026-11-14
 
 - Light signal (optional): an RGB light shows the phase of the workout – green while you train (bright for a moment

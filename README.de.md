@@ -69,8 +69,9 @@ Beim Anzeigen der Karte wird nichts aus dem Internet geladen.
 Geräte, Calisthenics von Einstieg bis Fortgeschritten, Kettlebell, HIIT & Tabata, Ausdauer, Yoga & Mobilität). Die Vorlagen sind auf Englisch;
 übernehmen in der Karte unter *Einstellungen → Vorlagen*, Übersicht und Quellen: [docs/vorlagen.md](docs/vorlagen.md).
 
-Eigene Pläne werden als YAML/JSON in der Karte (*Einstellungen → Eigener Plan*) eingefügt. Die Karte bietet
-eine Anleitung und einen Beispielplan zum Herunterladen an. Format, Beispiele und ein fertiger
+Eigene Pläne baut man im Editor der Karte (*Einstellungen → Editor*): Workouts, Blöcke und Übungen mit Bild,
+Wiederholungen, Gewicht oder Zeit – Vorlagen lassen sich als Kopie bearbeiten. Alternativ einen Plan als YAML/JSON
+einfügen (*Einstellungen → Eigener Plan*); die Karte bietet eine Anleitung und einen Beispielplan zum Herunterladen an. Format, Beispiele und ein fertiger
 Prompt für ChatGPT/Claude: [docs/plan-format.de.md](docs/plan-format.de.md).
 
 ## Bedienung

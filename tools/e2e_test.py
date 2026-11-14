@@ -431,6 +431,38 @@ async def main() -> int:
             if summary.get("id"):
                 await ws.call(type="training_assistant/delete_session", session_id=summary["id"])
 
+            print("Plan-Editor (gemeinsame Oberfläche)")
+            lib = await ws.call(type="training_assistant/exercise_library")
+            exs = lib["result"]["exercises"] if lib["success"] else []
+            check(len(exs) > 50 and "other" in lib["result"]["groups"], f"Übungsauswahl: {len(exs)} Übungen")
+            squat = next((e for e in exs if e["id"] in ("bodyweight_squat", "squat")), {})
+            check(bool(squat.get("image")) and "quads" in squat.get("muscles", []), "Übung mit Bild und Muskelgruppe")
+            new_plan = {"name": "E2E Editor", "exercises": {"squat": {"name": "Bodyweight Squat", "equipment": "bodyweight"}},
+                        "workouts": [{"id": "a", "name": "A", "blocks": [{"type": "sets", "exercise": "squat", "sets": 2,
+                                                                          "reps": 10, "rest_s": 30}]}]}
+            res = await ws.call(type="training_assistant/save_plan", plan=new_plan)
+            check(not res["success"], "ohne Kategorie abgelehnt")
+            res = await ws.call(type="training_assistant/save_plan", plan=new_plan, category="bodyweight")
+            ed_id = res["result"]["plan_id"] if res["success"] else None
+            check(bool(ed_id), f"neuer Plan gespeichert: {ed_id or res.get('error')}")
+            await wait_for(lambda: any(p["id"] == ed_id for p in S()["plans"]))
+            mine = next((p for p in S()["plans"] if p["id"] == ed_id), {})
+            check(mine.get("category") == "bodyweight" and mine.get("template") is False, "Kategorie und eigener Plan")
+            src = await ws.call(type="training_assistant/plan_source", plan_id=ed_id)
+            check(src["success"] and src["result"]["plan"]["name"] == "E2E Editor" and "E2E Editor" in src["result"]["text"],
+                  "Plan zum Bearbeiten: Daten und Text")
+            bad = {**new_plan, "workouts": [{"id": "a", "name": "A", "blocks": [{"type": "sets", "exercise": "nope", "sets": 2, "reps": 10}]}]}
+            res = await ws.call(type="training_assistant/save_plan", plan=bad, plan_id=ed_id, category="bodyweight")
+            check(not res["success"] and res["error"]["code"] == "invalid_plan", "ungültiger Plan → Meldungen")
+            res = await ws.call(type="training_assistant/save_plan", plan={**new_plan, "name": "E2E Editor 2"}, plan_id=ed_id,
+                                category="other")
+            check(res["success"] and res["result"]["plan_id"] == ed_id, "Plan geändert (gleiche ID)")
+            tpl = next((p for p in S()["plans"] if p.get("template")), None)
+            if tpl:
+                res = await ws.call(type="training_assistant/save_plan", plan=new_plan, plan_id=tpl["id"], category="other")
+                check(not res["success"], f"Vorlage {tpl['id']} nicht überschreibbar")
+            await ws.call(type="training_assistant/delete_plan", plan_id=ed_id)
+
             print("Aufräumen")
             await ws.call(type="training_assistant/delete_plan", plan_id="e2e_test")
             await ws.call(type="training_assistant/delete_plan", plan_id="feature_testplan")

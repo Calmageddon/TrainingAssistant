@@ -8,6 +8,7 @@ sowie die Dashboard-Karte über Änderungen informieren.
 from __future__ import annotations
 
 import asyncio
+import copy
 from datetime import timedelta
 import logging
 import re
@@ -17,6 +18,7 @@ from pathlib import Path
 import uuid
 
 import voluptuous as vol
+import yaml
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
@@ -33,6 +35,7 @@ from .const import (
     CONF_ASK_AFTER_SET,
     CONF_DEFAULT_SATELLITE,
     CONF_DEFAULT_LIGHT,
+    PLAN_SCHEMA_VERSION,
     CONF_SATELLITE_LIGHT,
     CONF_NOTIFY,
     CHART_POINTS,
@@ -243,14 +246,19 @@ class TrainingManager:
     # Pläne
     # ------------------------------------------------------------------
 
-    def import_plan(self, text: str, lang: str | None = None) -> dict[str, Any]:
+    def import_plan(self, text: str, lang: str | None = None, *, template: str | None = None,
+                    category: str | None = None, plan_id: str | None = None) -> dict[str, Any]:
         """Plan aus YAML/JSON-Text importieren. Gleicher Name = Plan wird ersetzt.
 
         lang: Sprache der Prüfmeldungen (Standard: Sprache von Home Assistant).
+        template: ID der Vorlage, aus der der Plan stammt (im Editor nur als Kopie bearbeitbar).
+        category: Kategorie für „Meine Pläne“ (Standard: bisherige, sonst Gruppe der Vorlage, sonst „other“).
+        plan_id: vorhandenen Plan ersetzen (Editor), sonst aus dem Namen.
         """
         plan = parse_plan_text(text, lang or self.hass.config.language)
         self._groups_cache.clear()
-        plan_id = slugify(plan["name"])
+        plan_id = plan_id or slugify(plan["name"])
+        old = self.data["plans"].get(plan_id) or {}
         images = map_plan(plan, self._catalog) if self._catalog else {}
         pictos = map_pictos(plan, self._pictos, images) if self._pictos else {}
         self.data["plans"][plan_id] = {
@@ -260,7 +268,10 @@ class TrainingManager:
             "data": plan,
             "images": images,
             "pictos": pictos,
-            "imported_at": _now(),
+            "imported_at": old.get("imported_at") if old and not template else _now(),
+            **({"template": template} if template else {}),
+            **({"category": category or old.get("category")} if (category or old.get("category")) else {}),
+            **({"edited_at": _now()} if old and not template else {}),
         }
         if self.data.get("program") not in self.data["plans"]:
             self.data["program"] = plan_id
@@ -334,7 +345,7 @@ class TrainingManager:
         template = next((t for t in templates if t["id"] == template_id), None)
         if template is None:
             raise error("template_not_found", template=template_id)
-        return self.import_plan(template["text"])
+        return self.import_plan(template["text"], template=template_id)
 
     async def async_template_preview(self, template_id: str) -> dict[str, Any]:
         """Vorschau einer Vorlage, ohne sie zu importieren: alle Workouts mit Schritten (Planwerte, ohne Verlauf)."""
@@ -1624,6 +1635,7 @@ class TrainingManager:
             "volume": st.muscle_volume(sessions, today, self._local_day, self.groups_of),
             "unassigned": self._unassigned(today),
             "recovery": st.recovery(sessions, dt_util.utcnow(), self.groups_of, self._program_groups(), self.secondary_groups_of),
+            "recovery_tier_hours": list(st.RECOVERY_TIER_HOURS),
             "records": records[:8],
         }
 
@@ -1828,6 +1840,8 @@ class TrainingManager:
                     "name": p["name"],
                     "description": p["data"].get("description"),
                     "imported_at": p["imported_at"],
+                    "template": bool(p.get("template")),
+                    "category": self._category_of(p),
                     "workouts": [{"id": w["id"], "name": w["name"]} for w in p["data"]["workouts"]],
                     "images_missing": [p["data"]["exercises"][k]["name"]
                                        for k, v in p.get("pictos", {}).items() if not v],
@@ -1881,11 +1895,83 @@ class TrainingManager:
             elif step.get("type") == "interval":
                 step["images"] = [self.image_for(e, plan_id) for e in step.get("exercises", [])]
 
-    def plan_source(self, plan_id: str) -> str:
-        try:
-            return self.data["plans"][plan_id]["source"]
-        except KeyError as err:
-            raise error("plan_not_found", plan=plan_id) from err
+    # -- Plan-Editor (gemeinsame Oberfläche mit Hero Upgrade) ------------
+
+    @property
+    def plan_groups(self) -> list[str]:
+        """Kategorien für eigene Pläne: Gruppen der Vorlagen + „other“."""
+        return [*self.TEMPLATE_GROUPS, "other"]
+
+    def _category_of(self, p: dict[str, Any]) -> str:
+        """Kategorie eines Plans: eigene Wahl, sonst Gruppe der Vorlage, sonst „other“."""
+        if p.get("category"):
+            return p["category"]
+        group = (p.get("template") or "").split("-", 1)[0]
+        return group if group in self.TEMPLATE_GROUPS else "other"
+
+    def plan_source(self, plan_id: str) -> dict[str, Any]:
+        """Plan zum Bearbeiten: Daten (Editor) und Text (Import-Feld). Vorlagen-Pläne bearbeitet man als Kopie."""
+        p = self.data["plans"].get(plan_id)
+        if p is None:
+            raise error("plan_not_found", plan=plan_id)
+        return {"plan_id": plan_id, "template": bool(p.get("template")), "category": self._category_of(p),
+                "plan": copy.deepcopy(p["data"]), "text": p["source"]}
+
+    async def async_exercise_library(self) -> dict[str, Any]:
+        """Alle bekannten Übungen (eigene Pläne + Vorlagen) für die Übungsauswahl im Editor."""
+        templates = await self.hass.async_add_executor_job(self._read_templates)
+        out: dict[str, dict[str, Any]] = {}
+        names: set[str] = set()
+
+        def add(ex_id: str, ex: dict[str, Any], cid: str | None) -> None:
+            # gleiche Übung unter zwei IDs (z. B. squat/bodyweight_squat) nur einmal anbieten
+            key = f"{ex['name']}|{ex.get('equipment') or ''}".lower()
+            if ex_id in out or key in names:
+                return
+            names.add(key)
+            entry = (self._catalog.by_id.get(cid) if self._catalog and cid else None) or {}
+            out[ex_id] = {
+                "id": ex_id, "name": ex["name"], "aliases": ex.get("aliases", []), "equipment": ex.get("equipment"),
+                "image": self._pictos.match(ex_id, ex, cid) if self._pictos else None, "catalog": cid,
+                "muscles": ex["muscles"] if "muscles" in ex else st.groups_for(entry.get("muscles", [])),
+                "note": ex.get("note"), "unilateral": bool(ex.get("unilateral")), "explicit_muscles": "muscles" in ex,
+            }
+
+        for p in self.data["plans"].values():
+            if not p.get("template"):
+                for ex_id, ex in p["data"]["exercises"].items():
+                    add(ex_id, ex, (p.get("images") or {}).get(ex_id))
+        for t in templates:
+            plan = parse_plan_text(t["text"])
+            images = map_plan(plan, self._catalog) if self._catalog else {}
+            for ex_id, ex in plan["exercises"].items():
+                add(ex_id, ex, images.get(ex_id))
+        return {"exercises": sorted(out.values(), key=lambda e: e["name"].lower()), "groups": self.plan_groups}
+
+    def save_plan(self, plan: dict[str, Any], plan_id: str | None = None, category: str | None = None,
+                  lang: str | None = None) -> dict[str, Any]:
+        """Plan aus dem Editor speichern (neu oder geändert). Prüft wie beim Import; Vorlagen bleiben unverändert."""
+        if not category or category not in self.plan_groups:
+            raise error("category_missing")
+        old = self.data["plans"].get(plan_id) if plan_id else None
+        if plan_id and old is None:
+            raise error("plan_not_found", plan=plan_id)
+        if old and old.get("template"):
+            raise error("plan_readonly")
+        active = self.active
+        if plan_id and active and active.get("plan_id") == plan_id:
+            raise error("plan_in_use")
+        data = {**plan, "schema_version": PLAN_SCHEMA_VERSION}
+        text = yaml.safe_dump(data, allow_unicode=True, sort_keys=False, width=120)
+        if not plan_id:
+            # neue ID aus dem Namen, ohne vorhandene Pläne oder Vorlagen zu überschreiben
+            base = slugify(str(data.get("name") or "plan"))
+            taken = set(self.data["plans"]) | {slugify(p["name"]) for p in self.data["plans"].values()}
+            plan_id, n = base, 2
+            while plan_id in taken:
+                plan_id, n = f"{base}_{n}", n + 1
+        result = self.import_plan(text, lang, category=category, plan_id=plan_id)
+        return {"plan_id": result["plan_id"], "name": result["name"]}
 
 
 __all__ = ["PlanError", "TrainingManager"]

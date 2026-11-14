@@ -452,6 +452,15 @@
     },
     "user_not_found": {
       "message": "Diesen Home-Assistant-Benutzer gibt es nicht"
+    },
+    "category_missing": {
+      "message": "Bitte eine Kategorie für den Plan wählen"
+    },
+    "plan_readonly": {
+      "message": "Vorlagen lassen sich nicht ändern – speichere deine Änderungen als Kopie"
+    },
+    "plan_in_use": {
+      "message": "Dieser Plan wird im laufenden Training benutzt – beende es zuerst"
     }
   }
 }

@@ -452,6 +452,15 @@
     },
     "user_not_found": {
       "message": "This Home Assistant user does not exist"
+    },
+    "category_missing": {
+      "message": "Please choose a category for the plan"
+    },
+    "plan_readonly": {
+      "message": "Templates can't be changed – save your changes as a copy"
+    },
+    "plan_in_use": {
+      "message": "This plan is in use by the running workout – finish it first"
     }
   }
 }

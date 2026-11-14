@@ -12,7 +12,8 @@ speichert den Verlauf dauerhaft und schlägt Gewichte für das nächste Training
 Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
 - UI und Fehlermeldungen: `strings.json`, `translations/en.json`, `translations/de.json`
   (Fehler über `errors.py` → `error("key", …)`, Schlüssel unter `exceptions`).
-- Karte: Tabelle `I18N` oben in `frontend/training-assistant-card.js` (Sprache aus `hass.locale`, Rückfall Englisch).
+- Karte: gebaut aus der gemeinsamen Oberfläche im HU-Repo – Texte dort in `src/ui/app.js` (`I18N`) und `src/ui/texts.js`
+  (Sprache aus `hass.locale`, Rückfall Englisch). Siehe „Gemeinsame Oberfläche“.
 - Ansagen: `phrases.py` (`Speech`), Sprache pro Session in `state["lang"]` (alte Sessions: "de").
   Zahl-/Antworterkennung: `spoken.py` (`LANGS`). Option `voice_language` (auto/en/de).
 - Plan-Prüfmeldungen: deutscher Ausgangstext in `plan.py`, englisch über `EN_MESSAGES`
@@ -87,8 +88,20 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
 - `stats.py` – Rekorde, Woche, Serie, Zeit, Muskelvolumen, Erholung. Ohne HA-Abhängigkeit.
 - `manager.py` – führt Effekte in HA aus (Store, Satellit, Timer, Events), Verlauf, Pläne.
 - `services.py`, `websocket.py` – Aktionen bzw. Befehle für die Karte. `button/calendar/number/select/sensor.py` – Entitäten.
-- `frontend/training-assistant-card.js` – Karte ohne Build-Schritt. Wird per `add_extra_js_url` geladen,
-  in der URL steckt eine Prüfsumme gegen den Browser-Cache.
+- `frontend/training-assistant-card.js` – Karte, **gebaut, nicht von Hand ändern** (siehe „Gemeinsame Oberfläche“).
+  Wird per `add_extra_js_url` geladen, in der URL steckt eine Prüfsumme gegen den Browser-Cache.
+
+## Gemeinsame Oberfläche (mit Hero Upgrade)
+
+- Die Karte ist dieselbe Oberfläche wie die Web-App Hero Upgrade. Quelle im privaten HU-Repo
+  (`../HeroUpgrade`): `src/ui/app.js` (+ `editor.js`, `texts.js`, `icons.js`, `preview.js`), Einstieg `src/card/card.js`.
+  Bauen dort mit `npm run build:card` → schreibt `frontend/training-assistant-card.js` hier (Version aus `manifest.json`,
+  also erst Version erhöhen, dann bauen). Oberflächen-Änderungen immer dort machen, dann bauen und hier committen.
+- Die Oberfläche hängt an einem Anschluss mit Fähigkeiten (`caps` in `card.js`): Satellit/Rückfragen, Text-Import mit
+  Anleitung, Personen ↔ HA-Benutzer, Editor; ohne Konfetti und ohne den HU-Reiter „Sonstiges“.
+- Editor-Backend: ws `exercise_library`, `save_plan` (Prüfung wie beim Import, Fehler `invalid_plan` mit allen Meldungen),
+  `plan_source` (Daten + Text). Pläne tragen `template` (aus einer Vorlage → im Editor nur als Kopie) und `category`
+  (Gruppen der Vorlagen + `other`). `tests/test_card_i18n.py` liest die Texte aus der gebauten Datei.
 
 ## Importformat
 

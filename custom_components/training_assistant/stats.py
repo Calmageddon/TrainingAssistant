@@ -34,6 +34,13 @@ FRESH_H = 24
 RECOVERING_H = 48
 TRAIN_SOON_H = 5 * 24
 OVERDUE_H = 8 * 24
+# Farbstufen der Erholung (wie Hero Upgrade stats.ts): Stunden seit dem letzten Training der Muskelgruppe.
+# Stufe 0 (< 16 h, rot) … Stufe 5 (≥ 48 h, grün). Die Karte färbt nach `tier` (Klasse rt-0 … rt-5).
+RECOVERY_TIER_HOURS = (16, 24, 32, 40, 48)
+
+
+def recovery_tier(hours: float) -> int:
+    return next((i for i, h in enumerate(RECOVERY_TIER_HOURS) if hours < h), len(RECOVERY_TIER_HOURS))
 
 
 def counts(rec: dict) -> bool:
@@ -264,10 +271,10 @@ def recovery(
         if g not in relevant and g not in last:
             continue
         if g not in last:
-            out.append({"group": g, "status": "none", "hours": None})
+            out.append({"group": g, "status": "none", "hours": None, "tier": None})
             continue
         hours = (now - last[g]).total_seconds() / 3600
         status = ("fresh" if hours < FRESH_H else "recovering" if hours < RECOVERING_H else "ready" if hours < TRAIN_SOON_H
                   else "soon" if hours < OVERDUE_H else "overdue")
-        out.append({"group": g, "status": status, "hours": round(hours)})
+        out.append({"group": g, "status": status, "hours": round(hours), "tier": recovery_tier(hours)})
     return out

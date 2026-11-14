@@ -24,6 +24,8 @@ def async_setup_websocket(hass: HomeAssistant) -> None:
         ws_preview,
         ws_import_plan,
         ws_plan_source,
+        ws_exercise_library,
+        ws_save_plan,
         ws_delete_plan,
         ws_edit_set,
         ws_delete_session,
@@ -110,7 +112,37 @@ def ws_import_plan(hass: HomeAssistant, connection: websocket_api.ActiveConnecti
 def ws_plan_source(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
     ok, result = _guard(connection, msg["id"], lambda: _manager(hass).plan_source(msg["plan_id"]))
     if ok:
-        connection.send_result(msg["id"], {"text": result})
+        connection.send_result(msg["id"], result)
+
+
+@websocket_api.websocket_command({vol.Required("type"): WS + "exercise_library"})
+@websocket_api.async_response
+async def ws_exercise_library(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
+    """Übungsauswahl im Editor: alle bekannten Übungen und die Kategorien für eigene Pläne."""
+    try:
+        result = await _manager(hass).async_exercise_library()
+    except (HomeAssistantError, KeyError, ValueError) as err:
+        connection.send_error(msg["id"], "failed", str(err))
+        return
+    connection.send_result(msg["id"], result)
+
+
+@websocket_api.websocket_command(
+    {
+        vol.Required("type"): WS + "save_plan",
+        vol.Required("plan"): dict,
+        vol.Optional("plan_id"): vol.Any(None, str),
+        vol.Optional("category"): vol.Any(None, str),
+        vol.Optional("lang"): str,
+    }
+)
+@callback
+def ws_save_plan(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
+    """Plan aus dem Editor speichern (neu oder geändert); ungültig → Fehler „invalid_plan“ mit allen Meldungen."""
+    ok, result = _guard(connection, msg["id"], lambda: _manager(hass).save_plan(
+        msg["plan"], msg.get("plan_id"), msg.get("category"), msg.get("lang")))
+    if ok:
+        connection.send_result(msg["id"], result)
 
 
 @websocket_api.websocket_command({vol.Required("type"): WS + "delete_plan", vol.Required("plan_id"): str})

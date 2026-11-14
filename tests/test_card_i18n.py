@@ -8,9 +8,12 @@ CARD = (ROOT / "frontend" / "training-assistant-card.js").read_text(encoding="ut
 
 
 def _keys(lang: str) -> set[str]:
-    block = re.search(rf"\n  {lang}: \{{\n(.*?)\n  \}},", CARD, re.S).group(1)
-    # Schlüssel = Bezeichner direkt vor „: "“ (Texte selbst enthalten „Wort: {…}“, das zählt nicht)
-    return set(re.findall(r'(?:^|[\s,])"?([a-z][a-z0-9_.]*)"?:\s*"', block))
+    # Die Karte wird aus der gemeinsamen Oberfläche gebaut (Hero Upgrade): Texte stehen in mehreren Tabellen
+    # (I18N in app.js, EXTRA_I18N in texts.js) – alle Blöcke der Sprache zusammennehmen, Einrückung egal.
+    blocks = re.findall(rf"\n([ \t]+){lang}: \{{\n(.*?)\n\1\}},?\n", CARD, re.S)
+    assert blocks, lang
+    # Gebaute Datei: ein Schlüssel pro Zeile (Texte selbst enthalten „Wort: „…““, das zählt nicht)
+    return {k for _, b in blocks for k in re.findall(r'^[ \t]*"?([a-z][a-z0-9_.]*)"?:\s*"', b, re.M)}
 
 
 def test_same_keys_in_both_languages():

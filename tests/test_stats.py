@@ -139,3 +139,10 @@ def test_duration_without_pauses():
     sess = {"started_at": "2026-11-06T18:00:00+00:00", "finished_at": "2026-11-06T19:00:00+00:00"}
     assert duration_min(sess) == 60
     assert duration_min({**sess, "paused_s": 900}) == 45  # 15 Minuten Pause zählen nicht
+
+
+def test_recovery_tiers_match_hero_upgrade():
+    from custom_components.training_assistant.stats import RECOVERY_TIER_HOURS, recovery_tier
+    assert RECOVERY_TIER_HOURS == (16, 24, 32, 40, 48)
+    cases = [(0, 0), (15.9, 0), (16, 1), (23.9, 1), (24, 2), (32, 3), (39.9, 3), (40, 4), (47.9, 4), (48, 5), (500, 5)]
+    assert [recovery_tier(h) for h, _ in cases] == [t for _, t in cases]

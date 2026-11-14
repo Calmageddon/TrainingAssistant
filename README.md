@@ -69,8 +69,9 @@ Nothing is loaded from the internet when the card is displayed.
 equipment, calisthenics from beginner to advanced, kettlebell, HIIT & Tabata, endurance, yoga & mobility). Add them in the card under
 *Settings → Templates*; overview and sources: [docs/templates.md](docs/templates.md).
 
-Your own plans are pasted as YAML/JSON into the card (*Settings → Own plan*). The card offers a
-guide and an example plan for download. Format, examples and a ready-made prompt for
+Your own plans are built in the card's editor (*Settings → Editor*): workouts, blocks and exercises with pictures,
+reps, weight or time – templates can be edited as a copy. Alternatively paste a plan as YAML/JSON
+(*Settings → Own plan*); the card offers a guide and an example plan for download. Format, examples and a ready-made prompt for
 ChatGPT/Claude: [docs/plan-format.md](docs/plan-format.md).
 
 ## Usage
