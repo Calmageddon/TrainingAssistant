@@ -104,11 +104,16 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
   (`../HeroUpgrade`): `src/ui/app.js` (+ `editor.js`, `texts.js`, `icons.js`, `preview.js`), Einstieg `src/card/card.js`.
   Bauen dort mit `npm run build:card` → schreibt `frontend/training-assistant-card.js` hier (Version aus `manifest.json`,
   also erst Version erhöhen, dann bauen). Oberflächen-Änderungen immer dort machen, dann bauen und hier committen.
-- Die Oberfläche hängt an einem Anschluss mit Fähigkeiten (`caps` in `card.js`): Satellit/Rückfragen, Text-Import mit
-  Anleitung, Personen ↔ HA-Benutzer, Editor; ohne Konfetti und ohne den HU-Reiter „Sonstiges“.
+- Die Oberfläche hängt an einem Anschluss mit Fähigkeiten (`caps` in `card.js`): Satellit/Rückfragen, Personen ↔
+  HA-Benutzer, Geräte pro Person, Editor; ohne Konfetti und ohne den HU-Reiter „Sonstiges“. Eigene Pläne nur im Editor –
+  der Text-Import ist aus der Karte entfernt (Aktion `import_plan` und `guide/` bleiben für Automationen/LLM-Pläne).
 - Editor-Backend: ws `exercise_library`, `save_plan` (Prüfung wie beim Import, Fehler `invalid_plan` mit allen Meldungen),
   `plan_source` (Daten + Text). Pläne tragen `template` (aus einer Vorlage → im Editor nur als Kopie) und `category`
   (Gruppen der Vorlagen + `other`). `tests/test_card_i18n.py` liest die Texte aus der gebauten Datei.
+- **Sicherung = gemeinsames Format mit Hero Upgrade** (`backup.py`, „training-log“, ohne HA): Zentrale `export_backup`,
+  `inspect_backup`, `async_import_backup` (nur ergänzen – Ersetzen erledigen HA-Backups); ws gleichnamig, nur Admins.
+  Liest auch alte HU-Sicherungen. `tests/test_backup.py` prüft mit `tests/fixtures/hu_backup_sample.json` (aus HU,
+  `npm run cases`). Karte: Reiter „Sicherung“ (caps `backup`).
 - **Gemeinsame Testfälle** `tests/fixtures/shared_cases.json` (erzeugt in HU mit `npm run cases`, nicht von Hand ändern):
   Progression, Zeit-Progression, Rekorde, e1RM, Erholungsstufen, Muskelgruppen, slugify und `build_steps` aller Vorlagen.
   `tests/test_shared_cases.py` rechnet sie in Python nach – schlägt er fehl, rechnen die Apps unterschiedlich.

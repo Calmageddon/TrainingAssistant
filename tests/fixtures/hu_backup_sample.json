@@ -1,0 +1,2944 @@
+{
+ "portable": {
+  "format": "training-log",
+  "version": 1,
+  "app": "hero-upgrade",
+  "app_version": "test",
+  "exported_at": "2026-11-04T08:04:30.000Z",
+  "plans": [
+   {
+    "id": "full_body_strength_no_equipment",
+    "name": "Full-Body Strength, No Equipment",
+    "template": "bodyweight-2-ganzkoerper-kraft",
+    "category": null,
+    "data": {
+     "schema_version": 1,
+     "name": "Full-Body Strength, No Equipment",
+     "description": "Two alternating strength workouts, 3×/week, only a chair and sofa. Reps increase from session to session; at the upper limit switch to the harder variation (hint on the exercise).",
+     "goal": "hypertrophy",
+     "defaults": {
+      "rest_s": 75,
+      "progression": {
+       "type": "reps"
+      }
+     },
+     "exercises": {
+      "squat": {
+       "name": "Bodyweight Squat",
+       "aliases": [
+        "Kniebeugen"
+       ],
+       "equipment": "bodyweight",
+       "image": "Bodyweight_Squat",
+       "note": "Harder – lower slowly (3 s), pause at the bottom, then split squat."
+      },
+      "push_up": {
+       "name": "Push-Ups",
+       "aliases": [
+        "Liegestütze"
+       ],
+       "equipment": "bodyweight",
+       "image": "Pushups",
+       "note": "Levels – elevated → floor → feet elevated → archer."
+      },
+      "reverse_lunge": {
+       "name": "Reverse Lunge",
+       "aliases": [
+        "Ausfallschritt rückwärts"
+       ],
+       "equipment": "bodyweight",
+       "image": "Crossover_Reverse_Lunge",
+       "unilateral": true
+      },
+      "pike_push_up": {
+       "name": "Pike Push-up",
+       "aliases": [
+        "Pike-Liegestütze"
+       ],
+       "equipment": "bodyweight",
+       "image": "Handstand_Push-Ups",
+       "note": "Hips high, head towards the floor – trains the shoulders."
+      },
+      "single_leg_glute_bridge": {
+       "name": "Single-Leg Glute Bridge",
+       "aliases": [
+        "Hüftheben einbeinig"
+       ],
+       "equipment": "bodyweight",
+       "unilateral": true
+      },
+      "superman": {
+       "name": "Superman",
+       "aliases": [
+        "Rückenstrecker liegend"
+       ],
+       "equipment": "bodyweight"
+      },
+      "plank": {
+       "name": "Plank",
+       "aliases": [
+        "Unterarmstütz"
+       ],
+       "equipment": "bodyweight"
+      },
+      "bulgarian_split_squat": {
+       "name": "Bulgarian Split Squat on Sofa",
+       "aliases": [
+        "Bulgarische Kniebeuge am Sofa",
+        "Bulgarian Split Squat"
+       ],
+       "equipment": "bodyweight",
+       "image": "Split_Squat_with_Dumbbells",
+       "unilateral": true
+      },
+      "decline_push_up": {
+       "name": "Decline Push-up (Feet on Chair)",
+       "aliases": [
+        "Liegestütze Füße auf Stuhl",
+        "Decline Push-up"
+       ],
+       "equipment": "bodyweight",
+       "image": "Push-Ups_With_Feet_Elevated"
+      },
+      "step_up": {
+       "name": "Step-up onto Chair",
+       "aliases": [
+        "Aufsteigen auf Stuhl"
+       ],
+       "equipment": "bodyweight",
+       "image": "Dumbbell_Step_Ups",
+       "unilateral": true
+      },
+      "chair_dip": {
+       "name": "Triceps Dips on Chair",
+       "aliases": [
+        "Trizeps-Dips am Stuhl",
+        "Bench Dips"
+       ],
+       "equipment": "bodyweight",
+       "image": "Bench_Dips"
+      },
+      "hip_thrust": {
+       "name": "Hip Thrust on Sofa",
+       "aliases": [
+        "Hip Thrust am Sofa",
+        "Bodyweight Hip Thrust"
+       ],
+       "equipment": "bodyweight",
+       "image": "Barbell_Hip_Thrust"
+      },
+      "dead_bug": {
+       "name": "Dead Bug",
+       "equipment": "bodyweight",
+       "unilateral": true
+      },
+      "side_plank": {
+       "name": "Side Plank",
+       "aliases": [
+        "Seitstütz"
+       ],
+       "equipment": "bodyweight",
+       "image": "Side_Bridge",
+       "unilateral": true
+      }
+     },
+     "workouts": [
+      {
+       "id": "a",
+       "name": "Full Body A",
+       "blocks": [
+        {
+         "type": "warmup"
+        },
+        {
+         "type": "circuit",
+         "name": "Strength Circuit A",
+         "rounds": 3,
+         "rest_after_exercise_s": 30,
+         "rest_after_round_s": 90,
+         "exercises": [
+          {
+           "exercise": "squat",
+           "reps": {
+            "min": 15,
+            "max": 30
+           }
+          },
+          {
+           "exercise": "push_up",
+           "reps": {
+            "min": 8,
+            "max": 20
+           }
+          },
+          {
+           "exercise": "reverse_lunge",
+           "reps": {
+            "min": 8,
+            "max": 15
+           },
+           "per_side": true
+          },
+          {
+           "exercise": "pike_push_up",
+           "reps": {
+            "min": 6,
+            "max": 12
+           }
+          },
+          {
+           "exercise": "single_leg_glute_bridge",
+           "reps": {
+            "min": 10,
+            "max": 20
+           },
+           "per_side": true
+          },
+          {
+           "exercise": "superman",
+           "reps": {
+            "min": 10,
+            "max": 15
+           }
+          },
+          {
+           "exercise": "plank",
+           "duration_s": {
+            "min": 30,
+            "max": 60
+           }
+          }
+         ]
+        },
+        {
+         "type": "cooldown"
+        }
+       ]
+      },
+      {
+       "id": "b",
+       "name": "Full Body B",
+       "blocks": [
+        {
+         "type": "warmup"
+        },
+        {
+         "type": "circuit",
+         "name": "Strength Circuit B",
+         "rounds": 3,
+         "rest_after_exercise_s": 30,
+         "rest_after_round_s": 90,
+         "exercises": [
+          {
+           "exercise": "bulgarian_split_squat",
+           "reps": {
+            "min": 8,
+            "max": 15
+           },
+           "per_side": true
+          },
+          {
+           "exercise": "decline_push_up",
+           "reps": {
+            "min": 6,
+            "max": 15
+           }
+          },
+          {
+           "exercise": "step_up",
+           "reps": {
+            "min": 10,
+            "max": 15
+           },
+           "per_side": true
+          },
+          {
+           "exercise": "chair_dip",
+           "reps": {
+            "min": 8,
+            "max": 15
+           }
+          },
+          {
+           "exercise": "hip_thrust",
+           "reps": {
+            "min": 12,
+            "max": 25
+           }
+          },
+          {
+           "exercise": "dead_bug",
+           "reps": {
+            "min": 8,
+            "max": 12
+           },
+           "per_side": true
+          },
+          {
+           "exercise": "side_plank",
+           "duration_s": {
+            "min": 20,
+            "max": 45
+           },
+           "per_side": true
+          }
+         ]
+        },
+        {
+         "type": "cooldown"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  ],
+  "people": [
+   {
+    "id": "p1",
+    "name": "Dom",
+    "figure": null,
+    "weekly_goal": 3,
+    "goal_history": null,
+    "program": "full_body_strength_no_equipment",
+    "rotation": {
+     "full_body_strength_no_equipment": "a"
+    },
+    "sessions": [
+     {
+      "id": "0b4e1b65c047",
+      "plan_id": "full_body_strength_no_equipment",
+      "plan_name": "Full-Body Strength, No Equipment",
+      "workout_id": "a",
+      "workout_name": "Full Body A",
+      "started_at": "2026-11-02T08:00:00.000Z",
+      "finished_at": "2026-11-02T08:01:30.000Z",
+      "status": "finished",
+      "sets": [
+       {
+        "id": 1,
+        "step": 1,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "squat",
+        "exercise_name": "Bodyweight Squat",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         15,
+         30
+        ],
+        "target_reps": 15,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 15,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 2,
+        "step": 2,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "push_up",
+        "exercise_name": "Push-Ups",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         8,
+         20
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 3,
+        "step": 3,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "reverse_lunge",
+        "exercise_name": "Reverse Lunge",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         8,
+         15
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 4,
+        "step": 4,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "pike_push_up",
+        "exercise_name": "Pike Push-up",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         6,
+         12
+        ],
+        "target_reps": 6,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 6,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 5,
+        "step": 5,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "single_leg_glute_bridge",
+        "exercise_name": "Single-Leg Glute Bridge",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         10,
+         20
+        ],
+        "target_reps": 10,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 10,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 6,
+        "step": 6,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "superman",
+        "exercise_name": "Superman",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         10,
+         15
+        ],
+        "target_reps": 10,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 10,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 7,
+        "step": 7,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "plank",
+        "exercise_name": "Plank",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": null,
+        "target_reps": null,
+        "target_weight": null,
+        "target_duration": 30,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": null,
+        "weight_kg": null,
+        "duration_s": 30,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 8,
+        "step": 8,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "squat",
+        "exercise_name": "Bodyweight Squat",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         15,
+         30
+        ],
+        "target_reps": 15,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 15,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 9,
+        "step": 9,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "push_up",
+        "exercise_name": "Push-Ups",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         8,
+         20
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 10,
+        "step": 10,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "reverse_lunge",
+        "exercise_name": "Reverse Lunge",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         8,
+         15
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 11,
+        "step": 11,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "pike_push_up",
+        "exercise_name": "Pike Push-up",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         6,
+         12
+        ],
+        "target_reps": 6,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 6,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 12,
+        "step": 12,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "single_leg_glute_bridge",
+        "exercise_name": "Single-Leg Glute Bridge",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         10,
+         20
+        ],
+        "target_reps": 10,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 10,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 13,
+        "step": 13,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "superman",
+        "exercise_name": "Superman",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         10,
+         15
+        ],
+        "target_reps": 10,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 10,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:00:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 14,
+        "step": 14,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "plank",
+        "exercise_name": "Plank",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": null,
+        "target_reps": null,
+        "target_weight": null,
+        "target_duration": 30,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": null,
+        "weight_kg": null,
+        "duration_s": 30,
+        "status": "planned",
+        "ts": "2026-11-02T08:01:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 15,
+        "step": 15,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "squat",
+        "exercise_name": "Bodyweight Squat",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         15,
+         30
+        ],
+        "target_reps": 15,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 15,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:01:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 16,
+        "step": 16,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "push_up",
+        "exercise_name": "Push-Ups",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         8,
+         20
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:01:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 17,
+        "step": 17,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "reverse_lunge",
+        "exercise_name": "Reverse Lunge",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         8,
+         15
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:01:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 18,
+        "step": 18,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "pike_push_up",
+        "exercise_name": "Pike Push-up",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         6,
+         12
+        ],
+        "target_reps": 6,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 6,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:01:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 19,
+        "step": 19,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "single_leg_glute_bridge",
+        "exercise_name": "Single-Leg Glute Bridge",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         10,
+         20
+        ],
+        "target_reps": 10,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 10,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:01:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 20,
+        "step": 20,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "superman",
+        "exercise_name": "Superman",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         10,
+         15
+        ],
+        "target_reps": 10,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 10,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-02T08:01:00.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 21,
+        "step": 21,
+        "block": 1,
+        "block_name": "Strength Circuit A",
+        "exercise": "plank",
+        "exercise_name": "Plank",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": null,
+        "target_reps": null,
+        "target_weight": null,
+        "target_duration": 30,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": null,
+        "weight_kg": null,
+        "duration_s": 30,
+        "status": "planned",
+        "ts": "2026-11-02T08:01:30.000Z",
+        "record_checked": true
+       }
+      ],
+      "paused_s": 0
+     },
+     {
+      "id": "22b436ede945",
+      "plan_id": "full_body_strength_no_equipment",
+      "plan_name": "Full-Body Strength, No Equipment",
+      "workout_id": "b",
+      "workout_name": "Full Body B",
+      "started_at": "2026-11-03T08:01:30.000Z",
+      "finished_at": "2026-11-03T08:04:30.000Z",
+      "status": "finished",
+      "sets": [
+       {
+        "id": 1,
+        "step": 1,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "bulgarian_split_squat",
+        "exercise_name": "Bulgarian Split Squat on Sofa",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         8,
+         15
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:01:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 2,
+        "step": 2,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "decline_push_up",
+        "exercise_name": "Decline Push-up (Feet on Chair)",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         6,
+         15
+        ],
+        "target_reps": 6,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 6,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:01:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 3,
+        "step": 3,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "step_up",
+        "exercise_name": "Step-up onto Chair",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         10,
+         15
+        ],
+        "target_reps": 10,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 10,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:01:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 4,
+        "step": 4,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "chair_dip",
+        "exercise_name": "Triceps Dips on Chair",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         8,
+         15
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:01:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 5,
+        "step": 5,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "hip_thrust",
+        "exercise_name": "Hip Thrust on Sofa",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         12,
+         25
+        ],
+        "target_reps": 12,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 12,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:01:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 6,
+        "step": 6,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "dead_bug",
+        "exercise_name": "Dead Bug",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": [
+         8,
+         12
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:01:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 7,
+        "step": 7,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "side_plank",
+        "exercise_name": "Side Plank",
+        "round": 1,
+        "set_no": 1,
+        "sets": 3,
+        "rep_range": null,
+        "target_reps": null,
+        "target_weight": null,
+        "target_duration": 20,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": null,
+        "weight_kg": null,
+        "duration_s": 20,
+        "status": "planned",
+        "ts": "2026-11-03T08:02:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 8,
+        "step": 8,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "bulgarian_split_squat",
+        "exercise_name": "Bulgarian Split Squat on Sofa",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         8,
+         15
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:02:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 9,
+        "step": 9,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "decline_push_up",
+        "exercise_name": "Decline Push-up (Feet on Chair)",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         6,
+         15
+        ],
+        "target_reps": 6,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 6,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:02:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 10,
+        "step": 10,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "step_up",
+        "exercise_name": "Step-up onto Chair",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         10,
+         15
+        ],
+        "target_reps": 10,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 10,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:02:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 11,
+        "step": 11,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "chair_dip",
+        "exercise_name": "Triceps Dips on Chair",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         8,
+         15
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:02:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 12,
+        "step": 12,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "hip_thrust",
+        "exercise_name": "Hip Thrust on Sofa",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         12,
+         25
+        ],
+        "target_reps": 12,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 12,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:02:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 13,
+        "step": 13,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "dead_bug",
+        "exercise_name": "Dead Bug",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": [
+         8,
+         12
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:02:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 14,
+        "step": 14,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "side_plank",
+        "exercise_name": "Side Plank",
+        "round": 2,
+        "set_no": 2,
+        "sets": 3,
+        "rep_range": null,
+        "target_reps": null,
+        "target_weight": null,
+        "target_duration": 20,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": null,
+        "weight_kg": null,
+        "duration_s": 20,
+        "status": "planned",
+        "ts": "2026-11-03T08:03:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 15,
+        "step": 15,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "bulgarian_split_squat",
+        "exercise_name": "Bulgarian Split Squat on Sofa",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         8,
+         15
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:03:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 16,
+        "step": 16,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "decline_push_up",
+        "exercise_name": "Decline Push-up (Feet on Chair)",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         6,
+         15
+        ],
+        "target_reps": 6,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 6,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:03:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 17,
+        "step": 17,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "step_up",
+        "exercise_name": "Step-up onto Chair",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         10,
+         15
+        ],
+        "target_reps": 10,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 10,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:03:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 18,
+        "step": 18,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "chair_dip",
+        "exercise_name": "Triceps Dips on Chair",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         8,
+         15
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:03:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 19,
+        "step": 19,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "hip_thrust",
+        "exercise_name": "Hip Thrust on Sofa",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         12,
+         25
+        ],
+        "target_reps": 12,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": false,
+        "reps": 12,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:03:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 20,
+        "step": 20,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "dead_bug",
+        "exercise_name": "Dead Bug",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": [
+         8,
+         12
+        ],
+        "target_reps": 8,
+        "target_weight": null,
+        "target_duration": null,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": 8,
+        "weight_kg": null,
+        "duration_s": null,
+        "status": "planned",
+        "ts": "2026-11-03T08:03:30.000Z",
+        "record_checked": true
+       },
+       {
+        "id": 21,
+        "step": 21,
+        "block": 1,
+        "block_name": "Strength Circuit B",
+        "exercise": "side_plank",
+        "exercise_name": "Side Plank",
+        "round": 3,
+        "set_no": 3,
+        "sets": 3,
+        "rep_range": null,
+        "target_reps": null,
+        "target_weight": null,
+        "target_duration": 20,
+        "amrap": false,
+        "hold_max": false,
+        "per_side": true,
+        "reps": null,
+        "weight_kg": null,
+        "duration_s": 20,
+        "status": "planned",
+        "ts": "2026-11-03T08:04:30.000Z",
+        "record_checked": true
+       }
+      ],
+      "paused_s": 0
+     }
+    ]
+   }
+  ]
+ },
+ "legacy": {
+  "app": "hero-upgrade",
+  "version": 1,
+  "exported_at": "2026-11-04T08:04:30.000Z",
+  "data": {
+   "plans": {
+    "full_body_strength_no_equipment": {
+     "id": "full_body_strength_no_equipment",
+     "name": "Full-Body Strength, No Equipment",
+     "template": "bodyweight-2-ganzkoerper-kraft",
+     "data": {
+      "schema_version": 1,
+      "name": "Full-Body Strength, No Equipment",
+      "description": "Two alternating strength workouts, 3×/week, only a chair and sofa. Reps increase from session to session; at the upper limit switch to the harder variation (hint on the exercise).",
+      "goal": "hypertrophy",
+      "defaults": {
+       "rest_s": 75,
+       "progression": {
+        "type": "reps"
+       }
+      },
+      "exercises": {
+       "squat": {
+        "name": "Bodyweight Squat",
+        "aliases": [
+         "Kniebeugen"
+        ],
+        "equipment": "bodyweight",
+        "image": "Bodyweight_Squat",
+        "note": "Harder – lower slowly (3 s), pause at the bottom, then split squat."
+       },
+       "push_up": {
+        "name": "Push-Ups",
+        "aliases": [
+         "Liegestütze"
+        ],
+        "equipment": "bodyweight",
+        "image": "Pushups",
+        "note": "Levels – elevated → floor → feet elevated → archer."
+       },
+       "reverse_lunge": {
+        "name": "Reverse Lunge",
+        "aliases": [
+         "Ausfallschritt rückwärts"
+        ],
+        "equipment": "bodyweight",
+        "image": "Crossover_Reverse_Lunge",
+        "unilateral": true
+       },
+       "pike_push_up": {
+        "name": "Pike Push-up",
+        "aliases": [
+         "Pike-Liegestütze"
+        ],
+        "equipment": "bodyweight",
+        "image": "Handstand_Push-Ups",
+        "note": "Hips high, head towards the floor – trains the shoulders."
+       },
+       "single_leg_glute_bridge": {
+        "name": "Single-Leg Glute Bridge",
+        "aliases": [
+         "Hüftheben einbeinig"
+        ],
+        "equipment": "bodyweight",
+        "unilateral": true
+       },
+       "superman": {
+        "name": "Superman",
+        "aliases": [
+         "Rückenstrecker liegend"
+        ],
+        "equipment": "bodyweight"
+       },
+       "plank": {
+        "name": "Plank",
+        "aliases": [
+         "Unterarmstütz"
+        ],
+        "equipment": "bodyweight"
+       },
+       "bulgarian_split_squat": {
+        "name": "Bulgarian Split Squat on Sofa",
+        "aliases": [
+         "Bulgarische Kniebeuge am Sofa",
+         "Bulgarian Split Squat"
+        ],
+        "equipment": "bodyweight",
+        "image": "Split_Squat_with_Dumbbells",
+        "unilateral": true
+       },
+       "decline_push_up": {
+        "name": "Decline Push-up (Feet on Chair)",
+        "aliases": [
+         "Liegestütze Füße auf Stuhl",
+         "Decline Push-up"
+        ],
+        "equipment": "bodyweight",
+        "image": "Push-Ups_With_Feet_Elevated"
+       },
+       "step_up": {
+        "name": "Step-up onto Chair",
+        "aliases": [
+         "Aufsteigen auf Stuhl"
+        ],
+        "equipment": "bodyweight",
+        "image": "Dumbbell_Step_Ups",
+        "unilateral": true
+       },
+       "chair_dip": {
+        "name": "Triceps Dips on Chair",
+        "aliases": [
+         "Trizeps-Dips am Stuhl",
+         "Bench Dips"
+        ],
+        "equipment": "bodyweight",
+        "image": "Bench_Dips"
+       },
+       "hip_thrust": {
+        "name": "Hip Thrust on Sofa",
+        "aliases": [
+         "Hip Thrust am Sofa",
+         "Bodyweight Hip Thrust"
+        ],
+        "equipment": "bodyweight",
+        "image": "Barbell_Hip_Thrust"
+       },
+       "dead_bug": {
+        "name": "Dead Bug",
+        "equipment": "bodyweight",
+        "unilateral": true
+       },
+       "side_plank": {
+        "name": "Side Plank",
+        "aliases": [
+         "Seitstütz"
+        ],
+        "equipment": "bodyweight",
+        "image": "Side_Bridge",
+        "unilateral": true
+       }
+      },
+      "workouts": [
+       {
+        "id": "a",
+        "name": "Full Body A",
+        "blocks": [
+         {
+          "type": "warmup"
+         },
+         {
+          "type": "circuit",
+          "name": "Strength Circuit A",
+          "rounds": 3,
+          "rest_after_exercise_s": 30,
+          "rest_after_round_s": 90,
+          "exercises": [
+           {
+            "exercise": "squat",
+            "reps": {
+             "min": 15,
+             "max": 30
+            }
+           },
+           {
+            "exercise": "push_up",
+            "reps": {
+             "min": 8,
+             "max": 20
+            }
+           },
+           {
+            "exercise": "reverse_lunge",
+            "reps": {
+             "min": 8,
+             "max": 15
+            },
+            "per_side": true
+           },
+           {
+            "exercise": "pike_push_up",
+            "reps": {
+             "min": 6,
+             "max": 12
+            }
+           },
+           {
+            "exercise": "single_leg_glute_bridge",
+            "reps": {
+             "min": 10,
+             "max": 20
+            },
+            "per_side": true
+           },
+           {
+            "exercise": "superman",
+            "reps": {
+             "min": 10,
+             "max": 15
+            }
+           },
+           {
+            "exercise": "plank",
+            "duration_s": {
+             "min": 30,
+             "max": 60
+            }
+           }
+          ]
+         },
+         {
+          "type": "cooldown"
+         }
+        ]
+       },
+       {
+        "id": "b",
+        "name": "Full Body B",
+        "blocks": [
+         {
+          "type": "warmup"
+         },
+         {
+          "type": "circuit",
+          "name": "Strength Circuit B",
+          "rounds": 3,
+          "rest_after_exercise_s": 30,
+          "rest_after_round_s": 90,
+          "exercises": [
+           {
+            "exercise": "bulgarian_split_squat",
+            "reps": {
+             "min": 8,
+             "max": 15
+            },
+            "per_side": true
+           },
+           {
+            "exercise": "decline_push_up",
+            "reps": {
+             "min": 6,
+             "max": 15
+            }
+           },
+           {
+            "exercise": "step_up",
+            "reps": {
+             "min": 10,
+             "max": 15
+            },
+            "per_side": true
+           },
+           {
+            "exercise": "chair_dip",
+            "reps": {
+             "min": 8,
+             "max": 15
+            }
+           },
+           {
+            "exercise": "hip_thrust",
+            "reps": {
+             "min": 12,
+             "max": 25
+            }
+           },
+           {
+            "exercise": "dead_bug",
+            "reps": {
+             "min": 8,
+             "max": 12
+            },
+            "per_side": true
+           },
+           {
+            "exercise": "side_plank",
+            "duration_s": {
+             "min": 20,
+             "max": 45
+            },
+            "per_side": true
+           }
+          ]
+         },
+         {
+          "type": "cooldown"
+         }
+        ]
+       }
+      ]
+     },
+     "images": {
+      "squat": "Bodyweight_Squat",
+      "push_up": "Pushups",
+      "reverse_lunge": "Crossover_Reverse_Lunge",
+      "pike_push_up": "Handstand_Push-Ups",
+      "single_leg_glute_bridge": "Single_Leg_Glute_Bridge",
+      "superman": "Superman",
+      "plank": "Plank",
+      "bulgarian_split_squat": "Split_Squat_with_Dumbbells",
+      "decline_push_up": "Push-Ups_With_Feet_Elevated",
+      "step_up": "Dumbbell_Step_Ups",
+      "chair_dip": "Bench_Dips",
+      "hip_thrust": "Barbell_Hip_Thrust",
+      "dead_bug": "Dead_Bug",
+      "side_plank": "Side_Bridge"
+     },
+     "pictos": {
+      "squat": "Bodyweight_Squat",
+      "push_up": "Pushups",
+      "reverse_lunge": "Bodyweight_Reverse_Lunge",
+      "pike_push_up": "Pike_Push-Up",
+      "single_leg_glute_bridge": "Single_Leg_Glute_Bridge",
+      "superman": "Superman",
+      "plank": "Plank",
+      "bulgarian_split_squat": "Bulgarian_Split_Squat",
+      "decline_push_up": "Decline_Push-Up",
+      "step_up": "Step_Up",
+      "chair_dip": "Bench_Dips",
+      "hip_thrust": "Bodyweight_Hip_Thrust",
+      "dead_bug": "Dead_Bug",
+      "side_plank": "Side_Plank"
+     },
+     "imported_at": "2026-11-02T08:00:00.000Z"
+    }
+   },
+   "sessions": [
+    {
+     "id": "0b4e1b65c047",
+     "plan_id": "full_body_strength_no_equipment",
+     "plan_name": "Full-Body Strength, No Equipment",
+     "workout_id": "a",
+     "workout_name": "Full Body A",
+     "started_at": "2026-11-02T08:00:00.000Z",
+     "finished_at": "2026-11-02T08:01:30.000Z",
+     "status": "finished",
+     "sets": [
+      {
+       "id": 1,
+       "step": 1,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "squat",
+       "exercise_name": "Bodyweight Squat",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        15,
+        30
+       ],
+       "target_reps": 15,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 15,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 2,
+       "step": 2,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "push_up",
+       "exercise_name": "Push-Ups",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        8,
+        20
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 3,
+       "step": 3,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "reverse_lunge",
+       "exercise_name": "Reverse Lunge",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        8,
+        15
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 4,
+       "step": 4,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "pike_push_up",
+       "exercise_name": "Pike Push-up",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        6,
+        12
+       ],
+       "target_reps": 6,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 6,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 5,
+       "step": 5,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "single_leg_glute_bridge",
+       "exercise_name": "Single-Leg Glute Bridge",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        10,
+        20
+       ],
+       "target_reps": 10,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 10,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 6,
+       "step": 6,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "superman",
+       "exercise_name": "Superman",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        10,
+        15
+       ],
+       "target_reps": 10,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 10,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 7,
+       "step": 7,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "plank",
+       "exercise_name": "Plank",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": null,
+       "target_reps": null,
+       "target_weight": null,
+       "target_duration": 30,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": null,
+       "weight_kg": null,
+       "duration_s": 30,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 8,
+       "step": 8,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "squat",
+       "exercise_name": "Bodyweight Squat",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        15,
+        30
+       ],
+       "target_reps": 15,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 15,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 9,
+       "step": 9,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "push_up",
+       "exercise_name": "Push-Ups",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        8,
+        20
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 10,
+       "step": 10,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "reverse_lunge",
+       "exercise_name": "Reverse Lunge",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        8,
+        15
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 11,
+       "step": 11,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "pike_push_up",
+       "exercise_name": "Pike Push-up",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        6,
+        12
+       ],
+       "target_reps": 6,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 6,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 12,
+       "step": 12,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "single_leg_glute_bridge",
+       "exercise_name": "Single-Leg Glute Bridge",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        10,
+        20
+       ],
+       "target_reps": 10,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 10,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 13,
+       "step": 13,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "superman",
+       "exercise_name": "Superman",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        10,
+        15
+       ],
+       "target_reps": 10,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 10,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:00:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 14,
+       "step": 14,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "plank",
+       "exercise_name": "Plank",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": null,
+       "target_reps": null,
+       "target_weight": null,
+       "target_duration": 30,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": null,
+       "weight_kg": null,
+       "duration_s": 30,
+       "status": "planned",
+       "ts": "2026-11-02T08:01:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 15,
+       "step": 15,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "squat",
+       "exercise_name": "Bodyweight Squat",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        15,
+        30
+       ],
+       "target_reps": 15,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 15,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:01:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 16,
+       "step": 16,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "push_up",
+       "exercise_name": "Push-Ups",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        8,
+        20
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:01:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 17,
+       "step": 17,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "reverse_lunge",
+       "exercise_name": "Reverse Lunge",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        8,
+        15
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:01:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 18,
+       "step": 18,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "pike_push_up",
+       "exercise_name": "Pike Push-up",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        6,
+        12
+       ],
+       "target_reps": 6,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 6,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:01:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 19,
+       "step": 19,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "single_leg_glute_bridge",
+       "exercise_name": "Single-Leg Glute Bridge",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        10,
+        20
+       ],
+       "target_reps": 10,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 10,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:01:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 20,
+       "step": 20,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "superman",
+       "exercise_name": "Superman",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        10,
+        15
+       ],
+       "target_reps": 10,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 10,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-02T08:01:00.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 21,
+       "step": 21,
+       "block": 1,
+       "block_name": "Strength Circuit A",
+       "exercise": "plank",
+       "exercise_name": "Plank",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": null,
+       "target_reps": null,
+       "target_weight": null,
+       "target_duration": 30,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": null,
+       "weight_kg": null,
+       "duration_s": 30,
+       "status": "planned",
+       "ts": "2026-11-02T08:01:30.000Z",
+       "record_checked": true
+      }
+     ],
+     "paused_s": 0
+    },
+    {
+     "id": "22b436ede945",
+     "plan_id": "full_body_strength_no_equipment",
+     "plan_name": "Full-Body Strength, No Equipment",
+     "workout_id": "b",
+     "workout_name": "Full Body B",
+     "started_at": "2026-11-03T08:01:30.000Z",
+     "finished_at": "2026-11-03T08:04:30.000Z",
+     "status": "finished",
+     "sets": [
+      {
+       "id": 1,
+       "step": 1,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "bulgarian_split_squat",
+       "exercise_name": "Bulgarian Split Squat on Sofa",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        8,
+        15
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:01:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 2,
+       "step": 2,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "decline_push_up",
+       "exercise_name": "Decline Push-up (Feet on Chair)",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        6,
+        15
+       ],
+       "target_reps": 6,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 6,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:01:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 3,
+       "step": 3,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "step_up",
+       "exercise_name": "Step-up onto Chair",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        10,
+        15
+       ],
+       "target_reps": 10,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 10,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:01:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 4,
+       "step": 4,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "chair_dip",
+       "exercise_name": "Triceps Dips on Chair",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        8,
+        15
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:01:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 5,
+       "step": 5,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "hip_thrust",
+       "exercise_name": "Hip Thrust on Sofa",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        12,
+        25
+       ],
+       "target_reps": 12,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 12,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:01:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 6,
+       "step": 6,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "dead_bug",
+       "exercise_name": "Dead Bug",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": [
+        8,
+        12
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:01:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 7,
+       "step": 7,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "side_plank",
+       "exercise_name": "Side Plank",
+       "round": 1,
+       "set_no": 1,
+       "sets": 3,
+       "rep_range": null,
+       "target_reps": null,
+       "target_weight": null,
+       "target_duration": 20,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": null,
+       "weight_kg": null,
+       "duration_s": 20,
+       "status": "planned",
+       "ts": "2026-11-03T08:02:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 8,
+       "step": 8,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "bulgarian_split_squat",
+       "exercise_name": "Bulgarian Split Squat on Sofa",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        8,
+        15
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:02:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 9,
+       "step": 9,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "decline_push_up",
+       "exercise_name": "Decline Push-up (Feet on Chair)",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        6,
+        15
+       ],
+       "target_reps": 6,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 6,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:02:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 10,
+       "step": 10,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "step_up",
+       "exercise_name": "Step-up onto Chair",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        10,
+        15
+       ],
+       "target_reps": 10,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 10,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:02:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 11,
+       "step": 11,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "chair_dip",
+       "exercise_name": "Triceps Dips on Chair",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        8,
+        15
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:02:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 12,
+       "step": 12,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "hip_thrust",
+       "exercise_name": "Hip Thrust on Sofa",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        12,
+        25
+       ],
+       "target_reps": 12,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 12,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:02:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 13,
+       "step": 13,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "dead_bug",
+       "exercise_name": "Dead Bug",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": [
+        8,
+        12
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:02:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 14,
+       "step": 14,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "side_plank",
+       "exercise_name": "Side Plank",
+       "round": 2,
+       "set_no": 2,
+       "sets": 3,
+       "rep_range": null,
+       "target_reps": null,
+       "target_weight": null,
+       "target_duration": 20,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": null,
+       "weight_kg": null,
+       "duration_s": 20,
+       "status": "planned",
+       "ts": "2026-11-03T08:03:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 15,
+       "step": 15,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "bulgarian_split_squat",
+       "exercise_name": "Bulgarian Split Squat on Sofa",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        8,
+        15
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:03:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 16,
+       "step": 16,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "decline_push_up",
+       "exercise_name": "Decline Push-up (Feet on Chair)",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        6,
+        15
+       ],
+       "target_reps": 6,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 6,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:03:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 17,
+       "step": 17,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "step_up",
+       "exercise_name": "Step-up onto Chair",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        10,
+        15
+       ],
+       "target_reps": 10,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 10,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:03:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 18,
+       "step": 18,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "chair_dip",
+       "exercise_name": "Triceps Dips on Chair",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        8,
+        15
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:03:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 19,
+       "step": 19,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "hip_thrust",
+       "exercise_name": "Hip Thrust on Sofa",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        12,
+        25
+       ],
+       "target_reps": 12,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": false,
+       "reps": 12,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:03:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 20,
+       "step": 20,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "dead_bug",
+       "exercise_name": "Dead Bug",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": [
+        8,
+        12
+       ],
+       "target_reps": 8,
+       "target_weight": null,
+       "target_duration": null,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": 8,
+       "weight_kg": null,
+       "duration_s": null,
+       "status": "planned",
+       "ts": "2026-11-03T08:03:30.000Z",
+       "record_checked": true
+      },
+      {
+       "id": 21,
+       "step": 21,
+       "block": 1,
+       "block_name": "Strength Circuit B",
+       "exercise": "side_plank",
+       "exercise_name": "Side Plank",
+       "round": 3,
+       "set_no": 3,
+       "sets": 3,
+       "rep_range": null,
+       "target_reps": null,
+       "target_weight": null,
+       "target_duration": 20,
+       "amrap": false,
+       "hold_max": false,
+       "per_side": true,
+       "reps": null,
+       "weight_kg": null,
+       "duration_s": 20,
+       "status": "planned",
+       "ts": "2026-11-03T08:04:30.000Z",
+       "record_checked": true
+      }
+     ],
+     "paused_s": 0
+    }
+   ],
+   "active": null,
+   "rotation": {
+    "full_body_strength_no_equipment": "a"
+   },
+   "profiles": {
+    "p1": {
+     "id": "p1",
+     "name": "Dom",
+     "weekly_goal": 3
+    }
+   },
+   "profile": "p1",
+   "profile_data": {},
+   "program": "full_body_strength_no_equipment",
+   "next": {
+    "plan_id": "full_body_strength_no_equipment",
+    "workout_id": "a"
+   },
+   "last_session_id": "22b436ede945"
+  }
+ }
+}

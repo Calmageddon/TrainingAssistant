@@ -14,8 +14,8 @@ if something was different ("only eight"). A dashboard card shows live where you
 and you can correct sets there with a tap. From your history the integration calculates
 weight and reps for the next session.
 
-**Languages:** English and German – card, announcements, voice answers, error messages,
-guide and templates. The language follows your Home Assistant profile (fallback: English);
+**Languages:** English and German – card, announcements, voice answers, error messages and
+templates. The language follows your Home Assistant profile (fallback: English);
 the voice language can also be set in the integration options.
 
 ## What's included
@@ -71,9 +71,9 @@ equipment, calisthenics from beginner to advanced, kettlebell, HIIT & Tabata, en
 *Settings → Templates*; overview and sources: [docs/templates.md](docs/templates.md).
 
 Your own plans are built in the card's editor (*Settings → Editor*): workouts, blocks and exercises with pictures,
-reps, weight or time – templates can be edited as a copy. Alternatively paste a plan as YAML/JSON
-(*Settings → Own plan*); the card offers a guide and an example plan for download. Format, examples and a ready-made prompt for
-ChatGPT/Claude: [docs/plan-format.md](docs/plan-format.md).
+reps, weight or time – templates can be edited as a copy. For automations or plans written by ChatGPT/Claude there
+is still the action `training_assistant.import_plan` (YAML/JSON) – format, examples and a ready-made prompt:
+[docs/plan-format.md](docs/plan-format.md).
 
 ## Usage
 

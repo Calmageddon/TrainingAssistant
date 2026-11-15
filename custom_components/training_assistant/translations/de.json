@@ -528,6 +528,12 @@
     },
     "not_your_workout": {
       "message": "Das ist das Training einer anderen Person – zuschauen ja, bedienen nein"
+    },
+    "invalid_backup": {
+      "message": "Diese Datei ist keine Trainings-Sicherung"
+    },
+    "backup_too_new": {
+      "message": "Diese Sicherung stammt aus einer neueren App-Version – bitte erst aktualisieren"
     }
   }
 }

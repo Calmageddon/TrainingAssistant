@@ -62,6 +62,7 @@ from .const import (
     SIGNAL_UPDATE,
     STORAGE_KEY,
     STORAGE_VERSION,
+    VERSION,
 )
 from .engine import Effects, Engine, edit_set, new_session
 from .plan import (
@@ -75,6 +76,7 @@ from .plan import (
     slugify,
 )
 from .images import DEFAULT_FIGURE, FIGURES, Catalog, Pictos, map_pictos, map_plan
+from . import backup as bk
 from . import glow
 from .phrases import Speech, normalize_lang
 from .progression import suggest
@@ -350,6 +352,78 @@ class TrainingHub:
         self.root["persons"].pop(pid, None)
         async_dispatcher_send(self.hass, SIGNAL_PERSON_REMOVED, pid)
         self.changed()
+
+    # -- Sicherung (gemeinsames Format mit Hero Upgrade, backup.py) -------
+
+    def export_backup(self) -> dict[str, Any]:
+        """Pläne, Personen und abgeschlossene Trainings als Datei – auch in Hero Upgrade einlesbar."""
+        return bk.to_portable(self.root["plans"], self.root["profiles"], self.root["persons"],
+                              app="training-assistant", app_version=VERSION, now_iso=_now())
+
+    def inspect_backup(self, file: Any) -> dict[str, Any]:
+        """Inhalt der Datei und Vorschlag, in welche Person jede Person der Datei geht."""
+        try:
+            b = bk.normalize(file, _now())
+        except bk.BackupError as err:
+            raise error(err.key) from err
+        return bk.summarize(b, self.root["profiles"], self.root["plans"])
+
+    async def async_import_backup(self, file: Any, mapping: dict[str, str] | None = None) -> dict[str, Any]:
+        """Sicherung ergänzen: fehlende Pläne dazu, Trainings je Person (vorhandene erkannt).
+
+        mapping: Person der Datei → vorhandene Person-ID, "new" (neu anlegen) oder "skip"; ohne Angabe der Vorschlag.
+        """
+        try:
+            b = bk.normalize(file, _now())
+        except bk.BackupError as err:
+            raise error(err.key) from err
+        mapping = mapping or {}
+        result = {"plans_added": 0, "sessions_added": 0, "sessions_skipped": 0, "people_added": 0}
+        any_manager = next(iter(self.persons.values()))
+        templates = {t["id"]: t for t in await self.hass.async_add_executor_job(any_manager._read_templates)}
+        for plan in b["plans"]:
+            if plan["id"] in self.root["plans"]:
+                continue
+            tpl = templates.get(plan.get("template") or "")
+            try:
+                if tpl and slugify(tpl["name"]) == plan["id"]:
+                    any_manager.import_plan(tpl["text"], template=tpl["id"])
+                else:
+                    data = {**plan["data"], "schema_version": PLAN_SCHEMA_VERSION}
+                    text = yaml.safe_dump(data, allow_unicode=True, sort_keys=False, width=120)
+                    any_manager.import_plan(text, category=plan.get("category"), plan_id=plan["id"])
+            except (PlanError, HomeAssistantError) as err:
+                _LOGGER.warning("Plan %s aus der Sicherung übersprungen: %s", plan.get("name"), err)
+                continue
+            result["plans_added"] += 1
+        suggested = {p["id"]: p["suggestion"] for p in bk.summarize(b, self.root["profiles"], self.root["plans"])["people"]}
+        for person in b["people"]:
+            target = mapping.get(person["id"]) or suggested.get(person["id"]) or "new"
+            if target == "skip":
+                continue
+            created = False
+            if target == "new" or target not in self.root["profiles"]:
+                base = (person.get("name") or "?").strip() or "?"
+                name, n = base, 2
+                while any(p["name"].casefold() == name.casefold() for p in self.root["profiles"].values()):
+                    name, n = f"{base} {n}", n + 1
+                prof = await self.async_add_profile(name)
+                target = prof["id"]
+                for key in ("figure", "weekly_goal", "goal_history"):
+                    if person.get(key):
+                        self.root["profiles"][target][key] = copy.deepcopy(person[key])
+                created = True
+                result["people_added"] += 1
+            pdata = self.root["persons"][target]
+            pdata.setdefault("sessions", [])
+            added, skipped = bk.merge_sessions(pdata["sessions"], person["sessions"])
+            result["sessions_added"] += added
+            result["sessions_skipped"] += skipped
+            if created and person.get("program") in self.root["plans"]:
+                pdata["program"] = person["program"]
+                pdata["rotation"] = dict(person.get("rotation") or {})
+        self.changed()
+        return result
 
     async def async_ha_users(self) -> list[dict[str, str]]:
         """Echte Home-Assistant-Benutzer (ohne System-Benutzer) zum Verknüpfen."""

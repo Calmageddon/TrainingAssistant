@@ -528,6 +528,12 @@
     },
     "not_your_workout": {
       "message": "This is another person’s workout – you can watch it, but not control it"
+    },
+    "invalid_backup": {
+      "message": "This file is not a workout backup"
+    },
+    "backup_too_new": {
+      "message": "This backup is from a newer app version – please update first"
     }
   }
 }

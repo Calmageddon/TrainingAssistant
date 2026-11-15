@@ -9,7 +9,6 @@ from custom_components.training_assistant.plan import build_steps, parse_plan_te
 
 ROOT = Path(__file__).resolve().parent.parent
 GUIDE = ROOT / "custom_components" / "training_assistant" / "guide"
-CARD = ROOT / "custom_components" / "training_assistant" / "frontend" / "training-assistant-card.js"
 
 
 def _builder():
@@ -47,14 +46,3 @@ def test_guide_contains_prompt_and_example(name, prompt, mistakes):
     text = (GUIDE / name).read_text(encoding="utf-8")
     assert prompt in text
     assert "schema_version: 1" in text and mistakes in text
-
-
-def test_card_offers_existing_guide_files():
-    """Die Karte verlinkt je Sprache Anleitung und Beispiel – die Dateien müssen existieren."""
-    import re
-
-    card = CARD.read_text(encoding="utf-8")
-    files = set(re.findall(r'(?:guide_file|example_file): "([^"]+)"', card))
-    assert len(files) == 4
-    for f in files:
-        assert (GUIDE / f).exists(), f

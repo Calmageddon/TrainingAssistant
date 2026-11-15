@@ -1,4 +1,4 @@
-/* TrainingAssistant card 0.12.1 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
+/* TrainingAssistant card 0.13.0 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
 // src/ui/texts.js
 var EXTRA_I18N = {
 	en: {
@@ -15,7 +15,23 @@ var EXTRA_I18N = {
 		d_theme_hint: "Automatic follows the setting of your device.",
 		d_sound_hint: "Countdown beeps in the last 3 seconds of a rest or interval, a start tone when it's time to go. Turn up the volume; on iPhone the silent switch must be off.",
 		d_backup: "Backup",
-		d_backup_hint: "Your data is stored only in this browser on this device – there is no account and no server. Save a backup now and then, e.g. to move to a new phone. Clearing the browser data deletes everything.",
+		d_backup_hint: "Saves plans, people and workouts as a file – as a backup or to swap your history between Hero Upgrade and TrainingAssistant (Home Assistant).",
+		p_tab_backup: "Backup",
+		p_short_backup: "Backup",
+		rs_title: "Backup from {app}, {d}",
+		rs_plans: "{n} plans ({m} new)",
+		rs_sessions: "{n} workouts",
+		rs_session1: "1 workout",
+		rs_into: "Add to",
+		rs_new: "+ new person",
+		rs_skip: "– don’t import –",
+		rs_merge: "Add",
+		rs_replace: "Replace everything",
+		rs_merge_hint: "New workouts and missing plans are added. Workouts you already have are recognised and not added twice.",
+		rs_replace_hint: "Everything on this device is replaced by the file – e.g. to move to a new phone.",
+		rs_go: "Import",
+		rs_go_replace: "Replace everything",
+		rs_done: "Imported: {s} workouts, {p} plans, {n} new people ({k} already there).",
 		d_export: "⟦down⟧ Save backup",
 		d_import: "⟦up⟧ Restore backup",
 		d_restore_c: "Replace all data?",
@@ -53,13 +69,13 @@ var EXTRA_I18N = {
 		"err.profile_exists": "“{profile}” already exists.",
 		"err.profile_delete_active": "The selected person can't be deleted.",
 		"err.figure_invalid": "Unknown figure.",
-		"err.invalid_backup": "This file is not a Hero Upgrade backup.",
+		"err.invalid_backup": "This file is not a workout backup.",
+		"err.backup_too_new": "This backup is from a newer app version – please update first.",
 		"err.unknown_command": "Unknown action.",
 		"p_tab_editor": "Editor",
 		"p_short_mine": "Plans",
 		"p_short_tpl": "Templates",
 		"p_short_editor": "Editor",
-		"p_short_import": "Import",
 		"p_short_people": "People",
 		"p_short_data": "Other",
 		"ed_intro": "Build your own program or change one you have. Programs from the templates are edited as your own copy – the template stays as it is, and your history carries over because it belongs to the exercise.",
@@ -268,7 +284,23 @@ var EXTRA_I18N = {
 		d_theme_hint: "Automatisch richtet sich nach der Einstellung deines Geräts.",
 		d_sound_hint: "Countdown-Töne in den letzten 3 Sekunden einer Pause oder eines Intervalls, ein Startton, wenn es losgeht. Lautstärke aufdrehen; am iPhone muss der Stumm-Schalter aus sein.",
 		d_backup: "Sicherung",
-		d_backup_hint: "Deine Daten liegen nur in diesem Browser auf diesem Gerät – es gibt kein Konto und keinen Server. Speichere ab und zu eine Sicherung, z. B. für den Umzug auf ein neues Handy. Wer die Browserdaten löscht, löscht alles.",
+		d_backup_hint: "Speichert Pläne, Personen und Trainings als Datei – zur Sicherung oder um den Verlauf zwischen Hero Upgrade und TrainingAssistant (Home Assistant) zu tauschen.",
+		p_tab_backup: "Sicherung",
+		p_short_backup: "Sicherung",
+		rs_title: "Sicherung aus {app}, {d}",
+		rs_plans: "{n} Pläne ({m} neu)",
+		rs_sessions: "{n} Trainings",
+		rs_session1: "1 Training",
+		rs_into: "Übernehmen in",
+		rs_new: "+ neue Person",
+		rs_skip: "– nicht übernehmen –",
+		rs_merge: "Ergänzen",
+		rs_replace: "Alles ersetzen",
+		rs_merge_hint: "Neue Trainings und fehlende Pläne kommen dazu. Trainings, die schon da sind, werden erkannt und nicht doppelt angelegt.",
+		rs_replace_hint: "Alles auf diesem Gerät wird durch die Datei ersetzt – z. B. beim Umzug auf ein neues Handy.",
+		rs_go: "Übernehmen",
+		rs_go_replace: "Alles ersetzen",
+		rs_done: "Übernommen: {s} Trainings, {p} Pläne, {n} neue Personen ({k} waren schon da).",
 		d_export: "⟦down⟧ Sicherung speichern",
 		d_import: "⟦up⟧ Sicherung laden",
 		d_restore_c: "Alle Daten ersetzen?",
@@ -306,13 +338,13 @@ var EXTRA_I18N = {
 		"err.profile_exists": "„{profile}“ gibt es schon.",
 		"err.profile_delete_active": "Die ausgewählte Person kann nicht gelöscht werden.",
 		"err.figure_invalid": "Unbekannte Figur.",
-		"err.invalid_backup": "Diese Datei ist keine Hero-Upgrade-Sicherung.",
+		"err.invalid_backup": "Diese Datei ist keine Trainings-Sicherung.",
+		"err.backup_too_new": "Diese Sicherung stammt aus einer neueren App-Version – bitte erst aktualisieren.",
 		"err.unknown_command": "Unbekannte Aktion.",
 		"p_tab_editor": "Editor",
 		"p_short_mine": "Pläne",
 		"p_short_tpl": "Vorlagen",
 		"p_short_editor": "Editor",
-		"p_short_import": "Import",
 		"p_short_people": "Personen",
 		"p_short_data": "Sonstiges",
 		"ed_intro": "Bau dir ein eigenes Programm oder ändere ein vorhandenes. Programme aus den Vorlagen bearbeitest du als eigene Kopie – die Vorlage bleibt, wie sie ist, und dein Verlauf geht mit, weil er an der Übung hängt.",
@@ -1736,40 +1768,22 @@ var I18N = {
 		tpl_loading_one: "Loading …",
 		p_active: "active program",
 		p_noimg: "No image: {list}",
-		p_edit: "Edit",
 		p_delete: "Delete",
 		p_next_badge: "up next",
 		p_set_next: "Up next",
 		p_start: "Start",
 		p_tpl_intro: "Proven programs ready to add – afterwards they're ready to start under “My plans”. Weights are starting values; progression adjusts them.",
-		p_import_intro: "Below is a commented example plan – adjust it and import. A plan with the same name is replaced, your history is kept. The guide explains everything and includes a ready-made prompt that lets ChatGPT or Claude write a plan for you.",
-		p_dl_guide: "⟦down⟧ Guide (.txt)",
-		p_dl_example: "⟦down⟧ Example plan (.yaml)",
-		p_insert: "Insert example",
-		p_clear: "Clear",
-		p_placeholder: "schema_version: 1\nname: My plan\n…",
-		p_import: "Import",
 		p_none: "No plans yet.",
 		p_pick_tpl: "Choose a template",
-		p_own: "Create your own plan",
 		p_tab_mine: "My plans",
 		p_tab_tpl: "Templates",
-		p_tab_own: "Own plan",
-		m_imported: "“{name}” imported ({n} workouts). Images: {m} of {t} exercises",
-		m_missing: " – no image: {list}",
 		m_tpl: "Template “{name}” added ({n} workouts). Weights are starting values – please adjust.",
-		m_example: "Example plan inserted – adjust it and import.",
-		m_loaded: "Plan loaded – change it and import again (the same name replaces it).",
 		c_first: "First workout with this exercise",
 		c_last: "last {v} {u}",
 		c_last_best: "last {v} · best {b} {u}",
 		c_n: "{n} workouts",
 		c_1: "1 workout",
 		c_aria: "History {l}",
-		guide_file: "guide-custom-plans.txt",
-		example_file: "example-plan.yaml",
-		guide_dl: "TrainingAssistant-Guide-Custom-Plans.txt",
-		example_dl: "TrainingAssistant-Example-Plan.yaml",
 		"sug.no_progression_timed": "No progression (time or max.)",
 		"sug.plan_values": "Plan values (no history yet)",
 		"sug.harder_variant": "All sets with {reps} reps done – harder variation or added weight",
@@ -2022,40 +2036,22 @@ var I18N = {
 		tpl_loading_one: "Lade …",
 		p_active: "aktives Programm",
 		p_noimg: "Ohne Bild: {list}",
-		p_edit: "Bearbeiten",
 		p_delete: "Löschen",
 		p_next_badge: "als Nächstes",
 		p_set_next: "Als Nächstes",
 		p_start: "Starten",
 		p_tpl_intro: "Bewährte Programme zum Übernehmen – danach unter „Meine Pläne“ startklar. Gewichte sind Startwerte, die Progression passt sie an.",
-		p_import_intro: "Unten steht ein kommentierter Beispielplan – anpassen und importieren. Ein Plan mit gleichem Namen wird ersetzt, der Verlauf bleibt. Die Anleitung erklärt alles und enthält einen fertigen Prompt, mit dem ChatGPT oder Claude dir einen Plan schreibt.",
-		p_dl_guide: "⟦down⟧ Anleitung (.txt)",
-		p_dl_example: "⟦down⟧ Beispielplan (.yaml)",
-		p_insert: "Beispiel einsetzen",
-		p_clear: "Leeren",
-		p_placeholder: "schema_version: 1\nname: Mein Plan\n…",
-		p_import: "Importieren",
 		p_none: "Noch keine Pläne.",
 		p_pick_tpl: "Vorlage auswählen",
-		p_own: "Eigenen Plan anlegen",
 		p_tab_mine: "Meine Pläne",
 		p_tab_tpl: "Vorlagen",
-		p_tab_own: "Eigener Plan",
-		m_imported: "„{name}“ importiert ({n} Workouts). Bilder: {m} von {t} Übungen",
-		m_missing: " – ohne Bild: {list}",
 		m_tpl: "Vorlage „{name}“ übernommen ({n} Workouts). Gewichte sind Startwerte – bitte anpassen.",
-		m_example: "Beispielplan eingesetzt – anpassen und importieren.",
-		m_loaded: "Plan geladen – ändern und erneut importieren (gleicher Name ersetzt ihn).",
 		c_first: "Erstes Training mit dieser Übung",
 		c_last: "zuletzt {v} {u}",
 		c_last_best: "zuletzt {v} · bestes {b} {u}",
 		c_n: "{n} Trainings",
 		c_1: "1 Training",
 		c_aria: "Verlauf {l}",
-		guide_file: "anleitung-eigene-plaene.txt",
-		example_file: "beispiel-plan.yaml",
-		guide_dl: "TrainingAssistant-Anleitung-eigene-Plaene.txt",
-		example_dl: "TrainingAssistant-Beispielplan.yaml",
 		"sug.no_progression_timed": "Ohne Progression (Zeit oder max.)",
 		"sug.plan_values": "Planwerte (noch kein Verlauf)",
 		"sug.harder_variant": "Alle Sätze mit {reps} Wdh. geschafft – schwerere Variante oder Zusatzgewicht",
@@ -2353,7 +2349,6 @@ var TrainerUI = class extends HTMLElement {
 		this._openSessions = /* @__PURE__ */ new Set();
 		this._error = null;
 		this._caps = {};
-		this._importText = "";
 		const app = this;
 		this._editor = createEditor({
 			t,
@@ -2685,62 +2680,6 @@ var TrainerUI = class extends HTMLElement {
 				};
 			}
 			this._render();
-		} else if (a === "import") {
-			try {
-				const res = await this._ws({
-					type: "import_plan",
-					text: this._importText,
-					lang: LANG
-				});
-				const im = res.images || {
-					matched: 0,
-					total: 0,
-					missing: []
-				};
-				this._planTab = "mine";
-				this._importMsg = {
-					ok: true,
-					text: t("m_imported", {
-						name: res.name,
-						n: res.workouts.length,
-						m: im.matched,
-						t: im.total
-					}) + (im.missing.length ? t("m_missing", { list: im.missing.join(", ") }) : "") + "."
-				};
-				this._importText = "";
-				this._previewKey = null;
-			} catch (err) {
-				this._importMsg = {
-					ok: false,
-					text: this._errText(err)
-				};
-			}
-			this._render();
-		} else if (a === "starter") {
-			await this._loadStarter(true);
-			this._importMsg = {
-				ok: true,
-				text: t("m_example")
-			};
-			this._render();
-		} else if (a === "clear-import") {
-			this._importText = "";
-			this._starterUsed = true;
-			this._importMsg = null;
-			this._render();
-		} else if (a === "plan-edit") {
-			const res = await this._ws({
-				type: "plan_source",
-				plan_id: d.plan
-			});
-			this._importText = res.text;
-			this._starterUsed = true;
-			this._planTab = "import";
-			this._importMsg = {
-				ok: true,
-				text: t("m_loaded")
-			};
-			this._render();
 		} else if (a === "plan-delete") await this._ws({
 			type: "delete_plan",
 			plan_id: d.plan
@@ -2809,14 +2748,18 @@ var TrainerUI = class extends HTMLElement {
 				composed: true
 			}));
 			this._render();
-		} else if (a === "export") this.dispatchEvent(new CustomEvent("hero-export", {
-			bubbles: true,
-			composed: true
-		}));
+		} else if (a === "export") await this._exportBackup();
 		else if (a === "import-backup") {
 			const inp = this.shadowRoot.querySelector("[data-field=\"backup-file\"]");
 			if (inp) inp.click();
-		} else if (a === "disclaimer") this.dispatchEvent(new CustomEvent("hero-disclaimer", {
+		} else if (a === "rs-mode") {
+			if (this._restore) this._restore.mode = d.v;
+			this._render();
+		} else if (a === "rs-cancel") {
+			this._restore = null;
+			this._render();
+		} else if (a === "rs-go") await this._importBackup();
+		else if (a === "disclaimer") this.dispatchEvent(new CustomEvent("hero-disclaimer", {
 			bubbles: true,
 			composed: true
 		}));
@@ -2875,12 +2818,6 @@ var TrainerUI = class extends HTMLElement {
 	}
 	_onInput(e) {
 		const el = e.target;
-		if (el.dataset.field === "import") {
-			this._importText = el.value;
-			const btn = this.shadowRoot.querySelector("[data-a=\"import\"]");
-			if (btn) btn.disabled = !el.value.trim();
-			return;
-		}
 		if (el.dataset.lsearch) {
 			this._q = this._q || {};
 			this._q[el.dataset.lsearch] = el.value;
@@ -2917,12 +2854,13 @@ var TrainerUI = class extends HTMLElement {
 			return;
 		}
 		if (el.dataset.field === "backup-file" && el.files && el.files[0]) {
-			this.dispatchEvent(new CustomEvent("hero-import", {
-				detail: el.files[0],
-				bubbles: true,
-				composed: true
-			}));
+			const file = el.files[0];
 			el.value = "";
+			await this._inspectBackup(file);
+			return;
+		}
+		if (el.dataset.field === "rs-map" && this._restore) {
+			this._restore.mapping[el.dataset.id] = el.value;
 			return;
 		}
 		if (el.dataset.field === "program-select" && el.value) {
@@ -3630,7 +3568,108 @@ var TrainerUI = class extends HTMLElement {
 		return `<div class="muted small">${t(multi ? "pp_intro_multi" : "pp_intro")}${this._caps.linkUsers ? ` ${t("pp_user_hint")}` : ""}${st.active && !multi ? ` ${t("pp_busy")}` : ""}</div>${rows}
       ${ed && !ed.id ? `<div class="plan">${form(null)}</div>` : `<button class="btn" data-a="pp-add">${t("pp_add")}</button>`}`;
 	}
+	async _exportBackup() {
+		try {
+			if (this._backend.flush) await this._backend.flush();
+			const b = await this._ws({ type: "export_backup" });
+			const blob = new Blob([JSON.stringify(b, null, 1)], { type: "application/json" });
+			const a = document.createElement("a");
+			a.href = URL.createObjectURL(blob);
+			a.download = `${this._caps.backupPrefix || "training"}-backup-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.json`;
+			document.body.append(a);
+			a.click();
+			a.remove();
+			setTimeout(() => URL.revokeObjectURL(a.href), 1e3);
+			if (this._backend.backupSaved) this._backend.backupSaved();
+			this._toast(t("d_saved"));
+		} catch (_) {}
+	}
+	/** Datei lesen und prüfen: Inhalt zeigen, Personen zuordnen lassen (Vorschlag: gleicher Name) */
+	async _inspectBackup(fileObj) {
+		let file;
+		try {
+			file = JSON.parse(await fileObj.text());
+		} catch (_) {
+			this._toast(t("err.invalid_backup"));
+			return;
+		}
+		try {
+			const sum = await this._ws({
+				type: "inspect_backup",
+				backup: file
+			});
+			this._restore = {
+				file,
+				sum,
+				mode: "merge",
+				mapping: Object.fromEntries(sum.people.map((p) => [p.id, p.suggestion]))
+			};
+			this._tab = "plans";
+			this._planTab = "data";
+			this._render();
+		} catch (_) {}
+	}
+	async _importBackup() {
+		const r = this._restore;
+		if (!r) return;
+		try {
+			const res = await this._ws({
+				type: "import_backup",
+				backup: r.file,
+				mapping: r.mapping,
+				mode: r.mode
+			});
+			this._restore = null;
+			this._stats = null;
+			this._history = null;
+			this._previewKey = null;
+			this._toast(res.replaced ? t("d_restored") : t("rs_done", {
+				s: res.sessions_added,
+				p: res.plans_added,
+				k: res.sessions_skipped,
+				n: res.people_added
+			}));
+			this._render();
+		} catch (_) {}
+	}
+	_renderRestore() {
+		const r = this._restore;
+		const people = this._state.profiles || [];
+		const opt = (v, label, sel) => `<option value="${esc(v)}" ${sel === v ? "selected" : ""}>${esc(label)}</option>`;
+		const rows = r.sum.people.map((p) => `<div class="rs-row"><div><b>${esc(p.name)}</b>
+        <div class="muted small">${esc(t(p.sessions === 1 ? "rs_session1" : "rs_sessions", { n: p.sessions }))}</div></div>
+        <label class="sel"><span class="lbl">${t("rs_into")}</span><select data-field="rs-map" data-id="${esc(p.id)}">
+          ${people.map((x) => opt(x.id, x.name, r.mapping[p.id])).join("")}${opt("new", t("rs_new"), r.mapping[p.id])}${opt("skip", t("rs_skip"), r.mapping[p.id])}
+        </select></label></div>`).join("");
+		const app = r.sum.app === "training-assistant" ? "TrainingAssistant" : "Hero Upgrade";
+		const modes = this._caps.backupReplace ? `<div class="row seg">${["merge", "replace"].map((m) => `<button class="chip-btn ${r.mode === m ? "on" : ""}" data-a="rs-mode" data-v="${m}">${t(`rs_${m}`)}</button>`).join("")}</div>
+         <div class="muted small">${t(`rs_${r.mode}_hint`)}</div>` : `<div class="muted small">${t("rs_merge_hint")}</div>`;
+		return `<div class="plan rs">
+      <b>${esc(t("rs_title", {
+			app,
+			d: date(r.sum.exported_at)
+		}))}</b>
+      <div class="muted small">${esc(t("rs_plans", {
+			n: r.sum.plans,
+			m: r.sum.plans_new
+		}))}</div>
+      ${r.mode === "merge" ? rows : ""}
+      ${modes}
+      <div class="row"><button class="btn primary" data-a="rs-go" ${r.mode === "replace" ? `data-ck="rs-replace" data-confirm="${esc(t("d_restore_c"))}"` : ""}>${t(r.mode === "replace" ? "rs_go_replace" : "rs_go")}</button>
+        <button class="btn" data-a="rs-cancel">${t("e_cancel")}</button></div></div>`;
+	}
+	_renderBackup() {
+		const opts = this._options || {};
+		return `
+      <div class="lbl">${t("d_backup")}</div>
+      <div class="muted small">${t("d_backup_hint")}</div>
+      ${this._restore ? this._renderRestore() : `<div class="row"><button class="btn" data-a="export">${t("d_export")}</button>
+        <button class="btn" data-a="import-backup">${t("d_import")}</button>
+        <input type="file" accept="application/json,.json" data-field="backup-file" hidden></div>
+      ${opts.lastBackup ? `<div class="muted small">${esc(t("d_last_backup", { d: date(opts.lastBackup) }))}</div>` : ""}`}`;
+	}
 	_renderData() {
+		if (!this._caps.data) return this._renderBackup();
 		const opts = this._options || {};
 		const theme = opts.theme || "auto";
 		return `
@@ -3649,12 +3688,7 @@ var TrainerUI = class extends HTMLElement {
       <div class="row"><button class="chip-btn ${opts.glow !== false ? "on" : ""}" data-a="glow" data-on="1">${t("d_sound_on")}</button>
         <button class="chip-btn ${opts.glow !== false ? "" : "on"}" data-a="glow" data-on="0">${t("d_sound_off")}</button></div>
       <div class="muted small">${t("d_glow_hint")}</div>
-      <div class="lbl">${t("d_backup")}</div>
-      <div class="muted small">${t("d_backup_hint")}</div>
-      <div class="row"><button class="btn" data-a="export">${t("d_export")}</button>
-        <button class="btn" data-a="import-backup" data-ck="restore" data-confirm="${esc(t("d_restore_c"))}">${t("d_import")}</button>
-        <input type="file" accept="application/json,.json" data-field="backup-file" hidden></div>
-      ${opts.lastBackup ? `<div class="muted small">${esc(t("d_last_backup", { d: date(opts.lastBackup) }))}</div>` : ""}
+      ${this._renderBackup()}
       <div class="lbl">${t("d_install")}</div>
       <div class="muted small">${t("d_install_hint")}</div>
       <div class="lbl">${t("d_about")}</div>
@@ -3668,47 +3702,10 @@ var TrainerUI = class extends HTMLElement {
 	/** Knopf „Eigenen Plan anlegen“: zum Editor bzw. (ohne Editor) zum Text-Import */
 	_ownPlanButton(cls) {
 		if (this._caps.editor) return `<button class="btn ${cls}" data-a="ptab" data-tab="editor">⟦editor⟧ ${t("l_to_editor")}</button>`;
-		if (this._caps.yamlImport) return `<button class="btn ${cls}" data-a="ptab" data-tab="import">${t("p_own")}</button>`;
 		return "";
 	}
-	_renderImport() {
-		const base = this._backend.guideBase;
-		if (this._starter === void 0 && !this._starterLoading) {
-			this._starterLoading = true;
-			this._loadStarter();
-		}
-		return `<div class="muted small">${t("p_import_intro")}</div>
-      <div class="row dl">
-        <a class="btn" href="${base}/${t("guide_file")}" download="${t("guide_dl")}" target="_blank" rel="noreferrer">${t("p_dl_guide")}</a>
-        <a class="btn" href="${base}/${t("example_file")}" download="${t("example_dl")}" target="_blank" rel="noreferrer">${t("p_dl_example")}</a>
-        <span class="grow"></span>
-        <button class="btn small" data-a="starter">${t("p_insert")}</button>
-        <button class="btn small" data-a="clear-import">${t("p_clear")}</button>
-      </div>
-      <textarea data-field="import" rows="22" spellcheck="false" placeholder="${esc(t("p_placeholder")).replace(/\n/g, "&#10;")}">${esc(this._importText)}</textarea>
-      <button class="btn primary" data-a="import" ${this._importText.trim() ? "" : "disabled"}>${t("p_import")}</button>`;
-	}
-	async _loadStarter(force = false) {
-		try {
-			const text = await (await fetch(`${this._backend.guideBase}/${t("example_file")}`, { cache: "no-cache" })).text();
-			this._starter = text;
-			if (force || !this._importText.trim() && !this._starterUsed) {
-				this._importText = text;
-				this._starterUsed = true;
-			}
-		} catch (_) {
-			this._starter = "";
-		}
-		this._render();
-	}
-	/** Sprache gewechselt (TA: Profil in Home Assistant): Texte, Vorlagen und unveränderten Beispielplan neu laden */
+	/** Sprache gewechselt (TA: Profil in Home Assistant): Texte und Vorlagen neu laden */
 	languageChanged() {
-		if (this._starter && this._importText === this._starter) {
-			this._importText = "";
-			this._starterUsed = false;
-		}
-		this._starter = void 0;
-		this._starterLoading = false;
 		this._templates = null;
 		this._render();
 	}
@@ -3724,7 +3721,7 @@ var TrainerUI = class extends HTMLElement {
           <div class="row between"><div><b>${esc(p.name)}</b>${p.id === st.program ? ` <span class="badge ok">${t("p_active")}</span>` : ""}${p.description ? `<div class="muted small">${esc(p.description)}</div>` : ""}
             ${p.images_missing && p.images_missing.length ? `<div class="muted small">${esc(t("p_noimg", { list: p.images_missing.join(", ") }))}</div>` : ""}</div>
             <div class="row">
-            ${this._caps.editor ? `<button class="btn small" data-a="ed-open" data-plan="${esc(p.id)}">${p.template ? `⟦copy⟧ ${t("ed_edit_copy")}` : `⟦editor⟧ ${t("ed_edit")}`}</button>` : this._caps.yamlImport ? `<button class="btn small" data-a="plan-edit" data-plan="${esc(p.id)}">${t("p_edit")}</button>` : ""}
+            ${this._caps.editor ? `<button class="btn small" data-a="ed-open" data-plan="${esc(p.id)}">${p.template ? `⟦copy⟧ ${t("ed_edit_copy")}` : `⟦editor⟧ ${t("ed_edit")}`}</button>` : ""}
             <button class="btn small danger" data-a="plan-delete" data-plan="${esc(p.id)}" data-name="${esc(p.name)}" data-ck="plan-${esc(p.id)}" data-confirm="${esc(t("c_delete"))}">${t("p_delete")}</button></div></div>
           <ul class="list">${p.workouts.map((w) => {
 			const isNext = st.next && st.next.plan_id === p.id && st.next.workout_id === w.id;
@@ -3751,8 +3748,7 @@ var TrainerUI = class extends HTMLElement {
 		if (this._planTab === "editor") body = this._editor.render(st);
 		else if (this._planTab === "people") body = this._renderPeople();
 		else if (this._planTab === "templates") body = this._renderTemplates();
-		else if (this._planTab === "data" && this._caps.data) body = this._renderData();
-		else if (this._planTab === "import" && this._caps.yamlImport) body = this._renderImport();
+		else if (this._planTab === "data" && (this._caps.data || this._caps.backup)) body = this._renderData();
 		else if (st.plans.length) body = `${this._listTools("plans", `<div class="row seg">
           <button class="chip-btn ${filter === "all" ? "on" : ""}" data-a="pfilter" data-f="all">${t("l_all")} <span class="cnt">${st.plans.length}</span></button>
           <button class="chip-btn ${filter === "own" ? "on" : ""}" data-a="pfilter" data-f="own">${t("l_own")} <span class="cnt">${st.plans.filter((p) => !p.template).length}</span></button></div>`)}<div data-list="plans">${plans || `<div class="empty">${t("l_no_own")}
@@ -3766,9 +3762,8 @@ var TrainerUI = class extends HTMLElement {
         ${ptab("mine", "mdi:clipboard-list-outline", t("p_tab_mine"), t("p_short_mine"), st.plans.length)}
         ${ptab("templates", "mdi:star-outline", t("p_tab_tpl"), t("p_short_tpl"), this._templates ? this._templates.length : null)}
         ${this._caps.editor ? ptab("editor", "editor", t("p_tab_editor"), t("p_short_editor"), null) : ""}
-        ${this._caps.yamlImport ? ptab("import", "import", t("p_tab_own"), t("p_short_import"), null) : ""}
         ${ptab("people", "mdi:account-multiple-outline", t("p_tab_people"), t("p_short_people"), (st.profiles || []).length)}
-        ${this._caps.data ? ptab("data", "data", t("p_tab_data"), t("p_short_data"), null) : ""}
+        ${this._caps.data || this._caps.backup ? ptab("data", "data", t(this._caps.data ? "p_tab_data" : "p_tab_backup"), t(this._caps.data ? "p_short_data" : "p_short_backup"), null) : ""}
       </div>
       ${msg}
       ${body}
@@ -4303,6 +4298,9 @@ var STYLE = `
   .pp-fig { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
   .pp-link { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
   .pp-devs { display: flex; flex-direction: column; gap: 2px; }
+  .rs { display: flex; flex-direction: column; gap: 10px; }
+  .rs-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .rs-row .sel { min-width: 180px; }
   .controls[hidden] { display: none; }
   .msg.ro { text-align: center; }
   .dot-live { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #66bb6a; margin-left: 4px;
@@ -4521,13 +4519,14 @@ var STYLE = `
 `;
 // src/card/card.js
 var DOMAIN = "training_assistant";
-var CARD_VERSION = "0.12.1";
+var CARD_VERSION = "0.13.0";
 var CAPS = {
 	voice: true,
-	yamlImport: true,
 	linkUsers: true,
 	editor: true,
 	personDevices: true,
+	backup: true,
+	backupPrefix: "training-assistant",
 	data: false,
 	confetti: false,
 	effortMs: 5e3,
@@ -4585,7 +4584,6 @@ function haBackend(card) {
 			composed: true
 		})),
 		imgBase: `/${DOMAIN}/pictos/${CARD_VERSION}`,
-		guideBase: `/${DOMAIN}/guide`,
 		/** Auswahl für Satellit/Lampe/Handy-Hinweis einer Person */
 		entityOptions(domain) {
 			const hass = card._hass;

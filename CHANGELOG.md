@@ -4,6 +4,19 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.13.0 – 2026-11-15
+
+- Backup in the card (*Settings → Backup*): save plans, people and workouts as a file and load such a file again – in
+  the same format as the Hero Upgrade web app, so you can swap your history between both by file. Loading **adds** new
+  workouts and missing plans (nothing twice); you choose which person they go to.
+  *Deutsch:* Sicherung in der Karte (*Einstellungen → Sicherung*): Pläne, Personen und Trainings als Datei speichern und
+  wieder laden – im selben Format wie die Web-App Hero Upgrade, so lässt sich der Verlauf per Datei zwischen beiden
+  tauschen. Beim Laden werden neue Trainings und fehlende Pläne **ergänzt** (nichts doppelt); die Person ist wählbar.
+- Own plans are now built only in the editor – the text import (YAML/JSON) is gone from the card. The action
+  `training_assistant.import_plan` stays for automations and plans written by ChatGPT/Claude.
+  *Deutsch:* Eigene Pläne entstehen jetzt nur noch im Editor – der Text-Import (YAML/JSON) ist aus der Karte entfernt.
+  Die Aktion `training_assistant.import_plan` bleibt für Automationen und Pläne von ChatGPT/Claude.
+
 ## 0.12.1 – 2026-11-14
 
 - Error messages are readable again: no more "[object Object]", no double message when an action fails, and names

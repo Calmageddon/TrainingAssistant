@@ -529,6 +529,28 @@ async def main() -> int:
                 check(not res["success"], f"Vorlage {tpl['id']} nicht überschreibbar")
             await ws.call(type="training_assistant/delete_plan", plan_id=ed_id)
 
+            print("Sicherung (gemeinsames Format mit Hero Upgrade)")
+            sample = json.loads((ROOT / "tests" / "fixtures" / "hu_backup_sample.json").read_text())["portable"]
+            res = await ws.call(type="training_assistant/inspect_backup", backup=sample)
+            check(res["success"] and res["result"]["people"][0]["sessions"] == 2, "HU-Sicherung geprüft: 2 Trainings")
+            res = await ws.call(type="training_assistant/profile", action="add", name="E2E Import")
+            imp = res["result"]["id"] if res["success"] else None
+            mapping = {sample["people"][0]["id"]: imp}
+            res = await ws.call(type="training_assistant/import_backup", backup=sample, mapping=mapping)
+            check(res["success"] and res["result"]["sessions_added"] == 2, f"HU-Sicherung ergänzt: {res.get('result')}")
+            res = await ws.call(type="training_assistant/import_backup", backup=sample, mapping=mapping)
+            check(res["success"] and res["result"]["sessions_added"] == 0 and res["result"]["sessions_skipped"] == 2,
+                  "erneut eingelesen: nichts doppelt")
+            hist = (await ws.call(type="training_assistant/history", person=imp))["result"]
+            check(len(hist["sessions"]) == 2, "Trainings im Verlauf der Person")
+            exp = await ws.call(type="training_assistant/export_backup")
+            mine = next((p for p in exp["result"]["people"] if p["id"] == imp), {}) if exp["success"] else {}
+            check(exp["success"] and exp["result"]["format"] == "training-log" and len(mine.get("sessions", [])) == 2,
+                  "Export im gemeinsamen Format enthält die Trainings")
+            bad = await ws.call(type="training_assistant/inspect_backup", backup={"hallo": 1})
+            check(not bad["success"], "fremde Datei abgelehnt")
+            await ws.call(type="training_assistant/profile", action="delete", profile=imp)
+
             print("Aufräumen")
             await ws.call(type="training_assistant/delete_plan", plan_id="e2e_test")
             await ws.call(type="training_assistant/delete_plan", plan_id="feature_testplan")

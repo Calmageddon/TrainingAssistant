@@ -14,8 +14,8 @@ anders war („nur acht“). Eine Dashboard-Karte zeigt live, wo du gerade bist.
 du Sätze per Antippen. Aus dem Verlauf berechnet die Integration Gewicht und
 Wiederholungen für das nächste Training.
 
-**Sprachen:** Englisch und Deutsch – Karte, Ansagen, Sprachantworten, Fehlermeldungen,
-Anleitung und Vorlagen. Die Sprache folgt deinem Home-Assistant-Profil (sonst Englisch);
+**Sprachen:** Englisch und Deutsch – Karte, Ansagen, Sprachantworten, Fehlermeldungen und
+Vorlagen. Die Sprache folgt deinem Home-Assistant-Profil (sonst Englisch);
 die Sprache der Ansagen lässt sich in den Optionen der Integration auch fest einstellen.
 
 ## Was drin ist
@@ -70,9 +70,9 @@ Geräte, Calisthenics von Einstieg bis Fortgeschritten, Kettlebell, HIIT & Tabat
 übernehmen in der Karte unter *Einstellungen → Vorlagen*, Übersicht und Quellen: [docs/vorlagen.md](docs/vorlagen.md).
 
 Eigene Pläne baut man im Editor der Karte (*Einstellungen → Editor*): Workouts, Blöcke und Übungen mit Bild,
-Wiederholungen, Gewicht oder Zeit – Vorlagen lassen sich als Kopie bearbeiten. Alternativ einen Plan als YAML/JSON
-einfügen (*Einstellungen → Eigener Plan*); die Karte bietet eine Anleitung und einen Beispielplan zum Herunterladen an. Format, Beispiele und ein fertiger
-Prompt für ChatGPT/Claude: [docs/plan-format.de.md](docs/plan-format.de.md).
+Wiederholungen, Gewicht oder Zeit – Vorlagen lassen sich als Kopie bearbeiten. Für Automationen oder Pläne, die
+ChatGPT/Claude schreibt, gibt es weiter die Aktion `training_assistant.import_plan` (YAML/JSON) – Format, Beispiele und
+ein fertiger Prompt: [docs/plan-format.de.md](docs/plan-format.de.md).
 
 ## Bedienung
 

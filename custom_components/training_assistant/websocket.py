@@ -39,6 +39,9 @@ def async_setup_websocket(hass: HomeAssistant) -> None:
         ws_profile,
         ws_set_weekly_goal,
         ws_ha_users,
+        ws_export_backup,
+        ws_inspect_backup,
+        ws_import_backup,
         ws_link_profile,
     ):
         websocket_api.async_register_command(hass, handler)
@@ -393,3 +396,47 @@ async def ws_link_profile(hass: HomeAssistant, connection: websocket_api.ActiveC
         _send_error(connection, msg["id"], err)
         return
     connection.send_result(msg["id"])
+
+
+# -- Sicherung (gemeinsames Format mit Hero Upgrade) – nur Administratoren (enthält alle Personen) -------------
+
+
+@websocket_api.websocket_command({vol.Required("type"): WS + "export_backup", vol.Optional("person"): vol.Any(None, str)})
+@websocket_api.require_admin
+@callback
+def ws_export_backup(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
+    ok, result = _guard(connection, msg["id"], lambda: _hub(hass).export_backup())
+    if ok:
+        connection.send_result(msg["id"], result)
+
+
+@websocket_api.websocket_command(
+    {vol.Required("type"): WS + "inspect_backup", vol.Optional("person"): vol.Any(None, str), vol.Required("backup"): dict}
+)
+@websocket_api.require_admin
+@callback
+def ws_inspect_backup(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
+    ok, result = _guard(connection, msg["id"], lambda: _hub(hass).inspect_backup(msg["backup"]))
+    if ok:
+        connection.send_result(msg["id"], result)
+
+
+@websocket_api.websocket_command(
+    {
+        vol.Required("type"): WS + "import_backup",
+        vol.Optional("person"): vol.Any(None, str),
+        vol.Required("backup"): dict,
+        vol.Optional("mapping"): dict,
+        vol.Optional("mode", default="merge"): vol.In(["merge"]),
+    }
+)
+@websocket_api.require_admin
+@websocket_api.async_response
+async def ws_import_backup(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
+    """Sicherung ergänzen (Ersetzen gibt es in TA nicht – Home Assistant hat eigene Backups)."""
+    try:
+        result = await _hub(hass).async_import_backup(msg["backup"], msg.get("mapping"))
+    except HomeAssistantError as err:
+        _send_error(connection, msg["id"], err)
+        return
+    connection.send_result(msg["id"], result)
