@@ -1,4 +1,4 @@
-/* TrainingAssistant card 0.13.0 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
+/* TrainingAssistant card 0.13.1 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
 // src/ui/texts.js
 var EXTRA_I18N = {
 	en: {
@@ -4520,7 +4520,7 @@ var STYLE = `
 `;
 // src/card/card.js
 var DOMAIN = "training_assistant";
-var CARD_VERSION = "0.13.0";
+var CARD_VERSION = "0.13.1";
 var CAPS = {
 	voice: true,
 	linkUsers: true,

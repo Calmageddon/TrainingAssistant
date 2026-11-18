@@ -4,6 +4,15 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.13.1 – 2026-11-18
+
+- HIIT and flow workouts now start with a 10-second countdown before the first segment, so you have time to put the
+  phone down and grab the weight. The satellite announces the first exercise; *Next* (card or button) skips the
+  countdown ("Go now").
+  *Deutsch:* HIIT- und Flow-Trainings beginnen jetzt mit einem 10-Sekunden-Countdown vor dem ersten Abschnitt – Zeit,
+  das Handy wegzulegen und das Gewicht zu greifen. Der Satellit sagt die erste Übung an; *Weiter* (Karte oder Knopf)
+  überspringt den Countdown („Jetzt los“).
+
 ## 0.13.0 – 2026-11-15
 
 - Backup in the card (*Settings → Backup*): save plans, people and workouts as a file and load such a file again – in
