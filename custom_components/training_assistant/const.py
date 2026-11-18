@@ -9,6 +9,8 @@ PLAN_SCHEMA_VERSION = 1
 STORAGE_KEY = DOMAIN
 # Satz nach Zeit: so lange zählt der Countdown, bevor die Zeit läuft (Sekunden)
 HOLD_COUNTDOWN_S = 5
+# HIIT/Flow: Countdown vor dem ersten Abschnitt – Zeit, das Handy wegzulegen und das Gerät zu greifen (wie Hero Upgrade)
+INTERVAL_COUNTDOWN_S = 10
 STORAGE_VERSION = 1
 
 # Dispatcher-Signal: Zustand hat sich geändert (Entitäten + Karte aktualisieren)

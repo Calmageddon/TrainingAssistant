@@ -455,6 +455,13 @@ async def main() -> int:
             await ws.service("training_assistant", "next")  # HIIT starten
             await wait_for(lambda: S()["active"]["phase"] == "interval")
             check(S()["active"]["phase"] == "interval", "HIIT läuft")
+            await wait_for(lambda: (S()["active"].get("interval") or {}).get("phase") == "ready")
+            iv = S()["active"].get("interval") or {}
+            check(iv.get("phase") == "ready" and iv.get("round") == 0, f"Countdown vor dem HIIT-Block ({iv})")
+            await ws.service("training_assistant", "next")  # im Countdown: sofort los (Block läuft weiter)
+            await wait_for(lambda: (S()["active"].get("interval") or {}).get("round", 0) >= 1)
+            check(S()["active"]["phase"] == "interval" and (S()["active"].get("interval") or {}).get("round", 0) >= 1,
+                  "„Jetzt los“ im Countdown startet Runde 1")
             await wait_for(lambda: S()["active"]["steps"][S()["active"]["idx"]]["type"] == "cooldown", 8)
             check(S()["active"]["steps"][S()["active"]["idx"]]["type"] == "cooldown", "HIIT automatisch beendet")
             hiit_sets = [x for x in S()["active"]["sets"] if x["exercise"] == "h"]

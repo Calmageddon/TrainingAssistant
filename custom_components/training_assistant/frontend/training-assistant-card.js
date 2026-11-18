@@ -3152,6 +3152,7 @@ var TrainerUI = class extends HTMLElement {
 					r: iv.round,
 					n: iv.rounds
 				});
+				if (iv.phase === "ready") return `<div class="timer st st-wait st-iv"><span class="grow">${t("hold_ready")} <span class="st-time" data-until="${esc(iv.ends_at)}"></span></span></div>`;
 				return iv.phase === "work" ? `<div class="timer st st-go st-iv"><span>${t("st_go")} · ${esc(pos)}</span><span class="st-time" data-until="${esc(iv.ends_at)}"></span></div>` : `<div class="timer st st-rest st-iv"><span class="grow">${step.block_type === "flow" ? t("flow_switch") : t("t_rest")} <span class="st-time" data-until="${esc(iv.ends_at)}"></span></span></div>`;
 			})() : a.hold && a.phase === "active" && !a.rest_until ? a.hold.phase === "ready" ? `<div class="timer st st-wait st-hold"><span class="grow">${t(step.per_side ? "hold_ready_sides" : "hold_ready")} <span class="st-time" data-until-s="${esc(a.hold.until)}"></span></span></div>` : a.hold.phase === "switch" ? `<div class="timer st st-rest st-hold st-switch"><span class="grow">${t("hold_switch")} <span class="st-time" data-until-s="${esc(a.hold.until)}"></span></span>
                 <i class="st-fill" data-fill-until="${esc(a.hold.until)}" data-total="${a.hold.switch_total}"></i></div>` : `<div class="timer st st-go st-hold"><span>${a.hold.sides === 2 ? t(`hold_side_${a.hold.side}`) : t("hold_run")}</span><span class="st-time" data-until="${esc(a.hold.until)}"></span>
@@ -3163,7 +3164,7 @@ var TrainerUI = class extends HTMLElement {
 			a.pending_question !== null && a.pending_question !== void 0 ? `<div class="timer q">${t("t_question")}</div>` : ""
 		].join("");
 		const adjust = this._renderAdjust(a, step);
-		const nextLabel = a.paused ? t("b_resume") : a.phase === "ready" ? t("b_go") : a.phase === "interval" ? t(step.block_type === "flow" ? "b_end_flow" : "b_end_hiit") : a.hold && a.hold.phase === "ready" && !a.rest_until ? t("b_hold_now") : a.hold && a.hold.phase === "switch" ? t("b_hold_side2") : a.hold && a.hold.phase === "work" ? t("b_hold_running") : a.rest_until && step.type === "set" && (step.target_duration || step.hold_max) ? t("b_hold_end_rest") : step.type === "set" ? a.adjust && a.adjust.changed && !(a.hold && a.hold.phase === "work") ? t("b_set_done_changed") : t("b_set_done") : t("b_next");
+		const nextLabel = a.paused ? t("b_resume") : a.phase === "ready" ? t("b_go") : a.phase === "interval" ? iv && iv.phase === "ready" ? t("b_hold_now") : t(step.block_type === "flow" ? "b_end_flow" : "b_end_hiit") : a.hold && a.hold.phase === "ready" && !a.rest_until ? t("b_hold_now") : a.hold && a.hold.phase === "switch" ? t("b_hold_side2") : a.hold && a.hold.phase === "work" ? t("b_hold_running") : a.rest_until && step.type === "set" && (step.target_duration || step.hold_max) ? t("b_hold_end_rest") : step.type === "set" ? a.adjust && a.adjust.changed && !(a.hold && a.hold.phase === "work") ? t("b_set_done_changed") : t("b_set_done") : t("b_next");
 		const nxt = a.steps[a.idx + 1];
 		const upnext = this._renderUpNext(nxt);
 		const pts = step.exercise ? (this._state.exercise_history || {})[step.exercise] : null;

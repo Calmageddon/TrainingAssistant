@@ -47,6 +47,7 @@ from .const import (
     DOMAIN,
     EVENT_NAME,
     HOLD_COUNTDOWN_S,
+    INTERVAL_COUNTDOWN_S,
     PHASE_ACTIVE,
     PHASE_INTERVAL,
     PHASE_READY,
@@ -460,6 +461,7 @@ class TrainingManager:
         self._voice_task: asyncio.Task | None = None
         self._ask_cancel: asyncio.Event | None = None
         self._interval_task: asyncio.Task | None = None
+        self._interval_go: asyncio.Event | None = None  # „Weiter“ im Countdown vor einem HIIT-/Flow-Block
         self._rest_unsub: CALLBACK_TYPE | None = None
         self._block_unsub: CALLBACK_TYPE | None = None
         self._hold_unsub: CALLBACK_TYPE | None = None
@@ -996,6 +998,12 @@ class TrainingManager:
         hold = active.get("hold")
         # Satz nach Zeit: im Countdown startet „Weiter“ sofort, im Seitenwechsel die zweite Seite;
         # während die Zeit läuft, endet der Satz von selbst (Knopf ohne Wirkung)
+        # Countdown vor einem HIIT-/Flow-Block: „Weiter“ startet sofort (statt den Block zu beenden)
+        iv = active.get("interval")
+        if (actual is None and not active.get("paused") and active["phase"] == PHASE_INTERVAL
+                and iv and iv.get("phase") == "ready" and self._interval_go):
+            self._interval_go.set()
+            return
         if hold and not active.get("paused") and actual is None:
             if hold["phase"] == "ready":
                 self._start_hold(dt_util.utcnow())
@@ -1635,13 +1643,36 @@ class TrainingManager:
         sp = Speech(active.get("lang", "de"))
         flow = step.get("block_type") == "flow"
         sat = active.get("satellite") if self.entry.options.get(CONF_ANNOUNCE, True) else None
-        start = (active.get("interval") or {}).get("round", 1)
         count = len(segs)
+        # Neu gestartet (oder im Countdown pausiert): erst der Countdown mit der ersten Übung, dann Runde 1.
+        # Fortsetzen nach einer Pause mitten im Block beginnt die laufende Runde neu – ohne Countdown.
+        start = (active.get("interval") or {}).get("round", 0)
+        if start < 1:
+            first = segs[0]
+            label = sp.segment_name(first)
+            active["interval"] = {
+                "round": 0, "rounds": count, "phase": "ready", "flow": flow, "exercise": label,
+                "image": self.image_for(first["exercise"], active["plan_id"]) if first.get("exercise") else None,
+                "ends_at": (dt_util.utcnow() + timedelta(seconds=INTERVAL_COUNTDOWN_S)).isoformat(),
+            }
+            self._fire({"type": "interval_ready", "session_id": session_id, "rounds": count,
+                        "exercise": label, "seconds": INTERVAL_COUNTDOWN_S})
+            if sat:
+                self._voice_queue.put_nowait(("announce", sat, sp.t("interval_ready", exercise=label)))
+            self._changed()
+            self._interval_go = go = asyncio.Event()
+            try:
+                await asyncio.wait_for(go.wait(), INTERVAL_COUNTDOWN_S)
+            except TimeoutError:
+                pass
+            finally:
+                self._interval_go = None
+            start = 1
         for i in range(start, count + 1):
             seg = segs[i - 1]
             label = sp.segment_name(seg)
             nxt = sp.segment_name(segs[i]) if i < count else None
-            if sat and (flow or i == 1):
+            if sat and flow:  # HIIT: die erste Übung wurde schon im Countdown angesagt
                 self._voice_queue.put_nowait(("announce", sat, sp.t("flow_go" if flow else "interval_go", exercise=label)))
             for phase, seconds in (("work", seg["work_s"]), ("rest", seg["rest_s"])):
                 if seconds <= 0:
