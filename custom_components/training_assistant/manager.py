@@ -602,6 +602,8 @@ class TrainingManager:
                      "Running and steady cardio – step by step to more stamina. Timed, runs on its own."),
         "yoga": ("Yoga & mobility", "mdi:yoga",
                  "Flows, stretching and balance – runs on its own, every pose is announced. A mat is enough."),
+        "alltag": ("Everyday & health", "mdi:walk",
+                   "Walking, hiking and a healthy back – gentle programs for everyday life, no gym needed."),
     }
 
     def _read_templates(self) -> list[dict[str, Any]]:

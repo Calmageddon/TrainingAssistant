@@ -4,6 +4,19 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.14.0 – 2026-11-21
+
+- New template group "Everyday & health" with three programs: Daily Walking 6 Weeks (from 15 to 45 minutes, 5 walks
+  a week), Hiking Fitness 8 Weeks (leg strength, stair intervals, a long hike growing from 1 to 4 hours) and Back
+  School 8 Weeks (mobilise, strengthen the trunk, learn to lift, relax – inspired by the German "Neue Rückenschule").
+  36 templates in total. New exercise pictures for your own plans: front split, kettlebell snatch, sit-up, star jump,
+  glute kickback.
+  *Deutsch:* Neue Vorlagen-Gruppe „Alltag & Gesundheit“ mit drei Programmen: Jeden Tag gehen 6 Wochen (von 15 auf
+  45 Minuten, 5 Spaziergänge pro Woche), Fit fürs Wandern 8 Wochen (Beinkraft, Treppen-Intervalle, eine lange
+  Wanderung von 1 auf 4 Stunden) und Rückenschule 8 Wochen (mobilisieren, Rumpf kräftigen, richtig heben, entspannen –
+  angelehnt an die „Neue Rückenschule“). Insgesamt 36 Vorlagen. Neue Übungsbilder für eigene Pläne: Spagat,
+  Kettlebell-Snatch, Sit-up, Hampelmann-Sprung, Glute Kickback.
+
 ## 0.13.1 – 2026-11-18
 
 - HIIT and flow workouts now start with a 10-second countdown before the first segment, so you have time to put the

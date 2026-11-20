@@ -1,8 +1,16 @@
-/* TrainingAssistant card 0.13.1 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
+/* TrainingAssistant card 0.14.0 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
 // src/ui/texts.js
 var EXTRA_I18N = {
 	en: {
 		p_tab_data: "Other",
+		wk_goal_word: "Weekly goal",
+		wk_last: "Last week",
+		wk_prev: "Previous week",
+		wk_next: "Next week",
+		wk_now: "Back to this week",
+		p_workouts_n: "{n} workouts",
+		p_show_all: "Show all",
+		p_collapse: "Collapse",
 		d_sound: "Beeps",
 		d_sound_on: "On",
 		d_sound_off: "Off",
@@ -80,7 +88,9 @@ var EXTRA_I18N = {
 		"p_short_data": "Other",
 		"ed_intro": "Build your own program or change one you have. Programs from the templates are edited as your own copy – the template stays as it is, and your history carries over because it belongs to the exercise.",
 		"ed_new": "New program",
-		"ed_existing": "Edit a program",
+		"ed_grp_own": "Your own programs",
+		"ed_grp_tpl": "From templates",
+		"ed_no_own": "None yet – build one with the button above, or edit a template as a copy.",
 		"ed_edit": "Edit",
 		"ed_edit_copy": "Edit as copy",
 		"ed_tpl_badge": "Template",
@@ -207,6 +217,58 @@ var EXTRA_I18N = {
 		"l_no_hit": "Nothing found.",
 		"l_search_plans": "Search my plans",
 		"l_search_tpl": "Search templates",
+		"sh_open": "Share workout",
+		"sh_title": "Share workout",
+		"sh_close": "Close",
+		"sh_alt": "Picture of your workout",
+		"sh_loading": "Drawing the picture …",
+		"sh_failed": "The picture could not be created.",
+		"sh_hint_hero": "Only what you gained today – no weights, no body data.",
+		"sh_hint_classic": "Only the key figures of your workout – no exercises, no body data.",
+		"sh_save": "Save picture",
+		"sh_share": "Share …",
+		"sh_done": "WORKOUT DONE",
+		"sh_classic_h": "WORKOUT DONE!",
+		"sh_story": "STORY",
+		"sh_plan": "PLAN",
+		"sh_free": "Free workout",
+		"sh_week": "Week {n}",
+		"sh_duration": "TIME",
+		"sh_sets": "SETS",
+		"sh_exercises": "EXERCISES",
+		"sh_moved": "MOVED",
+		"sh_today": "GAINED TODAY",
+		"sh_level": "LEVEL",
+		"sh_level_chip": "Level {n}",
+		"sh_level_now": "Now level {n}",
+		"sh_powers": "POWERS",
+		"sh_badge": "NEW BADGE",
+		"sh_badges": "NEW BADGES",
+		"sh_badges_n": "{n} new badges",
+		"sh_records": "RECORDS",
+		"sh_rec1": "1 new best",
+		"sh_recn": "{n} new bests",
+		"sh_mark": "MILESTONE",
+		"sh_mark_text": "{mark} reached – “{story}”",
+		"sh_story_done": "Story finished – “{story}”",
+		"sh_to_level": "About {n} more workouts to level {l}",
+		"sh_to_level1": "About 1 more workout to level {l}",
+		"sh_week_lbl": "THIS WEEK",
+		"sh_week_val": "{n} of {g}",
+		"sh_streak": "{n} weeks in a row",
+		"sh_streak1": "1 week in a row",
+		"hf_search": "Search exercises",
+		"hf_kind": "Type of exercise",
+		"hf_kind_all": "All",
+		"hf_kind_strength": "Strength",
+		"hf_kind_cardio": "Cardio",
+		"hf_kind_mobility": "Mobility",
+		"hf_group": "Muscle group",
+		"hf_group_all": "All muscles",
+		"hf_sort": "Order",
+		"hf_sort_recent": "Last trained",
+		"hf_sort_name": "A–Z",
+		"hf_none": "No exercise matches.",
 		"ed_category": "Category",
 		"ed_cat_pick": "Choose category",
 		"ed_err_cat": "Choose a category for the program.",
@@ -271,6 +333,14 @@ var EXTRA_I18N = {
 		"ef_close": "Close"
 	},
 	de: {
+		wk_goal_word: "Wochenziel",
+		wk_last: "Letzte Woche",
+		wk_prev: "Woche davor",
+		wk_next: "Woche danach",
+		wk_now: "Zurück zur laufenden Woche",
+		p_workouts_n: "{n} Workouts",
+		p_show_all: "Alle zeigen",
+		p_collapse: "Einklappen",
 		p_tab_data: "Sonstiges",
 		d_sound: "Signaltöne",
 		d_sound_on: "An",
@@ -349,7 +419,9 @@ var EXTRA_I18N = {
 		"p_short_data": "Sonstiges",
 		"ed_intro": "Bau dir ein eigenes Programm oder ändere ein vorhandenes. Programme aus den Vorlagen bearbeitest du als eigene Kopie – die Vorlage bleibt, wie sie ist, und dein Verlauf geht mit, weil er an der Übung hängt.",
 		"ed_new": "Neues Programm",
-		"ed_existing": "Programm bearbeiten",
+		"ed_grp_own": "Eigene Programme",
+		"ed_grp_tpl": "Aus Vorlagen",
+		"ed_no_own": "Noch keine – bau eins mit dem Knopf oben oder bearbeite eine Vorlage als Kopie.",
 		"ed_edit": "Bearbeiten",
 		"ed_edit_copy": "Als Kopie bearbeiten",
 		"ed_tpl_badge": "Vorlage",
@@ -476,6 +548,58 @@ var EXTRA_I18N = {
 		"l_no_hit": "Nichts gefunden.",
 		"l_search_plans": "Meine Pläne durchsuchen",
 		"l_search_tpl": "Vorlagen durchsuchen",
+		"sh_open": "Training teilen",
+		"sh_title": "Training teilen",
+		"sh_close": "Schließen",
+		"sh_alt": "Bild deines Trainings",
+		"sh_loading": "Bild wird gezeichnet …",
+		"sh_failed": "Das Bild konnte nicht erstellt werden.",
+		"sh_hint_hero": "Nur, was du heute gewonnen hast – ohne Gewichte und Körperdaten.",
+		"sh_hint_classic": "Nur die Eckdaten deines Trainings – ohne Übungen und Körperdaten.",
+		"sh_save": "Bild speichern",
+		"sh_share": "Teilen …",
+		"sh_done": "TRAINING GESCHAFFT",
+		"sh_classic_h": "TRAINING GESCHAFFT!",
+		"sh_story": "STORY",
+		"sh_plan": "PLAN",
+		"sh_free": "Freies Training",
+		"sh_week": "Woche {n}",
+		"sh_duration": "DAUER",
+		"sh_sets": "SÄTZE",
+		"sh_exercises": "ÜBUNGEN",
+		"sh_moved": "BEWEGT",
+		"sh_today": "HEUTE GEWONNEN",
+		"sh_level": "LEVEL",
+		"sh_level_chip": "Level {n}",
+		"sh_level_now": "Jetzt Level {n}",
+		"sh_powers": "KRÄFTE",
+		"sh_badge": "NEUER ORDEN",
+		"sh_badges": "NEUE ORDEN",
+		"sh_badges_n": "{n} neue Orden",
+		"sh_records": "REKORDE",
+		"sh_rec1": "1 neuer Bestwert",
+		"sh_recn": "{n} neue Bestwerte",
+		"sh_mark": "WEGMARKE",
+		"sh_mark_text": "{mark} erreicht – „{story}“",
+		"sh_story_done": "Story geschafft – „{story}“",
+		"sh_to_level": "Noch etwa {n} Trainings bis Level {l}",
+		"sh_to_level1": "Noch etwa 1 Training bis Level {l}",
+		"sh_week_lbl": "DIESE WOCHE",
+		"sh_week_val": "{n} von {g}",
+		"sh_streak": "{n} Wochen in Serie",
+		"sh_streak1": "1 Woche in Serie",
+		"hf_search": "Übungen durchsuchen",
+		"hf_kind": "Übungsart",
+		"hf_kind_all": "Alle",
+		"hf_kind_strength": "Kraft",
+		"hf_kind_cardio": "Ausdauer",
+		"hf_kind_mobility": "Beweglichkeit",
+		"hf_group": "Muskelgruppe",
+		"hf_group_all": "Alle Muskeln",
+		"hf_sort": "Reihenfolge",
+		"hf_sort_recent": "Zuletzt trainiert",
+		"hf_sort_name": "A–Z",
+		"hf_none": "Keine Übung passt.",
 		"ed_category": "Kategorie",
 		"ed_cat_pick": "Kategorie wählen",
 		"ed_err_cat": "Wähle eine Kategorie für das Programm.",
@@ -665,14 +789,17 @@ var Editor = class {
 	}
 	renderStart(state) {
 		const { t, esc } = this.h;
-		const plans = (state.plans || []).map((p) => `<div class="plan row between"><div><b>${esc(p.name)}</b>
+		const row = (p) => `<div class="plan row between"><div><b>${esc(p.name)}</b>
           ${p.template ? ` <span class="badge">${t("ed_tpl_badge")}</span>` : ""}
           <div class="muted small">${esc(t("ed_n_workouts", { n: p.workouts.length }))}</div></div>
-          <button class="btn small" data-a="ed-open" data-plan="${esc(p.id)}">${p.template ? `⟦copy⟧ ${t("ed_edit_copy")}` : `⟦editor⟧ ${t("ed_edit")}`}</button></div>`).join("");
+          <button class="btn small" data-a="ed-open" data-plan="${esc(p.id)}">${p.template ? `⟦copy⟧ ${t("ed_edit_copy")}` : `⟦editor⟧ ${t("ed_edit")}`}</button></div>`;
+		const all = state.plans || [], own = all.filter((p) => !p.template), tpl = all.filter((p) => p.template);
+		const group = (label, list, empty = "") => `<div class="lbl">${label} <span class="cnt">${list.length}</span></div>${list.map(row).join("") || empty}`;
+		const plans = all.length ? `${group(t("ed_grp_own"), own, `<div class="muted small">${t("ed_no_own")}</div>`)}${tpl.length ? group(t("ed_grp_tpl"), tpl) : ""}` : "";
 		return `<div class="ed">${this.saved ? `<div class="msg ok">${esc(t("ed_saved", { name: this.saved }))}</div>` : ""}
       <div class="muted small">${t("ed_intro")}</div>
       <div class="row"><button class="btn primary" data-a="ed-new">⟦plus⟧ ${t("ed_new")}</button></div>
-      ${plans ? `<div class="lbl">${t("ed_existing")}</div>${plans}` : ""}
+      ${plans}
     </div>`;
 	}
 	field(label, control, cls = "") {
@@ -1454,7 +1581,8 @@ var Editor = class {
 				type: "save_plan",
 				plan,
 				plan_id: this.ed.planId,
-				category: this.ed.category
+				category: this.ed.category,
+				from_template: !!this.ed.fromTemplate
 			});
 			this.saved = res.name;
 			this.ed = null;
@@ -1575,6 +1703,1758 @@ function celebrate(pieces = 70) {
 	document.body.append(box);
 	setTimeout(() => box.remove(), 3200);
 }
+// src/ui/medals.js
+var HERO_ICONS = {
+	dumbbell: "M2 12h1M6 8h-2a1 1 0 0 0 -1 1v6a1 1 0 0 0 1 1h2M6 7v10a1 1 0 0 0 1 1h1a1 1 0 0 0 1 -1v-10a1 1 0 0 0 -1 -1h-1a1 1 0 0 0 -1 1zM9 12h6M15 7v10a1 1 0 0 0 1 1h1a1 1 0 0 0 1 -1v-10a1 1 0 0 0 -1 -1h-1a1 1 0 0 0 -1 1zM18 8h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2M22 12h-1",
+	lungs: "M6.081 20c1.612 0 2.919 -1.335 2.919 -2.98v-9.763c0 -.694 -.552 -1.257 -1.232 -1.257c-.205 0 -.405 .052 -.584 .15l-.13 .083c-1.46 1.059 -2.432 2.647 -3.404 5.824c-.42 1.37 -.636 2.962 -.648 4.775c-.012 1.675 1.261 3.054 2.877 3.161l.203 .007zM17.92 20c-1.613 0 -2.92 -1.335 -2.92 -2.98v-9.763c0 -.694 .552 -1.257 1.233 -1.257c.204 0 .405 .052 .584 .15l.13 .083c1.46 1.059 2.432 2.647 3.405 5.824c.42 1.37 .636 2.962 .648 4.775c.012 1.675 -1.261 3.054 -2.878 3.161l-.202 .007zM9 12a3 3 0 0 0 3 -3a3 3 0 0 0 3 3M12 4v5",
+	feather: "M4 20l10 -10m0 -5v5h5m-9 -1v5h5m-9 -1v5h5m-5 -5l4 -4l4 -4M19 10c.638 -.636 1 -1.515 1 -2.486a3.515 3.515 0 0 0 -3.517 -3.514c-.97 0 -1.847 .367 -2.483 1m-3 13l4 -4l4 -4",
+	mountain: "M3 20h18l-6.921 -14.612a2.3 2.3 0 0 0 -4.158 0l-6.921 14.612zM7.5 11l2 2.5l2.5 -2.5l2 3l2.5 -2",
+	star: "M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z",
+	bolt: "M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11",
+	moon: "M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z",
+	sun: "M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7",
+	target: "M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0",
+	mask: "M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z",
+	book: "M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0M3 6l0 13M12 6l0 13M21 6l0 13",
+	flag: "M5 5a5 5 0 0 1 7 0a5 5 0 0 0 7 0v9a5 5 0 0 1 -7 0a5 5 0 0 0 -7 0v-9zM5 21v-7",
+	trophy: "M8 21l8 0M12 17l0 4M7 4l10 0M17 4v8a5 5 0 0 1 -10 0v-8M5 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M19 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0",
+	calendar: "M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12zM16 3v4M8 3v4M4 11h16M11 15h1M12 15v3",
+	pencil: "M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4M13.5 6.5l4 4",
+	home: "M5 12l-2 0l9 -9l9 9l-2 0M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6",
+	layers: "M12 4l-8 4l8 4l8 -4l-8 -4M4 12l8 4l8 -4M4 16l8 4l8 -4",
+	scale: "M7 20l10 0M6 6l6 -1l6 1M12 3l0 17M9 12l-3 -6l-3 6a3 3 0 0 0 6 0M21 12l-3 -6l-3 6a3 3 0 0 0 6 0",
+	kettlebell: "M12 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0M6.835 9h10.33a1 1 0 0 1 .984 .821l1.637 9a1 1 0 0 1 -.984 1.179h-13.604a1 1 0 0 1 -.984 -1.179l1.637 -9a1 1 0 0 1 .984 -.821z",
+	wave: "M21 12h-2c-.894 0 -1.662 -.857 -1.761 -2c-.296 -3.45 -.749 -6 -2.749 -6s-2.5 3.582 -2.5 8s-.5 8 -2.5 8s-2.452 -2.547 -2.749 -6c-.1 -1.147 -.867 -2 -1.763 -2h-2",
+	flame: "M12 10.941c2.333 -3.308 .167 -7.823 -1 -8.941c0 3.395 -2.235 5.299 -3.667 6.706c-1.43 1.408 -2.333 3.621 -2.333 5.588c0 3.704 3.134 6.706 7 6.706s7 -3.002 7 -6.706c0 -1.712 -1.232 -4.403 -2.333 -5.588c-2.084 3.353 -3.257 3.353 -4.667 2.235",
+	clock: "M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0M12 7v5l3 3",
+	heart: "M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572",
+	swap: "M7 10h14l-4 -4M17 14h-14l4 4",
+	save: "M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M14 4l0 4l-6 0l0 -4",
+	wifioff: "M12 18l.01 0M9.172 15.172a4 4 0 0 1 5.656 0M6.343 12.343a7.963 7.963 0 0 1 3.864 -2.14m4.163 .155a7.965 7.965 0 0 1 3.287 2M3.515 9.515a12 12 0 0 1 3.544 -2.455m3.101 -.92a12 12 0 0 1 10.325 3.374M3 3l18 18",
+	users: "M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2M16 3.13a4 4 0 0 1 0 7.75M21 21v-2a4 4 0 0 0 -3 -3.85",
+	search: "M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0M21 21l-6 -6",
+	arrowup: "M12 5l0 14M18 11l-6 -6M6 11l6 -6",
+	arrowdown: "M12 5l0 14M18 13l-6 6M6 13l6 6",
+	check: "M5 12l5 5l10 -10",
+	leaf: "M5 21c.5 -4.5 2.5 -8 7 -10M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3z",
+	battery: "M6 7h11a2 2 0 0 1 2 2v.5a.5 .5 0 0 0 .5 .5a.5 .5 0 0 1 .5 .5v3a.5 .5 0 0 1 -.5 .5a.5 .5 0 0 0 -.5 .5v.5a2 2 0 0 1 -2 2h-11a2 2 0 0 1 -2 -2v-6a2 2 0 0 1 2 -2M7 10l0 4M10 10l0 4",
+	grid: "M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1zM14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1zM4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1zM14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z",
+	body: "M16 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0M5 20l5 -.5l1 -2M18 20v-5h-5.5l2.5 -6.5l-5.5 1l1.5 2",
+	dice: "M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2zM8.5 8.5h.01M15.5 8.5h.01M15.5 15.5h.01M8.5 15.5h.01M12 12h.01",
+	shield: "M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3",
+	crown: "M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z",
+	medal: "M12 4v3m-4 -3v6m8 -6v6M12 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z",
+	rocket: "M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3M15 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+	ufo: "M16.95 9.01c3.02 .739 5.05 2.123 5.05 3.714c0 2.367 -4.48 4.276 -10 4.276s-10 -1.909 -10 -4.276c0 -1.59 2.04 -2.985 5.07 -3.724M7 9c0 1.105 2.239 2 5 2s5 -.895 5 -2v-.035c0 -2.742 -2.239 -4.965 -5 -4.965s-5 2.223 -5 4.965v.035M15 17l2 3M8.5 17l-1.5 3M12 14h.01M7 13h.01M17 13h.01",
+	skyscraper: "M3 21l18 0M5 21v-14l8 -4v18M19 21v-10l-6 -4M9 9l0 .01M9 12l0 .01M9 15l0 .01M9 18l0 .01",
+	run: "M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0M4 17l5 1l.75 -1.5M15 21l0 -4l-4 -3l1 -6M7 12l0 -3l5 -1l3 3l3 1",
+	yoga: "M12 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0M4 20h4l1.5 -3M17 20l-1 -5h-5l1 -7M4 10l4 -1l4 -1l4 1.5l4 1.5",
+	swim: "M16 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0M6 11l4 -2l3.5 3l-1.5 2M3 16.75a2.4 2.4 0 0 0 1 .25a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 1 -.25",
+	bike: "M5 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0M19 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0M12 19l0 -4l-3 -3l5 -4l2 3l3 0M17 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+	treadmill: "M10 3a1 1 0 1 0 2 0a1 1 0 0 0 -2 0M3 14l4 1l.5 -.5M12 18v-3l-3 -2.923l.75 -5.077M6 10v-2l4 -1l2.5 2.5l2.5 .5M21 22a1 1 0 0 0 -1 -1h-16a1 1 0 0 0 -1 1M18 21l1 -11l2 -1",
+	stairs: "M22 6h-5v5h-5v5h-5v5h-5M6 10v-7M3 6l3 -3l3 3",
+	hourglass: "M6.5 7h11M6.5 17h11M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1zM6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z",
+	sparkles: "M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z",
+	info: "M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0M12 9h.01M11 12h1v4h1",
+	dots: "M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+	award: "M12 9m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0M12 15l3.4 5.89l1.598 -3.233l3.598 .232l-3.4 -5.889M6.802 12l-3.4 5.89l3.598 -.233l1.598 3.232l3.4 -5.889"
+};
+/** Symbol als Umriss in der Textfarbe (für Listen, Kräfte, Karten) */
+function heroIcon(name, cls = "pi") {
+	const d = HERO_ICONS[name];
+	return d ? `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>` : "";
+}
+var circ = (r) => `M${50 - r} 50a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`;
+var poly = (pts, s) => "M" + pts.map(([x, y]) => `${(50 + (x - 50) * s).toFixed(2)} ${(50 + (y - 50) * s).toFixed(2)}`).join("L") + "Z";
+function star(n, ro, ri) {
+	const p = [];
+	for (let i = 0; i < n * 2; i++) {
+		const r = i % 2 ? ri : ro, a = -Math.PI / 2 + i * Math.PI / n;
+		p.push([50 + r * Math.cos(a), 50 + r * Math.sin(a)]);
+	}
+	return poly(p, 1);
+}
+function rrect(x, y, w, h, r, s) {
+	const c = (v) => 50 + (v - 50) * s;
+	x = c(x);
+	y = c(y);
+	w *= s;
+	h *= s;
+	r *= s;
+	return `M${x + r} ${y}H${x + w - r}Q${x + w} ${y} ${x + w} ${y + r}V${y + h - r}Q${x + w} ${y + h} ${x + w - r} ${y + h}H${x + r}Q${x} ${y + h} ${x} ${y + h - r}V${y + r}Q${x} ${y} ${x + r} ${y}Z`;
+}
+var SHAPES = {
+	circle: (s) => circ(46 * s),
+	hex: (s) => poly([
+		[50, 4],
+		[90, 27],
+		[90, 73],
+		[50, 96],
+		[10, 73],
+		[10, 27]
+	], s),
+	shield: () => "M50 4L88 16V48C88 72 70 88 50 96C30 88 12 72 12 48V16Z",
+	diamond: (s) => poly([
+		[50, 3],
+		[96, 50],
+		[50, 97],
+		[4, 50]
+	], s),
+	pennant: (s) => poly([
+		[14, 6],
+		[86, 6],
+		[86, 78],
+		[50, 96],
+		[14, 78]
+	], s),
+	seal: (s) => star(14, 48 * s, 41 * s),
+	panel: (s) => rrect(8, 6, 84, 88, 12, s),
+	oct: (s) => poly(Array.from({ length: 8 }, (_, i) => {
+		const a = Math.PI / 8 + i * Math.PI / 4;
+		return [50 + 47 * Math.cos(a), 50 + 47 * Math.sin(a)];
+	}), s),
+	crown: (s) => star(20, 48 * s, 43 * s)
+};
+var METALS = {
+	steel: ["#e2e5e9", "#5c636b"],
+	bronze: ["#f6c08f", "#7e4119"],
+	silver: ["#ffffff", "#7f8995"],
+	gold: ["#fff0b0", "#a87508"],
+	platin: ["#f5f8ff", "#62759e"],
+	ruby: ["#ffb3bd", "#8e0f2a"],
+	diamond: ["#f0feff", "#2f98bd"]
+};
+var FONT$1 = "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
+var uid$1 = 0;
+/**
+* Ein Orden als SVG. look = { shape, metal, hue, icon, num }, state = "got" | "open" | "secret".
+* Offene Orden zeichnet dieselbe Funktion; ausgegraut werden sie per CSS (.open svg.hx-medal).
+*/
+function medal(look, { size = 72, state = "got" } = {}) {
+	const id = `hxm${++uid$1}`;
+	const shape = SHAPES[look.shape] || SHAPES.circle;
+	const isShield = look.shape === "shield";
+	const outer = shape(1), inner = isShield ? outer : shape(.8);
+	const tf = isShield ? ` transform="translate(50 50) scale(.8) translate(-50 -50)"` : "";
+	const svg = (body, defs = "") => `<svg class="hx-medal" width="${size}" height="${size}" viewBox="0 0 100 100" aria-hidden="true"><defs>${defs}</defs>${body}</svg>`;
+	if (state === "secret") return svg(`<path d="${outer}" fill="var(--hx-secret, #2a2d2a)"/><path d="${inner}"${tf} fill="none" stroke="var(--hx-secret-fg, #6f766f)" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <text x="50" y="62" text-anchor="middle" font-family="${FONT$1}" font-weight="800" font-size="34" fill="var(--hx-secret-fg, #6f766f)">?</text>`);
+	const [m1, m2] = METALS[look.metal] || METALS.steel, h = look.hue;
+	const defs = `<linearGradient id="${id}m" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${m1}"/><stop offset=".3" stop-color="${m2}"/>
+      <stop offset=".52" stop-color="${m1}"/><stop offset=".78" stop-color="${m2}"/><stop offset="1" stop-color="${m1}"/></linearGradient>
+    <radialGradient id="${id}f" cx=".35" cy=".28" r=".85"><stop offset="0" stop-color="hsl(${h} 82% 66%)"/>
+      <stop offset=".6" stop-color="hsl(${h} 70% 44%)"/><stop offset="1" stop-color="hsl(${h} 74% 28%)"/></radialGradient>
+    <clipPath id="${id}c"><path d="${inner}"${tf}/></clipPath>`;
+	const hasNum = look.num !== null && look.num !== void 0;
+	let motif;
+	if (look.shape === "crown") {
+		const rays = Array.from({ length: 12 }, (_, i) => `<path d="M50 50L${(50 + 40 * Math.cos(i * Math.PI / 6)).toFixed(1)} ${(50 + 40 * Math.sin(i * Math.PI / 6)).toFixed(1)}" stroke="rgb(255 255 255 / .22)" stroke-width="5"/>`).join("");
+		const leaf = (side) => Array.from({ length: 5 }, (_, i) => {
+			const a = Math.PI * (.62 + i * .13) * 1, x = 50 + side * 27 * Math.sin(a), y = 54 - 27 * Math.cos(a);
+			return `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="3.2" ry="6.4" transform="rotate(${(side * (i * 22 - 40)).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})" fill="url(#${id}m)" stroke="rgb(0 0 0 / .3)" stroke-width=".6"/>`;
+		}).join("");
+		motif = `<g clip-path="url(#${id}c)">${rays}</g>${leaf(-1)}${leaf(1)}
+      <path d="M33 62L29 38L41 48L50 31L59 48L71 38L67 62Z" fill="url(#${id}m)" stroke="rgb(0 0 0 / .45)" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M33 66H67" stroke="url(#${id}m)" stroke-width="5" stroke-linecap="round"/><path d="M33 66H67" stroke="rgb(0 0 0 / .35)" stroke-width=".8" fill="none"/>
+      <circle cx="50" cy="31" r="2.6" fill="#fff"/><circle cx="29" cy="38" r="2.2" fill="#fff"/><circle cx="71" cy="38" r="2.2" fill="#fff"/>`;
+	} else {
+		const ty = hasNum ? 20 : 27, ip = HERO_ICONS[look.icon];
+		const stroke = `fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"`;
+		motif = ip ? `<g transform="translate(29 ${ty + 1.4}) scale(1.75)" ${stroke} stroke="rgb(0 0 0 / .32)"><path d="${ip}"/></g>
+      <g transform="translate(29 ${ty}) scale(1.75)" ${stroke} stroke="#fff"><path d="${ip}"/></g>` : "";
+		if (!ip && hasNum) motif = `<text x="50" y="63" text-anchor="middle" font-family="${FONT$1}" font-weight="800" font-size="36" fill="#fff" stroke="rgb(0 0 0 / .3)" stroke-width=".8">${look.num}</text>`;
+		else if (hasNum) {
+			const nw = String(look.num).length > 2 ? 46 : 36;
+			motif += `<rect x="${50 - nw / 2}" y="70" width="${nw}" height="19" rx="9.5" fill="url(#${id}m)" stroke="rgb(0 0 0 / .35)" stroke-width=".8"/>
+        <text x="50" y="84" text-anchor="middle" font-family="${FONT$1}" font-weight="800" font-size="13" fill="#1b1b1b">${look.num}</text>`;
+		}
+	}
+	return svg(`<path d="${outer}" fill="url(#${id}m)" stroke="rgb(0 0 0 / .3)" stroke-width=".8"/>
+    <path d="${inner}"${tf} fill="url(#${id}f)" stroke="rgb(0 0 0 / .4)" stroke-width="1.6"/>
+    <g clip-path="url(#${id}c)"><ellipse cx="50" cy="12" rx="58" ry="34" fill="#fff" opacity=".17"/>
+      <path d="${inner}"${tf} fill="none" stroke="rgb(255 255 255 / .35)" stroke-width="2.4"/></g>${motif}`, defs);
+}
+// src/ui/hero-art.js
+/** Ränge, für die es den freigestellten Helden schon als echtes Bild gibt: Stil → Figur → Ränge */
+var REAL_RANKS = {
+	vigilante: {
+		m: [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		],
+		w: [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		]
+	},
+	xclass: {
+		m: [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		],
+		w: [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		]
+	},
+	starkeeper: {
+		m: [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		],
+		w: [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		]
+	},
+	runewarrior: {
+		m: [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		],
+		w: [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		]
+	},
+	neonrebel: {
+		m: [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		],
+		w: [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		]
+	}
+};
+/** Stile in fester Reihenfolge (wie STYLES in core/hero/config.ts) – Reihenfolge der kleinen Bilder auf der Comicseite */
+var STYLE_ORDER = [
+	"vigilante",
+	"xclass",
+	"starkeeper",
+	"runewarrior",
+	"neonrebel"
+];
+/** Stories mit echtem Cover (cover.webp 800×1200 und thumb.webp 300×450), übernommen mit scripts/import-story-covers.py */
+var REAL_COVERS = [
+	"iron_origins",
+	"the_family",
+	"forty_nights",
+	"clockwork",
+	"two_hands",
+	"seven_minutes",
+	"fault_line",
+	"bare_hands",
+	"steady_ground",
+	"between_floors",
+	"defy_gravity",
+	"on_call",
+	"the_tower",
+	"breakthrough",
+	"hold_the_line",
+	"upside_down",
+	"without_a_net",
+	"float_1",
+	"float_2",
+	"float_3",
+	"horizon_1",
+	"horizon_2",
+	"horizon_3",
+	"behind_the_horizon",
+	"still_rings",
+	"under_tension",
+	"through_the_rings",
+	"center_stage",
+	"the_pendulum",
+	"the_deep",
+	"ten_thousand",
+	"storm_bell",
+	"plated",
+	"red_line",
+	"thirty_minutes",
+	"out_of_range",
+	"ten_fuses",
+	"eight_rounds",
+	"suns_108",
+	"below_the_city",
+	"backbone",
+	"first_light",
+	"high_wire",
+	"three_tiers",
+	"load_bearing",
+	"double_shift",
+	"scramble",
+	"the_hundred",
+	"kick_off",
+	"fifteen_seconds",
+	"twenty_one",
+	"three_tempos",
+	"overgrown",
+	"lights_out",
+	"the_divide"
+];
+/** Stories mit echtem Siegbild (victory.webp 800×1200 und victory-thumb.webp 300×450), ebenfalls aus import-story-covers.py */
+var REAL_VICTORIES = REAL_COVERS;
+/** Wegmarken mit echten Bildern (je eines pro Stil), übernommen mit scripts/import-milestones.py */
+var REAL_MILESTONES = [
+	0,
+	1,
+	2,
+	3,
+	4
+];
+/** Vorhandene echte Bilder (Pfad wie oben). Alles andere zeigt den Platzhalter. */
+var HERO_ART_FILES = /* @__PURE__ */ new Set([
+	...REAL_COVERS.flatMap((id) => [`story/${id}/cover.webp`, `story/${id}/thumb.webp`]),
+	...REAL_VICTORIES.flatMap((id) => [`story/${id}/victory.webp`, `story/${id}/victory-thumb.webp`]),
+	...STYLE_ORDER.flatMap((style) => [
+		`comeback/${style}.webp`,
+		`comeback/${style}-away.webp`,
+		`hall/${style}.webp`
+	]),
+	...REAL_MILESTONES.flatMap((i) => STYLE_ORDER.map((style) => `milestone/${i}/${style}.webp`)),
+	"bg/vigilante.webp",
+	"bg/xclass.webp",
+	"bg/starkeeper.webp",
+	"bg/runewarrior.webp",
+	"bg/neonrebel.webp",
+	...Object.entries(REAL_RANKS).flatMap(([style, figs]) => Object.entries(figs).flatMap(([fig, ranks]) => ranks.map((r) => `rank/${style}/${fig}/${r}.webp`)))
+]);
+var ART_BASE = "./hero";
+/** Wo der Held auf dem Hintergrund steht (Anteile der Bildhöhe bzw. -breite) – für alle Figuren und Ränge gleich */
+var HERO_LAYOUT = {
+	height: .66,
+	feet: .84,
+	shadows: [{
+		width: .8,
+		height: .1,
+		opacity: .55,
+		lift: .02
+	}, {
+		width: .42,
+		height: .03,
+		opacity: .8,
+		lift: .004
+	}]
+};
+/** Hall of Fame: wo der Held auf dem Podest steht (Anteile der Bildhöhe; Bild-Export: Fußlinie etwa 84 %, Höhe etwa 60 %) */
+var HALL_LAYOUT = {
+	height: .6,
+	feet: .84
+};
+/**
+* Hall of Fame: Mitte des Lichtkreises am Boden je Stil (Anteil der Bildhöhe, gemessen mit scripts/measure-hall-spot.py).
+* Die App vergrößert den Hintergrund so, dass der Lichtkreis unter den Füßen des Helden liegt (hallCrop) – die Bilder
+* selbst bleiben, wie sie aus dem Export kommen. Werden sie ersetzt: neu messen und hier eintragen.
+*/
+var HALL_SPOT = {
+	vigilante: .889,
+	xclass: .846,
+	starkeeper: .838,
+	runewarrior: .832,
+	neonrebel: .784
+};
+/** Zuschnitt des Hall-of-Fame-Hintergrunds: der Lichtkreis soll knapp über der Fußlinie liegen (der Held steht darin) */
+function hallCrop(style) {
+	const spot = HALL_SPOT[style], target = HALL_LAYOUT.feet - .005;
+	if (!spot) return "";
+	const low = spot > target, zoom = low ? (1 - target) / (1 - spot) : target / spot;
+	return zoom < 1.002 ? "" : `transform:scale(${zoom.toFixed(3)});transform-origin:50% ${low ? "100%" : "0%"}`;
+}
+/** The Return: Kreis mit dem Kopf des Helden (Anteile der Bildbreite bzw. -höhe) */
+var RETURN_LAYOUT = {
+	size: .64,
+	center: .52
+};
+/** Leuchtaugen je Stil */
+var EYE_COLORS = {
+	vigilante: "#ffffff",
+	xclass: "#ffd400",
+	starkeeper: "#39ff6a",
+	runewarrior: "#9fe8ff",
+	neonrebel: "#ff3ea5"
+};
+/** Farben der vier Kräfte – gleich im Profil, bei den Orden und in der Heldenleiste. Nie im Heldenbild: das gehört dem Stil. */
+var POWER_COLORS = {
+	strength: "#e5484d",
+	endurance: "#f08c2e",
+	agility: "#12b5a6",
+	willpower: "#8b5cf6"
+};
+/** Farbwelt je Stil: Hintergrund (2 Töne), Figur, Zierfarbe, zweite Zierfarbe */
+var STYLE_ART = {
+	vigilante: {
+		bg: ["#161b26", "#3d475c"],
+		body: "#0b0e14",
+		trim: "#f2c14e",
+		glow: "#8fa3c7"
+	},
+	xclass: {
+		bg: ["#0f2a63", "#2f6fe0"],
+		body: "#0a1a3d",
+		trim: "#ffd400",
+		glow: "#9cc3ff"
+	},
+	starkeeper: {
+		bg: ["#1a1046", "#6b41d6"],
+		body: "#110a30",
+		trim: "#59e0d0",
+		glow: "#c7b3ff"
+	},
+	runewarrior: {
+		bg: ["#1f2d34", "#58808e"],
+		body: "#131d22",
+		trim: "#ead9a4",
+		glow: "#b9dbe6"
+	},
+	neonrebel: {
+		bg: ["#150a2b", "#451063"],
+		body: "#090516",
+		trim: "#ff3ea5",
+		glow: "#22e3ff"
+	}
+};
+var FONT = "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
+/**
+* Comic-Schrift des Heldenmodus: „Bangers“ (SIL Open Font License, Lizenztext public/licenses/bangers-ofl.txt), nur
+* Latin inkl. Umlaute, liegt bei den Heldenbildern (<ART_BASE>/fonts/) – wird mit der App ausgeliefert, nie von fremden
+* Servern geladen. Nur für Titel im Heldenmodus (Stil, Rang, Alias, Story-Titel …), nie für Fließtext, Zahlen, Knöpfe.
+* Bangers hat nur Großbuchstaben und ist schmal: darum etwas Buchstabenabstand; Rückfall auf schmale, fette Schriften.
+*/
+var HERO_FONT = "'Bangers', Impact, Haettenschweiler, 'Arial Narrow', 'Helvetica Neue', sans-serif";
+var HERO_FONT_FILE = "fonts/bangers-latin.woff2";
+/** @font-face gilt nicht aus einem Shadow DOM heraus: einmal am Dokument anmelden (auch für die HA-Karte gedacht) */
+function ensureHeroFont(doc = typeof document === "undefined" ? null : document) {
+	if (!doc || !doc.head || doc.getElementById("hx-font")) return;
+	const el = doc.createElement("style");
+	el.id = "hx-font";
+	el.textContent = `@font-face { font-family: 'Bangers'; font-style: normal; font-weight: 400; font-display: swap; src: url("${ART_BASE}/${HERO_FONT_FILE}") format("woff2"); }`;
+	doc.head.appendChild(el);
+}
+var esc$1 = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({
+	"&": "&amp;",
+	"<": "&lt;",
+	">": "&gt;",
+	"\"": "&quot;",
+	"'": "&#39;"
+})[c]);
+var uid = 0;
+var iconAt = (name, x, y, size, color = "#fff", width = 2) => {
+	const d = HERO_ICONS[name];
+	return d ? `<g transform="translate(${x - size / 2} ${y - size / 2}) scale(${size / 24})" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></g>` : "";
+};
+/** Text in höchstens `max` Zeilen umbrechen (SVG kann das nicht selbst) */
+function wrap(text, perLine, max = 3) {
+	const lines = [];
+	for (const word of String(text).split(/\s+/)) {
+		const last = lines[lines.length - 1];
+		if (last !== void 0 && `${last} ${word}`.length <= perLine) lines[lines.length - 1] = `${last} ${word}`;
+		else lines.push(word);
+	}
+	if (lines.length > max) {
+		lines.length = max;
+		lines[max - 1] = `${lines[max - 1].replace(/.{0,2}$/, "")}…`;
+	}
+	return lines;
+}
+var halftone = (id, color = "rgb(255 255 255 / .13)", step = 9) => `<pattern id="${id}" width="${step}" height="${step}" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><circle cx="${step / 2}" cy="${step / 2}" r="${step / 5}" fill="${color}"/></pattern>`;
+var BODY = {
+	m: {
+		sh: 40,
+		wa: 26,
+		hip: 28
+	},
+	w: {
+		sh: 31,
+		wa: 19,
+		hip: 32
+	}
+};
+var STYLE_GLYPH = {
+	vigilante: "M-5 -4L0 5L5 -4",
+	xclass: "M-5 -5L5 5M5 -5L-5 5",
+	starkeeper: "M0 -6L1.8 -1.8L6 0L1.8 1.8L0 6L-1.8 1.8L-6 0L-1.8 -1.8Z",
+	runewarrior: "M-3 6V-6L4 -2L-3 1L4 6",
+	neonrebel: "M2 -6L-4 1H1L-2 6L5 -1H0Z"
+};
+function figure(fig, style, rank) {
+	const pal = STYLE_ART[style] || STYLE_ART.vigilante;
+	const b = BODY[fig] || BODY.m, cx = 120;
+	const heroic = rank >= 4;
+	const fill = pal.body, edge = pal.trim;
+	const limb = (pts, w) => `<path d="M${pts.map((p) => p.join(" ")).join("L")}" fill="none" stroke="${fill}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+	const arm = (s) => heroic ? [
+		[cx + s * b.sh, 130],
+		[cx + s * (b.sh + 24), 164],
+		[cx + s * (b.wa + 8), 188]
+	] : [
+		[cx + s * b.sh, 130],
+		[cx + s * (b.sh + 11), 170],
+		[cx + s * (b.sh + 8), 206]
+	];
+	const leg = (s) => [
+		[cx + s * b.hip * .55, 198],
+		[cx + s * b.hip * .8, 236],
+		[cx + s * b.hip * .86, 272]
+	];
+	const cape = rank >= 2 ? `<path d="M${cx - b.sh} 124Q${cx} 112 ${cx + b.sh} 124L${cx + b.sh + 16 + rank * 3} 264Q${cx} ${248 - rank} ${cx - b.sh - 16 - rank * 3} 264Z" fill="${pal.trim}" opacity=".88"/>
+       <path d="M${cx - b.sh} 124Q${cx} 112 ${cx + b.sh} 124L${cx + b.sh + 16 + rank * 3} 264Q${cx} ${248 - rank} ${cx - b.sh - 16 - rank * 3} 264Z" fill="rgb(0 0 0 / .28)"/>` : "";
+	const torso = `<path d="M${cx - b.sh} 126Q${cx} 114 ${cx + b.sh} 126L${cx + b.wa} 170L${cx + b.hip} 200L${cx - b.hip} 200L${cx - b.wa} 170Z" fill="${fill}" stroke="${edge}" stroke-width="1.6" stroke-linejoin="round"/>`;
+	const belt = `<path d="M${cx - b.wa - 1} 172H${cx + b.wa + 1}" stroke="${pal.trim}" stroke-width="4" stroke-linecap="round"/>`;
+	const mask = rank < 1 ? "" : style === "starkeeper" ? `<circle cx="${cx}" cy="92" r="24" fill="none" stroke="${pal.trim}" stroke-width="2.5" opacity=".9"/><path d="M107 90Q${cx} 82 133 90Q${cx} 100 107 90Z" fill="${pal.trim}" opacity=".85"/>` : style === "runewarrior" ? `<path d="M99 86Q${cx} 62 141 86L141 92H124V104H116V92H99Z" fill="${pal.trim}"/>` : style === "neonrebel" ? `<path d="M102 88H138" stroke="${pal.glow}" stroke-width="6" stroke-linecap="round"/><path d="M102 88H138" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>` : style === "xclass" ? `<path d="M101 84Q${cx} 78 139 84L137 95Q${cx} 90 103 95Z" fill="${pal.trim}"/>` : `<path d="M100 84H140V95Q${cx} 100 100 95Z" fill="#000"/><path d="M108 89h7M125 89h7" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>`;
+	const eye = EYE_COLORS[style] || EYE_COLORS.vigilante;
+	const head = `<rect x="114" y="106" width="12" height="14" rx="4" fill="${fill}"/><circle cx="${cx}" cy="92" r="20" fill="${fill}" stroke="${edge}" stroke-width="1.6"/>${mask}${`<path d="M108 89h7M125 89h7" stroke="${eye}" stroke-width="5.5" stroke-linecap="round" opacity=".35"/><path d="M108 89h7M125 89h7" stroke="${eye}" stroke-width="2.6" stroke-linecap="round"/>`}`;
+	const pads = rank >= 3 ? [-1, 1].map((s) => `<ellipse cx="${cx + s * (b.sh - 3)}" cy="127" rx="13" ry="8" fill="${pal.trim}" stroke="rgb(0 0 0 / .35)" stroke-width="1"/>`).join("") : "";
+	const emblem = rank >= 1 ? `<circle cx="${cx}" cy="148" r="11" fill="${pal.trim}" stroke="rgb(0 0 0 / .4)" stroke-width="1.2"/><g transform="translate(${cx} 148)"><path d="${STYLE_GLYPH[style] || STYLE_GLYPH.vigilante}" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></g>` : "";
+	const neon = style === "neonrebel" && rank >= 1 ? `<path d="M${cx - b.wa} 170L${cx - b.hip} 200M${cx + b.wa} 170L${cx + b.hip} 200" stroke="${pal.glow}" stroke-width="2" stroke-linecap="round"/>` : "";
+	return `${cape}${limb(leg(-1), 17)}${limb(leg(1), 17)}${limb(arm(-1), 13)}${limb(arm(1), 13)}${torso}${belt}${pads}${neon}${emblem}${head}`;
+}
+/** Umriss der Figur auf der Zeichenfläche: darauf wird der freigestellte Held zugeschnitten (Füße an der Unterkante) */
+var FIG_BOX = {
+	x: 34,
+	y: 68,
+	w: 172,
+	h: 213
+};
+/** Hintergrund-Platzhalter je Stil (4:5): die Welt des Stils, ohne Figur – für alle Ränge gleich */
+function bgArt({ style = "vigilante" }) {
+	const pal = STYLE_ART[style] || STYLE_ART.vigilante, id = `hxa${++uid}`;
+	const light = "rgb(255 255 255 / .12)", dark = "rgb(0 0 0 / .3)";
+	const skyline = (y, h, op = 1) => {
+		const xs = [
+			0,
+			22,
+			40,
+			66,
+			84,
+			112,
+			132,
+			160,
+			182,
+			206,
+			226,
+			240
+		];
+		return `<path d="M0 ${y}${[
+			.5,
+			.8,
+			.45,
+			1,
+			.6,
+			.75,
+			.5,
+			.9,
+			.55,
+			.7,
+			.4
+		].map((k, i) => `V${(y - h * k).toFixed(0)}H${xs[i + 1]}`).join("")}V300H0Z" fill="${dark}" opacity="${op}"/>`;
+	};
+	const stars = [
+		[
+			40,
+			48,
+			2
+		],
+		[
+			204,
+			70,
+			2.4
+		],
+		[
+			170,
+			30,
+			1.6
+		],
+		[
+			96,
+			22,
+			1.4
+		],
+		[
+			20,
+			112,
+			1.6
+		],
+		[
+			224,
+			130,
+			1.4
+		]
+	].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" opacity=".85"/>`).join("");
+	const floor = `<path d="M0 236H240V300H0Z" fill="${dark}"/><path d="M0 236H240" stroke="${light}" stroke-width="2"/>`;
+	const world = {
+		vigilante: `<path d="M150 236L20 0H58ZM90 236L182 0H220Z" fill="${light}"/>${skyline(236, 150)}${floor}`,
+		xclass: `<path d="M120 236L-10 0H60ZM120 236L180 0H250Z" fill="${light}"/><path d="M30 236V120H80V236M160 236V96H212V236" fill="${dark}"/>
+      <path d="M40 140h30M40 164h30M40 188h30M170 118h32M170 144h32M170 170h32" stroke="${light}" stroke-width="5"/>${floor}`,
+		starkeeper: `${stars}<circle cx="186" cy="66" r="24" fill="${pal.glow}" opacity=".45"/><circle cx="120" cy="430" r="230" fill="${dark}"/>
+      <path d="M-20 262Q120 176 260 262" fill="none" stroke="${pal.glow}" stroke-width="3" opacity=".7"/>`,
+		runewarrior: `<path d="M0 236L52 110L96 176L150 84L204 170L240 126V236Z" fill="${dark}"/><path d="M150 84l-14 28h30z" fill="${light}"/>
+      <path d="M26 236V176q10 -14 20 0V236z" fill="${dark}"/><path d="M32 220V192l8 6l-8 5l8 9" fill="none" stroke="${pal.glow}" stroke-width="2"/>${floor}`,
+		neonrebel: `${skyline(236, 130, .9)}<path d="M0 236H240M-40 300L96 236M280 300L144 236M40 300L112 236M200 300L128 236M0 258H240M0 280H240" stroke="${pal.glow}" stroke-width="1.5" opacity=".6"/>
+      <path d="M30 70h44M166 52h50" stroke="${pal.trim}" stroke-width="5" stroke-linecap="round" opacity=".8"/>`
+	};
+	return `<svg class="hx-art" viewBox="0 0 240 300" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="${id}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${pal.bg[0]}"/><stop offset="1" stop-color="${pal.bg[1]}"/></linearGradient>${halftone(`${id}h`, "rgb(255 255 255 / .06)")}</defs>
+    <rect width="240" height="300" fill="url(#${id}g)"/>${world[style] || world.vigilante}<rect width="240" height="300" fill="url(#${id}h)"/></svg>`;
+}
+/** Freigestellter Held als Platzhalter: transparent, auf die Umrisse zugeschnitten. bust = nur Kopf und Schultern. */
+function heroArt({ rank = 0, figure: fig = "m", style = "vigilante", bust = false }) {
+	const b = bust ? {
+		x: 74,
+		y: 64,
+		w: 92,
+		h: 92
+	} : FIG_BOX;
+	return `<svg class="hx-fig" viewBox="${b.x} ${b.y} ${b.w} ${b.h}" role="img" aria-hidden="true" preserveAspectRatio="xMidYM${bust ? "in slice" : "ax meet"}">${figure(fig, style, rank)}</svg>`;
+}
+/** Story-Cover als Platzhalter (2:3). variant: cover | victory | thumb (ohne Text) */
+function storyArt({ hue = 200, icon = "book", title = "", alias = "", variant = "cover", label = "" }) {
+	const id = `hxa${++uid}`, win = variant.startsWith("victory"), small = variant.endsWith("thumb");
+	const lines = small ? [] : wrap(title.toUpperCase(), 13);
+	const size = lines.some((l) => l.length > 11) ? 30 : 36;
+	const text = lines.map((l, i) => `<text x="22" y="${422 - (lines.length - 1 - i) * (size + 2)}" font-family="${HERO_FONT}" font-weight="400" letter-spacing=".04em" font-size="${size}" fill="#fff" stroke="rgb(0 0 0 / .55)" stroke-width="5" paint-order="stroke" stroke-linejoin="round">${esc$1(l)}</text>`).join("");
+	const rays = Array.from({ length: 14 }, (_, i) => {
+		const a = i * Math.PI / 7;
+		return `<path d="M150 175L${(150 + 420 * Math.cos(a - .09)).toFixed(0)} ${(175 + 460 * Math.sin(a - .09)).toFixed(0)}L${(150 + 420 * Math.cos(a + .09)).toFixed(0)} ${(175 + 460 * Math.sin(a + .09)).toFixed(0)}Z" fill="rgb(255 255 255 / ${win ? .16 : .07})"/>`;
+	}).join("");
+	return `<svg class="hx-art" viewBox="0 0 300 450" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${hue} ${win ? 78 : 62}% ${win ? 52 : 34}%)"/><stop offset="1" stop-color="hsl(${(hue + 40) % 360} 70% ${win ? 30 : 16}%)"/></linearGradient>${halftone(`${id}h`, "rgb(255 255 255 / .1)", 11)}</defs>
+    <rect width="300" height="450" fill="url(#${id}g)"/>${rays}<rect width="300" height="450" fill="url(#${id}h)"/>
+    <circle cx="150" cy="175" r="78" fill="rgb(0 0 0 / .22)"/><circle cx="150" cy="175" r="78" fill="none" stroke="rgb(255 255 255 / .5)" stroke-width="3"/>
+    ${iconAt(icon, 150, 175, 96, "#fff", 1.6)}
+    ${win ? `<circle cx="236" cy="70" r="30" fill="#f6c343" stroke="#7a5200" stroke-width="2.5"/>${iconAt("check", 236, 70, 34, "#3d2a00", 3)}` : ""}
+    ${label ? `<text x="22" y="40" font-family="${FONT}" font-weight="800" font-size="15" letter-spacing="1.5" fill="rgb(255 255 255 / .85)">${esc$1(label.toUpperCase())}</text>` : ""}
+    ${text}${alias && !small ? `<text x="22" y="${422 - lines.length * (size + 2) - 6}" font-family="${HERO_FONT}" font-weight="400" font-size="17" letter-spacing="1.2" fill="rgb(255 255 255 / .9)">${esc$1(alias.toUpperCase())}</text>` : ""}
+    <rect x="5" y="5" width="290" height="440" rx="6" fill="none" stroke="rgb(0 0 0 / .65)" stroke-width="6"/></svg>`;
+}
+/** Echtes Story-Cover (ohne Schrift, zeigt nur die Bedrohung): Die App setzt den Titel in das ruhige obere Fünftel */
+function coverImage(file, { title = "", label = "" }) {
+	const lines = wrap(title.toUpperCase(), 15);
+	const size = lines.length > 2 ? 28 : lines.some((l) => l.length > 12) ? 30 : 38, top = label ? 62 : 46;
+	const text = lines.map((l, i) => `<text x="150" y="${top + i * (size + 2)}" text-anchor="middle" font-family="${HERO_FONT}" font-weight="400" letter-spacing=".04em" font-size="${size}" fill="#fff" stroke="rgb(0 0 0 / .7)" stroke-width="5" paint-order="stroke" stroke-linejoin="round">${esc$1(l)}</text>`).join("");
+	const id = `hxa${++uid}`;
+	return `<span class="hx-art hx-layers" role="img" aria-hidden="true" style="position:relative;display:block;overflow:hidden"><img class="hx-art" src="${ART_BASE}/${file}" alt="" loading="lazy" decoding="async"><svg viewBox="0 0 300 450" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgb(0 0 0 / .55)"/><stop offset="1" stop-color="rgb(0 0 0 / 0)"/></linearGradient></defs>
+    <rect width="300" height="${top + lines.length * (size + 2) + 24}" fill="url(#${id})"/>
+    ${label ? `<text x="150" y="28" text-anchor="middle" font-family="${FONT}" font-weight="800" font-size="13" letter-spacing="1.5" fill="rgb(255 255 255 / .9)">${esc$1(label.toUpperCase())}</text>` : ""}${text}</svg></span>`;
+}
+/** Wegmarken-Platzhalter (16:9), falls ein echtes Bild fehlt: Held nur als einheitliche Silhouette */
+var MILESTONE_ART = [
+	{
+		hue: 205,
+		icon: "flag"
+	},
+	{
+		hue: 172,
+		icon: "search"
+	},
+	{
+		hue: 40,
+		icon: "mountain"
+	},
+	{
+		hue: 2,
+		icon: "bolt"
+	},
+	{
+		hue: 118,
+		icon: "home"
+	}
+];
+function milestoneArt({ index = 0 }) {
+	const m = MILESTONE_ART[index] || MILESTONE_ART[0], id = `hxa${++uid}`;
+	const walker = `<g transform="translate(${52 + index * 46} 0)" fill="#0c0f12"><circle cx="0" cy="108" r="7"/><path d="M-6 117h12l3 22h-5l-2 22h-4l-2 -22h-5z"/></g>`;
+	const land = [
+		`<path d="M0 162H320" stroke="rgb(0 0 0 / .4)" stroke-width="3"/><path d="M40 162v-40h30v40M250 162v-58h34v58" fill="rgb(0 0 0 / .25)"/>`,
+		`<path d="M0 162q60 -20 110 -4t100 -8t110 6V180H0Z" fill="rgb(0 0 0 / .28)"/>`,
+		`<path d="M0 180L110 70L170 120L230 60L320 180Z" fill="rgb(0 0 0 / .28)"/>`,
+		`<path d="M0 162H320V180H0Z" fill="rgb(0 0 0 / .3)"/><path d="M210 162L250 60L270 162Z" fill="rgb(0 0 0 / .35)"/>`,
+		`<path d="M0 162H320V180H0Z" fill="rgb(0 0 0 / .26)"/><path d="M228 162v-46l34 -24l34 24v46z" fill="rgb(0 0 0 / .3)"/>`
+	][index] || "";
+	return `<svg class="hx-art" viewBox="0 0 320 180" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${m.hue} 68% 46%)"/><stop offset="1" stop-color="hsl(${(m.hue + 30) % 360} 66% 22%)"/></linearGradient>${halftone(`${id}h`, "rgb(255 255 255 / .1)", 10)}</defs>
+    <rect width="320" height="180" fill="url(#${id}g)"/><rect width="320" height="180" fill="url(#${id}h)"/>
+    <circle cx="252" cy="56" r="34" fill="rgb(255 255 255 / .16)"/>${iconAt(m.icon, 252, 56, 40, "#fff", 1.8)}${land}${walker}
+    <rect x="3" y="3" width="314" height="174" rx="5" fill="none" stroke="rgb(0 0 0 / .6)" stroke-width="5"/></svg>`;
+}
+/** Cover „The Return“ (je Stil, mit Alias) und „Hall of Fame“ */
+function posterArt({ style = "vigilante", figure: fig = "m", rank = 0, title = "", alias = "", lines = [], gold = false }) {
+	const pal = STYLE_ART[style] || STYLE_ART.vigilante, id = `hxa${++uid}`;
+	const bg = gold ? ["#7a5200", "#f0b93a"] : [pal.bg[1], pal.bg[0]];
+	const t = wrap(title.toUpperCase(), 12, 2);
+	const rays = Array.from({ length: 16 }, (_, i) => {
+		const a = i * Math.PI / 8;
+		return `<path d="M150 210L${(150 + 460 * Math.cos(a - .08)).toFixed(0)} ${(210 + 460 * Math.sin(a - .08)).toFixed(0)}L${(150 + 460 * Math.cos(a + .08)).toFixed(0)} ${(210 + 460 * Math.sin(a + .08)).toFixed(0)}Z" fill="rgb(255 255 255 / .12)"/>`;
+	}).join("");
+	return `<svg class="hx-art" viewBox="0 0 300 400" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="${id}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${bg[0]}"/><stop offset="1" stop-color="${bg[1]}"/></linearGradient>${halftone(`${id}h`, "rgb(255 255 255 / .1)", 11)}</defs>
+    <rect width="300" height="400" fill="url(#${id}g)"/>${rays}<rect width="300" height="400" fill="url(#${id}h)"/>
+    <g transform="translate(42 96) scale(.9)">${figure(fig, style, Math.max(rank, 2))}</g>
+    ${gold ? `<g transform="translate(150 96)"><path d="M-22 12L-27 -12L-12 -2L0 -19L12 -2L27 -12L22 12Z" fill="#fff3c2" stroke="#5c3d00" stroke-width="2.5" stroke-linejoin="round"/></g>` : ""}
+    ${t.map((l, i) => `<text x="150" y="${52 + i * 40}" text-anchor="middle" font-family="${HERO_FONT}" font-weight="400" letter-spacing=".04em" font-size="40" fill="#fff" stroke="rgb(0 0 0 / .6)" stroke-width="6" paint-order="stroke" stroke-linejoin="round">${esc$1(l)}</text>`).join("")}
+    ${alias ? `<text x="150" y="${lines.length ? 352 - lines.length * 16 : 372}" text-anchor="middle" font-family="${HERO_FONT}" font-weight="400" font-size="23" letter-spacing="1.6" fill="#fff" stroke="rgb(0 0 0 / .55)" stroke-width="4" paint-order="stroke">${esc$1(alias.toUpperCase())}</text>` : ""}
+    ${lines.map((l, i) => `<text x="150" y="${384 - (lines.length - 1 - i) * 16}" text-anchor="middle" font-family="${FONT}" font-weight="600" font-size="12.5" fill="rgb(255 255 255 / .95)" stroke="rgb(0 0 0 / .5)" stroke-width="3" paint-order="stroke">${esc$1(l)}</text>`).join("")}
+    <rect x="5" y="5" width="290" height="390" rx="6" fill="none" stroke="rgb(0 0 0 / .65)" stroke-width="6"/></svg>`;
+}
+/** Fehlt bei einem Stil mit echten Bildern ein einzelner Rang, zeigt der Held den nächsten vorhandenen (lieber den
+*  darunter) statt des Platzhalters – so stehen nie gezeichnete Figur und echte Bilder nebeneinander. */
+function realRank(p) {
+	const have = (REAL_RANKS[p.style] || {})[p.figure];
+	if (!have || !have.length || have.includes(p.rank)) return p.rank;
+	const below = have.filter((r) => r < p.rank);
+	return below.length ? Math.max(...below) : Math.min(...have);
+}
+var FILE = {
+	bg: (p) => `bg/${p.style}.webp`,
+	hero: (p) => `rank/${p.style}/${p.figure}/${realRank(p)}.webp`,
+	story: (p) => `story/${p.id}/${[
+		"victory",
+		"victory-thumb",
+		"thumb"
+	].includes(p.variant) ? p.variant : "cover"}.webp`,
+	milestone: (p) => `milestone/${p.index || 0}/${STYLE_ORDER.includes(p.style) ? p.style : STYLE_ORDER[0]}.webp`,
+	comeback: (p) => `comeback/${p.style}${p.away ? "-away" : ""}.webp`,
+	hall: (p) => `hall/${p.style}.webp`
+};
+var DRAW = {
+	bg: bgArt,
+	hero: heroArt,
+	story: storyArt,
+	milestone: milestoneArt,
+	comeback: posterArt,
+	hall: (p) => posterArt({
+		...p,
+		gold: true
+	})
+};
+var NORM = (p) => ({
+	rank: 0,
+	style: "vigilante",
+	...p,
+	figure: p.figure === "w" ? "w" : "m"
+});
+var pct = (v) => `${+(v * 100).toFixed(2)}%`;
+/** Eine Ebene: echtes Bild, wenn eingetragen, sonst der Platzhalter */
+function layer(kind, p, cls, style = "") {
+	const file = FILE[kind](p);
+	if (HERO_ART_FILES.has(file)) return `<img class="${cls}" src="${ART_BASE}/${file}" alt="" loading="lazy" decoding="async"${style ? ` style="${style}"` : ""}>`;
+	const svg = DRAW[kind](p);
+	return style ? svg.replace("<svg ", `<svg style="${style}" `) : svg;
+}
+/** Heldenbild aus Ebenen (4:5): Hintergrund des Stils, Bodenschatten, darüber der Held an der festen Stelle */
+function rankImage(p) {
+	const L = HERO_LAYOUT, bottom = 1 - L.feet;
+	const fig = `position:absolute;left:50%;bottom:${pct(bottom)};height:${pct(L.height)};width:auto;max-width:none;transform:translateX(-50%)`;
+	const shadows = L.shadows.map((s) => `<span style="position:absolute;left:50%;bottom:${pct(bottom + s.lift - s.height / 2)};width:${pct(s.width)};height:${pct(s.height)};transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center, rgb(0 0 0 / ${s.opacity}) 0%, rgb(0 0 0 / ${(s.opacity * .45).toFixed(2)}) 45%, transparent 72%)"></span>`).join("");
+	return `<span class="hx-art hx-layers" role="img" aria-hidden="true" style="position:relative;display:block;overflow:hidden">${layer("bg", p, "hx-art")}${shadows}${layer("hero", p, "hx-fig", fig)}</span>`;
+}
+/**
+* Cover „The Return“ und „Hall of Fame“ aus Ebenen (2:3): Hintergrund des Stils, darauf der eigene Held – bei der Rückkehr
+* nur sein Kopf im Kreis (aus dem Rangbild geschnitten wie in der Heldenleiste, es gibt keine eigenen Kopf-Bilder), in der
+* Hall of Fame der ganze Held auf dem Podest – und als oberste Ebene die Schrift (Titel, Alias, Zeilen).
+*/
+function posterImage(kind, p) {
+	const q = NORM(p), hall = kind === "hall", id = `hxa${++uid}`, pal = STYLE_ART[q.style] || STYLE_ART.vigilante;
+	const title = wrap(String(p.title || "").toUpperCase(), 12, 2), lines = p.lines || [], alias = String(p.alias || "").toUpperCase();
+	const H = HALL_LAYOUT, R = RETURN_LAYOUT, cy = 450 * R.center, r = 150 * R.size;
+	const hero = hall ? `<span style="position:absolute;left:50%;bottom:${pct(1 - H.feet - .02)};width:46%;height:5%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center, rgb(0 0 0 / .55) 0%, rgb(0 0 0 / .25) 45%, transparent 72%)"></span>` + layer("hero", q, "hx-fig", `position:absolute;left:50%;bottom:${pct(1 - H.feet)};height:${pct(H.height)};width:auto;max-width:none;transform:translateX(-50%)`) : `<span style="position:absolute;left:50%;top:${pct(R.center)};width:${pct(R.size)};aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;background:linear-gradient(${pal.bg[0]}, ${pal.bg[1]})">${heroImage("hero", {
+		...q,
+		bust: true
+	})}</span>`;
+	const top = hall && alias, bottom = alias && !hall;
+	const low = bottom || lines.length ? 428 - lines.length * 17 - (bottom ? 30 : 0) - (hall ? 8 : 26) : 450;
+	const txt = (y, size, text, extra = "") => `<text x="150" y="${y}" text-anchor="middle" font-family="${HERO_FONT}" font-weight="400" letter-spacing=".04em" font-size="${size}" fill="#fff" stroke="rgb(0 0 0 / .7)" stroke-width="${size > 30 ? 6 : 4}" paint-order="stroke" stroke-linejoin="round"${extra}>${esc$1(text)}</text>`;
+	return `<span class="hx-art hx-layers" role="img" aria-hidden="true" style="position:relative;display:block;overflow:hidden"><img class="hx-art" src="${ART_BASE}/${FILE[kind](q)}" alt="" loading="lazy" decoding="async"${hall && hallCrop(q.style) ? ` style="${hallCrop(q.style)}"` : ""}>${hero}<svg viewBox="0 0 300 450" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+    <defs><linearGradient id="${id}t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgb(0 0 0 / .6)"/><stop offset="1" stop-color="rgb(0 0 0 / 0)"/></linearGradient>
+      <linearGradient id="${id}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgb(0 0 0 / 0)"/><stop offset=".45" stop-color="rgb(0 0 0 / .6)"/><stop offset="1" stop-color="rgb(0 0 0 / .8)"/></linearGradient></defs>
+    <rect width="300" height="${70 + title.length * 40 + (top ? 30 : 0)}" fill="url(#${id}t)"/>${low < 450 ? `<rect y="${low}" width="300" height="${450 - low}" fill="url(#${id}b)"/>` : ""}
+    ${hall ? "" : `<circle cx="150" cy="${cy}" r="${r}" fill="none" stroke="rgb(0 0 0 / .7)" stroke-width="11"/><circle cx="150" cy="${cy}" r="${r}" fill="none" stroke="#fff" stroke-width="5"/>`}
+    ${title.map((l, i) => txt(54 + i * 40, 40, l)).join("")}
+    ${top ? txt(54 + title.length * 40 - 8, 24, alias) : bottom ? txt(430 - lines.length * 17, 24, alias) : ""}
+    ${lines.map((l, i) => `<text x="150" y="${434 - (lines.length - 1 - i) * 17}" text-anchor="middle" font-family="${FONT}" font-weight="600" font-size="13" fill="rgb(255 255 255 / .95)" stroke="rgb(0 0 0 / .6)" stroke-width="3" paint-order="stroke">${esc$1(l)}</text>`).join("")}</svg></span>`;
+}
+/**
+* Wegmarke als Comicseite („alle Helden zugleich“): der eigene Stil groß (Feld e), die vier anderen klein (a–d, feste
+* Reihenfolge). Das Raster steht in HERO_STYLE (.hx-page: hoch 9:16 fürs Handy, quer 8:3 für breite Bildschirme –
+* layout.json des Bild-Exports). `wide` erzwingt das Querformat (schmaler Streifen, z. B. beim Nachlesen der Story).
+*/
+function milestonePage(p) {
+	const own = STYLE_ORDER.includes(p.style) ? p.style : STYLE_ORDER[0];
+	const cells = [[own, "e"], ...STYLE_ORDER.filter((s) => s !== own).map((s, i) => [s, "abcd"[i]])];
+	return `<span class="hx-art hx-page${p.wide ? " wide" : ""}" role="img" aria-hidden="true">${cells.map(([style, area]) => `<span style="grid-area:${area}">${layer("milestone", {
+		...p,
+		style
+	}, "hx-art")}</span>`).join("")}</span>`;
+}
+/** Adresse eines echten Bildes (null, wenn es dafür nur den Platzhalter gibt) – für das Teilen-Bild, das auf ein Canvas zeichnet */
+function heroArtUrl(kind, p = {}) {
+	const file = FILE[kind] ? FILE[kind](kind === "story" ? p : NORM(p)) : null;
+	return file && HERO_ART_FILES.has(file) ? `${ART_BASE}/${file}` : null;
+}
+/**
+* Bild als HTML. Kein Bild zeigt eine Kraftfarbe (Hintergrund und Leuchtaugen gehören dem Stil).
+* kind: "rank" {rank, figure, style} – Held auf dem Hintergrund seines Stils · "hero" {…, bust} – nur
+* der freigestellte Held (bust: Kopf und Schultern) · "bg" {style} – nur der Hintergrund · "story" {id, hue, icon, title,
+* alias, variant, label} · "milestone" {index, style} – Nahaufnahme im eigenen Stil, mit `page` die Comicseite aus allen
+* fünf Stilen (`wide`: immer Querformat) · "comeback" {style, figure, rank, title, alias, away} · "hall" {…, lines}.
+*/
+function heroImage(kind, p = {}) {
+	if (kind === "rank") return rankImage(NORM(p));
+	if (kind === "hero" || kind === "bg") {
+		const q = NORM(p), file = FILE[kind](q);
+		if (kind === "hero" && q.bust && HERO_ART_FILES.has(file)) return `<span class="hx-fig bust" style="display:block;width:100%;height:100%;overflow:hidden"><img src="${ART_BASE}/${file}" alt="" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;transform:scale(1.7);transform-origin:top center"></span>`;
+		return layer(kind, q, kind === "bg" ? "hx-art" : "hx-fig");
+	}
+	if (kind === "milestone" && p.page) return milestonePage(p);
+	if ((kind === "comeback" || kind === "hall") && HERO_ART_FILES.has(FILE[kind](NORM(p)))) return posterImage(kind, p);
+	const file = FILE[kind] ? FILE[kind](p) : null;
+	if (kind === "story" && file && HERO_ART_FILES.has(file) && file.endsWith("/cover.webp") && !p.plain) return coverImage(file, p);
+	if (file && HERO_ART_FILES.has(file)) return `<img class="hx-art" src="${ART_BASE}/${file}" alt="" loading="lazy" decoding="async">`;
+	return (DRAW[kind] || storyArt)(p);
+}
+// src/ui/share.js
+var SANS = "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+var C = {
+	ground: "#0e0f0e",
+	text: "#f2f3f2",
+	accent: "#25cc1d",
+	ink: "#0b0c0b",
+	card: "#161716",
+	line: "#2c2f2c",
+	dim: "#a2a7a2",
+	foot: "#8c918c",
+	soft: "#c9cec9",
+	gold: "#ffd23f",
+	chip: "#4a4f4a",
+	chipText: "#dfe3df",
+	head: "#1b1d1b"
+};
+/** Symbole der Vorlage (24er-Raster, nur Linien) */
+var ICON = {
+	bolt: "M13 2 4 14h7l-1 8 9-12h-7l1-8z",
+	medal: "M12 9a6 6 0 1 0 0 12a6 6 0 0 0 0-12zM8.5 10 6 3h4l2 4 2-4h4l-2.5 7",
+	trophy: "M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4",
+	flag: "M5 21V4M5 4h11l-2 4 2 4H5",
+	dumbbell: "M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12",
+	plus: "M12 5v14M5 12h14"
+};
+/** höchstens so viele Kräfte in einem Kästchen (mehr passt nicht in die Zeile neben ein zweites) */
+var MAX_POWER_LINES = 3;
+var mmss$1 = (sec) => {
+	const s = Math.max(0, Math.round(sec));
+	return s >= 3600 ? `${Math.floor(s / 3600)}:${String(Math.floor(s % 3600 / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}` : `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+};
+var levelOf = (vals) => Math.max(1, Math.round(vals.reduce((a, b) => a + b, 0) / vals.length + 1e-6));
+/**
+* Inhalt des Bildes.
+* s: Abschluss (session_summary), mit `hero` (Momente), wenn der Heldenmodus an ist.
+* o: { t(key, params), lang, name (Person), date (Date), gain(n) → "+2", art(kind, params) → Bild-Adresse oder null,
+*      story(id) → { title, per_week } | null, badge(id) → Name | null, powers: ["strength", …] }
+*/
+function buildShareModel(s, o) {
+	const { t } = o, m = s.hero;
+	const streak = s.streak_weeks ? t(s.streak_weeks === 1 ? "sh_streak1" : "sh_streak", { n: s.streak_weeks }) : "";
+	const base = {
+		brand: "HERO UPGRADE",
+		site: "heroupgrade.com",
+		footer: [(o.date || /* @__PURE__ */ new Date()).toLocaleDateString(o.lang || "en", {
+			day: "numeric",
+			month: "short",
+			year: "numeric"
+		}), streak].filter(Boolean).join(" · ")
+	};
+	const records = s.records && s.records.length ? t(s.records.length === 1 ? "sh_rec1" : "sh_recn", { n: s.records.length }) : "";
+	const week = {
+		label: t("sh_week_lbl"),
+		done: s.week_done || 0,
+		goal: Math.max(1, s.week_goal || 1),
+		value: t("sh_week_val", {
+			n: s.week_done || 0,
+			g: s.week_goal || 1
+		})
+	};
+	const workout = [s.plan_name, s.workout_name].filter(Boolean);
+	if (workout.length === 2 && workout[0] === workout[1]) workout.pop();
+	const title = workout.join(" · ");
+	if (!m) {
+		const kg = s.volume_kg || 0;
+		const moved = kg >= 1e3 ? {
+			v: (Math.round(kg / 100) / 10).toLocaleString(o.lang || "en"),
+			unit: "t",
+			l: t("sh_moved")
+		} : kg > 0 ? {
+			v: String(Math.round(kg)),
+			unit: "kg",
+			l: t("sh_moved")
+		} : {
+			v: String(s.exercises || 0),
+			l: t("sh_exercises")
+		};
+		const name = (o.name || "").trim();
+		return {
+			...base,
+			variant: "classic",
+			classic: {
+				name,
+				initial: (name[0] || "").toUpperCase(),
+				title: t("sh_classic_h"),
+				sub: title || t("sh_free"),
+				tiles: [
+					{
+						v: mmss$1(s.duration_s),
+						l: t("sh_duration")
+					},
+					{
+						v: String(s.sets || 0),
+						l: t("sh_sets")
+					},
+					moved
+				],
+				records: records ? {
+					label: t("sh_records"),
+					value: records
+				} : null,
+				week
+			}
+		};
+	}
+	const look = {
+		rank: m.rank,
+		figure: m.figure,
+		style: m.style
+	};
+	const hero = {
+		alias: (m.alias || o.name || t("hx_anon")).toUpperCase(),
+		chip: `${t(`hx_rank_${o.ranks[m.rank] || o.ranks[0]}`)} · ${t("sh_level_chip", { n: m.level })}`.toUpperCase(),
+		style: t(`hx_style_${m.style}`).toUpperCase(),
+		bg: o.art("bg", look),
+		head: o.art("hero", look)
+	};
+	const def = m.story ? o.story(m.story.id) : null;
+	const stats = [{
+		v: mmss$1(s.duration_s),
+		l: t("sh_duration")
+	}, {
+		v: String(s.sets || 0),
+		l: t("sh_sets")
+	}];
+	let card;
+	if (def) {
+		const wk = Math.max(1, Math.ceil(m.story.done / Math.max(1, def.per_week)));
+		card = {
+			kind: "story",
+			label: `${t("sh_done")} · ${t("sh_story")}`,
+			title: def.title,
+			suffix: ` · ${t("sh_week", { n: wk })}`,
+			cover: o.art("story", {
+				id: m.story.id,
+				variant: "thumb"
+			}),
+			stats
+		};
+	} else if (title) card = {
+		kind: "plan",
+		label: `${t("sh_done")} · ${t("sh_plan")}`,
+		title: workout[0],
+		suffix: workout[1] ? ` · ${workout[1]}` : "",
+		stats
+	};
+	else card = {
+		kind: "free",
+		label: t("sh_done"),
+		title: t("sh_free"),
+		stats: [
+			stats[0],
+			{
+				v: String(s.exercises || 0),
+				l: t("sh_exercises")
+			},
+			stats[1]
+		]
+	};
+	const gained = o.powers.filter((p) => (m.gains[p] || 0) > 0).sort((a, b) => m.gains[b] - m.gains[a]);
+	const before = levelOf(o.powers.map((p) => (m.powers[p] || 0) - (m.gains[p] || 0)));
+	const boxes = [];
+	if (m.level > before) boxes.push({
+		type: "level",
+		big: `+${m.level - before}`,
+		label: t("sh_level"),
+		value: t("sh_level_now", { n: m.level })
+	});
+	if (gained.length) boxes.push({
+		type: "powers",
+		icon: "bolt",
+		label: t("sh_powers"),
+		lines: gained.slice(0, MAX_POWER_LINES).map((p) => `${t(`hx_p_${p}`)} ${o.gain(m.gains[p])}`)
+	});
+	const badges = (m.badges || []).map((id) => o.badge(id)).filter(Boolean);
+	if (badges.length) boxes.push({
+		type: "badge",
+		icon: "medal",
+		label: t(badges.length === 1 ? "sh_badge" : "sh_badges"),
+		value: badges.length === 1 ? badges[0] : t("sh_badges_n", { n: badges.length })
+	});
+	if (records) boxes.push({
+		type: "records",
+		icon: "trophy",
+		label: t("sh_records"),
+		value: records
+	});
+	const mark = def && m.story.finished ? t("sh_story_done", { story: def.title }) : def && m.story.milestone !== null && m.story.milestone !== void 0 ? t("sh_mark_text", {
+		mark: t(`hx_ms_${m.story.milestone}`),
+		story: def.title
+	}) : "";
+	const wide = mark ? {
+		type: "mark",
+		icon: "flag",
+		label: t("sh_mark"),
+		value: mark
+	} : null;
+	let powersOnly = null;
+	if (boxes.length === 1 && boxes[0].type === "powers" && !wide) {
+		const sum = o.powers.reduce((a, p) => a + (m.powers[p] || 0), 0), per = gained.reduce((a, p) => a + m.gains[p], 0);
+		const need = (m.level + .5) * o.powers.length - sum;
+		const n = per > 0 ? Math.max(1, Math.ceil(need / per)) : 0;
+		powersOnly = {
+			label: t("sh_powers"),
+			rows: gained.map((p) => ({
+				name: t(`hx_p_${p}`),
+				base: Math.max(0, Math.min(100, (m.powers[p] || 0) - m.gains[p])),
+				gain: Math.max(1, Math.min(100, m.gains[p])),
+				text: o.gain(m.gains[p])
+			})),
+			note: n && m.level < 100 ? t(n === 1 ? "sh_to_level1" : "sh_to_level", {
+				n,
+				l: m.level + 1
+			}) : ""
+		};
+	}
+	if (!boxes.length && !wide) boxes.push({
+		type: "week",
+		icon: "flag",
+		label: week.label,
+		value: week.value
+	});
+	return {
+		...base,
+		variant: "hero",
+		hero,
+		card,
+		gains: {
+			label: t("sh_today"),
+			boxes: powersOnly ? [] : boxes,
+			wide,
+			powersOnly
+		}
+	};
+}
+var loadImage = (url) => new Promise((resolve) => {
+	if (!url) return resolve(null);
+	const img = new Image();
+	img.onload = () => resolve(img);
+	img.onerror = () => resolve(null);
+	img.src = url;
+});
+/** Schriften müssen geladen sein, bevor das Canvas Text misst und zeichnet */
+async function fontsReady() {
+	if (typeof document === "undefined" || !document.fonts) return;
+	try {
+		await Promise.all([document.fonts.load(`40px ${HERO_FONT}`), document.fonts.load(`800 12px ${SANS}`)]);
+		await document.fonts.ready;
+	} catch {}
+}
+/** Zeichenhilfen auf einem Canvas im 540er-Raster */
+function pen(ctx) {
+	const font = (f) => `${f.weight || 400} ${f.size}px ${f.family || SANS}`;
+	/** Breite eines Textes mit Buchstabenabstand */
+	const width = (str, f) => {
+		ctx.font = font(f);
+		return [...str].reduce((a, ch) => a + ctx.measureText(ch).width, 0) + (f.ls || 0) * Math.max(0, [...str].length - 1);
+	};
+	/** passt der Text nicht in maxW: erst kleiner setzen (bis `min`), dann mit … kürzen */
+	const fit = (str, f, maxW, min = Math.round(f.size * .62)) => {
+		let g = { ...f }, s = String(str);
+		if (!maxW) return [s, g];
+		while (g.size > min && width(s, g) > maxW) g = {
+			...g,
+			size: g.size - 1
+		};
+		if (width(s, g) > maxW) {
+			while (s.length > 1 && width(`${s}…`, g) > maxW) s = s.slice(0, -1);
+			s = `${s.trimEnd()}…`;
+		}
+		return [s, g];
+	};
+	/**
+	* Eine Textzeile: (x, top) ist die obere linke Ecke der Zeile, die Zeile ist size × lh hoch. Liefert die Breite.
+	* f: { size, weight, family, ls, lh, color, align: "left"|"right"|"center", shadow: [dx, dy, Farbe], maxW }
+	*/
+	const text = (str, x, top, f0) => {
+		const [s, f] = fit(str, f0, f0.maxW, f0.min);
+		const w = width(s, f), lh = (f0.lh || 1.2) * f0.size;
+		let cx = f.align === "right" ? x - w : f.align === "center" ? x - w / 2 : x;
+		ctx.font = font(f);
+		ctx.textBaseline = "alphabetic";
+		const y = top + lh / 2 + f.size * .36;
+		const run = (dx, dy, color) => {
+			ctx.fillStyle = color;
+			let px = cx + dx;
+			for (const ch of s) {
+				ctx.fillText(ch, px, y + dy);
+				px += ctx.measureText(ch).width + (f.ls || 0);
+			}
+		};
+		if (f.shadow) run(f.shadow[0], f.shadow[1], f.shadow[2]);
+		run(0, 0, f.color || C.text);
+		return w;
+	};
+	const rrect = (x, y, w, h, r) => {
+		ctx.beginPath();
+		ctx.moveTo(x + r, y);
+		ctx.arcTo(x + w, y, x + w, y + h, r);
+		ctx.arcTo(x + w, y + h, x, y + h, r);
+		ctx.arcTo(x, y + h, x, y, r);
+		ctx.arcTo(x, y, x + w, y, r);
+		ctx.closePath();
+	};
+	/** Kasten mit Rand (der Rand liegt innen, wie box-sizing: border-box) */
+	const box = (x, y, w, h, r, o = {}) => {
+		if (o.shadow) {
+			ctx.fillStyle = "#000";
+			rrect(x + o.shadow, y + o.shadow, w, h, r);
+			ctx.fill();
+		}
+		if (o.fill) {
+			ctx.fillStyle = o.fill;
+			rrect(x, y, w, h, r);
+			ctx.fill();
+		}
+		if (o.stroke) {
+			const b = o.border || 2;
+			ctx.strokeStyle = o.stroke;
+			ctx.lineWidth = b;
+			if (o.dash) ctx.setLineDash(o.dash);
+			rrect(x + b / 2, y + b / 2, w - b, h - b, Math.max(0, r - b / 2));
+			ctx.stroke();
+			ctx.setLineDash([]);
+		}
+	};
+	const icon = (name, x, y, size, color) => {
+		ctx.save();
+		ctx.translate(x, y);
+		ctx.scale(size / 24, size / 24);
+		ctx.strokeStyle = color;
+		ctx.lineWidth = 2.2;
+		ctx.lineCap = "round";
+		ctx.lineJoin = "round";
+		ctx.stroke(new Path2D(ICON[name]));
+		ctx.restore();
+	};
+	/** Bild wie object-fit: cover in ein Rechteck (posY: 0 oben … 1 unten) */
+	const cover = (img, x, y, w, h, posY = .5) => {
+		const k = Math.max(w / img.naturalWidth, h / img.naturalHeight), sw = w / k, sh = h / k;
+		ctx.drawImage(img, (img.naturalWidth - sw) / 2, (img.naturalHeight - sh) * posY, sw, sh, x, y, w, h);
+	};
+	return {
+		width,
+		fit,
+		text,
+		rrect,
+		box,
+		icon,
+		cover
+	};
+}
+var NUM = {
+	family: HERO_FONT,
+	lh: 1.1,
+	ls: 2
+};
+var LBL = {
+	weight: 800,
+	size: 11,
+	ls: 1.2,
+	lh: 1.2,
+	color: C.dim
+};
+/** Punkt-Raster, grüner Balken, Fußzeile – für beide Fassungen gleich */
+function frame(ctx, p, model) {
+	const dots = document.createElement("canvas");
+	dots.width = dots.height = 14;
+	const d = dots.getContext("2d");
+	d.fillStyle = "rgba(255,255,255,.07)";
+	d.beginPath();
+	d.arc(7, 7, 2.4, 0, Math.PI * 2);
+	d.fill();
+	ctx.save();
+	ctx.scale(.5, .5);
+	ctx.fillStyle = ctx.createPattern(dots, "repeat");
+	ctx.fillRect(0, 0, 1080, 1080);
+	ctx.restore();
+	ctx.fillStyle = C.accent;
+	ctx.fillRect(0, 0, 540, 6);
+	const f = {
+		size: 12,
+		weight: 600,
+		color: C.foot,
+		lh: 1.2
+	};
+	const site = p.width(model.site, f);
+	p.text(model.site, 510, 505.6, {
+		...f,
+		align: "right"
+	});
+	p.text(model.footer, 30, 505.6, {
+		...f,
+		maxW: 480 - site - 16
+	});
+}
+/** Zahl mit Beschriftung darunter, mittig um cx; liefert nichts */
+function stat(p, st, cx, top, size = 24, lblSize = 10, gap = 0) {
+	const nf = {
+		...NUM,
+		size
+	}, w = p.width(st.v, nf), uf = {
+		size: Math.round(size * .62),
+		weight: 700,
+		lh: 1.1 * size / Math.round(size * .62)
+	};
+	const uw = st.unit ? p.width(st.unit, uf) + 5 : 0;
+	p.text(st.v, cx - (w + uw) / 2, top, nf);
+	if (st.unit) p.text(st.unit, cx - (w + uw) / 2 + w + 5, top, uf);
+	p.text(st.l, cx, top + size * 1.1 + gap, {
+		size: lblSize,
+		weight: 700,
+		ls: 1,
+		lh: 1.2,
+		color: C.dim,
+		align: "center"
+	});
+}
+/** Kästchen „Symbol · Beschriftung · Wert(e)“; liefert seine Höhe (zeichnet nur, wenn draw) */
+function gainBox(ctx, p, b, x, y, w, h, draw) {
+	const lines = b.lines || [b.value], lineH = b.lines ? 19.5 : 18;
+	if (b.type === "level") {
+		const need = 53;
+		if (!draw) return need;
+		p.box(x, y, w, h, 10, {
+			fill: C.gold,
+			shadow: 3
+		});
+		const bw = p.text(b.big, x + 12, y + (h - 33) / 2, {
+			...NUM,
+			size: 30,
+			color: "#111"
+		});
+		const tx = x + 12 + bw + 11, top = y + (h - 31) / 2;
+		p.text(b.label, tx, top, {
+			...LBL,
+			color: "#111"
+		});
+		p.text(b.value, tx, top + 13.2, {
+			size: 15,
+			weight: 700,
+			lh: 1.2,
+			color: "#111",
+			maxW: x + w - 12 - tx
+		});
+		return need;
+	}
+	const need = 23.2 + lines.length * lineH + 8 + 2;
+	if (!draw) return need;
+	p.box(x, y, w, h, 10, {
+		fill: C.card,
+		stroke: C.line
+	});
+	p.icon(b.icon, x + 14, y + (h - 28) / 2, 28, C.accent);
+	const tx = x + 14 + 28 + 11, top = y + (h - (13.2 + lines.length * lineH)) / 2;
+	p.text(b.label, tx, top, LBL);
+	lines.forEach((l, i) => p.text(l, tx, top + 13.2 + i * lineH, {
+		size: 15,
+		weight: 700,
+		lh: lineH / 15,
+		maxW: x + w - 14 - tx
+	}));
+	return need;
+}
+function drawHero(ctx, p, model, img) {
+	if (img.bg) {
+		ctx.save();
+		ctx.globalAlpha = .55;
+		if ("filter" in ctx) ctx.filter = "saturate(0.7)";
+		p.cover(img.bg, 0, 0, 540, 260, .3);
+		ctx.restore();
+	}
+	const g = ctx.createLinearGradient(0, 0, 0, 262);
+	g.addColorStop(0, "rgba(14,15,14,0.35)");
+	g.addColorStop(.55, "rgba(14,15,14,0.7)");
+	g.addColorStop(1, C.ground);
+	ctx.fillStyle = g;
+	ctx.fillRect(0, 0, 540, 262);
+	frame(ctx, p, model);
+	const h = model.hero, cx = 82, cy = 78;
+	ctx.fillStyle = "#000";
+	ctx.beginPath();
+	ctx.arc(87, 83, 52, 0, Math.PI * 2);
+	ctx.fill();
+	ctx.fillStyle = C.head;
+	ctx.beginPath();
+	ctx.arc(cx, cy, 52, 0, Math.PI * 2);
+	ctx.fill();
+	if (img.head) {
+		ctx.save();
+		ctx.beginPath();
+		ctx.arc(cx, cy, 48, 0, Math.PI * 2);
+		ctx.clip();
+		const H = 96 * HEAD_ZOOM, W = H * img.head.naturalWidth / img.head.naturalHeight;
+		ctx.drawImage(img.head, cx - W / 2, 30 - H * HEAD_TOP, W, H);
+		ctx.restore();
+	}
+	ctx.strokeStyle = C.accent;
+	ctx.lineWidth = 4;
+	ctx.beginPath();
+	ctx.arc(cx, cy, 50, 0, Math.PI * 2);
+	ctx.stroke();
+	const brandF = {
+		family: HERO_FONT,
+		size: 17,
+		ls: 1.2,
+		lh: 1.2,
+		color: C.accent
+	};
+	const brandW = p.width(model.brand, brandF);
+	p.text(model.brand, 510, 26, {
+		...brandF,
+		align: "right"
+	});
+	const tx = 152;
+	p.text(h.alias, tx, 42, {
+		family: HERO_FONT,
+		size: 40,
+		lh: 1.05,
+		ls: 1.5,
+		shadow: [
+			3,
+			3,
+			"#000"
+		],
+		maxW: 510 - brandW - 18 - tx
+	});
+	const cf = {
+		size: 12,
+		weight: 800,
+		ls: 1,
+		lh: 1.2
+	}, cy2 = 91;
+	const w1 = p.width(h.chip, cf) + 18;
+	p.box(tx, cy2, w1, 23, 4, { fill: C.accent });
+	p.text(h.chip, 161, 95.3, {
+		...cf,
+		color: C.ink
+	});
+	const sf = {
+		...cf,
+		weight: 600
+	}, w2 = p.width(h.style, sf) + 18;
+	if (tx + w1 + 6 + w2 <= 510) {
+		p.box(tx + w1 + 6, cy2, w2, 23, 4, {
+			stroke: C.chip,
+			border: 1.5
+		});
+		p.text(h.style, tx + w1 + 6 + 9, 95.3, {
+			...sf,
+			color: C.chipText
+		});
+	}
+	const c = model.card, x = 30, w = 480;
+	let y = 144, ch;
+	if (c.kind === "free") {
+		ch = 141.4;
+		p.box(x, y, w, ch, 12, {
+			fill: C.card,
+			stroke: C.line
+		});
+		p.box(46, y + 14, 52, 52, 10, {
+			stroke: C.accent,
+			dash: [6, 5]
+		});
+		p.icon("plus", 59, y + 14 + 13, 26, C.accent);
+		const lx = 112, lt = y + 14 + (52 - 48.2) / 2;
+		p.text(c.label, lx, lt, {
+			size: 11,
+			weight: 800,
+			ls: 1.5,
+			lh: 1.2,
+			color: C.accent
+		});
+		p.text(c.title, lx, lt + 13.2 + 4, {
+			family: HERO_FONT,
+			size: 27,
+			lh: 1.15,
+			ls: 1,
+			maxW: 382
+		});
+		const sy = y + 14 + 52 + 12;
+		ctx.fillStyle = C.line;
+		ctx.fillRect(46, sy, 448, 1);
+		const cw = 448 / 3;
+		c.stats.forEach((st, i) => {
+			stat(p, st, 46 + cw * (i + .5), sy + 1 + 10);
+			if (i) ctx.fillRect(46 + cw * i, sy + 1 + 10, 1, 38.4);
+		});
+	} else {
+		const iw = c.kind === "story" ? 48 : 52;
+		ch = 14 + (c.kind === "story" ? 70 : 52) + 12 + 2;
+		p.box(x, y, w, ch, 12, {
+			fill: C.card,
+			stroke: C.line
+		});
+		if (c.kind === "story") {
+			ctx.fillStyle = "#000";
+			p.rrect(46, y + 14, 48, 70, 3);
+			ctx.fill();
+			if (img.cover) {
+				ctx.save();
+				p.rrect(48, y + 16, 44, 66, 2);
+				ctx.clip();
+				p.cover(img.cover, 48, y + 16, 44, 66);
+				ctx.restore();
+			}
+		} else {
+			p.box(46, y + 14, 52, 52, 10, { fill: C.accent });
+			p.icon("dumbbell", 58, y + 14 + 12, 28, C.ink);
+		}
+		const cols = c.stats.map((st) => Math.max(p.width(st.v, {
+			...NUM,
+			size: 24
+		}), p.width(st.l, {
+			size: 10,
+			weight: 700,
+			ls: 1
+		})));
+		let rx = 494;
+		for (let i = cols.length - 1; i >= 0; i--) {
+			stat(p, c.stats[i], rx - cols[i] / 2, y + (ch - 38.4) / 2);
+			rx -= cols[i] + 14;
+		}
+		const lx = 46 + iw + 14, lt = y + (ch - 48.2) / 2;
+		p.text(c.label, lx, lt, {
+			size: 11,
+			weight: 800,
+			ls: 1.5,
+			lh: 1.2,
+			color: C.accent,
+			maxW: rx - lx
+		});
+		const tf = {
+			family: HERO_FONT,
+			size: 27,
+			lh: 1.15,
+			ls: 1
+		}, small = {
+			...tf,
+			size: 17
+		};
+		let title = c.title + (c.suffix || "");
+		const room = rx - lx - p.width(c.suffix || "", small) - 1;
+		if (c.suffix && p.width(title, small) > rx - lx && room >= 70) title = p.fit(c.title, small, room, 17)[0] + c.suffix;
+		p.text(title, lx, lt + 13.2 + 4, {
+			...tf,
+			maxW: rx - lx,
+			min: 17
+		});
+	}
+	y += ch + 14;
+	const gn = model.gains;
+	p.text(gn.label, x, y, {
+		size: 12,
+		weight: 800,
+		ls: 1.6,
+		lh: 1.2,
+		color: C.dim
+	});
+	y += 24.4;
+	if (gn.powersOnly) {
+		const po = gn.powersOnly, rows = po.rows.length, hh = 46 + rows * 18 + (rows - 1) * 6 + (po.note ? 35.6 : 0) + 12 + 2;
+		p.box(x, y, w, hh, 10, {
+			fill: C.card,
+			stroke: C.line
+		});
+		p.icon("bolt", 46, y + 14, 22, C.accent);
+		p.text(po.label, 78, y + 14 + 8.8 / 2, LBL);
+		let ry = y + 14 + 22 + 10;
+		for (const r of po.rows) {
+			p.text(r.name, 46, ry, {
+				size: 15,
+				weight: 700,
+				lh: 1.2,
+				maxW: 96
+			});
+			const bx = 154, bw = 288;
+			ctx.save();
+			p.rrect(bx, ry + 5, bw, 8, 4);
+			ctx.clip();
+			ctx.fillStyle = C.line;
+			ctx.fillRect(bx, ry + 5, bw, 8);
+			ctx.fillStyle = C.chip;
+			ctx.fillRect(bx, ry + 5, bw * r.base / 100, 8);
+			ctx.fillStyle = C.accent;
+			ctx.fillRect(bx + bw * r.base / 100, ry + 5, Math.max(3, bw * r.gain / 100), 8);
+			ctx.restore();
+			p.text(r.text, 494, ry, {
+				size: 15,
+				weight: 800,
+				lh: 1.2,
+				color: C.accent,
+				align: "right"
+			});
+			ry += 24;
+		}
+		if (po.note) {
+			ry += 4;
+			ctx.fillStyle = C.line;
+			ctx.fillRect(46, ry, 448, 1);
+			p.text(po.note, 46, ry + 1 + 9, {
+				size: 13,
+				lh: 1.2,
+				color: C.soft,
+				maxW: 448
+			});
+		}
+		return;
+	}
+	const list = [...gn.boxes], wide = [];
+	if (list.length % 2) wide.push(list.pop());
+	if (gn.wide) wide.push(gn.wide);
+	const colW = 235;
+	for (let i = 0; i < list.length; i += 2) {
+		const hh = Math.max(gainBox(ctx, p, list[i], 0, 0, colW, 0, false), gainBox(ctx, p, list[i + 1], 0, 0, colW, 0, false));
+		gainBox(ctx, p, list[i], x, y, colW, hh, true);
+		gainBox(ctx, p, list[i + 1], 275, y, colW, hh, true);
+		y += hh + 10;
+	}
+	for (const b of wide) {
+		const hh = gainBox(ctx, p, b, 0, 0, w, 0, false);
+		gainBox(ctx, p, b, x, y, w, hh, true);
+		y += hh + 10;
+	}
+}
+/** Kopf im Kreis: so stark wird das Heldenbild (nach seiner Höhe) vergrößert, und so viel davon liegt über dem Kreis */
+var HEAD_ZOOM = 5.6;
+var HEAD_TOP = .012;
+function drawClassic(ctx, p, model) {
+	ctx.save();
+	ctx.translate(110, 30);
+	ctx.scale(230, 190);
+	const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+	g.addColorStop(0, "rgba(37,204,29,0.22)");
+	g.addColorStop(1, "rgba(37,204,29,0)");
+	ctx.fillStyle = g;
+	ctx.beginPath();
+	ctx.arc(0, 0, 1, 0, Math.PI * 2);
+	ctx.fill();
+	ctx.restore();
+	frame(ctx, p, model);
+	const c = model.classic, x = 30, w = 480;
+	let y = 28;
+	const brandF = {
+		family: HERO_FONT,
+		size: 20,
+		ls: 1.2,
+		lh: 1.2,
+		color: C.accent
+	}, brandW = p.width(model.brand, brandF);
+	p.text(model.brand, 510, y + 8, {
+		...brandF,
+		align: "right"
+	});
+	if (c.name) {
+		ctx.fillStyle = C.accent;
+		ctx.beginPath();
+		ctx.arc(50, y + 20, 20, 0, Math.PI * 2);
+		ctx.fill();
+		p.text(c.initial, 50, y + 18.4 / 2, {
+			size: 18,
+			weight: 800,
+			lh: 1.2,
+			color: C.ink,
+			align: "center"
+		});
+		p.text(c.name, 80, y + 19.6 / 2, {
+			size: 17,
+			weight: 700,
+			lh: 1.2,
+			maxW: 430 - brandW - 16
+		});
+	}
+	y += 56;
+	p.text(c.title, x, y, {
+		family: HERO_FONT,
+		size: 52,
+		lh: 1.05,
+		ls: 1.5,
+		shadow: [
+			3,
+			3,
+			"#000"
+		],
+		maxW: w
+	});
+	p.text(c.sub, x, y + 54.6 + 6, {
+		size: 16,
+		lh: 1.2,
+		color: C.soft,
+		maxW: w
+	});
+	y += 95.8;
+	const tw = 460 / 3;
+	c.tiles.forEach((tl, i) => {
+		const bx = x + i * 163.33333333333334;
+		p.box(bx, y, tw, 84.4, 10, {
+			fill: C.card,
+			stroke: C.line
+		});
+		stat(p, tl, bx + tw / 2, y + 14, 32, 11, 4);
+	});
+	y += 100.4;
+	const weekBox = (bx, bw) => {
+		p.box(bx, y, bw, 53, 10, {
+			fill: C.card,
+			stroke: C.line
+		});
+		p.text(c.week.label, bx + 14, y + 8.5, LBL);
+		const n = Math.min(c.week.goal, 10), done = Math.min(c.week.done, n);
+		for (let i = 0; i < n; i++) {
+			const dx = bx + 14 + i * 18 + 7, dy = y + 8.5 + 13.2 + 6 + 7;
+			ctx.beginPath();
+			ctx.arc(dx, dy, i < done ? 7 : 6, 0, Math.PI * 2);
+			if (i < done) {
+				ctx.fillStyle = C.accent;
+				ctx.fill();
+			} else {
+				ctx.strokeStyle = C.chip;
+				ctx.lineWidth = 2;
+				ctx.stroke();
+			}
+		}
+		p.text(c.week.value, bx + 14 + n * 18 + 4, y + 8.5 + 13.2 + 6 + -2, {
+			size: 15,
+			weight: 700,
+			lh: 1.2,
+			maxW: bx + bw - 14 - (bx + 14 + n * 18 + 4)
+		});
+	};
+	if (c.records) {
+		const bw = 235;
+		p.box(x, y, bw, 53, 10, {
+			fill: C.gold,
+			shadow: 3
+		});
+		p.icon("trophy", 42, y + 12.5, 28, "#111");
+		p.text(c.records.label, 81, y + 11, {
+			...LBL,
+			color: "#111"
+		});
+		p.text(c.records.value, 81, y + 11 + 13.2, {
+			size: 15,
+			weight: 700,
+			lh: 1.2,
+			color: "#111",
+			maxW: 172
+		});
+		weekBox(275, bw);
+	} else weekBox(x, w);
+}
+/**
+* Das Bild zeichnen. Antwort: ein Canvas mit 1080 × 1080 Pixeln.
+* (Schriften und Bilder werden vorher geladen; fehlt ein Bild, bleibt seine Stelle leer.)
+*/
+async function drawShareCard(model) {
+	await fontsReady();
+	const h = model.hero || {};
+	const [bg, head, cover] = await Promise.all([
+		loadImage(h.bg),
+		loadImage(h.head),
+		loadImage(model.card && model.card.cover)
+	]);
+	const canvas = document.createElement("canvas");
+	canvas.width = canvas.height = 1080;
+	const ctx = canvas.getContext("2d");
+	ctx.scale(2, 2);
+	ctx.fillStyle = C.ground;
+	ctx.fillRect(0, 0, 540, 540);
+	const p = pen(ctx);
+	if (model.variant === "hero") drawHero(ctx, p, model, {
+		bg,
+		head,
+		cover
+	});
+	else drawClassic(ctx, p, model);
+	return canvas;
+}
+/** Canvas als PNG-Datei */
+var canvasBlob = (canvas) => new Promise((resolve, reject) => canvas.toBlob((b) => b ? resolve(b) : reject(/* @__PURE__ */ new Error("no image")), "image/png"));
 // src/ui/icons.js
 var P = {
 	play: "<path d=\"M7 4v16l13 -8z\"/>",
@@ -1601,6 +3481,7 @@ var P = {
 	calisthenics: "<path d=\"M7 7a1 1 0 1 0 2 0a1 1 0 0 0 -2 0\"/><path d=\"M13 21l1 -9l7 -6\"/><path d=\"M3 11h6l5 1\"/><path d=\"M11.5 8.5l4.5 -3.5\"/>",
 	kettlebell: "<path d=\"M12 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\"/><path d=\"M6.835 9h10.33a1 1 0 0 1 .984 .821l1.637 9a1 1 0 0 1 -.984 1.179h-13.604a1 1 0 0 1 -.984 -1.179l1.637 -9a1 1 0 0 1 .984 -.821z\"/>",
 	hiit: "<path d=\"M5 13a7 7 0 1 0 14 0a7 7 0 0 0 -14 0z\"/><path d=\"M14.5 10.5l-2.5 2.5\"/><path d=\"M17 8l1 -1\"/><path d=\"M14 3h-4\"/>",
+	alltag: "<path d=\"M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\"/><path d=\"M7 21l3 -4\"/><path d=\"M16 21l-2 -4l-3 -3l1 -6\"/><path d=\"M6 12l2 -3l4 -1l3 3l3 1\"/>",
 	ausdauer: "<path d=\"M19.5 13.572l-7.5 7.428l-2.896 -2.868m-6.117 -8.104a5 5 0 0 1 9.013 -3.022a5 5 0 1 1 7.5 6.572\"/><path d=\"M3 13h2l2 3l2 -6l1 3h3\"/>",
 	yoga: "<path d=\"M12 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\"/><path d=\"M4 20h4l1.5 -3\"/><path d=\"M17 20l-1 -5h-5l1 -7\"/><path d=\"M4 10l4 -1l4 -1l4 1.5l4 1.5\"/>",
 	other: "<path d=\"M3 12h4l3 8l4 -16l3 8h4\"/>",
@@ -1638,6 +3519,7 @@ var ICON_OF = {
 	hiit: "hiit",
 	ausdauer: "ausdauer",
 	yoga: "yoga",
+	alltag: "alltag",
 	other: "other",
 	"mdi:clipboard-list-outline": "plans",
 	"mdi:star-outline": "templates",
@@ -1646,10 +3528,12424 @@ var ICON_OF = {
 	editor: "editor",
 	import: "down"
 };
+// src/core/hero/config.ts
+var POWERS = [
+	"strength",
+	"endurance",
+	"agility",
+	"willpower"
+];
+var FIGURES = ["m", "w"];
+var STYLES = [
+	"vigilante",
+	"xclass",
+	"starkeeper",
+	"runewarrior",
+	"neonrebel"
+];
+var HERO = {
+	/** 1 Einheit Stärke = so viele Kraftsätze */
+	STRENGTH_SETS: 15,
+	/** 1 Einheit Ausdauer = so viele Sekunden Arbeit (20 min) */
+	ENDURANCE_S: 1200,
+	/** 1 Einheit Agilität = so viele Sekunden (30 min) */
+	AGILITY_S: 1800,
+	/** Körpergewicht-Sätze bis zu so vielen Wiederholungen sind Kraftsätze, darüber Ausdauer */
+	STRENGTH_MAX_REPS: 15,
+	/** schwere Sätze (mit Gewicht, höchstens so viele Wdh.) zählen mehr */
+	HEAVY_REPS: 6,
+	HEAVY_FACTOR: 1.25,
+	/** geschätzte Sekunden je Wiederholung, wenn ein Satz nach Wiederholungen als Zeit zählt */
+	REP_SECONDS: 3,
+	/** je Kraft und Tag höchstens so viele Einheiten */
+	DAY_CAP: 1,
+	GAIN: 2.5,
+	CURVE: 105,
+	MAX: 100,
+	TIERS: [
+		10,
+		25,
+		50,
+		75,
+		100
+	],
+	/** eine Stufe geht erst verloren, wenn der Wert so viele Punkte unter der Schwelle liegt */
+	TIER_HYSTERESIS: 3,
+	/** Rang ab Level (Civilian, Rookie, Rumor, Headline, Hero, Superhero, Icon, Legend) */
+	RANKS: [
+		1,
+		3,
+		12,
+		22,
+		35,
+		50,
+		66,
+		82
+	],
+	RANK_HYSTERESIS: 2,
+	/** ab hier gilt es als Pause: Pausen-Hinweis, Hinweise je Kraft schweigen, verpasste Wochenziele kosten nichts mehr */
+	BREAK_PAUSE_DAYS: 14,
+	BREAK_GRACE_DAYS: 20,
+	BREAK_SLOW_UNTIL: 34,
+	BREAK_SLOW_EVERY: 3,
+	BREAK_FAST_EVERY: 2,
+	/** nie unter diesen Anteil des Werts vor der Pause */
+	FLOOR: .5,
+	IDLE_HINT_DAYS: 14,
+	IDLE_SLOW_FROM: 21,
+	IDLE_SLOW_EVERY: 3,
+	IDLE_FAST_FROM: 42,
+	IDLE_FAST_EVERY: 2,
+	/** gilt nur für Kräfte, die schon einmal so hoch waren */
+	IDLE_MIN_EVER: 10,
+	/** ein Training mit mindestens so vielen Einheiten setzt die Uhr der Kraft zurück */
+	IDLE_RESET_UNITS: 1 / 3,
+	/** so weit schaut die Hinweis-Karte voraus („52 → in 2 Wochen 50“) */
+	IDLE_LOOKAHEAD_DAYS: 14,
+	/** so viele verpasste Wochenziele in Folge sind frei */
+	WILL_FREE_MISSES: 1,
+	/** danach je verpasster Woche */
+	WILL_MISS_LOSS: 3,
+	/** Erinnerung „noch 1 Training“ ab diesem Wochentag (0 = Montag … 4 = Freitag) */
+	WILL_REMIND_FROM_WEEKDAY: 4,
+	MEMORY_FACTOR: 2,
+	/** „The Return“ beginnt, sobald so viele Tage ohne Training vergangen sind … */
+	COMEBACK_AFTER_DAYS: 28,
+	/** … oder das Level in der Pause so weit unter den Stand vor der Pause gefallen ist – was zuerst eintritt */
+	COMEBACK_LEVEL_DROP: 3,
+	COLLECTOR_STEPS: [
+		25,
+		50,
+		75,
+		100
+	],
+	/** Wegmarken: Aufbruch, Erkundung, Wendepunkt, Showdown, Rückkehr */
+	MILESTONES: [
+		0,
+		.25,
+		.5,
+		.75,
+		1
+	],
+	/** „pünktlich“: so viele Tage Spielraum über die geplante Dauer hinaus */
+	STORY_ON_TIME_GRACE_DAYS: 6
+};
+var RANK_KEYS = [
+	"civilian",
+	"rookie",
+	"rumor",
+	"headline",
+	"hero",
+	"superhero",
+	"icon",
+	"legend"
+];
+var lore_default = {
+	iron_origins: {
+		"en": {
+			"title": "Iron Origins",
+			"sub": "Barbell for beginners · squat, bench, deadlift, press · 12 weeks, 3×",
+			"teaser": "At night the old steel mill by the river is lit again. Nobody dares to go there. You do.",
+			"marks": [
+				"Your first case. No costume, no plan – just the decision to look.",
+				"Crates are being loaded at the mill. Everyone wears the same badge: an iron hand.",
+				"They’ve spotted you. Running would be easier. You stay.",
+				"The furnaces glow. The Iron Hand comes at you with everything it has.",
+				"The mill is dark, the crates seized. The city talks about someone nobody knows. Not yet."
+			]
+		},
+		"de": {
+			"title": "Eiserner Anfang",
+			"sub": "Langhantel für Einsteiger · Kniebeuge, Bankdrücken, Kreuzheben, Drücken · 12 Wochen, 3×",
+			"teaser": "Im alten Stahlwerk am Fluss brennt nachts wieder Licht. Niemand traut sich hin. Du schon.",
+			"marks": [
+				"Dein erster Einsatz. Kein Kostüm, kein Plan – nur der Entschluss, hinzusehen.",
+				"Im Werk werden Kisten verladen. Alle tragen dasselbe Abzeichen: eine eiserne Hand.",
+				"Sie haben dich bemerkt. Weglaufen wäre leichter. Du bleibst.",
+				"Die Hochöfen glühen. Die Iron Hand stellt sich dir mit allem, was sie hat.",
+				"Das Werk ist dunkel, die Kisten beschlagnahmt. Die Stadt redet von jemandem, den keiner kennt. Noch nicht."
+			]
+		}
+	},
+	the_family: {
+		"en": {
+			"title": "The Family",
+			"sub": "Strength cycles by percentage (based on 5/3/1) · four main lifts · 12 weeks, 3×",
+			"teaser": "The Varga family has ruled the harbor for three generations. You don’t catch them in one night. You take them apart – piece by piece.",
+			"marks": [
+				"Start at the bottom: the street dealers. Small, quiet, patient.",
+				"The dealers lead to the money. A restaurant that never has guests and still gets rich.",
+				"A witness talks. Now the family knows someone is coming.",
+				"The daughter’s wedding. Every boss at one table – and you on the guest list.",
+				"The old don is led away. For the first time in years, the harbor breathes freely."
+			]
+		},
+		"de": {
+			"title": "Die Familie",
+			"sub": "Kraftzyklen nach Prozent (angelehnt an 5/3/1) · vier Grundübungen · 12 Wochen, 3×",
+			"teaser": "Die Familie Varga regiert den Hafen seit drei Generationen. Man fängt sie nicht in einer Nacht. Man nimmt sie auseinander – Stück für Stück.",
+			"marks": [
+				"Ganz unten anfangen: die Straßenhändler. Klein, unauffällig, geduldig.",
+				"Die Händler führen zum Geld. Ein Restaurant, das nie Gäste hat und trotzdem reich wird.",
+				"Ein Kronzeuge packt aus. Jetzt weiß die Familie, dass jemand kommt.",
+				"Die Hochzeit der Tochter. Alle Bosse an einem Tisch – und du auf der Gästeliste.",
+				"Der alte Don wird abgeführt. Im Hafen atmet man zum ersten Mal seit Jahren frei."
+			]
+		}
+	},
+	forty_nights: {
+		"en": {
+			"title": "Forty Nights",
+			"sub": "Strength without exhaustion (based on “Easy Strength”) · five lifts, never to failure · 40 sessions, 5×",
+			"teaser": "A master thief called the Phantom has announced forty break-ins in forty nights. He always keeps his word.",
+			"marks": [
+				"The first night. You keep watch. Nothing happens – or does it?",
+				"A jeweler, a museum, a bank. The Phantom is always one step ahead. You stay calm.",
+				"Twenty nights. Now you know his rhythm. He doesn’t know yours.",
+				"The last announcement: the crown jewels. You’re already there when he arrives.",
+				"Forty nights. The winner wasn’t the faster one, but the steadier one."
+			]
+		},
+		"de": {
+			"title": "Vierzig Nächte",
+			"sub": "Kraft ohne Erschöpfung (angelehnt an „Easy Strength“) · fünf Übungen, nie bis zum Anschlag · 40 Trainings, 5×",
+			"teaser": "Ein Meisterdieb, das Phantom, hat vierzig Einbrüche in vierzig Nächten angekündigt. Er hält immer Wort.",
+			"marks": [
+				"Die erste Nacht. Du hältst Wache. Nichts passiert – oder doch?",
+				"Ein Juwelier, ein Museum, eine Bank. Das Phantom ist immer einen Schritt voraus. Du bleibst ruhig.",
+				"Zwanzig Nächte. Du kennst jetzt seinen Rhythmus. Er kennt deinen nicht.",
+				"Die letzte Ankündigung: die Kronjuwelen. Du bist schon da, als er kommt.",
+				"Vierzig Nächte. Gewonnen hat nicht der Schnellere, sondern der Beständigere."
+			]
+		}
+	},
+	clockwork: {
+		"en": {
+			"title": "Clockwork",
+			"sub": "Barbell for intermediates (based on the Texas Method) · volume, light and record day · 12 weeks, 3×",
+			"teaser": "Monday, Wednesday, Friday. The Timekeeper strikes like clockwork – and harder every time.",
+			"marks": [
+				"Every clock in the city stops. A message: ‘I decide the time.’",
+				"You learn his beat. Mondays the distraction, Wednesdays the silence, Fridays the strike.",
+				"A Friday without an attack. The Timekeeper has changed his rhythm – because of you.",
+				"The bell tower. Gears as big as houses. He is waiting for you.",
+				"The tower clock runs again. On time – and for the first time without him."
+			]
+		},
+		"de": {
+			"title": "Uhrwerk",
+			"sub": "Langhantel für Fortgeschrittene (angelehnt an die Texas Method) · Volumen-, Leicht- und Bestwerttag · 12 Wochen, 3×",
+			"teaser": "Montag, Mittwoch, Freitag. Der Timekeeper schlägt zu wie ein Uhrwerk – und jedes Mal härter.",
+			"marks": [
+				"Alle Uhren der Stadt bleiben stehen. Eine Botschaft: ‚Ich bestimme die Zeit.‘",
+				"Du lernst seinen Takt. Montags die Ablenkung, mittwochs die Stille, freitags der Schlag.",
+				"Ein Freitag ohne Anschlag. Der Timekeeper hat seinen Rhythmus geändert – deinetwegen.",
+				"Der Glockenturm. Zahnräder so groß wie Häuser. Er wartet auf dich.",
+				"Die Turmuhr läuft wieder. Pünktlich – und zum ersten Mal ohne ihn."
+			]
+		}
+	},
+	seven_minutes: {
+		"en": {
+			"title": "Seven Minutes",
+			"sub": "Circuit without equipment · twelve exercises, from 1 to 3 rounds · 6 weeks, 3×",
+			"teaser": "The Hourglass freezes the city. Only you can still move – for seven minutes.",
+			"marks": [
+				"Birds hang in the air, cars stand in the middle of the crossing. Seven minutes, then the sand runs again.",
+				"Every freeze is a chance. You pull people out of danger while time sleeps.",
+				"You notice: the more often you move in frozen time, the longer you last.",
+				"The Hourglass’s hideout: a watchmaker’s shop where every clock runs backwards.",
+				"The glass shatters. The city moves again – and never noticed a thing."
+			]
+		},
+		"de": {
+			"title": "Sieben Minuten",
+			"sub": "Zirkel ohne Gerät · zwölf Übungen, von 1 auf 3 Runden · 6 Wochen, 3×",
+			"teaser": "Hourglass friert die Stadt ein. Nur du bewegst dich noch – sieben Minuten lang.",
+			"marks": [
+				"Vögel stehen in der Luft, Autos mitten auf der Kreuzung. Sieben Minuten, dann rieselt der Sand weiter.",
+				"Jeder Stillstand ist eine Chance. Du holst Menschen aus der Gefahr, solange die Zeit schläft.",
+				"Du merkst: Je öfter du dich in der gefrorenen Zeit bewegst, desto länger hältst du durch.",
+				"Das Versteck von Hourglass: ein Uhrmacherladen, in dem alle Uhren rückwärts laufen.",
+				"Das Glas zerspringt. Die Stadt bewegt sich wieder – und hat nichts gemerkt."
+			]
+		}
+	},
+	fault_line: {
+		"en": {
+			"title": "Fault Line",
+			"sub": "Bodyweight basics (based on the Recommended Routine) · pull-ups, dips, squats, push-ups, rows in progressions · 12 weeks, 3×",
+			"teaser": "The earth shakes, and it’s no accident. Before you can fly, you have to learn to carry.",
+			"marks": [
+				"The first quake. A house is about to collapse. You brace yourself against it.",
+				"The quakes follow a line straight through the city. Someone is digging.",
+				"You hold a bridge until the last bus is across. Now you know what you can carry.",
+				"Deep beneath the city: the Earthbreaker’s drill. The last quake is coming.",
+				"The ground is still. But the Earthbreaker had a client. His name: Nadir."
+			]
+		},
+		"de": {
+			"title": "Bruchlinie",
+			"sub": "Körpergewicht-Grundlagen (angelehnt an die Recommended Routine) · Klimmzüge, Dips, Kniebeugen, Liegestütze, Rudern in Stufen · 12 Wochen, 3×",
+			"teaser": "Die Erde bebt, und es ist kein Zufall. Bevor du fliegen kannst, musst du lernen zu tragen.",
+			"marks": [
+				"Das erste Beben. Ein Haus droht einzustürzen. Du stemmst dich dagegen.",
+				"Die Beben folgen einer Linie quer durch die Stadt. Jemand gräbt.",
+				"Du hältst eine Brücke, bis der letzte Bus drüben ist. Jetzt weißt du, was du tragen kannst.",
+				"Tief unter der Stadt: die Bohrmaschine des Earthbreakers. Das letzte Beben steht bevor.",
+				"Die Erde ist ruhig. Aber der Earthbreaker hatte einen Auftraggeber. Sein Name: Nadir."
+			]
+		}
+	},
+	bare_hands: {
+		"en": {
+			"title": "Bare Hands",
+			"sub": "Pistol squat and one-arm push-up (based on “Naked Warrior”) · no equipment, short and often · 8–12 weeks, 5×",
+			"teaser": "Trapped on an island. Gear gone, allies gone. What’s left is you.",
+			"marks": [
+				"You wake up in a cell. No suit, no radio.",
+				"The guards change every four hours. You use every minute in between.",
+				"The cell door gives way. Outside: jungle and a radio tower on the hill.",
+				"The Island Lord faces you himself. Unarmed – just like you.",
+				"The signal goes out. You came with bare hands, and with bare hands you leave."
+			]
+		},
+		"de": {
+			"title": "Mit bloßen Händen",
+			"sub": "Pistol-Kniebeuge und einarmiger Liegestütz (angelehnt an „Naked Warrior“) · ohne Gerät, kurz und oft · 8–12 Wochen, 5×",
+			"teaser": "Gefangen auf einer Insel. Ausrüstung weg, Verbündete weg. Was bleibt, bist du.",
+			"marks": [
+				"Du wachst in einer Zelle auf. Kein Anzug, kein Funkgerät.",
+				"Die Wachen wechseln alle vier Stunden. Du nutzt jede Minute dazwischen.",
+				"Die Zellentür gibt nach. Draußen: Dschungel und ein Funkturm auf dem Hügel.",
+				"Der Island Lord stellt sich dir selbst. Ohne Waffen – so wie du.",
+				"Das Funksignal geht raus. Mit bloßen Händen bist du gekommen, mit bloßen Händen gehst du."
+			]
+		}
+	},
+	defy_gravity: {
+		"en": {
+			"title": "Defy Gravity",
+			"sub": "Calisthenics progression (based on “Overcoming Gravity”) · harder levers, L-sit, added weight · 12 weeks, 3×",
+			"teaser": "Nadir makes the world heavy. Every step weighs double – except for anyone who has learned to carry their own weight.",
+			"marks": [
+				"People sink to their knees. Gravity has tripled. And you’re still standing.",
+				"Nadir’s waves come from the observatory on the mountain.",
+				"You stop fighting the pull and start working with it.",
+				"In the observatory, Nadir holds the world down with one hand.",
+				"Gravity is back. Nadir is behind bars. But he has a sister."
+			]
+		},
+		"de": {
+			"title": "Der Schwerkraft trotzen",
+			"sub": "Calisthenics-Aufbau (angelehnt an „Overcoming Gravity“) · schwerere Hebel, L-Sitz, Zusatzgewicht · 12 Wochen, 3×",
+			"teaser": "Nadir macht die Welt schwer. Jeder Schritt wiegt doppelt – nur nicht für den, der gelernt hat, sich zu tragen.",
+			"marks": [
+				"Die Menschen sinken in die Knie. Die Schwerkraft hat sich verdreifacht. Und du stehst noch.",
+				"Nadirs Wellen kommen aus dem Observatorium auf dem Berg.",
+				"Du hörst auf, gegen den Zug zu kämpfen, und fängst an, mit ihm zu arbeiten.",
+				"Im Observatorium hält Nadir die Welt mit einer Hand am Boden.",
+				"Die Schwerkraft ist zurück. Nadir sitzt. Aber er hat eine Schwester."
+			]
+		}
+	},
+	on_call: {
+		"en": {
+			"title": "On Call",
+			"sub": "Pull-up groove (Grease the Groove) · a few pull-ups, several times a day · 4 weeks, short and daily",
+			"teaser": "A wave of small emergencies floods the city. None of them big, all of them at once. To help, you have to be ready at all times.",
+			"marks": [
+				"A stuck elevator, a pickpocket at the market, a cat on a crane. And that’s before breakfast.",
+				"You learn never to give everything – so there’s something left for the next call.",
+				"The calls follow a pattern. Someone wants to wear you down.",
+				"The mastermind strikes when he thinks you’re exhausted. You aren’t.",
+				"He escapes into his tower. Now you know his name: the Landlord."
+			]
+		},
+		"de": {
+			"title": "In Bereitschaft",
+			"sub": "Klimmzug-Groove (Grease the Groove) · ein paar Klimmzüge, mehrmals am Tag · 4 Wochen, täglich kurz",
+			"teaser": "Eine Welle kleiner Notrufe überrollt die Stadt. Keiner groß, aber alle gleichzeitig. Wer helfen will, muss immer bereit sein.",
+			"marks": [
+				"Fahrstuhl steckt fest, Taschendieb am Markt, Katze auf dem Kran. Und das vor dem Frühstück.",
+				"Du lernst, nie alles zu geben – damit für den nächsten Ruf noch etwas übrig ist.",
+				"Die Notrufe haben ein Muster. Jemand will dich müde machen.",
+				"Der Drahtzieher schlägt zu, als er dich erschöpft glaubt. Du bist es nicht.",
+				"Er entkommt in seinen Turm. Jetzt kennst du seinen Namen: der Landlord."
+			]
+		}
+	},
+	the_tower: {
+		"en": {
+			"title": "The Tower",
+			"sub": "Pull-up ladders (based on the Fighter Pull-up Program) · one ladder a day · 30 days, 5×",
+			"teaser": "The Landlord has taken the skyscraper. Thirty floors, elevators dead. There’s only one way: up.",
+			"marks": [
+				"Ground floor. The stairwell is blocked, the elevator shaft isn’t.",
+				"Floor by floor. Behind every door someone is waiting to be freed.",
+				"Fifteenth floor. From here you see the whole city – and it sees you.",
+				"The last floors are the longest. The Landlord is waiting at the top.",
+				"The roof. His helicopter takes off – without him. But downtown, a strange light flickers."
+			]
+		},
+		"de": {
+			"title": "Der Turm",
+			"sub": "Klimmzug-Leitern (angelehnt an das Fighter Pull-up Program) · jeden Tag eine Leiter · 30 Tage, 5×",
+			"teaser": "Der Landlord hat den Wolkenkratzer besetzt. Dreißig Stockwerke, die Aufzüge tot. Es gibt nur einen Weg: nach oben.",
+			"marks": [
+				"Erdgeschoss. Das Treppenhaus ist versperrt, der Aufzugsschacht nicht.",
+				"Etage für Etage. Hinter jeder Tür wartet jemand, der befreit werden will.",
+				"Fünfzehnter Stock. Von hier siehst du die ganze Stadt – und sie sieht dich.",
+				"Die letzten Stockwerke sind die längsten. Oben wartet der Landlord.",
+				"Das Dach. Sein Hubschrauber hebt ab – ohne ihn. Doch in der Innenstadt flackert ein seltsames Licht."
+			]
+		}
+	},
+	breakthrough: {
+		"en": {
+			"title": "Breakthrough",
+			"sub": "Muscle-up on the bar · explosive pull-ups, negatives, transition · 8–12 weeks, 3×",
+			"teaser": "A dome of energy covers downtown. Nobody gets in, nobody gets out. Beneath it: the Landlord.",
+			"marks": [
+				"You push against the dome. It gives a little – then throws you back.",
+				"You circle the dome for its weakest spot. Every attempt takes you higher.",
+				"For the first time you’re in the wall of light up to your chest.",
+				"One last attempt, all in one move: up, through, over.",
+				"Breakthrough. The dome shatters, and the Landlord has no tower left to run to."
+			]
+		},
+		"de": {
+			"title": "Durchbruch",
+			"sub": "Muscle-up an der Stange · explosive Klimmzüge, Negative, Übergang · 8–12 Wochen, 3×",
+			"teaser": "Eine Kuppel aus Energie liegt über der Innenstadt. Niemand kommt rein, niemand raus. Darunter: der Landlord.",
+			"marks": [
+				"Du stößt gegen die Kuppel. Sie gibt nach, ein kleines Stück – dann wirft sie dich zurück.",
+				"Rund um die Kuppel suchst du die schwächste Stelle. Jeder Anlauf bringt dich höher.",
+				"Zum ersten Mal steckst du bis zur Brust in der Wand aus Licht.",
+				"Ein letzter Anlauf, alles in einer Bewegung: hoch, durch, drüber.",
+				"Durchbruch. Die Kuppel zerspringt, und der Landlord hat keinen Turm mehr, in den er fliehen kann."
+			]
+		}
+	},
+	upside_down: {
+		"en": {
+			"title": "Upside Down",
+			"sub": "Wall handstand · back to the wall, then chest to the wall · 8–12 weeks, 3–4×",
+			"teaser": "Overnight, the Mirror Quarter hangs upside down in the sky. And the people in it.",
+			"marks": [
+				"A crack in the sky. Inside: the same streets, only upside down.",
+				"You climb in. Up is down, and the walls are your only hold.",
+				"You find your way – in a world standing on its head.",
+				"At the heart of the quarter: the Mirrormaker. He wants it to stay this way.",
+				"The quarter turns back. The Mirrormaker vanishes into his last mirror."
+			]
+		},
+		"de": {
+			"title": "Kopfüber",
+			"sub": "Handstand an der Wand · Rücken zur Wand, dann Bauch zur Wand · 8–12 Wochen, 3–4×",
+			"teaser": "Über Nacht hängt das Spiegelviertel kopfüber am Himmel. Die Menschen darin auch.",
+			"marks": [
+				"Ein Riss im Himmel. Darin: dieselben Straßen, nur verkehrt herum.",
+				"Du kletterst hinein. Oben ist unten, und die Wände sind dein einziger Halt.",
+				"Du findest dich zurecht – in einer Welt, die auf dem Kopf steht.",
+				"Im Zentrum des Viertels: der Mirrormaker. Er will, dass es so bleibt.",
+				"Das Viertel dreht sich zurück. Der Mirrormaker verschwindet in seinem letzten Spiegel."
+			]
+		}
+	},
+	without_a_net: {
+		"en": {
+			"title": "Without a Net",
+			"sub": "Free handstand · balance without the wall, goal 30 seconds · 12 weeks, 4–5×",
+			"teaser": "Overnight, a circus appears at the edge of town. Whoever goes in doesn’t come out. And this time there’s no wall to hold on to.",
+			"marks": [
+				"A tent, music, a hall of mirrors at the entrance. You can guess who’s behind it.",
+				"Ropes, trapezes, swaying masts. The only hold is your own balance.",
+				"Ten seconds on top of a mast. The ground is far away, and it no longer bothers you.",
+				"Under the big top, the Mirrormaker waits – on a rope, without a net.",
+				"The tent collapses, everyone is free. You’re still standing. No net, no doubt."
+			]
+		},
+		"de": {
+			"title": "Ohne Netz",
+			"sub": "Freier Handstand · Balance ohne Wand, Ziel 30 Sekunden · 12 Wochen, 4–5×",
+			"teaser": "Über Nacht steht ein Zirkus am Stadtrand. Wer hineingeht, kommt nicht wieder heraus. Und diesmal gibt es keine Wand, an der du dich halten kannst.",
+			"marks": [
+				"Ein Zelt, Musik, ein Spiegelkabinett am Eingang. Du ahnst, wer dahintersteckt.",
+				"Seile, Trapeze, schwankende Masten. Halt gibt nur das eigene Gleichgewicht.",
+				"Zehn Sekunden auf der Spitze eines Masts. Der Boden ist weit, und es macht dir nichts mehr aus.",
+				"Unter der Zeltkuppel wartet der Mirrormaker – auf einem Seil, ohne Netz.",
+				"Das Zelt fällt in sich zusammen, alle sind frei. Du stehst noch. Ohne Netz, ohne Zweifel."
+			]
+		}
+	},
+	hold_the_line: {
+		"en": {
+			"title": "Hold the Line",
+			"sub": "L-sit · tucked, one leg, straight up to 30 seconds · 8 weeks, 3–4×",
+			"teaser": "The Whisperer has put a whole city under his spell. They’re marching onto the bridge. Only you stand in between.",
+			"marks": [
+				"A whisper on the radio, and people start walking. All in the same direction.",
+				"The bridge is the only way. Here you stop them – without hurting anyone.",
+				"The crowd pushes. You don’t give an inch.",
+				"The Whisperer himself steps onto the bridge.",
+				"The whisper falls silent. People blink as if waking from a dream. The line held."
+			]
+		},
+		"de": {
+			"title": "Die Linie halten",
+			"sub": "L-Sitz · angewinkelt, einbeinig, gestreckt bis 30 Sekunden · 8 Wochen, 3–4×",
+			"teaser": "Der Whisperer hat eine ganze Stadt in seinen Bann gezogen. Sie marschieren auf die Brücke. Nur du stehst dazwischen.",
+			"marks": [
+				"Ein Flüstern im Radio, und die Menschen gehen los. Alle in dieselbe Richtung.",
+				"Die Brücke ist der einzige Weg. Hier hältst du sie auf – ohne jemandem wehzutun.",
+				"Die Menge drückt. Du gibst keinen Zentimeter nach.",
+				"Der Whisperer betritt selbst die Brücke.",
+				"Das Flüstern verstummt. Die Menschen blinzeln wie nach einem Traum. Die Linie hat gehalten."
+			]
+		}
+	},
+	float_1: {
+		"en": {
+			"title": "Float I: Liftoff",
+			"sub": "planche lean, frog stand, tuck planche",
+			"teaser": "Zenith, Nadir’s sister, takes off – with an entire city district.",
+			"marks": [
+				"A rumble, then the harbor district rises into the air.",
+				"You jump after it and hold on to the edge.",
+				"Streets float, people float. You learn to float with them.",
+				"Zenith appears: ‘You down there are too heavy for me.’",
+				"The district sinks back. Zenith keeps rising. To be continued."
+			]
+		},
+		"de": {
+			"title": "Schweben I: Abheben",
+			"sub": "Planche-Lehne, Froschstand, Tuck-Planche",
+			"teaser": "Zenith, Nadirs Schwester, hebt ab – mit einem ganzen Stadtviertel.",
+			"marks": [
+				"Ein Grollen, dann steigt das Hafenviertel in die Luft.",
+				"Du springst hinterher und hältst dich am Rand fest.",
+				"Straßen schweben, Menschen schweben. Du lernst, mit ihnen zu schweben.",
+				"Zenith erscheint: ‚Ihr da unten seid mir zu schwer.‘",
+				"Das Viertel sinkt zurück. Zenith steigt weiter. Fortsetzung folgt."
+			]
+		}
+	},
+	float_2: {
+		"en": {
+			"title": "Float II: Above the Clouds",
+			"sub": "advanced tuck",
+			"teaser": "Zenith, Nadir’s sister, takes off – with an entire city district.",
+			"marks": [
+				"Zenith builds a fortress above the clouds.",
+				"You climb up over floating debris.",
+				"The air gets thin, the way long.",
+				"Zenith’s guards float towards you.",
+				"A gate falls. The fortress keeps rising. To be continued."
+			]
+		},
+		"de": {
+			"title": "Schweben II: Über den Wolken",
+			"sub": "Advanced Tuck",
+			"teaser": "Zenith, Nadirs Schwester, hebt ab – mit einem ganzen Stadtviertel.",
+			"marks": [
+				"Zenith baut eine Festung über den Wolken.",
+				"Du kletterst über schwebende Trümmer nach oben.",
+				"Die Luft wird dünn, der Weg weit.",
+				"Zeniths Wächter schweben dir entgegen.",
+				"Ein Tor fällt. Die Festung steigt weiter. Fortsetzung folgt."
+			]
+		}
+	},
+	float_3: {
+		"en": {
+			"title": "Float III: Zenith",
+			"sub": "straddle",
+			"teaser": "Zenith, Nadir’s sister, takes off – with an entire city district.",
+			"marks": [
+				"The highest point. Up here there’s nothing left to hold on to.",
+				"Zenith shows you her world: quiet, weightless, lonely.",
+				"She offers to let you stay. You decline.",
+				"The last fight, at the very top. Just you, her and the sky.",
+				"The fortress sinks gently to earth. For the first time, Zenith lands too."
+			]
+		},
+		"de": {
+			"title": "Schweben III: Zenith",
+			"sub": "gegrätscht",
+			"teaser": "Zenith, Nadirs Schwester, hebt ab – mit einem ganzen Stadtviertel.",
+			"marks": [
+				"Der höchste Punkt. Hier oben gibt es nichts mehr, woran man sich halten kann.",
+				"Zenith zeigt dir ihre Welt: still, schwerelos, einsam.",
+				"Sie bietet dir an zu bleiben. Du lehnst ab.",
+				"Der letzte Kampf, ganz oben. Nur du, sie und der Himmel.",
+				"Die Festung sinkt sanft zur Erde. Zum ersten Mal landet auch Zenith."
+			]
+		}
+	},
+	horizon_1: {
+		"en": {
+			"title": "Horizon I: The Front",
+			"sub": "tuck → advanced tuck",
+			"teaser": "On the horizon stands a wall of storm. It’s getting closer.",
+			"marks": [
+				"A storm that doesn’t move – like a wall on the sea.",
+				"Ships vanish into it. You head out.",
+				"The wind presses you flat on the deck. You hold on, horizontal.",
+				"A voice on the radio: ‘I am the Cold Front. Turn back.’",
+				"You turn back, with the missing on board. The wall still stands."
+			]
+		},
+		"de": {
+			"title": "Horizont I: Die Front",
+			"sub": "Tuck → Advanced Tuck",
+			"teaser": "Am Horizont steht eine Wand aus Sturm. Sie kommt näher.",
+			"marks": [
+				"Ein Sturm, der sich nicht bewegt – wie eine Mauer auf dem Meer.",
+				"Schiffe verschwinden darin. Du fährst hinaus.",
+				"Der Wind drückt dich flach aufs Deck. Du hältst dich, waagerecht.",
+				"Im Funk eine Stimme: ‚Ich bin die Cold Front. Kehrt um.‘",
+				"Du kehrst um, mit den Vermissten an Bord. Die Wand steht noch."
+			]
+		}
+	},
+	horizon_2: {
+		"en": {
+			"title": "Horizon II: Into the Storm",
+			"sub": "one leg",
+			"teaser": "On the horizon stands a wall of storm. It’s getting closer.",
+			"marks": [
+				"The wall moves toward the coast.",
+				"You fly in. Lightning, hail, no up and no down.",
+				"In the middle: platforms with weather machines.",
+				"The Cold Front sends the hurricane at you.",
+				"One platform falls. The storm weakens – not enough."
+			]
+		},
+		"de": {
+			"title": "Horizont II: Im Sturm",
+			"sub": "einbeinig",
+			"teaser": "Am Horizont steht eine Wand aus Sturm. Sie kommt näher.",
+			"marks": [
+				"Die Wand rückt an die Küste.",
+				"Du fliegst hinein. Blitze, Hagel, kein Oben und Unten.",
+				"Mittendrin: Plattformen mit Wettermaschinen.",
+				"Die Cold Front schickt dir den Orkan entgegen.",
+				"Eine Plattform fällt. Der Sturm wird schwächer – nicht genug."
+			]
+		}
+	},
+	horizon_3: {
+		"en": {
+			"title": "Horizon III: The Eye",
+			"sub": "straddle",
+			"teaser": "On the horizon stands a wall of storm. It’s getting closer.",
+			"marks": [
+				"In the eye of the storm it is quiet.",
+				"The Cold Front waits there: a climate scientist nobody took seriously.",
+				"She wants someone to finally listen. You listen.",
+				"The last storm. You hold the line, horizontal against the wind.",
+				"The horizon is clear. For the first time in months, the sun rises over the sea."
+			]
+		},
+		"de": {
+			"title": "Horizont III: Das Auge",
+			"sub": "gegrätscht",
+			"teaser": "Am Horizont steht eine Wand aus Sturm. Sie kommt näher.",
+			"marks": [
+				"Im Auge des Sturms ist es still.",
+				"Dort wartet die Cold Front: eine Wetterforscherin, die niemand ernst genommen hat.",
+				"Sie will, dass man ihr endlich zuhört. Du hörst zu.",
+				"Der letzte Sturm. Du hältst die Linie, waagerecht gegen den Wind.",
+				"Der Horizont ist klar. Zum ersten Mal seit Monaten geht die Sonne über dem Meer auf."
+			]
+		}
+	},
+	behind_the_horizon: {
+		"en": {
+			"title": "Behind the Horizon",
+			"sub": "Back lever on rings · skin the cat, tuck, straddle · 12 weeks, 3×",
+			"teaser": "The Cold Front has been stopped. But who built her weather machines? The trail leads behind the horizon.",
+			"marks": [
+				"A logbook, a coordinate in the middle of the ocean.",
+				"An island that’s on no map.",
+				"The factory is abandoned. Almost.",
+				"The builder: a dealer who sells storms to the highest bidder.",
+				"The factory sinks into the sea. Behind the horizon, all is quiet again."
+			]
+		},
+		"de": {
+			"title": "Hinter dem Horizont",
+			"sub": "Back Lever an den Ringen · Skin the Cat, Tuck, gegrätscht · 12 Wochen, 3×",
+			"teaser": "Die Cold Front ist gestoppt. Aber wer hat ihr die Wettermaschinen gebaut? Die Spur führt hinter den Horizont.",
+			"marks": [
+				"Ein Logbuch, eine Koordinate mitten im Ozean.",
+				"Eine Insel, die auf keiner Karte steht.",
+				"Die Fabrik ist verlassen. Fast.",
+				"Der Erbauer: ein Händler, der Stürme an den Meistbietenden verkauft.",
+				"Die Fabrik versinkt im Meer. Hinter dem Horizont ist es wieder still."
+			]
+		}
+	},
+	still_rings: {
+		"en": {
+			"title": "Still Rings",
+			"sub": "Rings for beginners · support hold, rows, push-ups, dips · 6–8 weeks, 3×",
+			"teaser": "One morning two metal rings hang over the city, as big as stadiums. They don’t move. Not yet.",
+			"marks": [
+				"Everyone stares up. So do you. Then you start to watch.",
+				"The rings tremble whenever someone gets close. You learn to stay completely still.",
+				"A signal from the rings. It sounds like a question.",
+				"A stranger steps out. Calm, waiting – like you.",
+				"The rings hang still. It’s a beginning. Whether a peaceful one remains to be seen."
+			]
+		},
+		"de": {
+			"title": "Ruhige Ringe",
+			"sub": "Ringtraining für Einsteiger · Stütz, Rudern, Liegestütze, Dips · 6–8 Wochen, 3×",
+			"teaser": "Eines Morgens hängen zwei Ringe aus Metall über der Stadt, groß wie Stadien. Sie bewegen sich nicht. Noch nicht.",
+			"marks": [
+				"Alle starren nach oben. Du auch. Dann fängst du an zu beobachten.",
+				"Die Ringe zittern, sobald jemand näher kommt. Du lernst, ganz ruhig zu bleiben.",
+				"Ein Signal aus den Ringen. Es klingt wie eine Frage.",
+				"Ein Fremder tritt heraus. Ruhig, abwartend – wie du.",
+				"Die Ringe stehen still. Es ist ein Anfang. Ob ein friedlicher, wird sich zeigen."
+			]
+		}
+	},
+	under_tension: {
+		"en": {
+			"title": "Under Tension",
+			"sub": "Ring strength · ring dips, false grip, L-sit on rings, skin the cat · 8–12 weeks, 3×",
+			"teaser": "The strangers want to talk. Not all of them. Between peace and war hangs a single thread – and it’s pulled tight.",
+			"marks": [
+				"The summit begins. You’re bodyguard, mediator and lightning rod at once.",
+				"Sabotage at the embassy. Someone wants the talks to fail.",
+				"The saboteur is one of us. The room crackles.",
+				"A warship breaks away from the ring. You stop it – with everything you have.",
+				"The treaty is signed. But inside the ring, something glows that wasn’t there before."
+			]
+		},
+		"de": {
+			"title": "Unter Spannung",
+			"sub": "Ringtraining · Ring-Dips, falscher Griff, L-Sitz an Ringen, Skin the Cat · 8–12 Wochen, 3×",
+			"teaser": "Die Fremden wollen verhandeln. Nicht alle. Zwischen Frieden und Krieg hängt nur noch ein Faden – und der ist gespannt.",
+			"marks": [
+				"Der Gipfel beginnt. Du bist Leibwache, Vermittler und Blitzableiter zugleich.",
+				"Sabotage in der Botschaft. Jemand will, dass die Gespräche scheitern.",
+				"Der Saboteur ist einer von uns. Im Saal knistert es.",
+				"Ein Kriegsschiff löst sich aus dem Ring. Du hältst es auf – mit allem, was du hast.",
+				"Der Vertrag ist unterschrieben. Doch im Ring leuchtet etwas, das vorher nicht da war."
+			]
+		}
+	},
+	through_the_rings: {
+		"en": {
+			"title": "Through the Rings",
+			"sub": "Ring muscle-up · false grip, transition, first ring muscle-up · 12 weeks, 3×",
+			"teaser": "The rings open. Behind them: a fleet that won’t negotiate. To stop it, you have to go through.",
+			"marks": [
+				"The first ships come through. The city flees to the cellars.",
+				"You hold your ground, street by street. But there are more of them.",
+				"Now you know: the rings can only be closed from the inside.",
+				"You jump. Through the ring, straight into the mothership.",
+				"The ring closes behind you, and you’re standing above the city again. The invasion is over."
+			]
+		},
+		"de": {
+			"title": "Durch die Ringe",
+			"sub": "Ring-Muscle-up · falscher Griff, Übergang, erster Ring-Muscle-up · 12 Wochen, 3×",
+			"teaser": "Die Ringe öffnen sich. Dahinter: eine Flotte, die nicht verhandeln will. Wer sie aufhalten will, muss hindurch.",
+			"marks": [
+				"Die ersten Schiffe kommen durch. Die Stadt flieht in die Keller.",
+				"Du hältst stand, Straße für Straße. Aber es werden mehr.",
+				"Jetzt weißt du es: Die Ringe lassen sich nur von innen schließen.",
+				"Du springst. Durch den Ring, mitten ins Mutterschiff.",
+				"Der Ring schließt sich hinter dir, und du stehst wieder über der Stadt. Die Invasion ist vorbei."
+			]
+		}
+	},
+	center_stage: {
+		"en": {
+			"title": "Center Stage",
+			"sub": "Ring skills · turned-out support, tuck front and back lever on rings · 12 weeks, 3×",
+			"teaser": "The city celebrates its victory over the invasion. Every camera is on you. That’s exactly what the last enemy was waiting for.",
+			"marks": [
+				"A parade, fireworks, a stage in the middle of the square.",
+				"In the crowd: faces that aren’t celebrating. Part of the fleet stayed behind.",
+				"The lights go out. The stage is theirs now.",
+				"Everyone is watching as you step up. No hiding, no second try.",
+				"The lights come back on. Applause – this time truly for the end."
+			]
+		},
+		"de": {
+			"title": "Im Rampenlicht",
+			"sub": "Ringfiguren · Stütz mit ausgedrehten Ringen, Front- und Back-Lever-Tuck · 12 Wochen, 3×",
+			"teaser": "Die Stadt feiert den Sieg über die Invasion. Alle Kameras auf dich. Genau darauf hat der letzte Feind gewartet.",
+			"marks": [
+				"Parade, Feuerwerk, eine Bühne mitten auf dem Platz.",
+				"Im Gedränge: Gesichter, die nicht feiern. Ein Rest der Flotte ist geblieben.",
+				"Das Licht geht aus. Die Bühne gehört jetzt ihnen.",
+				"Alle sehen zu, als du dich stellst. Kein Versteck, kein zweiter Versuch.",
+				"Das Licht geht wieder an. Applaus – diesmal wirklich für das Ende."
+			]
+		}
+	},
+	the_pendulum: {
+		"en": {
+			"title": "The Pendulum",
+			"sub": "Kettlebell basics (based on “Simple & Sinister”) · swings and Turkish get-ups up to the standard · 12+ weeks, 5–6×",
+			"teaser": "The pendulum swings, and the city falls asleep. To stay awake you have to swing along – and get up again and again.",
+			"marks": [
+				"First a house falls asleep, then a street. To the beat of a pendulum nobody can see.",
+				"You notice: if you swing along with the beat, you stay awake.",
+				"The pendulum knocks you down. You get up. Slowly – but you get up.",
+				"The Hypnotist’s hall. The pendulum is as big as a truck.",
+				"The pendulum stops. The city wakes up and rubs its eyes."
+			]
+		},
+		"de": {
+			"title": "Das Pendel",
+			"sub": "Kettlebell-Grundprogramm (angelehnt an „Simple & Sinister“) · Swings und Türkisches Aufstehen bis zum Standard · 12+ Wochen, 5–6×",
+			"teaser": "Das Pendel schwingt, und die Stadt schläft ein. Wer wach bleiben will, muss mitschwingen – und immer wieder aufstehen.",
+			"marks": [
+				"Erst schläft ein Haus ein, dann eine Straße. Im Takt eines Pendels, das niemand sieht.",
+				"Du merkst: Wenn du im Takt mitschwingst, bleibst du wach.",
+				"Das Pendel wirft dich zu Boden. Du stehst auf. Langsam – aber du stehst auf.",
+				"Die Halle des Hypnotist. Das Pendel ist so groß wie ein Lastwagen.",
+				"Das Pendel steht still. Die Stadt wacht auf und reibt sich die Augen."
+			]
+		}
+	},
+	the_deep: {
+		"en": {
+			"title": "The Deep",
+			"sub": "Kettlebell press ladders (based on “Rite of Passage”) · clean and press with pull-ups, heavy/medium/light · 12+ weeks, 3×",
+			"teaser": "A research station on the seabed has gone silent. The hatches are stuck, the water is rising. The only way is up – hatch by hatch.",
+			"marks": [
+				"You dive down. The station is dark, the first hatch stuck.",
+				"Deck by deck you push hatches open. Behind each one, people are trapped.",
+				"The station tilts. Now the whole sea is pressing on the hatches.",
+				"In the control room: a saboteur who wants to sink the station.",
+				"The last hatch. The escape pod rises, everyone on board."
+			]
+		},
+		"de": {
+			"title": "Die Tiefe",
+			"sub": "Kettlebell-Drücken in Leitern (angelehnt an „Rite of Passage“) · Umsetzen und Drücken mit Klimmzügen, schwer/mittel/leicht · 12+ Wochen, 3×",
+			"teaser": "Eine Forschungsstation am Meeresgrund ist verstummt. Die Luken klemmen, das Wasser steigt. Der einzige Weg führt nach oben – Luke für Luke.",
+			"marks": [
+				"Du tauchst hinab. Die Station ist dunkel, die erste Luke klemmt.",
+				"Deck für Deck drückst du Luken auf. Hinter jeder warten Eingeschlossene.",
+				"Die Station kippt. Jetzt lastet das ganze Meer auf den Luken.",
+				"Im Kontrollraum: ein Saboteur, der die Station versenken will.",
+				"Die letzte Luke. Die Rettungskapsel steigt auf, alle an Bord."
+			]
+		}
+	},
+	ten_thousand: {
+		"en": {
+			"title": "Ten Thousand",
+			"sub": "10,000 swings · 500 per session, strength moves in between · 4–5 weeks, 4–5×",
+			"teaser": "Ten thousand drones. A swarm that darkens the sky. And only one who keeps count.",
+			"marks": [
+				"The first five hundred fall. The swarm closes the gap.",
+				"Two thousand. Now you know their flight paths.",
+				"Five thousand – halfway. The sky gets brighter.",
+				"Seven and a half thousand. The swarm’s mothership shows itself.",
+				"Ten thousand. The last drone falls. The sky is blue again."
+			]
+		},
+		"de": {
+			"title": "Zehntausend",
+			"sub": "10.000 Swings · 500 pro Training, dazwischen Kraftübungen · 4–5 Wochen, 4–5×",
+			"teaser": "Zehntausend Drohnen. Ein Schwarm, der den Himmel verdunkelt. Und nur einer, der mitzählt.",
+			"marks": [
+				"Die ersten fünfhundert fallen. Der Schwarm schließt die Lücke.",
+				"Zweitausend. Du kennst jetzt ihre Flugbahnen.",
+				"Fünftausend – die Hälfte. Der Himmel wird heller.",
+				"Siebeneinhalbtausend. Das Mutterschiff des Schwarms zeigt sich.",
+				"Zehntausend. Die letzte Drohne fällt. Der Himmel ist wieder blau."
+			]
+		}
+	},
+	red_line: {
+		"en": {
+			"title": "Red Line",
+			"sub": "Norwegian 4×4 · 4 minutes hard, 3 minutes easy, four times · 8 weeks, 3×",
+			"teaser": "The Red Line subway is running without a driver. Four stations to the end of the tunnel – with full cars.",
+			"marks": [
+				"The train races through the first station. You jump on.",
+				"Car by car you fight your way forward. Between stations: a quick breath.",
+				"The driver’s cab is in sight, but locked.",
+				"The Switchman planned it all. He sits up front and won’t brake.",
+				"The train stops inches from the buffer. The doors open."
+			]
+		},
+		"de": {
+			"title": "Rote Linie",
+			"sub": "Norwegisches 4×4 · 4 Minuten hart, 3 Minuten locker, viermal · 8 Wochen, 3×",
+			"teaser": "Die U-Bahn der Roten Linie fährt ohne Fahrer. Vier Stationen bis zum Tunnelende – mit vollen Wagen.",
+			"marks": [
+				"Der Zug rast durch die erste Station. Du springst auf.",
+				"Wagen für Wagen kämpfst du dich nach vorn. Zwischen den Stationen: kurz Luft holen.",
+				"Der Führerstand ist in Sicht, aber verriegelt.",
+				"Der Switchman hat alles geplant. Er sitzt vorn und will nicht bremsen.",
+				"Der Zug hält, Zentimeter vor dem Prellbock. Die Türen gehen auf."
+			]
+		}
+	},
+	thirty_minutes: {
+		"en": {
+			"title": "Thirty Minutes",
+			"sub": "From walking to running (based on Couch to 5K) · intervals up to 30 minutes non-stop · 9 weeks, 3×",
+			"teaser": "‘In thirty minutes the city goes dark.’ A countdown – and no car gets through the traffic jam.",
+			"marks": [
+				"Traffic is at a standstill. You get out and start walking.",
+				"Run, walk, run. Every block brings you closer.",
+				"Now you run more than you walk.",
+				"The substation. The countdown is running – you run faster.",
+				"The lights stay on. And you ran the whole way."
+			]
+		},
+		"de": {
+			"title": "Dreißig Minuten",
+			"sub": "Vom Gehen zum Laufen (angelehnt an Couch-to-5K) · Wechsel bis 30 Minuten am Stück · 9 Wochen, 3×",
+			"teaser": "‚In dreißig Minuten geht die Stadt dunkel.‘ Ein Countdown – und kein Auto kommt durch den Stau.",
+			"marks": [
+				"Der Verkehr steht. Du steigst aus und gehst los.",
+				"Laufen, gehen, laufen. Jeder Häuserblock bringt dich näher.",
+				"Du läufst jetzt mehr, als du gehst.",
+				"Das Umspannwerk. Der Countdown läuft – du läufst schneller.",
+				"Das Licht bleibt an. Und du bist die ganze Strecke gelaufen."
+			]
+		}
+	},
+	eight_rounds: {
+		"en": {
+			"title": "Eight Rounds",
+			"sub": "Based on Tabata · four Tabatas without equipment, eight rounds each · 6 weeks, 3×",
+			"teaser": "In the Varga family’s basement an illegal tournament is running again. Eight rounds against the champion. Whoever loses owes them everything.",
+			"marks": [
+				"You sign up under a false name.",
+				"The first fights. Short, hard, no time to think.",
+				"The champion has noticed you.",
+				"The final. Eight rounds, no backing down.",
+				"The betting books are seized, the IOUs burned. The family is history for good."
+			]
+		},
+		"de": {
+			"title": "Acht Runden",
+			"sub": "Angelehnt an Tabata · vier Tabatas ohne Geräte, je acht Runden · 6 Wochen, 3×",
+			"teaser": "Im Keller der Familie Varga läuft wieder ein verbotenes Turnier. Acht Runden gegen den Champion. Wer verliert, schuldet ihnen alles.",
+			"marks": [
+				"Du meldest dich an, unter falschem Namen.",
+				"Die ersten Kämpfe. Kurz, hart, keine Zeit zum Nachdenken.",
+				"Der Champion hat dich bemerkt.",
+				"Das Finale. Acht Runden, kein Zurückweichen.",
+				"Die Wettbücher sind beschlagnahmt, die Schuldscheine verbrannt. Die Familie ist endgültig Geschichte."
+			]
+		}
+	},
+	suns_108: {
+		"en": {
+			"title": "108 Suns",
+			"sub": "Sun salutation build-up · from 12 to 108 salutations · 6 weeks, 3–4×",
+			"teaser": "The League of Endless Night has veiled the sun. The old scripture says: 108 salutations will bring it back.",
+			"marks": [
+				"Morning stays dark. The city sleeps badly.",
+				"An old scripture, a monastery in the mountains, a ritual.",
+				"Fifty-four. A thin streak of light on the horizon.",
+				"The League climbs up to the monastery to disrupt the ritual.",
+				"One hundred and eight. The sun rises. A full circle."
+			]
+		},
+		"de": {
+			"title": "108 Sonnen",
+			"sub": "Sonnengruß-Aufbau · von 12 bis 108 Grüßen · 6 Wochen, 3–4×",
+			"teaser": "Die League of Endless Night hat die Sonne verhängt. Die alte Schrift sagt: 108 Grüße holen sie zurück.",
+			"marks": [
+				"Der Morgen bleibt dunkel. Die Stadt schläft schlecht.",
+				"Eine alte Schrift, ein Kloster in den Bergen, ein Ritual.",
+				"Vierundfünfzig. Ein schmaler Lichtstreif am Horizont.",
+				"Die League steigt zum Kloster hinauf, um das Ritual zu stören.",
+				"Hundertacht. Die Sonne geht auf. Ein ganzer Kreis."
+			]
+		}
+	},
+	below_the_city: {
+		"en": {
+			"title": "Below the City",
+			"sub": "Deep squat · up to 10 minutes a day · 4 weeks, short and daily",
+			"teaser": "Beneath the city lies a labyrinth of tunnels. The Tunnel King rules there. To find him, you have to go low.",
+			"marks": [
+				"A shaft, a ladder, darkness. The ceilings are low.",
+				"Crouching, hour after hour. The tunnels get narrower.",
+				"A storeroom full of stolen things – everything the city has been missing for years.",
+				"The Tunnel King on his throne of pipes.",
+				"Back into the light. The tunnels belong to the city again."
+			]
+		},
+		"de": {
+			"title": "Unter der Stadt",
+			"sub": "Tiefe Hocke · bis 10 Minuten am Tag · 4 Wochen, täglich kurz",
+			"teaser": "Unter der Stadt liegt ein Labyrinth aus Tunneln. Dort herrscht der Tunnel King. Wer ihn finden will, muss tief runter.",
+			"marks": [
+				"Ein Schacht, eine Leiter, Dunkelheit. Die Decken sind niedrig.",
+				"Kauernd, Stunde um Stunde. Die Tunnel werden enger.",
+				"Ein Lager voller gestohlener Dinge – alles, was der Stadt in den letzten Jahren fehlte.",
+				"Der Tunnel King auf seinem Thron aus Rohren.",
+				"Zurück ans Licht. Die Tunnel gehören wieder der Stadt."
+			]
+		}
+	},
+	backbone: {
+		"en": {
+			"title": "Backbone",
+			"sub": "Strong back (based on McGill’s “Big 3”) · curl-up, side plank, bird dog · 4–6 weeks, short and daily",
+			"teaser": "City hall is bought, the police look away. Someone has to show some backbone.",
+			"marks": [
+				"An envelope of cash lands in front of you. You push it back.",
+				"You gather evidence. Quietly, day by day.",
+				"They threaten you. You stand tall.",
+				"The council meeting. You put everything on the table.",
+				"New elections. Nobody can see a backbone – but everyone noticed."
+			]
+		},
+		"de": {
+			"title": "Rückgrat",
+			"sub": "Starker Rücken (angelehnt an McGills „Big 3“) · Curl-up, Seitstütz, Vierfüßler · 4–6 Wochen, täglich kurz",
+			"teaser": "Das Rathaus ist gekauft, die Polizei schaut weg. Jemand muss Rückgrat zeigen.",
+			"marks": [
+				"Ein Umschlag mit Geld landet vor dir. Du schiebst ihn zurück.",
+				"Du sammelst Beweise. Unauffällig, Tag für Tag.",
+				"Sie drohen dir. Du bleibst aufrecht.",
+				"Die Ratssitzung. Du legst alles auf den Tisch.",
+				"Neuwahlen. Rückgrat sieht man nicht – aber alle haben es gemerkt."
+			]
+		}
+	},
+	two_hands: {
+		"en": {
+			"title": "Two Hands",
+			"sub": "Dumbbells for beginners · squat, press, row, hip hinge · 8 weeks, 3×",
+			"teaser": "The river is rising, and the old quarter has no sandbags left – only people with two hands.",
+			"marks": [
+				"The first cellar is flooding. You grab what you can carry.",
+				"Bag by bag a wall grows. Your arms learn the weight.",
+				"Someone opened the sluice on purpose. The Dredger wants the quarter empty.",
+				"The wheel at the sluice is rusted shut. Two hands, one turn at a time.",
+				"The water falls. The quarter stays – and knows who carried it."
+			]
+		},
+		"de": {
+			"title": "Zwei Hände",
+			"sub": "Kurzhanteln für Einsteiger · Kniebeuge, Drücken, Rudern, Hüftbeuge · 8 Wochen, 3×",
+			"teaser": "Der Fluss steigt, und das alte Viertel hat keine Sandsäcke mehr – nur Menschen mit zwei Händen.",
+			"marks": [
+				"Der erste Keller läuft voll. Du packst an, was du tragen kannst.",
+				"Sack für Sack wächst ein Wall. Deine Arme lernen das Gewicht.",
+				"Jemand hat das Wehr absichtlich geöffnet. Der Dredger will das Viertel leer haben.",
+				"Das Rad am Wehr ist festgerostet. Zwei Hände, eine Umdrehung nach der anderen.",
+				"Das Wasser fällt. Das Viertel bleibt – und weiß, wer es getragen hat."
+			]
+		}
+	},
+	steady_ground: {
+		"en": {
+			"title": "Steady Ground",
+			"sub": "Balance and leg strength (based on the Otago programme) · standing up, leg lifts, one-leg stand · 8 weeks, 3×",
+			"teaser": "The night ferry is caught in a storm, and the Grey Swell is pulling at the hull. Whoever stays on their feet steers the ship.",
+			"marks": [
+				"The deck tilts. You hold on to the rail and find your footing.",
+				"One hand is enough now. You help the others to their seats.",
+				"The helmsman is down. Someone has to cross the open deck.",
+				"At the wheel, no hand free. The Grey Swell pulls with all its force.",
+				"Harbor lights. You walk down the gangway without holding on."
+			]
+		},
+		"de": {
+			"title": "Fester Boden",
+			"sub": "Gleichgewicht und Beinkraft (angelehnt an das Otago-Programm) · Aufstehen, Beinheben, Einbeinstand · 8 Wochen, 3×",
+			"teaser": "Die Nachtfähre gerät in den Sturm, und der Grey Swell zieht am Rumpf. Wer auf den Beinen bleibt, steuert das Schiff.",
+			"marks": [
+				"Das Deck kippt. Du hältst dich an der Reling fest und findest deinen Stand.",
+				"Jetzt reicht eine Hand. Du hilfst den anderen zu ihren Plätzen.",
+				"Der Steuermann liegt am Boden. Jemand muss über das offene Deck.",
+				"Am Steuerrad, keine Hand frei. Der Grey Swell zieht mit aller Kraft.",
+				"Hafenlichter. Du gehst die Gangway hinunter, ohne dich festzuhalten."
+			]
+		}
+	},
+	between_floors: {
+		"en": {
+			"title": "Between Floors",
+			"sub": "Exercise snacks · stairs and short strength breaks, several times a day · 4 weeks, 5×",
+			"teaser": "Every elevator in the Meridian tower has stopped. The Concierge decides who goes up – unless someone takes the stairs.",
+			"marks": [
+				"Third floor. Someone is stuck. You arrive out of breath – but you arrive.",
+				"Several times a day, a few floors each. Nobody notices you in the stairwell.",
+				"The twentieth floor. The Concierge’s cameras only watch the elevators.",
+				"The machine room under the roof. The Concierge holds the master key.",
+				"The elevators run again. You still take the stairs."
+			]
+		},
+		"de": {
+			"title": "Zwischen den Stockwerken",
+			"sub": "Bewegungs-Snacks · Treppen und kurze Kraftpausen, mehrmals am Tag · 4 Wochen, 5×",
+			"teaser": "Im Meridian-Turm stehen alle Aufzüge. Der Concierge bestimmt, wer nach oben kommt – außer jemand nimmt die Treppe.",
+			"marks": [
+				"Dritter Stock. Jemand steckt fest. Du kommst außer Atem an – aber du kommst an.",
+				"Mehrmals am Tag, jedes Mal ein paar Stockwerke. Im Treppenhaus fällt dir niemand auf.",
+				"Der zwanzigste Stock. Die Kameras des Concierge beobachten nur die Aufzüge.",
+				"Der Maschinenraum unter dem Dach. Der Concierge hält den Generalschlüssel.",
+				"Die Aufzüge fahren wieder. Du nimmst trotzdem die Treppe."
+			]
+		}
+	},
+	storm_bell: {
+		"en": {
+			"title": "Storm Bell",
+			"sub": "Kettlebell strength for the whole body · clean and press, row, squat, swing, get-up · 8 weeks, 3×",
+			"teaser": "False lights lure ships onto the rocks. Only the old storm bell can warn them – and its rope is gone.",
+			"marks": [
+				"A wreck on the reef, a lantern where no lighthouse stands.",
+				"The bell tower. Without the rope you have to heave the clapper by hand.",
+				"The first stroke. Out at sea a ship turns away.",
+				"The Shoalman climbs the tower to silence the bell.",
+				"The bell rings through the whole night. Every ship comes home."
+			]
+		},
+		"de": {
+			"title": "Sturmglocke",
+			"sub": "Kettlebell-Kraft für den ganzen Körper · Umsetzen und Drücken, Rudern, Kniebeuge, Swing, Get-up · 8 Wochen, 3×",
+			"teaser": "Falsche Lichter locken Schiffe auf die Felsen. Nur die alte Sturmglocke kann sie warnen – und ihr Seil ist fort.",
+			"marks": [
+				"Ein Wrack am Riff, eine Laterne, wo kein Leuchtturm steht.",
+				"Der Glockenturm. Ohne Seil musst du den Klöppel von Hand wuchten.",
+				"Der erste Schlag. Draußen dreht ein Schiff ab.",
+				"Der Shoalman steigt den Turm hinauf, um die Glocke zum Schweigen zu bringen.",
+				"Die Glocke läutet die ganze Nacht. Jedes Schiff kommt heim."
+			]
+		}
+	},
+	plated: {
+		"en": {
+			"title": "Plated",
+			"sub": "Kettlebell complex (based on the Armor Building Complex) · clean, press, squat in rounds · 6 weeks, 3×",
+			"teaser": "The only road out leads through the land of the Scrap Barons. The old bus needs armor – plate by plate.",
+			"marks": [
+				"A bus, a welding torch, a pile of scrap. You lift the first plate.",
+				"Lift it, push it up, hold it until it is welded. Round after round.",
+				"Half the bus is plated. The Scrap Barons’ scouts have seen the sparks.",
+				"The roadblock. Stones and iron rain down on the plates.",
+				"The bus rolls through. Not a single window is broken."
+			]
+		},
+		"de": {
+			"title": "Gepanzert",
+			"sub": "Kettlebell-Komplex (angelehnt an den Armor Building Complex) · Umsetzen, Drücken, Kniebeuge in Runden · 6 Wochen, 3×",
+			"teaser": "Die einzige Straße hinaus führt durch das Land der Scrap Barons. Der alte Bus braucht eine Panzerung – Platte für Platte.",
+			"marks": [
+				"Ein Bus, ein Schweißgerät, ein Haufen Schrott. Du hebst die erste Platte.",
+				"Anheben, hochdrücken, halten, bis geschweißt ist. Runde um Runde.",
+				"Der halbe Bus ist gepanzert. Die Späher der Scrap Barons haben die Funken gesehen.",
+				"Die Straßensperre. Steine und Eisen prasseln auf die Platten.",
+				"Der Bus rollt durch. Keine einzige Scheibe ist zerbrochen."
+			]
+		}
+	},
+	out_of_range: {
+		"en": {
+			"title": "Out of Range",
+			"sub": "From 5 to 10 kilometers · two easy runs and one long run · 8 weeks, 3×",
+			"teaser": "White Noise has silenced every phone and every radio. The relay station is ten kilometers out – and somebody has to carry the message.",
+			"marks": [
+				"No signal, anywhere. You lace up your shoes.",
+				"The city thins out. You find a pace you can keep.",
+				"Halfway. The hiss in the air grows louder the closer you get.",
+				"The relay mast on the hill. White Noise is waiting among the antennas.",
+				"The message is through. Ten kilometers – and the city has a voice again."
+			]
+		},
+		"de": {
+			"title": "Außer Reichweite",
+			"sub": "Von 5 auf 10 Kilometer · zwei lockere Läufe und ein langer Lauf · 8 Wochen, 3×",
+			"teaser": "White Noise hat jedes Telefon und jedes Funkgerät zum Schweigen gebracht. Die Relaisstation liegt zehn Kilometer draußen – und jemand muss die Nachricht tragen.",
+			"marks": [
+				"Kein Netz, nirgends. Du schnürst die Schuhe.",
+				"Die Stadt wird dünner. Du findest ein Tempo, das du halten kannst.",
+				"Die Hälfte. Das Rauschen in der Luft wird lauter, je näher du kommst.",
+				"Der Relaismast auf dem Hügel. White Noise wartet zwischen den Antennen.",
+				"Die Nachricht ist durch. Zehn Kilometer – und die Stadt hat wieder eine Stimme."
+			]
+		}
+	},
+	ten_fuses: {
+		"en": {
+			"title": "Ten Fuses",
+			"sub": "One-minute intervals (based on the 10×1 protocol) · one minute hard, one minute easy, from 6 to 10 rounds · 6 weeks, 3×",
+			"teaser": "The Fusewright has laid ten fuses across the market district. Each one burns for sixty seconds.",
+			"marks": [
+				"The first fuse hisses. You run – and stamp it out just in time.",
+				"Run, breathe, run. You learn how long a minute is.",
+				"Six are out. The Fusewright lights them faster now.",
+				"The market hall. The last fuses lead to him.",
+				"Ten fuses, ten minutes. The market opens as it does every morning."
+			]
+		},
+		"de": {
+			"title": "Zehn Lunten",
+			"sub": "Ein-Minuten-Intervalle (angelehnt an das 10×1-Protokoll) · eine Minute hart, eine Minute locker, von 6 auf 10 Runden · 6 Wochen, 3×",
+			"teaser": "Der Fusewright hat zehn Lunten im Marktviertel gelegt. Jede brennt sechzig Sekunden.",
+			"marks": [
+				"Die erste Lunte zischt. Du rennst – und trittst sie gerade noch aus.",
+				"Rennen, atmen, rennen. Du lernst, wie lang eine Minute ist.",
+				"Sechs sind aus. Der Fusewright zündet jetzt schneller.",
+				"Die Markthalle. Die letzten Lunten führen zu ihm.",
+				"Zehn Lunten, zehn Minuten. Der Markt öffnet wie jeden Morgen."
+			]
+		}
+	},
+	first_light: {
+		"en": {
+			"title": "First Light",
+			"sub": "Daily mobility · hips, spine and shoulders, from 5 to 10 minutes · 4 weeks, short and daily",
+			"teaser": "Every dawn another statue stands in the park. The Sculptor turns to stone whoever stands still for too long.",
+			"marks": [
+				"Your joints creak like old hinges. You move anyway, before first light.",
+				"Every morning a little further. Stone cannot hold what keeps moving.",
+				"One of the statues blinks. They are not lost.",
+				"The Sculptor’s studio. His chisel is already raised.",
+				"The park at sunrise. The statues stretch – and walk home."
+			]
+		},
+		"de": {
+			"title": "Erstes Licht",
+			"sub": "Tägliche Beweglichkeit · Hüfte, Wirbelsäule und Schultern, von 5 auf 10 Minuten · 4 Wochen, täglich kurz",
+			"teaser": "Jeden Morgen steht eine Statue mehr im Park. Der Sculptor macht zu Stein, wer zu lange stillsteht.",
+			"marks": [
+				"Deine Gelenke knarren wie alte Scharniere. Du bewegst dich trotzdem, vor dem ersten Licht.",
+				"Jeden Morgen ein Stück weiter. Stein hält nicht fest, was in Bewegung bleibt.",
+				"Eine der Statuen blinzelt. Sie sind nicht verloren.",
+				"Das Atelier des Sculptor. Sein Meißel ist schon erhoben.",
+				"Der Park bei Sonnenaufgang. Die Statuen strecken sich – und gehen nach Hause."
+			]
+		}
+	},
+	high_wire: {
+		"en": {
+			"title": "High Wire",
+			"sub": "Yoga for balance and strength · warriors, tree, chair and boat, longer holds every week · 6 weeks, 3×",
+			"teaser": "The Jackdaw crosses the city on wires between the rooftops and takes whatever glitters. To follow her, you have to stand where there is hardly any ground.",
+			"marks": [
+				"A wire between two chimneys. You put one foot on it – and take it back.",
+				"The low wires first. Arms out, eyes on one point.",
+				"Halfway across, the wind picks up. You stand.",
+				"The clock tower. The Jackdaw cuts the wire behind her.",
+				"Her nest is empty, the jewelry returned. You walk back – across the wire."
+			]
+		},
+		"de": {
+			"title": "Hochseil",
+			"sub": "Yoga für Balance und Kraft · Krieger, Baum, Stuhl und Boot, jede Woche länger halten · 6 Wochen, 3×",
+			"teaser": "Die Jackdaw überquert die Stadt auf Seilen zwischen den Dächern und nimmt, was glänzt. Wer ihr folgen will, muss stehen, wo kaum Boden ist.",
+			"marks": [
+				"Ein Seil zwischen zwei Schornsteinen. Du setzt einen Fuß darauf – und nimmst ihn zurück.",
+				"Erst die niedrigen Seile. Arme ausgebreitet, Blick auf einen Punkt.",
+				"Mitten auf dem Seil frischt der Wind auf. Du stehst.",
+				"Der Uhrturm. Die Jackdaw kappt das Seil hinter sich.",
+				"Ihr Nest ist leer, der Schmuck zurückgegeben. Du gehst zurück – über das Seil."
+			]
+		}
+	},
+	three_tiers: {
+		"en": {
+			"title": "Three Tiers",
+			"sub": "Strength in three tiers (based on GZCLP) · heavy, medium, light for every lift · 12 weeks, 3×",
+			"teaser": "Beneath the old city bank lies a vault on three levels. The Locksmith has emptied it – and locked the deeds to half the city in his own. Every door is heavier than the last.",
+			"marks": [
+				"You find the service shaft under the bank.",
+				"The first level is open. From here the doors only get heavier.",
+				"The Locksmith changes the codes. You start one tier lower – and come back stronger.",
+				"The last door. Solid steel, no handle.",
+				"The deeds are back in the archive, and the Locksmith sits behind bars he can't pick."
+			]
+		},
+		"de": {
+			"title": "Drei Ebenen",
+			"sub": "Kraft in drei Stufen (angelehnt an GZCLP) · schwer, mittel, leicht für jede Übung · 12 Wochen, 3×",
+			"teaser": "Unter der alten Stadtbank liegt ein Tresor auf drei Ebenen. Der Locksmith hat ihn ausgeräumt – und die Grundbücher der halben Stadt in seinem eigenen eingeschlossen. Jede Tür ist schwerer als die letzte.",
+			"marks": [
+				"Du findest den Wartungsschacht unter der Bank.",
+				"Die erste Ebene ist offen. Ab hier werden die Türen nur schwerer.",
+				"Der Locksmith ändert die Codes. Du fängst eine Stufe tiefer neu an – und kommst stärker zurück.",
+				"Die letzte Tür. Massiver Stahl, keine Klinke.",
+				"Die Grundbücher liegen wieder im Archiv, und der Locksmith sitzt hinter Gittern, die er nicht knacken kann."
+			]
+		}
+	},
+	double_shift: {
+		"en": {
+			"title": "Double Shift",
+			"sub": "Push, pull, legs (based on the popular Reddit PPL) · each twice a week · 8 weeks, 6×",
+			"teaser": "In the harbour district a factory runs day and night, and nobody knows what it makes. The Foreman never sleeps, and neither do his machines. To get inside, you'll have to work harder than they do.",
+			"marks": [
+				"You sign on for the night shift.",
+				"Push, pull, carry. You learn the rhythm of the halls.",
+				"Behind the last hall: crates of weapons for every gang in the city.",
+				"The Foreman shuts the gates. Nobody leaves before the shift is over.",
+				"The machines are silent, the gates stand open. The Foreman's last shift ends in handcuffs."
+			]
+		},
+		"de": {
+			"title": "Doppelschicht",
+			"sub": "Drücken, Ziehen, Beine (angelehnt an das beliebte Reddit-PPL) · jedes zweimal pro Woche · 8 Wochen, 6×",
+			"teaser": "Im Hafenviertel läuft eine Fabrik Tag und Nacht, und niemand weiß, was sie herstellt. Der Foreman schläft nie, seine Maschinen auch nicht. Um hineinzukommen, musst du härter arbeiten als sie.",
+			"marks": [
+				"Du heuerst für die Nachtschicht an.",
+				"Drücken, ziehen, tragen. Du lernst den Takt der Hallen.",
+				"Hinter der letzten Halle: Kisten voller Waffen für jede Bande der Stadt.",
+				"Der Foreman schließt die Tore. Keiner geht vor Schichtende.",
+				"Die Maschinen stehen still, die Tore sind offen. Die letzte Schicht des Foreman endet in Handschellen."
+			]
+		}
+	},
+	load_bearing: {
+		"en": {
+			"title": "Load-Bearing",
+			"sub": "Glutes and legs (based on “Strong Curves”) · hip thrust, bridge, hip hinge, split squat · 12 weeks, 3×",
+			"teaser": "The old town is groaning. Beams crack, walls lean, and under the floors something is eating the wood. The Termite Queen wants the oldest houses to fall – and her swarm is hungry.",
+			"marks": [
+				"The first house sags. You hold up the beam until help arrives.",
+				"You learn where the load really rests: low, in the foundations.",
+				"The swarm has reached the town hall.",
+				"The Queen's nest lies under the market square. Everything above it shakes.",
+				"The houses stand straight, the nest is empty. The old town will carry another hundred years."
+			]
+		},
+		"de": {
+			"title": "Tragende Wände",
+			"sub": "Gesäß und Beine (angelehnt an „Strong Curves“) · Hip Thrust, Bridge, Hüftbeuge, Ausfallschritt · 12 Wochen, 3×",
+			"teaser": "Die Altstadt ächzt. Balken brechen, Wände neigen sich, und unter den Böden frisst etwas das Holz. Die Termite Queen will die ältesten Häuser zum Einsturz bringen – und ihr Schwarm hat Hunger.",
+			"marks": [
+				"Das erste Haus sackt ab. Du hältst den Balken, bis Hilfe kommt.",
+				"Du lernst, wo die Last wirklich liegt: unten, im Fundament.",
+				"Der Schwarm hat das Rathaus erreicht.",
+				"Das Nest der Termite Queen liegt unter dem Marktplatz. Alles darüber bebt.",
+				"Die Häuser stehen gerade, das Nest ist leer. Die Altstadt trägt noch hundert Jahre."
+			]
+		}
+	},
+	the_hundred: {
+		"en": {
+			"title": "The Hundred",
+			"sub": "100 push-ups (based on the One Hundred Push-ups program) · five sets, the last one as many as you can · 6 weeks, 3×",
+			"teaser": "A hundred masked men, one boss, one city. The Hundred collect protection money in every street, and Ledger keeps the book. Nobody has ever pushed back. Until now.",
+			"marks": [
+				"You refuse to pay. Word gets around fast.",
+				"Ten of them fewer. The others start counting.",
+				"Ledger doubles the price for everyone who knows your name.",
+				"The headquarters. All hundred of them are waiting.",
+				"The book is burned, the masks lie in the street. The Hundred are history."
+			]
+		},
+		"de": {
+			"title": "Die Hundert",
+			"sub": "100 Liegestütze (angelehnt an das „One Hundred Push-ups“-Programm) · fünf Sätze, der letzte so viele wie möglich · 6 Wochen, 3×",
+			"teaser": "Hundert Maskierte, ein Boss, eine Stadt. Die Hundert kassieren Schutzgeld in jeder Straße, und Ledger führt das Buch. Niemand hat sich je gewehrt. Bis jetzt.",
+			"marks": [
+				"Du zahlst nicht. Das spricht sich schnell herum.",
+				"Zehn von ihnen weniger. Die anderen fangen an zu zählen.",
+				"Ledger verdoppelt den Preis für alle, die deinen Namen kennen.",
+				"Das Hauptquartier. Alle hundert warten.",
+				"Das Buch ist verbrannt, die Masken liegen auf der Straße. Die Hundert sind Geschichte."
+			]
+		}
+	},
+	scramble: {
+		"en": {
+			"title": "Scramble",
+			"sub": "Eleven minutes a day (based on 5BX) · five exercises against the clock · 6 weeks, 5×",
+			"teaser": "An abandoned air base, a stolen prototype jet, a pilot who calls himself Vector. He takes off at dawn – from a different runway every day. Eleven minutes from the alarm to the hangar. Every morning.",
+			"marks": [
+				"The first alarm. You arrive far too late.",
+				"You get faster. Vector notices the shadow on the runway.",
+				"He switches airfields. You switch nothing – you just keep showing up.",
+				"The last runway. The engines are already running.",
+				"The prototype stays on the ground, the hangar doors are sealed. Vector's last flight ends on foot."
+			]
+		},
+		"de": {
+			"title": "Alarmstart",
+			"sub": "Elf Minuten am Tag (angelehnt an 5BX) · fünf Übungen gegen die Uhr · 6 Wochen, 5×",
+			"teaser": "Ein stillgelegter Fliegerhorst, ein gestohlener Prototyp, ein Pilot, der sich Vector nennt. Er startet im Morgengrauen – jeden Tag von einer anderen Piste. Elf Minuten vom Alarm bis zum Hangar. Jeden Morgen.",
+			"marks": [
+				"Der erste Alarm. Du kommst viel zu spät.",
+				"Du wirst schneller. Vector bemerkt den Schatten auf der Piste.",
+				"Er wechselt den Flugplatz. Du änderst nichts – du bist einfach jeden Tag da.",
+				"Die letzte Piste. Die Triebwerke laufen schon.",
+				"Der Prototyp bleibt am Boden, die Hangartore sind versiegelt. Vectors letzter Flug endet zu Fuß."
+			]
+		}
+	},
+	kick_off: {
+		"en": {
+			"title": "Kick-off",
+			"sub": "Warm-up against injuries (based on the 11+ programme) · running, strength, balance, jumps · 9 weeks, 2×",
+			"teaser": "The city's team is in the final – and one player after another goes down injured. It isn't bad luck: the Fixer has bet against them. Somebody has to keep the team on its feet.",
+			"marks": [
+				"You join the training sessions. Nobody asks why.",
+				"The first weeks without a new injury.",
+				"The Fixer raises his stakes – and sends his people to the training ground.",
+				"Final day. The stadium is full, the Fixer sits in the VIP box.",
+				"The final whistle. The team is standing, the Fixer's bets are void, and he leaves the stadium in a police car."
+			]
+		},
+		"de": {
+			"title": "Anstoß",
+			"sub": "Aufwärmen gegen Verletzungen (angelehnt an das Programm 11+) · Laufen, Kraft, Gleichgewicht, Sprünge · 9 Wochen, 2×",
+			"teaser": "Die Mannschaft der Stadt steht im Finale – und ein Spieler nach dem anderen fällt verletzt aus. Kein Pech: Der Fixer hat gegen sie gewettet. Jemand muss das Team auf den Beinen halten.",
+			"marks": [
+				"Du machst beim Training mit. Keiner fragt, warum.",
+				"Die ersten Wochen ohne neue Verletzung.",
+				"Der Fixer erhöht seinen Einsatz – und schickt seine Leute auf den Trainingsplatz.",
+				"Finaltag. Das Stadion ist voll, der Fixer sitzt in der Loge.",
+				"Der Schlusspfiff. Das Team steht, die Wetten des Fixer sind geplatzt, und er verlässt das Stadion im Streifenwagen."
+			]
+		}
+	},
+	fifteen_seconds: {
+		"en": {
+			"title": "Fifteen Seconds",
+			"sub": "Kettlebell snatch intervals (based on Viking Warrior Conditioning) · 15 seconds on, 15 seconds off · 8 weeks, 3×",
+			"teaser": "A bag, a briefcase, a ring – snatched in passing, gone in fifteen seconds. The Courier never stops and never comes back the same way. To catch him, you'll have to be just as quick, again and again.",
+			"marks": [
+				"You see him for the first time – a blur on a jet bike.",
+				"You learn his rhythm: grab, go, breathe.",
+				"He has noticed you. Now he's faster too.",
+				"The last delivery. He's carrying something that must not arrive.",
+				"The jet bike lies on its side, the loot is back with its owners. The Courier's route ends here."
+			]
+		},
+		"de": {
+			"title": "Fünfzehn Sekunden",
+			"sub": "Kettlebell-Snatch-Intervalle (angelehnt an Viking Warrior Conditioning) · 15 Sekunden Arbeit, 15 Sekunden Pause · 8 Wochen, 3×",
+			"teaser": "Eine Tasche, ein Koffer, ein Ring – im Vorbeifahren geschnappt, in fünfzehn Sekunden verschwunden. Der Courier hält nie an und kommt nie denselben Weg zurück. Um ihn zu fassen, musst du genauso schnell sein, immer wieder.",
+			"marks": [
+				"Du siehst ihn zum ersten Mal – ein Schemen auf einem Jetbike.",
+				"Du lernst seinen Rhythmus: greifen, weg, atmen.",
+				"Er hat dich bemerkt. Jetzt ist auch er schneller.",
+				"Die letzte Lieferung. Er trägt etwas, das nicht ankommen darf.",
+				"Das Jetbike liegt auf der Seite, die Beute ist zurück bei den Besitzern. Die Route des Courier endet hier."
+			]
+		}
+	},
+	twenty_one: {
+		"en": {
+			"title": "Twenty-One",
+			"sub": "Half marathon (based on Hal Higdon's novice plan) · three easy runs and one long run · 12 weeks, 4×",
+			"teaser": "One road leads out of the valley, twenty-one kilometers long. The Toll Keeper has put a barrier on every single one, and the valley pays or starves. No car gets through. A runner might.",
+			"marks": [
+				"You run the first kilometers at night, past the first barriers.",
+				"Halfway to the pass. The guards start to know your steps.",
+				"The Toll Keeper closes the road completely.",
+				"The last kilometers. The pass is in sight.",
+				"The barriers are up, the trucks roll into the valley. The Toll Keeper sits in his booth with nobody left to stop."
+			]
+		},
+		"de": {
+			"title": "Einundzwanzig",
+			"sub": "Halbmarathon (angelehnt an den Einsteigerplan von Hal Higdon) · drei lockere Läufe und ein langer Lauf · 12 Wochen, 4×",
+			"teaser": "Eine Straße führt aus dem Tal, einundzwanzig Kilometer lang. Der Toll Keeper hat auf jeden einzelnen eine Schranke gestellt, und das Tal zahlt oder hungert. Kein Auto kommt durch. Ein Läufer vielleicht.",
+			"marks": [
+				"Du läufst die ersten Kilometer nachts, an den ersten Schranken vorbei.",
+				"Halb zum Pass. Die Wachen kennen schon deine Schritte.",
+				"Der Toll Keeper sperrt die Straße ganz.",
+				"Die letzten Kilometer. Der Pass ist in Sicht.",
+				"Die Schranken sind offen, die Lastwagen rollen ins Tal. Der Toll Keeper sitzt in seinem Häuschen und hat niemanden mehr, den er aufhalten kann."
+			]
+		}
+	},
+	three_tempos: {
+		"en": {
+			"title": "Three Tempos",
+			"sub": "Intervals 30-20-10 (based on 10-20-30 training) · easy, steady, sprint · 8 weeks, 3×",
+			"teaser": "Somebody is setting the city's pace. Traffic lights, trains, the music in the streets – everything runs to the beat of the Metronome. Too slow, too fast, too slow. People are breaking down.",
+			"marks": [
+				"You hear the beat for the first time – and run against it.",
+				"Easy, steady, sprint. You find your own rhythm.",
+				"The Metronome speeds up the beat.",
+				"The concert hall. The baton rises.",
+				"The baton is broken, the city finds its own pace again. The Metronome's last concert has no audience."
+			]
+		},
+		"de": {
+			"title": "Drei Tempi",
+			"sub": "Intervalle 30-20-10 (angelehnt an das 10-20-30-Training) · locker, zügig, Sprint · 8 Wochen, 3×",
+			"teaser": "Jemand gibt der Stadt den Takt vor. Ampeln, Bahnen, die Musik auf den Straßen – alles läuft im Schlag des Metronome. Zu langsam, zu schnell, zu langsam. Die Menschen brechen zusammen.",
+			"marks": [
+				"Du hörst den Takt zum ersten Mal – und läufst dagegen an.",
+				"Locker, zügig, Sprint. Du findest deinen eigenen Rhythmus.",
+				"Der Metronome zieht den Takt an.",
+				"Der Konzertsaal. Der Taktstock hebt sich.",
+				"Der Taktstock ist zerbrochen, die Stadt findet ihr eigenes Tempo wieder. Das letzte Konzert des Metronome hat kein Publikum."
+			]
+		}
+	},
+	lights_out: {
+		"en": {
+			"title": "Lights Out",
+			"sub": "Yin yoga in the evening · long, quiet holds for hips and spine · 4 weeks, 5×",
+			"teaser": "Nobody in the city has slept for days. Floodlights, sirens, screens that never go dark – the Insomniac has turned night into day. Rest is your weapon now, and it has to be learned.",
+			"marks": [
+				"The first quiet evening in weeks. Only yours.",
+				"You switch off one light after another.",
+				"The Insomniac notices the dark spots on his map.",
+				"His tower: thousands of screens, one wakeful face.",
+				"The tower is dark, the city sleeps. The Insomniac sits in front of a black screen and yawns."
+			]
+		},
+		"de": {
+			"title": "Licht aus",
+			"sub": "Yin Yoga am Abend · lange, ruhige Haltungen für Hüfte und Wirbelsäule · 4 Wochen, 5×",
+			"teaser": "In der Stadt schläft seit Tagen niemand mehr. Flutlicht, Sirenen, Bildschirme, die nie dunkel werden – der Insomniac hat die Nacht zum Tag gemacht. Ruhe ist jetzt deine Waffe, und sie will gelernt sein.",
+			"marks": [
+				"Der erste ruhige Abend seit Wochen. Nur deiner.",
+				"Du löschst ein Licht nach dem anderen.",
+				"Der Insomniac bemerkt die dunklen Flecken auf seiner Karte.",
+				"Sein Turm: tausende Bildschirme, ein waches Gesicht.",
+				"Der Turm ist dunkel, die Stadt schläft. Der Insomniac sitzt vor einem schwarzen Bildschirm und gähnt."
+			]
+		}
+	},
+	the_divide: {
+		"en": {
+			"title": "The Divide",
+			"sub": "Front split · lunge, hamstrings, hips, then the split itself · 8 weeks, 3×",
+			"teaser": "Overnight a wall has split the city in two. Families on one side, work on the other. The Wallbuilder lets nobody across – and the gap beneath the wall grows a little wider every week.",
+			"marks": [
+				"You find a gap under the wall. Far too narrow.",
+				"Every week a few centimeters further.",
+				"The Wallbuilder pours concrete into the cracks.",
+				"One last stretch. Both sides are watching.",
+				"The wall is down, the two halves are one city again. The Wallbuilder stands alone among his bricks."
+			]
+		},
+		"de": {
+			"title": "Die Kluft",
+			"sub": "Spagat · Ausfallschritt, Beinrückseite, Hüfte, dann der Spagat selbst · 8 Wochen, 3×",
+			"teaser": "Über Nacht hat eine Mauer die Stadt geteilt. Familien auf der einen Seite, Arbeit auf der anderen. Der Wallbuilder lässt niemanden hinüber – und die Lücke unter der Mauer wird jede Woche ein wenig breiter.",
+			"marks": [
+				"Du findest eine Lücke unter der Mauer. Viel zu schmal.",
+				"Jede Woche ein paar Zentimeter weiter.",
+				"Der Wallbuilder gießt Beton in die Ritzen.",
+				"Ein letztes Strecken. Beide Seiten schauen zu.",
+				"Die Mauer ist gefallen, die zwei Hälften sind wieder eine Stadt. Der Wallbuilder steht allein zwischen seinen Steinen."
+			]
+		}
+	},
+	overgrown: {
+		"en": {
+			"title": "Overgrown",
+			"sub": "Yoga for beginners · a short session every day, a little more each week · 4 weeks, daily",
+			"teaser": "The old greenhouse district has been swallowed by vines – and they keep growing, street by street. The Gardener tends them at night. Whoever stands still too long gets tangled.",
+			"marks": [
+				"You free the first street. Slowly, branch by branch.",
+				"You move more freely. The vines grow back more slowly.",
+				"The Gardener sends his oldest plants.",
+				"The great glass house. In the middle, the root of it all.",
+				"The vines wither, the streets are free, sunlight falls into the glass house. The Gardener kneels among dry leaves."
+			]
+		},
+		"de": {
+			"title": "Überwuchert",
+			"sub": "Yoga für Einsteiger · jeden Tag eine kurze Einheit, jede Woche etwas mehr · 4 Wochen, täglich",
+			"teaser": "Das alte Gewächshausviertel ist von Ranken verschluckt – und sie wachsen weiter, Straße um Straße. Der Gardener pflegt sie bei Nacht. Wer zu lange stillsteht, wird umschlungen.",
+			"marks": [
+				"Du befreist die erste Straße. Langsam, Ast für Ast.",
+				"Du bewegst dich freier. Die Ranken wachsen langsamer nach.",
+				"Der Gardener schickt seine ältesten Pflanzen.",
+				"Das große Glashaus. In der Mitte die Wurzel von allem.",
+				"Die Ranken welken, die Straßen sind frei, Sonnenlicht fällt ins Glashaus. Der Gardener kniet zwischen trockenen Blättern."
+			]
+		}
+	},
+	three_minutes: {
+		"en": {
+			"title": "Three Minutes",
+			"sub": "Interval walking (based on Japanese interval walking) · 3 minutes brisk, 3 minutes easy · 8 weeks, 4×",
+			"teaser": "Every letter in the old town passes through the Postmaster's hands – and every secret with it. His patrols come by every three minutes. Whoever wants to deliver a message unseen has to know the rhythm: fast while the street is clear, slow when the lanterns turn.",
+			"marks": [
+				"You take on the first letter. Three minutes until the next patrol.",
+				"Fast, slow, fast. The rhythm sits in your legs.",
+				"The Postmaster has noticed that letters are getting through.",
+				"The last delivery: straight into the main post office.",
+				"The secret archive is open, every letter has reached its owner. The Postmaster sorts his own mail now – in a cell."
+			]
+		},
+		"de": {
+			"title": "Drei Minuten",
+			"sub": "Intervall-Gehen (angelehnt an das japanische Intervall-Gehen) · 3 Minuten zügig, 3 Minuten gemächlich · 8 Wochen, 4×",
+			"teaser": "Jeder Brief in der Altstadt geht durch die Hände des Postmaster – und jedes Geheimnis mit ihm. Seine Streifen kommen alle drei Minuten vorbei. Wer eine Nachricht ungesehen zustellen will, muss den Rhythmus kennen: schnell, solange die Gasse frei ist, langsam, wenn die Laternen sich drehen.",
+			"marks": [
+				"Du übernimmst den ersten Brief. Drei Minuten bis zur nächsten Streife.",
+				"Schnell, langsam, schnell. Der Rhythmus sitzt in den Beinen.",
+				"Der Postmaster hat bemerkt, dass Briefe durchkommen.",
+				"Die letzte Zustellung: mitten hinein ins Hauptpostamt.",
+				"Das geheime Archiv ist offen, jeder Brief hat seinen Empfänger erreicht. Der Postmaster sortiert jetzt seine eigene Post – in einer Zelle."
+			]
+		}
+	},
+	long_trail: {
+		"en": {
+			"title": "The Long Trail",
+			"sub": "Hiking fitness · leg strength, stairs and a long hike from 1 to 4 hours · 8 weeks, 3×",
+			"teaser": "Since the Quarryman started blasting the mountain, the high village is cut off. The road is gone; only the old trail over the pass is left. Four hours up, with everything the village needs on your back.",
+			"marks": [
+				"The first stretch of the trail. Your legs notice every step.",
+				"You reach the first hut before nightfall.",
+				"The Quarryman blasts the lower path. You find a way around.",
+				"The pass. Above you the dynamite store, below you the village.",
+				"The blasting has stopped, the trail is open, the village lights its windows. The Quarryman walks down the mountain in handcuffs – on foot."
+			]
+		},
+		"de": {
+			"title": "Der lange Pfad",
+			"sub": "Fit fürs Wandern · Beinkraft, Treppen und eine lange Wanderung von 1 auf 4 Stunden · 8 Wochen, 3×",
+			"teaser": "Seit der Quarryman den Berg sprengt, ist das Hochdorf abgeschnitten. Die Straße ist weg, nur der alte Pfad über den Pass ist geblieben. Vier Stunden hinauf, mit allem, was das Dorf braucht, auf dem Rücken.",
+			"marks": [
+				"Das erste Stück des Pfads. Deine Beine spüren jeden Schritt.",
+				"Du erreichst die erste Hütte vor Einbruch der Nacht.",
+				"Der Quarryman sprengt den unteren Weg. Du findest einen Umweg.",
+				"Der Pass. Über dir das Sprengstofflager, unter dir das Dorf.",
+				"Die Sprengungen haben aufgehört, der Pfad ist frei, im Dorf gehen die Lichter an. Der Quarryman steigt in Handschellen vom Berg – zu Fuß."
+			]
+		}
+	},
+	back_school: {
+		"en": {
+			"title": "Upright",
+			"sub": "Back school (based on the German “Neue Rückenschule”) · mobilise, strengthen, lift right, relax · 8 weeks, 2×",
+			"teaser": "In the city hall the Clerk is burying everyone under paper. The files pile up to the ceiling, and people sit bent over their desks until they can no longer stand up straight. Somebody has to carry the boxes out – and stay upright doing it.",
+			"marks": [
+				"You take a desk in the city hall. Your back hurts on the very first day.",
+				"You stretch between the files. Others start to copy you.",
+				"The Clerk sends heavier boxes.",
+				"The top floor: the Clerk's own archive.",
+				"The files are carried out, the windows open, the city hall stands straight. The Clerk sits alone under a mountain of his own paper."
+			]
+		},
+		"de": {
+			"title": "Aufrecht",
+			"sub": "Rückenschule (angelehnt an die „Neue Rückenschule“) · mobilisieren, kräftigen, richtig heben, entspannen · 8 Wochen, 2×",
+			"teaser": "Im Rathaus begräbt der Clerk alle unter Papier. Die Akten stapeln sich bis zur Decke, und die Leute sitzen über ihre Tische gebeugt, bis sie nicht mehr gerade stehen können. Jemand muss die Kisten hinaustragen – und dabei aufrecht bleiben.",
+			"marks": [
+				"Du übernimmst einen Schreibtisch im Rathaus. Schon am ersten Tag tut dir der Rücken weh.",
+				"Du dehnst dich zwischen den Akten. Andere machen es dir nach.",
+				"Der Clerk schickt schwerere Kisten.",
+				"Das oberste Stockwerk: das Archiv des Clerk selbst.",
+				"Die Akten sind hinausgetragen, die Fenster offen, das Rathaus steht gerade. Der Clerk sitzt allein unter einem Berg aus seinem eigenen Papier."
+			]
+		}
+	}
+};
+// src/core/hero/content/i18n.ts
+var HERO_PLAN_DE = {};
+var T = (en, de) => {
+	HERO_PLAN_DE[en] = de;
+	return en;
+};
+// src/data/templates.json
+var templates_default = /*#__PURE__*/ JSON.parse("[{\"id\":\"kraft-1-einsteiger-5x5\",\"group\":\"kraft\",\"plan\":{\"schema_version\":1,\"name\":\"Beginner Strength 5×5\",\"description\":\"Classic barbell beginner program, 2 alternating workouts, 3×/week. +2.5 kg every session (deadlift +5 kg) as long as all 5×5 succeed. Inspired by StrongLifts 5×5.\",\"goal\":\"strength\",\"defaults\":{\"rest_s\":180,\"progression\":{\"type\":\"linear\",\"increment_kg\":2.5}},\"exercises\":{\"back_squat\":{\"name\":\"Back Squat\",\"aliases\":[\"Kniebeuge\"],\"equipment\":\"barbell\",\"image\":\"Barbell_Squat\"},\"bench_press\":{\"name\":\"Bench Press\",\"aliases\":[\"Bankdrücken\"],\"equipment\":\"barbell\"},\"barbell_row\":{\"name\":\"Barbell Row\",\"aliases\":[\"Langhantelrudern\"],\"equipment\":\"barbell\",\"image\":\"Bent_Over_Barbell_Row\"},\"overhead_press\":{\"name\":\"Overhead Press\",\"aliases\":[\"Schulterdrücken stehend\"],\"equipment\":\"barbell\",\"image\":\"Standing_Military_Press\"},\"deadlift\":{\"name\":\"Deadlift\",\"aliases\":[\"Kreuzheben\"],\"equipment\":\"barbell\",\"image\":\"Barbell_Deadlift\"}},\"workouts\":[{\"id\":\"a\",\"name\":\"Workout A\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"5 easy minutes, then 2–3 light warm-up sets of squats.\"},{\"type\":\"sets\",\"exercise\":\"back_squat\",\"sets\":5,\"reps\":5,\"weight_kg\":20},{\"type\":\"sets\",\"exercise\":\"bench_press\",\"sets\":5,\"reps\":5,\"weight_kg\":20},{\"type\":\"sets\",\"exercise\":\"barbell_row\",\"sets\":5,\"reps\":5,\"weight_kg\":30},{\"type\":\"cooldown\"}]},{\"id\":\"b\",\"name\":\"Workout B\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"5 easy minutes, then 2–3 light warm-up sets of squats.\"},{\"type\":\"sets\",\"exercise\":\"back_squat\",\"sets\":5,\"reps\":5,\"weight_kg\":20},{\"type\":\"sets\",\"exercise\":\"overhead_press\",\"sets\":5,\"reps\":5,\"weight_kg\":20},{\"type\":\"sets\",\"exercise\":\"deadlift\",\"sets\":1,\"reps\":5,\"weight_kg\":40,\"progression\":{\"type\":\"linear\",\"increment_kg\":5}},{\"type\":\"cooldown\"}]}]},\"images\":{\"back_squat\":\"Barbell_Squat\",\"bench_press\":\"Barbell_Bench_Press_-_Medium_Grip\",\"barbell_row\":\"Bent_Over_Barbell_Row\",\"overhead_press\":\"Standing_Military_Press\",\"deadlift\":\"Barbell_Deadlift\"}},{\"id\":\"kraft-2-ganzkoerper-kurzhantel\",\"group\":\"kraft\",\"plan\":{\"schema_version\":1,\"name\":\"Full Body at Home (Dumbbells)\",\"description\":\"Two alternating full-body workouts, 3×/week, dumbbells and a bench/floor only. Double progression in the 8–12 or 10–15 rep range.\",\"goal\":\"hypertrophy\",\"defaults\":{\"rest_s\":90,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},\"exercises\":{\"goblet_squat\":{\"name\":\"Goblet Squat\",\"equipment\":\"dumbbell\"},\"db_bench_press\":{\"name\":\"Dumbbell Bench Press\",\"aliases\":[\"Kurzhantel-Bankdrücken\"],\"equipment\":\"dumbbell\",\"image\":\"Dumbbell_Bench_Press\"},\"dumbbell_row\":{\"name\":\"One-Arm Dumbbell Row\",\"aliases\":[\"Kurzhantelrudern einarmig\"],\"equipment\":\"dumbbell\",\"image\":\"One-Arm_Dumbbell_Row\",\"unilateral\":true},\"db_romanian_deadlift\":{\"name\":\"Dumbbell Romanian Deadlift\",\"aliases\":[\"Rumänisches Kreuzheben Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Stiff-Legged_Dumbbell_Deadlift\"},\"db_shoulder_press\":{\"name\":\"Dumbbell Shoulder Press\",\"aliases\":[\"Schulterdrücken Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Dumbbell_Shoulder_Press\"},\"split_squat\":{\"name\":\"Split Squat\",\"aliases\":[\"Ausfallschritt stehend\"],\"equipment\":\"dumbbell\",\"image\":\"Split_Squat_with_Dumbbells\",\"unilateral\":true},\"push_up\":{\"name\":\"Push-Ups\",\"aliases\":[\"Liegestütze\"],\"equipment\":\"bodyweight\",\"image\":\"Pushups\"},\"db_floor_press\":{\"name\":\"Dumbbell Floor Press\",\"aliases\":[\"Bodendrücken Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Dumbbell_Floor_Press\"},\"glute_bridge\":{\"name\":\"Glute Bridge\",\"aliases\":[\"Hüftheben\"],\"equipment\":\"dumbbell\",\"image\":\"Butt_Lift_Bridge\"},\"lateral_raise\":{\"name\":\"Lateral Raise\",\"aliases\":[\"Seitheben\"],\"equipment\":\"dumbbell\",\"image\":\"Side_Lateral_Raise\"},\"db_curl\":{\"name\":\"Dumbbell Curl\",\"aliases\":[\"Bizepscurls Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Dumbbell_Bicep_Curl\"},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Unterarmstütz\"],\"equipment\":\"bodyweight\"},\"dead_bug\":{\"name\":\"Dead Bug\",\"equipment\":\"bodyweight\",\"unilateral\":true}},\"workouts\":[{\"id\":\"a\",\"name\":\"Full Body A\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"goblet_squat\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":16},{\"type\":\"sets\",\"exercise\":\"db_bench_press\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":14},{\"type\":\"sets\",\"exercise\":\"dumbbell_row\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"per_side\":true,\"weight_kg\":14},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":16},{\"type\":\"circuit\",\"name\":\"Shoulders & Core\",\"rounds\":3,\"rest_after_exercise_s\":30,\"rest_after_round_s\":60,\"exercises\":[{\"exercise\":\"db_shoulder_press\",\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":10},{\"exercise\":\"plank\",\"duration_s\":{\"min\":30,\"max\":60}}]},{\"type\":\"cooldown\"}]},{\"id\":\"b\",\"name\":\"Full Body B\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"split_squat\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"per_side\":true,\"weight_kg\":10},{\"type\":\"sets\",\"exercise\":\"push_up\",\"sets\":3,\"reps\":{\"min\":8,\"max\":20},\"progression\":{\"type\":\"reps\"}},{\"type\":\"sets\",\"exercise\":\"db_floor_press\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":14},{\"type\":\"sets\",\"exercise\":\"glute_bridge\",\"sets\":3,\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":16},{\"type\":\"circuit\",\"name\":\"Arms & Core\",\"rounds\":3,\"rest_after_exercise_s\":30,\"rest_after_round_s\":60,\"exercises\":[{\"exercise\":\"lateral_raise\",\"reps\":{\"min\":12,\"max\":15},\"weight_kg\":6,\"progression\":{\"type\":\"double\",\"increment_kg\":1}},{\"exercise\":\"db_curl\",\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":8},{\"exercise\":\"dead_bug\",\"reps\":10,\"per_side\":true,\"progression\":{\"type\":\"reps\",\"max_reps\":15}}]},{\"type\":\"cooldown\"}]}]},\"images\":{\"goblet_squat\":\"Goblet_Squat\",\"db_bench_press\":\"Dumbbell_Bench_Press\",\"dumbbell_row\":\"One-Arm_Dumbbell_Row\",\"db_romanian_deadlift\":\"Stiff-Legged_Dumbbell_Deadlift\",\"db_shoulder_press\":\"Dumbbell_Shoulder_Press\",\"split_squat\":\"Split_Squat_with_Dumbbells\",\"push_up\":\"Pushups\",\"db_floor_press\":\"Dumbbell_Floor_Press\",\"glute_bridge\":\"Butt_Lift_Bridge\",\"lateral_raise\":\"Side_Lateral_Raise\",\"db_curl\":\"Dumbbell_Bicep_Curl\",\"plank\":\"Plank\",\"dead_bug\":\"Dead_Bug\"}},{\"id\":\"kraft-3-stufen-4-tage\",\"group\":\"kraft\",\"plan\":{\"schema_version\":1,\"name\":\"Tiered Program 4 Days\",\"description\":\"Four workouts with a heavy main lift (5×3), a medium secondary lift (3×10) and a light volume exercise (3×15–25). For beginners after their first months. Inspired by GZCLP.\",\"goal\":\"strength\",\"defaults\":{\"rest_s\":120},\"exercises\":{\"back_squat\":{\"name\":\"Back Squat\",\"aliases\":[\"Kniebeuge\"],\"equipment\":\"barbell\",\"image\":\"Barbell_Squat\"},\"bench_press\":{\"name\":\"Bench Press\",\"aliases\":[\"Bankdrücken\"],\"equipment\":\"barbell\"},\"overhead_press\":{\"name\":\"Overhead Press\",\"aliases\":[\"Schulterdrücken stehend\"],\"equipment\":\"barbell\",\"image\":\"Standing_Military_Press\"},\"deadlift\":{\"name\":\"Deadlift\",\"aliases\":[\"Kreuzheben\"],\"equipment\":\"barbell\",\"image\":\"Barbell_Deadlift\"},\"lat_pulldown\":{\"name\":\"Lat Pulldown\",\"aliases\":[\"Latziehen\"],\"equipment\":\"cable\",\"image\":\"Wide-Grip_Lat_Pulldown\"},\"dumbbell_row\":{\"name\":\"One-Arm Dumbbell Row\",\"aliases\":[\"Kurzhantelrudern einarmig\"],\"equipment\":\"dumbbell\",\"image\":\"One-Arm_Dumbbell_Row\",\"unilateral\":true}},\"workouts\":[{\"id\":\"a1\",\"name\":\"A1 – Squat\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"name\":\"T1\",\"exercise\":\"back_squat\",\"sets\":5,\"reps\":3,\"weight_kg\":60,\"rest_s\":180,\"progression\":{\"type\":\"linear\",\"increment_kg\":5},\"note\":\"Last set as many clean reps as possible.\"},{\"type\":\"sets\",\"name\":\"T2\",\"exercise\":\"bench_press\",\"sets\":3,\"reps\":10,\"weight_kg\":40,\"progression\":{\"type\":\"linear\",\"increment_kg\":2.5}},{\"type\":\"sets\",\"name\":\"T3\",\"exercise\":\"lat_pulldown\",\"sets\":3,\"reps\":{\"min\":15,\"max\":25},\"weight_kg\":30,\"rest_s\":60,\"progression\":{\"type\":\"double\",\"increment_kg\":2.5}},{\"type\":\"cooldown\"}]},{\"id\":\"b1\",\"name\":\"B1 – Overhead Press\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"name\":\"T1\",\"exercise\":\"overhead_press\",\"sets\":5,\"reps\":3,\"weight_kg\":30,\"rest_s\":180,\"progression\":{\"type\":\"linear\",\"increment_kg\":2.5},\"note\":\"Last set as many clean reps as possible.\"},{\"type\":\"sets\",\"name\":\"T2\",\"exercise\":\"deadlift\",\"sets\":3,\"reps\":10,\"weight_kg\":60,\"progression\":{\"type\":\"linear\",\"increment_kg\":5}},{\"type\":\"sets\",\"name\":\"T3\",\"exercise\":\"dumbbell_row\",\"sets\":3,\"reps\":{\"min\":15,\"max\":25},\"weight_kg\":14,\"per_side\":true,\"rest_s\":60,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"cooldown\"}]},{\"id\":\"a2\",\"name\":\"A2 – Bench Press\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"name\":\"T1\",\"exercise\":\"bench_press\",\"sets\":5,\"reps\":3,\"weight_kg\":50,\"rest_s\":180,\"progression\":{\"type\":\"linear\",\"increment_kg\":2.5},\"note\":\"Last set as many clean reps as possible.\"},{\"type\":\"sets\",\"name\":\"T2\",\"exercise\":\"back_squat\",\"sets\":3,\"reps\":10,\"weight_kg\":50,\"progression\":{\"type\":\"linear\",\"increment_kg\":5}},{\"type\":\"sets\",\"name\":\"T3\",\"exercise\":\"lat_pulldown\",\"sets\":3,\"reps\":{\"min\":15,\"max\":25},\"weight_kg\":30,\"rest_s\":60,\"progression\":{\"type\":\"double\",\"increment_kg\":2.5}},{\"type\":\"cooldown\"}]},{\"id\":\"b2\",\"name\":\"B2 – Deadlift\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"name\":\"T1\",\"exercise\":\"deadlift\",\"sets\":5,\"reps\":3,\"weight_kg\":80,\"rest_s\":180,\"progression\":{\"type\":\"linear\",\"increment_kg\":5},\"note\":\"Last set as many clean reps as possible.\"},{\"type\":\"sets\",\"name\":\"T2\",\"exercise\":\"overhead_press\",\"sets\":3,\"reps\":10,\"weight_kg\":25,\"progression\":{\"type\":\"linear\",\"increment_kg\":2.5}},{\"type\":\"sets\",\"name\":\"T3\",\"exercise\":\"dumbbell_row\",\"sets\":3,\"reps\":{\"min\":15,\"max\":25},\"weight_kg\":14,\"per_side\":true,\"rest_s\":60,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"cooldown\"}]}]},\"images\":{\"back_squat\":\"Barbell_Squat\",\"bench_press\":\"Barbell_Bench_Press_-_Medium_Grip\",\"overhead_press\":\"Standing_Military_Press\",\"deadlift\":\"Barbell_Deadlift\",\"lat_pulldown\":\"Wide-Grip_Lat_Pulldown\",\"dumbbell_row\":\"One-Arm_Dumbbell_Row\"}},{\"id\":\"kraft-4-oberkoerper-unterkoerper\",\"group\":\"kraft\",\"plan\":{\"schema_version\":1,\"name\":\"Upper/Lower 4 Days\",\"description\":\"Four workouts (Upper A, Lower A, Upper B, Lower B), every muscle group 2×/week, about 10–16 sets per muscle per week. Good for intermediates with 4 training days.\",\"goal\":\"hypertrophy\",\"defaults\":{\"rest_s\":120,\"progression\":{\"type\":\"double\",\"increment_kg\":2.5}},\"exercises\":{\"bench_press\":{\"name\":\"Bench Press\",\"aliases\":[\"Bankdrücken\"],\"equipment\":\"barbell\"},\"barbell_row\":{\"name\":\"Barbell Row\",\"aliases\":[\"Langhantelrudern\"],\"equipment\":\"barbell\",\"image\":\"Bent_Over_Barbell_Row\"},\"overhead_press\":{\"name\":\"Overhead Press\",\"aliases\":[\"Schulterdrücken stehend\"],\"equipment\":\"barbell\",\"image\":\"Standing_Military_Press\"},\"lat_pulldown\":{\"name\":\"Lat Pulldown\",\"aliases\":[\"Latziehen\"],\"equipment\":\"cable\",\"image\":\"Wide-Grip_Lat_Pulldown\"},\"lateral_raise\":{\"name\":\"Lateral Raise\",\"aliases\":[\"Seitheben\"],\"equipment\":\"dumbbell\",\"image\":\"Side_Lateral_Raise\"},\"db_curl\":{\"name\":\"Dumbbell Curl\",\"aliases\":[\"Bizepscurls Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Dumbbell_Bicep_Curl\"},\"triceps_pushdown\":{\"name\":\"Triceps Pushdown\",\"aliases\":[\"Trizepsdrücken am Kabel\"],\"equipment\":\"cable\",\"image\":\"Triceps_Pushdown\"},\"incline_db_press\":{\"name\":\"Incline Dumbbell Press\",\"aliases\":[\"Schrägbankdrücken Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Incline_Dumbbell_Press\"},\"chin_up\":{\"name\":\"Chin-up\",\"aliases\":[\"Klimmzüge Untergriff\"],\"equipment\":\"bodyweight\",\"image\":\"Chin-Up\"},\"db_shoulder_press\":{\"name\":\"Dumbbell Shoulder Press\",\"aliases\":[\"Schulterdrücken Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Dumbbell_Shoulder_Press\"},\"cable_row\":{\"name\":\"Seated Cable Row\",\"aliases\":[\"Rudern am Kabel\"],\"equipment\":\"cable\",\"image\":\"Seated_Cable_Rows\"},\"face_pull\":{\"name\":\"Face Pulls\",\"equipment\":\"cable\",\"image\":\"Face_Pull\"},\"hammer_curl\":{\"name\":\"Hammer Curl\",\"aliases\":[\"Hammercurls\"],\"equipment\":\"dumbbell\",\"image\":\"Hammer_Curls\"},\"overhead_triceps\":{\"name\":\"Overhead Triceps Extension\",\"aliases\":[\"Trizeps über Kopf\"],\"equipment\":\"cable\",\"image\":\"Cable_Rope_Overhead_Triceps_Extension\"},\"back_squat\":{\"name\":\"Back Squat\",\"aliases\":[\"Kniebeuge\"],\"equipment\":\"barbell\",\"image\":\"Barbell_Squat\"},\"romanian_deadlift\":{\"name\":\"Romanian Deadlift\",\"aliases\":[\"Rumänisches Kreuzheben\"],\"equipment\":\"barbell\",\"image\":\"Romanian_Deadlift\"},\"leg_press\":{\"name\":\"Leg Press\",\"aliases\":[\"Beinpresse\"],\"equipment\":\"machine\",\"image\":\"Leg_Press\"},\"leg_curl\":{\"name\":\"Leg Curl\",\"aliases\":[\"Beinbeuger\"],\"equipment\":\"machine\",\"image\":\"Lying_Leg_Curls\"},\"calf_raise\":{\"name\":\"Calf Raise\",\"aliases\":[\"Wadenheben\"],\"equipment\":\"machine\",\"image\":\"Standing_Calf_Raises\"},\"deadlift\":{\"name\":\"Deadlift\",\"aliases\":[\"Kreuzheben\"],\"equipment\":\"barbell\",\"image\":\"Barbell_Deadlift\"},\"bulgarian_split_squat\":{\"name\":\"Bulgarian Split Squat\",\"aliases\":[\"Bulgarische Kniebeuge\"],\"equipment\":\"dumbbell\",\"image\":\"Split_Squat_with_Dumbbells\",\"unilateral\":true},\"hip_thrust\":{\"name\":\"Hip Thrust\",\"equipment\":\"barbell\",\"image\":\"Barbell_Hip_Thrust\"},\"leg_extension\":{\"name\":\"Leg Extension\",\"aliases\":[\"Beinstrecker\"],\"equipment\":\"machine\",\"image\":\"Leg_Extensions\"},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Unterarmstütz\"],\"equipment\":\"bodyweight\"}},\"workouts\":[{\"id\":\"upper_a\",\"name\":\"Upper A\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"bench_press\",\"sets\":4,\"reps\":{\"min\":6,\"max\":8},\"weight_kg\":50,\"rest_s\":150},{\"type\":\"sets\",\"exercise\":\"barbell_row\",\"sets\":4,\"reps\":{\"min\":6,\"max\":8},\"weight_kg\":40,\"rest_s\":150},{\"type\":\"sets\",\"exercise\":\"overhead_press\",\"sets\":3,\"reps\":{\"min\":8,\"max\":10},\"weight_kg\":25},{\"type\":\"sets\",\"exercise\":\"lat_pulldown\",\"sets\":3,\"reps\":{\"min\":10,\"max\":12},\"weight_kg\":40},{\"type\":\"circuit\",\"name\":\"Arms & Shoulders\",\"rounds\":3,\"rest_after_exercise_s\":30,\"rest_after_round_s\":60,\"exercises\":[{\"exercise\":\"lateral_raise\",\"reps\":{\"min\":12,\"max\":15},\"weight_kg\":6,\"progression\":{\"type\":\"double\",\"increment_kg\":1}},{\"exercise\":\"db_curl\",\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":8,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"exercise\":\"triceps_pushdown\",\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":20}]},{\"type\":\"cooldown\"}]},{\"id\":\"lower_a\",\"name\":\"Lower A\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"back_squat\",\"sets\":4,\"reps\":{\"min\":6,\"max\":8},\"weight_kg\":60,\"rest_s\":180},{\"type\":\"sets\",\"exercise\":\"romanian_deadlift\",\"sets\":3,\"reps\":{\"min\":8,\"max\":10},\"weight_kg\":50,\"rest_s\":150},{\"type\":\"sets\",\"exercise\":\"leg_press\",\"sets\":3,\"reps\":{\"min\":10,\"max\":12},\"weight_kg\":90,\"progression\":{\"type\":\"double\",\"increment_kg\":5}},{\"type\":\"sets\",\"exercise\":\"leg_curl\",\"sets\":3,\"reps\":{\"min\":10,\"max\":12},\"weight_kg\":25},{\"type\":\"sets\",\"exercise\":\"calf_raise\",\"sets\":4,\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":40,\"rest_s\":60,\"progression\":{\"type\":\"double\",\"increment_kg\":5}},{\"type\":\"sets\",\"exercise\":\"plank\",\"sets\":3,\"duration_s\":{\"min\":30,\"max\":60},\"rest_s\":45},{\"type\":\"cooldown\"}]},{\"id\":\"upper_b\",\"name\":\"Upper B\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"incline_db_press\",\"sets\":4,\"reps\":{\"min\":8,\"max\":10},\"weight_kg\":16,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"sets\",\"exercise\":\"chin_up\",\"sets\":4,\"reps\":{\"min\":6,\"max\":10},\"rest_s\":150,\"progression\":{\"type\":\"reps\"}},{\"type\":\"sets\",\"exercise\":\"db_shoulder_press\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":12,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"sets\",\"exercise\":\"cable_row\",\"sets\":3,\"reps\":{\"min\":10,\"max\":12},\"weight_kg\":40},{\"type\":\"circuit\",\"name\":\"Arms & Rear Delts\",\"rounds\":3,\"rest_after_exercise_s\":30,\"rest_after_round_s\":60,\"exercises\":[{\"exercise\":\"face_pull\",\"reps\":{\"min\":15,\"max\":20},\"weight_kg\":10},{\"exercise\":\"hammer_curl\",\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":10,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"exercise\":\"overhead_triceps\",\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":15}]},{\"type\":\"cooldown\"}]},{\"id\":\"lower_b\",\"name\":\"Lower B\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"deadlift\",\"sets\":3,\"reps\":5,\"weight_kg\":80,\"rest_s\":180,\"progression\":{\"type\":\"linear\",\"increment_kg\":5}},{\"type\":\"sets\",\"exercise\":\"bulgarian_split_squat\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"per_side\":true,\"weight_kg\":10,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"sets\",\"exercise\":\"hip_thrust\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":60,\"progression\":{\"type\":\"double\",\"increment_kg\":5}},{\"type\":\"sets\",\"exercise\":\"leg_extension\",\"sets\":3,\"reps\":{\"min\":12,\"max\":15},\"weight_kg\":30},{\"type\":\"sets\",\"exercise\":\"calf_raise\",\"sets\":4,\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":40,\"rest_s\":60,\"progression\":{\"type\":\"double\",\"increment_kg\":5}},{\"type\":\"cooldown\"}]}]},\"images\":{\"bench_press\":\"Barbell_Bench_Press_-_Medium_Grip\",\"barbell_row\":\"Bent_Over_Barbell_Row\",\"overhead_press\":\"Standing_Military_Press\",\"lat_pulldown\":\"Wide-Grip_Lat_Pulldown\",\"lateral_raise\":\"Side_Lateral_Raise\",\"db_curl\":\"Dumbbell_Bicep_Curl\",\"triceps_pushdown\":\"Triceps_Pushdown\",\"incline_db_press\":\"Incline_Dumbbell_Press\",\"chin_up\":\"Chin-Up\",\"db_shoulder_press\":\"Dumbbell_Shoulder_Press\",\"cable_row\":\"Seated_Cable_Rows\",\"face_pull\":\"Face_Pull\",\"hammer_curl\":\"Hammer_Curls\",\"overhead_triceps\":\"Cable_Rope_Overhead_Triceps_Extension\",\"back_squat\":\"Barbell_Squat\",\"romanian_deadlift\":\"Romanian_Deadlift\",\"leg_press\":\"Leg_Press\",\"leg_curl\":\"Lying_Leg_Curls\",\"calf_raise\":\"Standing_Calf_Raises\",\"deadlift\":\"Barbell_Deadlift\",\"bulgarian_split_squat\":\"Split_Squat_with_Dumbbells\",\"hip_thrust\":\"Barbell_Hip_Thrust\",\"leg_extension\":\"Leg_Extensions\",\"plank\":\"Plank\"}},{\"id\":\"kraft-5-push-pull-beine\",\"group\":\"kraft\",\"plan\":{\"schema_version\":1,\"name\":\"Push/Pull/Legs\",\"description\":\"Hypertrophy split with push, pull and leg days alternating, up to 6×/week. One heavy main lift per day, then volume with 8–12 or 15–20 reps. Inspired by the r/Fitness PPL.\",\"goal\":\"hypertrophy\",\"defaults\":{\"rest_s\":90,\"progression\":{\"type\":\"double\",\"increment_kg\":2.5}},\"exercises\":{\"bench_press\":{\"name\":\"Bench Press\",\"aliases\":[\"Bankdrücken\"],\"equipment\":\"barbell\"},\"overhead_press\":{\"name\":\"Overhead Press\",\"aliases\":[\"Schulterdrücken stehend\"],\"equipment\":\"barbell\",\"image\":\"Standing_Military_Press\"},\"incline_db_press\":{\"name\":\"Incline Dumbbell Press\",\"aliases\":[\"Schrägbankdrücken Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Incline_Dumbbell_Press\"},\"triceps_pushdown\":{\"name\":\"Triceps Pushdown\",\"aliases\":[\"Trizepsdrücken am Kabel\"],\"equipment\":\"cable\",\"image\":\"Triceps_Pushdown\"},\"overhead_triceps\":{\"name\":\"Overhead Triceps Extension\",\"aliases\":[\"Trizeps über Kopf\"],\"equipment\":\"cable\",\"image\":\"Cable_Rope_Overhead_Triceps_Extension\"},\"lateral_raise\":{\"name\":\"Lateral Raise\",\"aliases\":[\"Seitheben\"],\"equipment\":\"dumbbell\",\"image\":\"Side_Lateral_Raise\"},\"deadlift\":{\"name\":\"Deadlift\",\"aliases\":[\"Kreuzheben\"],\"equipment\":\"barbell\",\"image\":\"Barbell_Deadlift\"},\"lat_pulldown\":{\"name\":\"Lat Pulldown\",\"aliases\":[\"Latziehen\"],\"equipment\":\"cable\",\"image\":\"Wide-Grip_Lat_Pulldown\"},\"cable_row\":{\"name\":\"Seated Cable Row\",\"aliases\":[\"Rudern am Kabel\"],\"equipment\":\"cable\",\"image\":\"Seated_Cable_Rows\"},\"face_pull\":{\"name\":\"Face Pulls\",\"equipment\":\"cable\",\"image\":\"Face_Pull\"},\"hammer_curl\":{\"name\":\"Hammer Curl\",\"aliases\":[\"Hammercurls\"],\"equipment\":\"dumbbell\",\"image\":\"Hammer_Curls\"},\"db_curl\":{\"name\":\"Dumbbell Curl\",\"aliases\":[\"Bizepscurls Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Dumbbell_Bicep_Curl\"},\"back_squat\":{\"name\":\"Back Squat\",\"aliases\":[\"Kniebeuge\"],\"equipment\":\"barbell\",\"image\":\"Barbell_Squat\"},\"romanian_deadlift\":{\"name\":\"Romanian Deadlift\",\"aliases\":[\"Rumänisches Kreuzheben\"],\"equipment\":\"barbell\",\"image\":\"Romanian_Deadlift\"},\"leg_press\":{\"name\":\"Leg Press\",\"aliases\":[\"Beinpresse\"],\"equipment\":\"machine\",\"image\":\"Leg_Press\"},\"leg_curl\":{\"name\":\"Leg Curl\",\"aliases\":[\"Beinbeuger\"],\"equipment\":\"machine\",\"image\":\"Lying_Leg_Curls\"},\"calf_raise\":{\"name\":\"Calf Raise\",\"aliases\":[\"Wadenheben\"],\"equipment\":\"machine\",\"image\":\"Standing_Calf_Raises\"}},\"workouts\":[{\"id\":\"push\",\"name\":\"Push\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"bench_press\",\"sets\":5,\"reps\":5,\"weight_kg\":40,\"rest_s\":180,\"progression\":{\"type\":\"linear\",\"increment_kg\":2.5}},{\"type\":\"sets\",\"exercise\":\"overhead_press\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":25},{\"type\":\"sets\",\"exercise\":\"incline_db_press\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":14,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"circuit\",\"name\":\"Arms & Shoulders\",\"rounds\":3,\"rest_after_exercise_s\":30,\"rest_after_round_s\":60,\"exercises\":[{\"exercise\":\"triceps_pushdown\",\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":20},{\"exercise\":\"lateral_raise\",\"reps\":{\"min\":15,\"max\":20},\"weight_kg\":6,\"progression\":{\"type\":\"double\",\"increment_kg\":1}},{\"exercise\":\"overhead_triceps\",\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":15}]},{\"type\":\"cooldown\"}]},{\"id\":\"pull\",\"name\":\"Pull\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"deadlift\",\"sets\":1,\"reps\":5,\"weight_kg\":60,\"rest_s\":180,\"progression\":{\"type\":\"linear\",\"increment_kg\":5},\"note\":\"One heavy set, as clean as possible.\"},{\"type\":\"sets\",\"exercise\":\"lat_pulldown\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":35},{\"type\":\"sets\",\"exercise\":\"cable_row\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":35},{\"type\":\"sets\",\"exercise\":\"face_pull\",\"sets\":5,\"reps\":{\"min\":15,\"max\":20},\"weight_kg\":10,\"rest_s\":60},{\"type\":\"circuit\",\"name\":\"Biceps\",\"rounds\":4,\"rest_after_exercise_s\":30,\"rest_after_round_s\":60,\"exercises\":[{\"exercise\":\"hammer_curl\",\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":10,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"exercise\":\"db_curl\",\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":8,\"progression\":{\"type\":\"double\",\"increment_kg\":2}}]},{\"type\":\"cooldown\"}]},{\"id\":\"legs\",\"name\":\"Legs\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"back_squat\",\"sets\":3,\"reps\":5,\"weight_kg\":50,\"rest_s\":180,\"progression\":{\"type\":\"linear\",\"increment_kg\":2.5}},{\"type\":\"sets\",\"exercise\":\"romanian_deadlift\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":40,\"rest_s\":120},{\"type\":\"sets\",\"exercise\":\"leg_press\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":80,\"progression\":{\"type\":\"double\",\"increment_kg\":5}},{\"type\":\"sets\",\"exercise\":\"leg_curl\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":25},{\"type\":\"sets\",\"exercise\":\"calf_raise\",\"sets\":5,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":40,\"rest_s\":60,\"progression\":{\"type\":\"double\",\"increment_kg\":5}},{\"type\":\"cooldown\"}]}]},\"images\":{\"bench_press\":\"Barbell_Bench_Press_-_Medium_Grip\",\"overhead_press\":\"Standing_Military_Press\",\"incline_db_press\":\"Incline_Dumbbell_Press\",\"triceps_pushdown\":\"Triceps_Pushdown\",\"overhead_triceps\":\"Cable_Rope_Overhead_Triceps_Extension\",\"lateral_raise\":\"Side_Lateral_Raise\",\"deadlift\":\"Barbell_Deadlift\",\"lat_pulldown\":\"Wide-Grip_Lat_Pulldown\",\"cable_row\":\"Seated_Cable_Rows\",\"face_pull\":\"Face_Pull\",\"hammer_curl\":\"Hammer_Curls\",\"db_curl\":\"Dumbbell_Bicep_Curl\",\"back_squat\":\"Barbell_Squat\",\"romanian_deadlift\":\"Romanian_Deadlift\",\"leg_press\":\"Leg_Press\",\"leg_curl\":\"Lying_Leg_Curls\",\"calf_raise\":\"Standing_Calf_Raises\"}},{\"id\":\"kraft-6-ganzkoerper-studio\",\"group\":\"kraft\",\"plan\":{\"schema_version\":1,\"name\":\"Full Body 3 Days (Gym)\",\"description\":\"Three different full-body workouts (A, B, C), 3×/week with a day off in between, about 60 minutes. Barbell, dumbbells and machines. Every muscle group is trained in every session – good for beginners and anyone who can only train on three days.\",\"goal\":\"hypertrophy\",\"defaults\":{\"rest_s\":120,\"progression\":{\"type\":\"double\",\"increment_kg\":2.5}},\"exercises\":{\"back_squat\":{\"name\":\"Back Squat\",\"aliases\":[\"Kniebeuge\"],\"equipment\":\"barbell\",\"image\":\"Barbell_Squat\"},\"bench_press\":{\"name\":\"Bench Press\",\"aliases\":[\"Bankdrücken\"],\"equipment\":\"barbell\"},\"cable_row\":{\"name\":\"Seated Cable Row\",\"aliases\":[\"Rudern am Kabel\"],\"equipment\":\"cable\",\"image\":\"Seated_Cable_Rows\"},\"romanian_deadlift\":{\"name\":\"Romanian Deadlift\",\"aliases\":[\"Rumänisches Kreuzheben\"],\"equipment\":\"barbell\",\"image\":\"Romanian_Deadlift\"},\"lateral_raise\":{\"name\":\"Lateral Raise\",\"aliases\":[\"Seitheben\"],\"equipment\":\"dumbbell\",\"image\":\"Side_Lateral_Raise\"},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Unterarmstütz\"],\"equipment\":\"bodyweight\"},\"leg_press\":{\"name\":\"Leg Press\",\"aliases\":[\"Beinpresse\"],\"equipment\":\"machine\",\"image\":\"Leg_Press\"},\"incline_db_press\":{\"name\":\"Incline Dumbbell Press\",\"aliases\":[\"Schrägbankdrücken Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Incline_Dumbbell_Press\"},\"lat_pulldown\":{\"name\":\"Lat Pulldown\",\"aliases\":[\"Latziehen\"],\"equipment\":\"cable\",\"image\":\"Wide-Grip_Lat_Pulldown\"},\"leg_curl\":{\"name\":\"Leg Curl\",\"aliases\":[\"Beinbeuger\"],\"equipment\":\"machine\",\"image\":\"Lying_Leg_Curls\"},\"db_curl\":{\"name\":\"Dumbbell Curl\",\"aliases\":[\"Bizepscurls Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Dumbbell_Bicep_Curl\"},\"triceps_pushdown\":{\"name\":\"Triceps Pushdown\",\"aliases\":[\"Trizepsdrücken am Kabel\"],\"equipment\":\"cable\",\"image\":\"Triceps_Pushdown\"},\"split_squat\":{\"name\":\"Split Squat\",\"aliases\":[\"Ausfallschritt stehend\"],\"equipment\":\"dumbbell\",\"image\":\"Split_Squat_with_Dumbbells\",\"unilateral\":true},\"db_shoulder_press\":{\"name\":\"Dumbbell Shoulder Press\",\"aliases\":[\"Schulterdrücken Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Dumbbell_Shoulder_Press\"},\"dumbbell_row\":{\"name\":\"One-Arm Dumbbell Row\",\"aliases\":[\"Kurzhantelrudern einarmig\"],\"equipment\":\"dumbbell\",\"image\":\"One-Arm_Dumbbell_Row\",\"unilateral\":true},\"hip_thrust\":{\"name\":\"Hip Thrust\",\"equipment\":\"barbell\",\"image\":\"Barbell_Hip_Thrust\"},\"face_pull\":{\"name\":\"Face Pulls\",\"equipment\":\"cable\",\"image\":\"Face_Pull\"},\"calf_raise\":{\"name\":\"Calf Raise\",\"aliases\":[\"Wadenheben\"],\"equipment\":\"machine\",\"image\":\"Standing_Calf_Raises\"}},\"workouts\":[{\"id\":\"full_a\",\"name\":\"Full Body A\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"5 easy minutes, then 2 light warm-up sets of squats.\"},{\"type\":\"sets\",\"exercise\":\"back_squat\",\"sets\":3,\"reps\":{\"min\":6,\"max\":8},\"weight_kg\":40,\"rest_s\":150},{\"type\":\"sets\",\"exercise\":\"bench_press\",\"sets\":3,\"reps\":{\"min\":6,\"max\":8},\"weight_kg\":35,\"rest_s\":150},{\"type\":\"sets\",\"exercise\":\"cable_row\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":35},{\"type\":\"sets\",\"exercise\":\"lateral_raise\",\"sets\":2,\"reps\":{\"min\":12,\"max\":15},\"weight_kg\":5,\"rest_s\":60,\"progression\":{\"type\":\"double\",\"increment_kg\":1}},{\"type\":\"sets\",\"exercise\":\"plank\",\"sets\":2,\"duration_s\":{\"min\":30,\"max\":60},\"rest_s\":60},{\"type\":\"cooldown\"}]},{\"id\":\"full_b\",\"name\":\"Full Body B\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"leg_press\",\"sets\":3,\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":60},{\"type\":\"sets\",\"exercise\":\"incline_db_press\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":14,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"sets\",\"exercise\":\"lat_pulldown\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":35},{\"type\":\"sets\",\"exercise\":\"leg_curl\",\"sets\":3,\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":25},{\"type\":\"circuit\",\"name\":\"Arms\",\"rounds\":2,\"rest_after_exercise_s\":30,\"rest_after_round_s\":60,\"exercises\":[{\"exercise\":\"db_curl\",\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":8,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"exercise\":\"triceps_pushdown\",\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":15}]},{\"type\":\"cooldown\"}]},{\"id\":\"full_c\",\"name\":\"Full Body C\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"romanian_deadlift\",\"sets\":3,\"reps\":{\"min\":8,\"max\":10},\"weight_kg\":40,\"rest_s\":150},{\"type\":\"sets\",\"exercise\":\"db_shoulder_press\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":12,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"sets\",\"exercise\":\"dumbbell_row\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":16,\"per_side\":true,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"sets\",\"exercise\":\"split_squat\",\"sets\":2,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":10,\"per_side\":true,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"sets\",\"exercise\":\"hip_thrust\",\"sets\":2,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":40},{\"type\":\"circuit\",\"name\":\"Shoulders & Calves\",\"rounds\":2,\"rest_after_exercise_s\":30,\"rest_after_round_s\":60,\"exercises\":[{\"exercise\":\"face_pull\",\"reps\":{\"min\":12,\"max\":15},\"weight_kg\":15},{\"exercise\":\"calf_raise\",\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":40}]},{\"type\":\"cooldown\"}]}]},\"images\":{\"back_squat\":\"Barbell_Squat\",\"bench_press\":\"Barbell_Bench_Press_-_Medium_Grip\",\"cable_row\":\"Seated_Cable_Rows\",\"romanian_deadlift\":\"Romanian_Deadlift\",\"lateral_raise\":\"Side_Lateral_Raise\",\"plank\":\"Plank\",\"leg_press\":\"Leg_Press\",\"incline_db_press\":\"Incline_Dumbbell_Press\",\"lat_pulldown\":\"Wide-Grip_Lat_Pulldown\",\"leg_curl\":\"Lying_Leg_Curls\",\"db_curl\":\"Dumbbell_Bicep_Curl\",\"triceps_pushdown\":\"Triceps_Pushdown\",\"split_squat\":\"Split_Squat_with_Dumbbells\",\"db_shoulder_press\":\"Dumbbell_Shoulder_Press\",\"dumbbell_row\":\"One-Arm_Dumbbell_Row\",\"hip_thrust\":\"Barbell_Hip_Thrust\",\"face_pull\":\"Face_Pull\",\"calf_raise\":\"Standing_Calf_Raises\"}},{\"id\":\"kraft-7-minimal-2-tage\",\"group\":\"kraft\",\"plan\":{\"schema_version\":1,\"name\":\"Minimal Strength 2 Days\",\"description\":\"For little time: two short full-body workouts (~30 min), 2×/week, mostly machines and dumbbells. Only 1–2 sets per exercise – but each one hard, 1–2 reps short of failure. A proven minimum dose for strength and health.\",\"goal\":\"strength\",\"defaults\":{\"rest_s\":120,\"progression\":{\"type\":\"double\",\"increment_kg\":2.5}},\"exercises\":{\"leg_press\":{\"name\":\"Leg Press\",\"aliases\":[\"Beinpresse\"],\"equipment\":\"machine\",\"image\":\"Leg_Press\"},\"chest_press\":{\"name\":\"Machine Chest Press\",\"aliases\":[\"Brustpresse\"],\"equipment\":\"machine\",\"image\":\"Machine_Bench_Press\"},\"lat_pulldown\":{\"name\":\"Lat Pulldown\",\"aliases\":[\"Latziehen\"],\"equipment\":\"cable\",\"image\":\"Wide-Grip_Lat_Pulldown\"},\"leg_curl\":{\"name\":\"Leg Curl\",\"aliases\":[\"Beinbeuger\"],\"equipment\":\"machine\",\"image\":\"Lying_Leg_Curls\"},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Unterarmstütz\"],\"equipment\":\"bodyweight\"},\"goblet_squat\":{\"name\":\"Goblet Squat\",\"equipment\":\"dumbbell\"},\"db_shoulder_press\":{\"name\":\"Dumbbell Shoulder Press\",\"aliases\":[\"Schulterdrücken Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Dumbbell_Shoulder_Press\"},\"cable_row\":{\"name\":\"Seated Cable Row\",\"aliases\":[\"Rudern am Kabel\"],\"equipment\":\"cable\",\"image\":\"Seated_Cable_Rows\"},\"romanian_deadlift\":{\"name\":\"Romanian Deadlift\",\"aliases\":[\"Rumänisches Kreuzheben\"],\"equipment\":\"barbell\",\"image\":\"Romanian_Deadlift\"},\"side_plank\":{\"name\":\"Side Plank\",\"aliases\":[\"Seitstütz\"],\"equipment\":\"bodyweight\",\"image\":\"Side_Bridge\",\"unilateral\":true}},\"workouts\":[{\"id\":\"minimal_a\",\"name\":\"Workout A\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"5 easy minutes, then one light set of the first exercise.\"},{\"type\":\"sets\",\"exercise\":\"leg_press\",\"sets\":2,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":60,\"note\":\"Stop 1–2 reps before failure.\"},{\"type\":\"sets\",\"exercise\":\"chest_press\",\"sets\":2,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":30},{\"type\":\"sets\",\"exercise\":\"lat_pulldown\",\"sets\":2,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":35},{\"type\":\"sets\",\"exercise\":\"leg_curl\",\"sets\":1,\"reps\":{\"min\":10,\"max\":15},\"weight_kg\":25},{\"type\":\"sets\",\"exercise\":\"plank\",\"sets\":1,\"duration_s\":{\"min\":30,\"max\":60}},{\"type\":\"cooldown\"}]},{\"id\":\"minimal_b\",\"name\":\"Workout B\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"5 easy minutes, then one light set of the first exercise.\"},{\"type\":\"sets\",\"exercise\":\"goblet_squat\",\"sets\":2,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":16,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"sets\",\"exercise\":\"db_shoulder_press\",\"sets\":2,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":10,\"progression\":{\"type\":\"double\",\"increment_kg\":2}},{\"type\":\"sets\",\"exercise\":\"cable_row\",\"sets\":2,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":35},{\"type\":\"sets\",\"exercise\":\"romanian_deadlift\",\"sets\":1,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":30},{\"type\":\"sets\",\"exercise\":\"side_plank\",\"sets\":1,\"duration_s\":{\"min\":20,\"max\":45},\"per_side\":true},{\"type\":\"cooldown\"}]}]},\"images\":{\"leg_press\":\"Leg_Press\",\"chest_press\":\"Machine_Bench_Press\",\"lat_pulldown\":\"Wide-Grip_Lat_Pulldown\",\"leg_curl\":\"Lying_Leg_Curls\",\"plank\":\"Plank\",\"goblet_squat\":\"Goblet_Squat\",\"db_shoulder_press\":\"Dumbbell_Shoulder_Press\",\"cable_row\":\"Seated_Cable_Rows\",\"romanian_deadlift\":\"Romanian_Deadlift\",\"side_plank\":\"Side_Bridge\"}},{\"id\":\"bodyweight-1-7-minuten-zirkel\",\"group\":\"bodyweight\",\"plan\":{\"schema_version\":1,\"name\":\"7-Minute Circuit\",\"description\":\"The scientifically described classic (Klika & Jordan, ACSM 2013) – 12 exercises of 30 s (side plank on both sides), 5 s to switch, 7 minutes per round, two rounds. Only a chair and a wall needed. Timed, beeps recommended.\",\"goal\":\"endurance\",\"exercises\":{\"jumping_jack\":{\"name\":\"Jumping Jacks\",\"aliases\":[\"Hampelmann\"],\"equipment\":\"bodyweight\",\"image\":false},\"wall_sit\":{\"name\":\"Wall Sit\",\"aliases\":[\"Wandsitzen\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\",\"glutes\"]},\"push_up\":{\"name\":\"Push-Ups\",\"aliases\":[\"Liegestütze\"],\"equipment\":\"bodyweight\",\"image\":\"Pushups\"},\"crunch\":{\"name\":\"Crunches\",\"equipment\":\"bodyweight\"},\"step_up\":{\"name\":\"Step-up onto Chair\",\"aliases\":[\"Aufsteigen auf Stuhl\"],\"equipment\":\"bodyweight\",\"image\":\"Dumbbell_Step_Ups\",\"unilateral\":true},\"squat\":{\"name\":\"Bodyweight Squat\",\"aliases\":[\"Kniebeugen\"],\"equipment\":\"bodyweight\",\"image\":\"Bodyweight_Squat\"},\"chair_dip\":{\"name\":\"Triceps Dips on Chair\",\"aliases\":[\"Trizeps-Dips am Stuhl\",\"Bench Dips\"],\"equipment\":\"bodyweight\",\"image\":\"Bench_Dips\"},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Unterarmstütz\"],\"equipment\":\"bodyweight\"},\"high_knees\":{\"name\":\"High Knees\",\"aliases\":[\"Kniehebelauf auf der Stelle\"],\"equipment\":\"bodyweight\",\"image\":false},\"lunge\":{\"name\":\"Lunges\",\"aliases\":[\"Ausfallschritte\"],\"equipment\":\"bodyweight\",\"image\":\"Bodyweight_Walking_Lunge\",\"unilateral\":true},\"push_up_rotation\":{\"name\":\"Push-up with Rotation\",\"aliases\":[\"Liegestütz mit Drehung\"],\"equipment\":\"bodyweight\",\"image\":\"Push_Up_to_Side_Plank\"},\"side_plank_left\":{\"name\":\"Side Plank, Left\",\"aliases\":[\"Seitstütz links\",\"Side Plank\"],\"equipment\":\"bodyweight\",\"image\":\"Side_Bridge\",\"muscles\":[\"core\"]},\"side_plank_right\":{\"name\":\"Side Plank, Right\",\"aliases\":[\"Seitstütz rechts\",\"Side Plank\"],\"equipment\":\"bodyweight\",\"image\":\"Side_Bridge\",\"muscles\":[\"core\"]}},\"workouts\":[{\"id\":\"seven\",\"name\":\"7-Minute Circuit (2 rounds)\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"Move around easily for 2–3 minutes.\"},{\"type\":\"interval\",\"name\":\"Round 1\",\"rounds\":13,\"work_s\":30,\"rest_s\":5,\"rest_after_s\":60,\"exercises\":[\"jumping_jack\",\"wall_sit\",\"push_up\",\"crunch\",\"step_up\",\"squat\",\"chair_dip\",\"plank\",\"high_knees\",\"lunge\",\"push_up_rotation\",\"side_plank_left\",\"side_plank_right\"]},{\"type\":\"interval\",\"name\":\"Round 2\",\"rounds\":13,\"work_s\":30,\"rest_s\":5,\"note\":\"Add a third round if you like.\",\"exercises\":[\"jumping_jack\",\"wall_sit\",\"push_up\",\"crunch\",\"step_up\",\"squat\",\"chair_dip\",\"plank\",\"high_knees\",\"lunge\",\"push_up_rotation\",\"side_plank_left\",\"side_plank_right\"]},{\"type\":\"cooldown\"}]}]},\"images\":{\"jumping_jack\":null,\"wall_sit\":null,\"push_up\":\"Pushups\",\"crunch\":\"Crunches\",\"step_up\":\"Dumbbell_Step_Ups\",\"squat\":\"Bodyweight_Squat\",\"chair_dip\":\"Bench_Dips\",\"plank\":\"Plank\",\"high_knees\":null,\"lunge\":\"Bodyweight_Walking_Lunge\",\"push_up_rotation\":\"Push_Up_to_Side_Plank\",\"side_plank_left\":\"Side_Bridge\",\"side_plank_right\":\"Side_Bridge\"}},{\"id\":\"bodyweight-2-ganzkoerper-kraft\",\"group\":\"bodyweight\",\"plan\":{\"schema_version\":1,\"name\":\"Full-Body Strength, No Equipment\",\"description\":\"Two alternating strength workouts, 3×/week, only a chair and sofa. Reps increase from session to session; at the upper limit switch to the harder variation (hint on the exercise).\",\"goal\":\"hypertrophy\",\"defaults\":{\"rest_s\":75,\"progression\":{\"type\":\"reps\"}},\"exercises\":{\"squat\":{\"name\":\"Bodyweight Squat\",\"aliases\":[\"Kniebeugen\"],\"equipment\":\"bodyweight\",\"image\":\"Bodyweight_Squat\",\"note\":\"Harder – lower slowly (3 s), pause at the bottom, then split squat.\"},\"push_up\":{\"name\":\"Push-Ups\",\"aliases\":[\"Liegestütze\"],\"equipment\":\"bodyweight\",\"image\":\"Pushups\",\"note\":\"Levels – elevated → floor → feet elevated → archer.\"},\"reverse_lunge\":{\"name\":\"Reverse Lunge\",\"aliases\":[\"Ausfallschritt rückwärts\"],\"equipment\":\"bodyweight\",\"image\":\"Crossover_Reverse_Lunge\",\"unilateral\":true},\"pike_push_up\":{\"name\":\"Pike Push-up\",\"aliases\":[\"Pike-Liegestütze\"],\"equipment\":\"bodyweight\",\"image\":\"Handstand_Push-Ups\",\"note\":\"Hips high, head towards the floor – trains the shoulders.\"},\"single_leg_glute_bridge\":{\"name\":\"Single-Leg Glute Bridge\",\"aliases\":[\"Hüftheben einbeinig\"],\"equipment\":\"bodyweight\",\"unilateral\":true},\"superman\":{\"name\":\"Superman\",\"aliases\":[\"Rückenstrecker liegend\"],\"equipment\":\"bodyweight\"},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Unterarmstütz\"],\"equipment\":\"bodyweight\"},\"bulgarian_split_squat\":{\"name\":\"Bulgarian Split Squat on Sofa\",\"aliases\":[\"Bulgarische Kniebeuge am Sofa\",\"Bulgarian Split Squat\"],\"equipment\":\"bodyweight\",\"image\":\"Split_Squat_with_Dumbbells\",\"unilateral\":true},\"decline_push_up\":{\"name\":\"Decline Push-up (Feet on Chair)\",\"aliases\":[\"Liegestütze Füße auf Stuhl\",\"Decline Push-up\"],\"equipment\":\"bodyweight\",\"image\":\"Push-Ups_With_Feet_Elevated\"},\"step_up\":{\"name\":\"Step-up onto Chair\",\"aliases\":[\"Aufsteigen auf Stuhl\"],\"equipment\":\"bodyweight\",\"image\":\"Dumbbell_Step_Ups\",\"unilateral\":true},\"chair_dip\":{\"name\":\"Triceps Dips on Chair\",\"aliases\":[\"Trizeps-Dips am Stuhl\",\"Bench Dips\"],\"equipment\":\"bodyweight\",\"image\":\"Bench_Dips\"},\"hip_thrust\":{\"name\":\"Hip Thrust on Sofa\",\"aliases\":[\"Hip Thrust am Sofa\",\"Bodyweight Hip Thrust\"],\"equipment\":\"bodyweight\",\"image\":\"Barbell_Hip_Thrust\"},\"dead_bug\":{\"name\":\"Dead Bug\",\"equipment\":\"bodyweight\",\"unilateral\":true},\"side_plank\":{\"name\":\"Side Plank\",\"aliases\":[\"Seitstütz\"],\"equipment\":\"bodyweight\",\"image\":\"Side_Bridge\",\"unilateral\":true}},\"workouts\":[{\"id\":\"a\",\"name\":\"Full Body A\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"circuit\",\"name\":\"Strength Circuit A\",\"rounds\":3,\"rest_after_exercise_s\":30,\"rest_after_round_s\":90,\"exercises\":[{\"exercise\":\"squat\",\"reps\":{\"min\":15,\"max\":30}},{\"exercise\":\"push_up\",\"reps\":{\"min\":8,\"max\":20}},{\"exercise\":\"reverse_lunge\",\"reps\":{\"min\":8,\"max\":15},\"per_side\":true},{\"exercise\":\"pike_push_up\",\"reps\":{\"min\":6,\"max\":12}},{\"exercise\":\"single_leg_glute_bridge\",\"reps\":{\"min\":10,\"max\":20},\"per_side\":true},{\"exercise\":\"superman\",\"reps\":{\"min\":10,\"max\":15}},{\"exercise\":\"plank\",\"duration_s\":{\"min\":30,\"max\":60}}]},{\"type\":\"cooldown\"}]},{\"id\":\"b\",\"name\":\"Full Body B\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"circuit\",\"name\":\"Strength Circuit B\",\"rounds\":3,\"rest_after_exercise_s\":30,\"rest_after_round_s\":90,\"exercises\":[{\"exercise\":\"bulgarian_split_squat\",\"reps\":{\"min\":8,\"max\":15},\"per_side\":true},{\"exercise\":\"decline_push_up\",\"reps\":{\"min\":6,\"max\":15}},{\"exercise\":\"step_up\",\"reps\":{\"min\":10,\"max\":15},\"per_side\":true},{\"exercise\":\"chair_dip\",\"reps\":{\"min\":8,\"max\":15}},{\"exercise\":\"hip_thrust\",\"reps\":{\"min\":12,\"max\":25}},{\"exercise\":\"dead_bug\",\"reps\":{\"min\":8,\"max\":12},\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":{\"min\":20,\"max\":45},\"per_side\":true}]},{\"type\":\"cooldown\"}]}]},\"images\":{\"squat\":\"Bodyweight_Squat\",\"push_up\":\"Pushups\",\"reverse_lunge\":\"Crossover_Reverse_Lunge\",\"pike_push_up\":\"Handstand_Push-Ups\",\"single_leg_glute_bridge\":\"Single_Leg_Glute_Bridge\",\"superman\":\"Superman\",\"plank\":\"Plank\",\"bulgarian_split_squat\":\"Split_Squat_with_Dumbbells\",\"decline_push_up\":\"Push-Ups_With_Feet_Elevated\",\"step_up\":\"Dumbbell_Step_Ups\",\"chair_dip\":\"Bench_Dips\",\"hip_thrust\":\"Barbell_Hip_Thrust\",\"dead_bug\":\"Dead_Bug\",\"side_plank\":\"Side_Bridge\"}},{\"id\":\"bodyweight-3-20-minuten-unterwegs\",\"group\":\"bodyweight\",\"plan\":{\"schema_version\":1,\"name\":\"20-Minute Travel Circuit\",\"description\":\"No equipment, 2 m² of space – as many rounds as possible in 20 minutes of squats, push-ups, lunges, mountain climbers and plank. Ideal for hotels and vacations.\",\"goal\":\"general\",\"defaults\":{\"progression\":{\"type\":\"none\"}},\"exercises\":{\"squat\":{\"name\":\"Bodyweight Squat\",\"aliases\":[\"Kniebeugen\"],\"equipment\":\"bodyweight\",\"image\":\"Bodyweight_Squat\"},\"push_up\":{\"name\":\"Push-Ups\",\"aliases\":[\"Liegestütze\"],\"equipment\":\"bodyweight\",\"image\":\"Pushups\"},\"lunge\":{\"name\":\"Alternating Lunges\",\"aliases\":[\"Ausfallschritte im Wechsel\"],\"equipment\":\"bodyweight\",\"image\":\"Bodyweight_Walking_Lunge\",\"unilateral\":true},\"mountain_climber\":{\"name\":\"Mountain Climbers\",\"equipment\":\"bodyweight\"},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Unterarmstütz\"],\"equipment\":\"bodyweight\"}},\"workouts\":[{\"id\":\"amrap\",\"name\":\"20 Minutes – As Many Rounds as Possible\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"3 minutes: jumping jacks, arm circles, slow squats.\"},{\"type\":\"circuit\",\"name\":\"Circuit\",\"time_cap_s\":1200,\"rest_after_exercise_s\":0,\"rest_after_round_s\":0,\"note\":\"Keep moving, rest only when needed. Goal – more rounds than last time.\",\"exercises\":[{\"exercise\":\"squat\",\"reps\":15},{\"exercise\":\"push_up\",\"reps\":10},{\"exercise\":\"lunge\",\"reps\":10,\"per_side\":true},{\"exercise\":\"mountain_climber\",\"reps\":20},{\"exercise\":\"plank\",\"duration_s\":30}]},{\"type\":\"cooldown\"}]}]},\"images\":{\"squat\":\"Bodyweight_Squat\",\"push_up\":\"Pushups\",\"lunge\":\"Bodyweight_Walking_Lunge\",\"mountain_climber\":\"Mountain_Climbers\",\"plank\":\"Plank\"}},{\"id\":\"bodyweight-4-exercise-snacks\",\"group\":\"bodyweight\",\"plan\":{\"schema_version\":1,\"name\":\"Exercise Snacks\",\"description\":\"Three mini workouts of 2–5 minutes – stairs, legs, upper body. No changing, no equipment: do one or more of them spread over the day, e.g. before lunch or after long sitting. Ideal for days without time for a real workout.\",\"goal\":\"general\",\"defaults\":{\"rest_s\":30,\"progression\":{\"type\":\"reps\",\"increment\":1}},\"exercises\":{\"stair_climb\":{\"name\":\"Stair Climbing (brisk)\",\"aliases\":[\"Treppensteigen zügig\"],\"equipment\":\"bodyweight\",\"image\":\"Stairmaster\",\"muscles\":[\"quads\",\"glutes\"]},\"bodyweight_squat\":{\"name\":\"Bodyweight Squat\",\"aliases\":[\"Kniebeugen\",\"Air Squat\"],\"equipment\":\"bodyweight\",\"image\":\"Bodyweight_Squat\"},\"reverse_lunge\":{\"name\":\"Reverse Lunge\",\"aliases\":[\"Ausfallschritt rückwärts\"],\"equipment\":\"bodyweight\",\"image\":\"Crossover_Reverse_Lunge\",\"unilateral\":true},\"calf_raise\":{\"name\":\"Calf Raise\",\"aliases\":[\"Wadenheben\"],\"equipment\":\"bodyweight\",\"image\":\"Standing_Calf_Raises\"},\"incline_push_up\":{\"name\":\"Incline Push-Up\",\"aliases\":[\"Liegestütze erhöht\"],\"equipment\":\"bodyweight\",\"image\":\"Incline_Push-Up\",\"note\":\"Hands on a table or windowsill.\"},\"superman\":{\"name\":\"Superman\",\"aliases\":[\"Rückenstrecker liegend\"],\"equipment\":\"bodyweight\",\"image\":\"Superman\"},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Unterarmstütz\"],\"equipment\":\"bodyweight\"}},\"workouts\":[{\"id\":\"stairs\",\"name\":\"Stair Snack\",\"blocks\":[{\"type\":\"interval\",\"name\":\"Stairs\",\"rounds\":3,\"work_s\":20,\"rest_s\":60,\"note\":\"Climb briskly, two steps at a time if you can – walk back down in the rest.\",\"exercises\":[\"stair_climb\"]}]},{\"id\":\"legs\",\"name\":\"Leg Snack\",\"blocks\":[{\"type\":\"circuit\",\"name\":\"Legs\",\"rounds\":2,\"rest_after_exercise_s\":0,\"rest_after_round_s\":30,\"exercises\":[{\"exercise\":\"bodyweight_squat\",\"reps\":{\"min\":10,\"max\":20}},{\"exercise\":\"reverse_lunge\",\"reps\":{\"min\":6,\"max\":12},\"per_side\":true},{\"exercise\":\"calf_raise\",\"reps\":{\"min\":15,\"max\":25}}]}]},{\"id\":\"upper\",\"name\":\"Upper Body Snack\",\"blocks\":[{\"type\":\"circuit\",\"name\":\"Upper Body\",\"rounds\":2,\"rest_after_exercise_s\":0,\"rest_after_round_s\":30,\"exercises\":[{\"exercise\":\"incline_push_up\",\"reps\":{\"min\":8,\"max\":15}},{\"exercise\":\"superman\",\"reps\":{\"min\":8,\"max\":15}},{\"exercise\":\"plank\",\"duration_s\":30,\"progression\":{\"type\":\"none\"}}]}]}]},\"images\":{\"stair_climb\":\"Stairmaster\",\"bodyweight_squat\":\"Bodyweight_Squat\",\"reverse_lunge\":\"Crossover_Reverse_Lunge\",\"calf_raise\":\"Standing_Calf_Raises\",\"incline_push_up\":\"Incline_Push-Up\",\"superman\":\"Superman\",\"plank\":\"Plank\"}},{\"id\":\"bodyweight-5-balance-beinkraft\",\"group\":\"bodyweight\",\"plan\":{\"schema_version\":1,\"name\":\"Balance & Leg Strength\",\"description\":\"About 30 minutes, 3×/week: chair stands, calf and toe raises, side leg raises, then balance exercises on a timer. Always stand next to a sturdy chair or worktop. Inspired by the Otago Exercise Programme for fall prevention.\",\"goal\":\"general\",\"defaults\":{\"rest_s\":60,\"progression\":{\"type\":\"reps\",\"increment\":1,\"max_reps\":15}},\"exercises\":{\"sit_to_stand\":{\"name\":\"Sit to Stand\",\"aliases\":[\"Aufstehen vom Stuhl\"],\"equipment\":\"bodyweight\",\"image\":\"Chair_Squat\",\"note\":\"Arms crossed – use your hands only if you need to.\"},\"calf_raise\":{\"name\":\"Calf Raise\",\"aliases\":[\"Wadenheben\"],\"equipment\":\"bodyweight\",\"image\":\"Standing_Calf_Raises\"},\"toe_raise\":{\"name\":\"Toe Raise\",\"aliases\":[\"Zehenheben\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]},\"side_leg_raise\":{\"name\":\"Standing Side Leg Raise\",\"aliases\":[\"Bein seitlich heben im Stand\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"glutes\"],\"unilateral\":true},\"knee_extension\":{\"name\":\"Seated Knee Extension\",\"aliases\":[\"Knie strecken im Sitzen\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\"],\"unilateral\":true},\"standing_knee_curl\":{\"name\":\"Standing Knee Curl\",\"aliases\":[\"Knie beugen im Stand\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"hamstrings\"],\"unilateral\":true},\"tandem_stand\":{\"name\":\"Tandem Stand\",\"aliases\":[\"Fuß vor Fuß stehen\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[],\"unilateral\":true},\"single_leg_stand\":{\"name\":\"Single-Leg Stand\",\"aliases\":[\"Einbeinstand\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[],\"unilateral\":true},\"heel_toe_walk\":{\"name\":\"Heel-to-Toe Walk\",\"aliases\":[\"Seiltänzergang\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]},\"backwards_walk\":{\"name\":\"Walking Backwards\",\"aliases\":[\"Rückwärtsgehen\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]},\"sideways_walk\":{\"name\":\"Sideways Walk\",\"aliases\":[\"Seitwärtsgehen\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]}},\"workouts\":[{\"id\":\"balance\",\"name\":\"Strength & Balance\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"March on the spot, circle your shoulders and ankles, turn your head slowly – holding on to the chair.\"},{\"type\":\"sets\",\"exercise\":\"sit_to_stand\",\"sets\":2,\"reps\":{\"min\":5,\"max\":15}},{\"type\":\"circuit\",\"name\":\"Legs\",\"rounds\":2,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold on to the chair. Move slowly – about 3 seconds up and 3 seconds down.\",\"exercises\":[{\"exercise\":\"calf_raise\",\"reps\":{\"min\":8,\"max\":15}},{\"exercise\":\"toe_raise\",\"reps\":{\"min\":8,\"max\":15}},{\"exercise\":\"side_leg_raise\",\"reps\":{\"min\":8,\"max\":15},\"per_side\":true},{\"exercise\":\"knee_extension\",\"reps\":{\"min\":8,\"max\":15},\"per_side\":true},{\"exercise\":\"standing_knee_curl\",\"reps\":{\"min\":8,\"max\":15},\"per_side\":true}]},{\"type\":\"flow\",\"name\":\"Balance\",\"rounds\":2,\"rest_s\":5,\"rest_after_round_s\":30,\"note\":\"Stay next to the chair. Easier: hold on with both hands. Harder: one hand, then fingertips, then no hands.\",\"exercises\":[{\"exercise\":\"tandem_stand\",\"duration_s\":20,\"per_side\":true},{\"exercise\":\"single_leg_stand\",\"duration_s\":20,\"per_side\":true},{\"exercise\":\"heel_toe_walk\",\"duration_s\":30},{\"exercise\":\"backwards_walk\",\"duration_s\":30},{\"exercise\":\"sideways_walk\",\"duration_s\":30}]},{\"type\":\"cooldown\",\"note\":\"Walk around calmly for a few minutes.\"}]}]},\"images\":{\"sit_to_stand\":\"Chair_Squat\",\"calf_raise\":\"Standing_Calf_Raises\",\"toe_raise\":null,\"side_leg_raise\":null,\"knee_extension\":null,\"standing_knee_curl\":null,\"tandem_stand\":null,\"single_leg_stand\":null,\"heel_toe_walk\":null,\"backwards_walk\":null,\"sideways_walk\":null}},{\"id\":\"bodyweight-6-rumpf-trio\",\"group\":\"bodyweight\",\"plan\":{\"schema_version\":1,\"name\":\"Core Stability Trio\",\"description\":\"Three back-friendly core exercises in about 10 minutes – daily or as a warm-up before strength training. Short holds of about 10 seconds, three rounds with fewer reps each time. Inspired by Stuart McGill's \\\"Big 3\\\".\",\"goal\":\"general\",\"defaults\":{\"rest_s\":30,\"progression\":{\"type\":\"none\"}},\"exercises\":{\"curl_up\":{\"name\":\"McGill Curl-Up\",\"aliases\":[\"Curl-up\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"core\"],\"note\":\"One leg bent, hands under the lower back. Lift head and shoulders only slightly.\"},\"side_plank\":{\"name\":\"Side Plank\",\"aliases\":[\"Seitstütz\"],\"equipment\":\"bodyweight\",\"image\":\"Side_Bridge\",\"unilateral\":true},\"bird_dog\":{\"name\":\"Bird Dog\",\"aliases\":[\"Vierfüßlerstand diagonal\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"core\",\"glutes\",\"back\"],\"unilateral\":true}},\"workouts\":[{\"id\":\"trio\",\"name\":\"Core Trio\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":120,\"note\":\"Cat-cow on all fours and a few easy steps.\"},{\"type\":\"circuit\",\"name\":\"Round 1\",\"rounds\":1,\"rest_after_exercise_s\":20,\"rest_after_s\":30,\"note\":\"Hold every rep for about 10 seconds – then relax briefly.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":6},{\"exercise\":\"side_plank\",\"reps\":6,\"per_side\":true,\"note\":\"Knees bent is fine.\"},{\"exercise\":\"bird_dog\",\"reps\":6,\"per_side\":true}]},{\"type\":\"circuit\",\"name\":\"Round 2\",\"rounds\":1,\"rest_after_exercise_s\":20,\"rest_after_s\":30,\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":4},{\"exercise\":\"side_plank\",\"reps\":4,\"per_side\":true},{\"exercise\":\"bird_dog\",\"reps\":4,\"per_side\":true}]},{\"type\":\"circuit\",\"name\":\"Round 3\",\"rounds\":1,\"rest_after_exercise_s\":20,\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":2},{\"exercise\":\"side_plank\",\"reps\":2,\"per_side\":true},{\"exercise\":\"bird_dog\",\"reps\":2,\"per_side\":true}]}]}]},\"images\":{\"curl_up\":null,\"side_plank\":\"Side_Bridge\",\"bird_dog\":null}},{\"id\":\"calisthenics-1-stufe-0-einstieg\",\"group\":\"calisthenics\",\"plan\":{\"schema_version\":1,\"name\":\"Calisthenics Level 0 (Starter)\",\"description\":\"Getting started without prior experience, 3×/week: incline push-ups, rows at a table/bar, squats, glute bridges, pull-up prep and plank. Reps increase from session to session; at the upper limit the next variation follows.\",\"goal\":\"general\",\"defaults\":{\"rest_s\":60,\"progression\":{\"type\":\"reps\"}},\"exercises\":{\"incline_push_up\":{\"name\":\"Incline Push-Up\",\"aliases\":[\"Liegestütze erhöht\"],\"equipment\":\"bodyweight\",\"image\":\"Incline_Push-Up\",\"note\":\"Hands on a table or bench. Next level – lower incline, then on the floor.\"},\"inverted_row\":{\"name\":\"Inverted Row\",\"aliases\":[\"Rudern an der Stange\",\"Australian Pull-up\"],\"equipment\":\"bodyweight\",\"note\":\"The more upright the body, the easier. Next level – body flatter.\"},\"bodyweight_squat\":{\"name\":\"Bodyweight Squat\",\"aliases\":[\"Kniebeugen\",\"Air Squat\"],\"equipment\":\"bodyweight\",\"image\":\"Bodyweight_Squat\"},\"glute_bridge\":{\"name\":\"Glute Bridge\",\"aliases\":[\"Hüftheben\"],\"equipment\":\"bodyweight\",\"image\":\"Butt_Lift_Bridge\"},\"scapular_pull_up\":{\"name\":\"Scapular Pull-up\",\"aliases\":[\"Schulterblatt-Klimmzüge\"],\"equipment\":\"bodyweight\",\"image\":\"Scapular_Pull-Up\",\"note\":\"Arms straight, only pull the shoulder blades down.\"},\"negative_pull_up\":{\"name\":\"Pull-up Negative\",\"aliases\":[\"Negative Klimmzüge\"],\"equipment\":\"bodyweight\",\"image\":\"Pullups\",\"note\":\"Jump up, then lower yourself under control for 3–5 seconds.\"},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Unterarmstütz\"],\"equipment\":\"bodyweight\"}},\"workouts\":[{\"id\":\"a\",\"name\":\"Starter A\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"Arm circles, hip circles, 10 easy squats.\"},{\"type\":\"circuit\",\"name\":\"Circuit\",\"rounds\":3,\"rest_after_exercise_s\":45,\"rest_after_round_s\":90,\"exercises\":[{\"exercise\":\"incline_push_up\",\"reps\":{\"min\":5,\"max\":15}},{\"exercise\":\"bodyweight_squat\",\"reps\":{\"min\":10,\"max\":20}},{\"exercise\":\"inverted_row\",\"reps\":{\"min\":5,\"max\":15}},{\"exercise\":\"glute_bridge\",\"reps\":{\"min\":10,\"max\":20}},{\"exercise\":\"plank\",\"duration_s\":{\"min\":20,\"max\":60}}]},{\"type\":\"cooldown\"}]},{\"id\":\"b\",\"name\":\"Starter B\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"Arm circles, hip circles, 10 easy squats.\"},{\"type\":\"sets\",\"exercise\":\"scapular_pull_up\",\"sets\":3,\"reps\":{\"min\":5,\"max\":10}},{\"type\":\"sets\",\"exercise\":\"negative_pull_up\",\"sets\":3,\"reps\":{\"min\":3,\"max\":6},\"rest_s\":90},{\"type\":\"circuit\",\"name\":\"Circuit\",\"rounds\":3,\"rest_after_exercise_s\":45,\"rest_after_round_s\":90,\"exercises\":[{\"exercise\":\"incline_push_up\",\"reps\":{\"min\":5,\"max\":15}},{\"exercise\":\"bodyweight_squat\",\"reps\":{\"min\":10,\"max\":20}},{\"exercise\":\"plank\",\"duration_s\":{\"min\":20,\"max\":60}}]},{\"type\":\"cooldown\"}]}]},\"images\":{\"incline_push_up\":\"Incline_Push-Up\",\"inverted_row\":\"Inverted_Row\",\"bodyweight_squat\":\"Bodyweight_Squat\",\"glute_bridge\":\"Butt_Lift_Bridge\",\"scapular_pull_up\":\"Scapular_Pull-Up\",\"negative_pull_up\":\"Pullups\",\"plank\":\"Plank\"}},{\"id\":\"calisthenics-2-grundlagen\",\"group\":\"calisthenics\",\"plan\":{\"schema_version\":1,\"name\":\"Calisthenics Basics\",\"description\":\"Full body 3×/week in pairs: pull-up + squat, dip + hinge, row + push-up, then a core triplet. 5–8 reps; at the upper limit switch to the next level. Inspired by the r/bodyweightfitness Recommended Routine.\",\"goal\":\"hypertrophy\",\"defaults\":{\"rest_s\":90,\"progression\":{\"type\":\"reps\"}},\"exercises\":{\"pull_up\":{\"name\":\"Pull-up (choose level)\",\"aliases\":[\"Klimmzug\"],\"equipment\":\"bodyweight\",\"image\":\"Pullups\",\"note\":\"Levels – negative pull-ups → band-assisted → pull-up → weighted.\"},\"squat_progression\":{\"name\":\"Squat Progression\",\"aliases\":[\"Kniebeuge-Progression\"],\"equipment\":\"bodyweight\",\"image\":\"Split_Squats\",\"note\":\"Levels – squat → split squat → Bulgarian split squat → shrimp/pistol.\"},\"dip\":{\"name\":\"Dips (choose level)\",\"aliases\":[\"Dips\"],\"equipment\":\"bodyweight\",\"image\":\"Parallel_Bar_Dip\",\"note\":\"Levels – support hold → negative dips → parallel bar dips → weighted.\"},\"hinge_progression\":{\"name\":\"Hinge Progression\",\"aliases\":[\"Hüftstrecker-Progression\"],\"equipment\":\"bodyweight\",\"image\":\"Single_Leg_Glute_Bridge\",\"note\":\"Levels – glute bridge → single-leg → Nordic curl negative → Nordic curl.\"},\"row\":{\"name\":\"Inverted Row\",\"aliases\":[\"Rudern an der Stange\"],\"equipment\":\"bodyweight\",\"note\":\"Levels – upright → flat → feet elevated → one-arm/archer.\"},\"push_up\":{\"name\":\"Push-Ups (choose level)\",\"aliases\":[\"Liegestütze\"],\"equipment\":\"bodyweight\",\"image\":\"Pushups\",\"note\":\"Levels – wall → incline → knees → full → diamond → archer.\"},\"hanging_knee_raise\":{\"name\":\"Hanging Knee Raise\",\"aliases\":[\"Beinheben hängend\"],\"equipment\":\"bodyweight\",\"image\":\"Hanging_Leg_Raise\"},\"side_plank\":{\"name\":\"Side Plank\",\"aliases\":[\"Seitstütz\"],\"equipment\":\"bodyweight\",\"image\":\"Side_Bridge\",\"unilateral\":true},\"superman\":{\"name\":\"Superman\",\"aliases\":[\"Rückenstrecker liegend\"],\"equipment\":\"bodyweight\",\"image\":\"Superman\"}},\"workouts\":[{\"id\":\"a\",\"name\":\"Basics\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"Dynamic: arm/hip circles, squats, push-up plank, hanging from the bar.\"},{\"type\":\"circuit\",\"name\":\"Pair 1 – Pull & Legs\",\"rounds\":3,\"rest_after_exercise_s\":90,\"rest_after_round_s\":90,\"rest_after_s\":60,\"exercises\":[{\"exercise\":\"pull_up\",\"reps\":{\"min\":5,\"max\":8}},{\"exercise\":\"squat_progression\",\"reps\":{\"min\":5,\"max\":8},\"per_side\":true}]},{\"type\":\"circuit\",\"name\":\"Pair 2 – Push & Hinge\",\"rounds\":3,\"rest_after_exercise_s\":90,\"rest_after_round_s\":90,\"rest_after_s\":60,\"exercises\":[{\"exercise\":\"dip\",\"reps\":{\"min\":5,\"max\":8}},{\"exercise\":\"hinge_progression\",\"reps\":{\"min\":5,\"max\":8}}]},{\"type\":\"circuit\",\"name\":\"Pair 3 – Row & Push-up\",\"rounds\":3,\"rest_after_exercise_s\":90,\"rest_after_round_s\":90,\"rest_after_s\":60,\"exercises\":[{\"exercise\":\"row\",\"reps\":{\"min\":5,\"max\":8}},{\"exercise\":\"push_up\",\"reps\":{\"min\":5,\"max\":8}}]},{\"type\":\"circuit\",\"name\":\"Core\",\"rounds\":3,\"rest_after_exercise_s\":30,\"rest_after_round_s\":60,\"exercises\":[{\"exercise\":\"hanging_knee_raise\",\"reps\":{\"min\":8,\"max\":12}},{\"exercise\":\"side_plank\",\"duration_s\":{\"min\":20,\"max\":45},\"per_side\":true},{\"exercise\":\"superman\",\"reps\":{\"min\":8,\"max\":12}}]},{\"type\":\"cooldown\"}]}]},\"images\":{\"pull_up\":\"Pullups\",\"squat_progression\":\"Split_Squats\",\"dip\":\"Parallel_Bar_Dip\",\"hinge_progression\":\"Single_Leg_Glute_Bridge\",\"row\":\"Inverted_Row\",\"push_up\":\"Pushups\",\"hanging_knee_raise\":\"Hanging_Leg_Raise\",\"side_plank\":\"Side_Bridge\",\"superman\":\"Superman\"}},{\"id\":\"calisthenics-3-fortgeschritten\",\"group\":\"calisthenics\",\"plan\":{\"schema_version\":1,\"name\":\"Calisthenics Advanced\",\"description\":\"For advanced trainees (3×8 pull-ups and dips). Three workouts: pull & push, legs & core, skills (muscle-up, handstand push-up, L-sit). Rep progression, added weight optional.\",\"goal\":\"hypertrophy\",\"defaults\":{\"rest_s\":120,\"progression\":{\"type\":\"reps\"}},\"exercises\":{\"pull_up\":{\"name\":\"Pull-ups\",\"aliases\":[\"Klimmzüge\"],\"equipment\":\"bodyweight\",\"image\":\"Pullups\"},\"dip\":{\"name\":\"Parallel Bar Dips\",\"aliases\":[\"Dips am Barren\",\"Dips\"],\"equipment\":\"bodyweight\",\"image\":\"Parallel_Bar_Dip\"},\"archer_push_up\":{\"name\":\"Archer Push-up\",\"aliases\":[\"Archer-Liegestütze\"],\"equipment\":\"bodyweight\",\"image\":\"Push-Up_Wide\",\"unilateral\":true},\"feet_elevated_row\":{\"name\":\"Feet-Elevated Inverted Row\",\"aliases\":[\"Rudern mit erhöhten Füßen\"],\"equipment\":\"bodyweight\",\"image\":\"Inverted_Row\"},\"chin_up\":{\"name\":\"Chin-up\",\"aliases\":[\"Klimmzüge Untergriff\"],\"equipment\":\"bodyweight\",\"image\":\"Chin-Up\"},\"decline_push_up\":{\"name\":\"Decline Push-up\",\"aliases\":[\"Liegestütze Füße erhöht\"],\"equipment\":\"bodyweight\",\"image\":\"Push-Ups_With_Feet_Elevated\"},\"pistol_progression\":{\"name\":\"Pistol Squat Progression\",\"aliases\":[\"Pistol-Squat-Progression\",\"Pistol Squat\"],\"equipment\":\"bodyweight\",\"image\":\"Kettlebell_Pistol_Squat\",\"note\":\"Levels – onto a box → with support → free.\",\"unilateral\":true},\"nordic_curl\":{\"name\":\"Nordic Curl (Negative)\",\"aliases\":[\"Nordic Hamstring Curl\"],\"equipment\":\"bodyweight\",\"image\":\"Natural_Glute_Ham_Raise\",\"note\":\"Lower as slowly as possible, catch yourself with your hands.\"},\"bulgarian_split_squat\":{\"name\":\"Bulgarian Split Squat\",\"aliases\":[\"Bulgarische Kniebeuge\"],\"equipment\":\"bodyweight\",\"image\":\"Split_Squat_with_Dumbbells\",\"unilateral\":true},\"single_leg_glute_bridge\":{\"name\":\"Single-Leg Glute Bridge\",\"aliases\":[\"Hüftheben einbeinig\"],\"equipment\":\"bodyweight\",\"unilateral\":true},\"hanging_leg_raise\":{\"name\":\"Hanging Leg Raise\",\"aliases\":[\"Beinheben hängend gestreckt\"],\"equipment\":\"bodyweight\"},\"l_sit\":{\"name\":\"L-Sit\",\"equipment\":\"bodyweight\",\"muscles\":[\"core\"],\"note\":\"Levels – knees tucked → one leg straight → both straight.\"},\"muscle_up\":{\"name\":\"Muscle-up Practice\",\"aliases\":[\"Muscle-up\"],\"equipment\":\"bodyweight\",\"image\":\"Muscle_Up\",\"note\":\"Levels – explosive chest-to-bar pull-ups → negative muscle-ups → muscle-up.\"},\"pike_push_up\":{\"name\":\"Handstand Push-up Progression\",\"aliases\":[\"Pike Push-up\",\"Handstand Push-up\"],\"equipment\":\"bodyweight\",\"image\":\"Handstand_Push-Ups\",\"note\":\"Levels – pike push-up → feet elevated → against the wall.\"}},\"workouts\":[{\"id\":\"push_pull\",\"name\":\"Pull & Push\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"circuit\",\"name\":\"Pair 1\",\"rounds\":4,\"rest_after_exercise_s\":90,\"rest_after_round_s\":90,\"rest_after_s\":60,\"exercises\":[{\"exercise\":\"pull_up\",\"reps\":{\"min\":6,\"max\":12}},{\"exercise\":\"dip\",\"reps\":{\"min\":8,\"max\":15}}]},{\"type\":\"circuit\",\"name\":\"Pair 2\",\"rounds\":3,\"rest_after_exercise_s\":60,\"rest_after_round_s\":90,\"exercises\":[{\"exercise\":\"feet_elevated_row\",\"reps\":{\"min\":8,\"max\":15}},{\"exercise\":\"archer_push_up\",\"reps\":{\"min\":4,\"max\":10},\"per_side\":true}]},{\"type\":\"circuit\",\"name\":\"Pair 3\",\"rounds\":3,\"rest_after_exercise_s\":60,\"rest_after_round_s\":90,\"exercises\":[{\"exercise\":\"chin_up\",\"reps\":{\"min\":6,\"max\":12}},{\"exercise\":\"decline_push_up\",\"reps\":{\"min\":10,\"max\":20}}]},{\"type\":\"cooldown\"}]},{\"id\":\"legs_core\",\"name\":\"Legs & Core\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"pistol_progression\",\"sets\":4,\"reps\":{\"min\":3,\"max\":8},\"per_side\":true},{\"type\":\"sets\",\"exercise\":\"nordic_curl\",\"sets\":3,\"reps\":{\"min\":3,\"max\":6},\"rest_s\":150},{\"type\":\"sets\",\"exercise\":\"bulgarian_split_squat\",\"sets\":3,\"reps\":{\"min\":10,\"max\":15},\"per_side\":true,\"rest_s\":90},{\"type\":\"sets\",\"exercise\":\"single_leg_glute_bridge\",\"sets\":3,\"reps\":{\"min\":10,\"max\":15},\"per_side\":true,\"rest_s\":60},{\"type\":\"circuit\",\"name\":\"Core\",\"rounds\":3,\"rest_after_exercise_s\":45,\"rest_after_round_s\":60,\"exercises\":[{\"exercise\":\"hanging_leg_raise\",\"reps\":{\"min\":6,\"max\":12}},{\"exercise\":\"l_sit\",\"duration_s\":{\"min\":10,\"max\":30}}]},{\"type\":\"cooldown\"}]},{\"id\":\"skills\",\"name\":\"Skills\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"Warm up wrists and shoulders thoroughly.\"},{\"type\":\"sets\",\"exercise\":\"muscle_up\",\"sets\":5,\"reps\":{\"min\":2,\"max\":5},\"rest_s\":150},{\"type\":\"sets\",\"exercise\":\"pike_push_up\",\"sets\":4,\"reps\":{\"min\":5,\"max\":10},\"rest_s\":120},{\"type\":\"sets\",\"exercise\":\"l_sit\",\"sets\":4,\"duration_s\":\"max\",\"rest_s\":60},{\"type\":\"sets\",\"exercise\":\"pull_up\",\"name\":\"Volume\",\"sets\":3,\"reps\":\"max\",\"rest_s\":90},{\"type\":\"cooldown\"}]}]},\"images\":{\"pull_up\":\"Pullups\",\"dip\":\"Parallel_Bar_Dip\",\"archer_push_up\":\"Push-Up_Wide\",\"feet_elevated_row\":\"Inverted_Row\",\"chin_up\":\"Chin-Up\",\"decline_push_up\":\"Push-Ups_With_Feet_Elevated\",\"pistol_progression\":\"Kettlebell_Pistol_Squat\",\"nordic_curl\":\"Natural_Glute_Ham_Raise\",\"bulgarian_split_squat\":\"Split_Squat_with_Dumbbells\",\"single_leg_glute_bridge\":\"Single_Leg_Glute_Bridge\",\"hanging_leg_raise\":\"Hanging_Leg_Raise\",\"l_sit\":null,\"muscle_up\":\"Muscle_Up\",\"pike_push_up\":\"Handstand_Push-Ups\"}},{\"id\":\"kettlebell-1-swing-getup\",\"group\":\"kettlebell\",\"plan\":{\"schema_version\":1,\"name\":\"Kettlebell Swing & Get-up\",\"description\":\"100 one-arm swings (10×10) and 10 Turkish get-ups (5 per side), doable almost daily. Heavier bell only once everything feels easy. Inspired by Simple & Sinister.\",\"goal\":\"strength\",\"defaults\":{\"rest_s\":45,\"progression\":{\"type\":\"none\"}},\"exercises\":{\"kb_swing_one_arm\":{\"name\":\"One-Arm Kettlebell Swing\",\"aliases\":[\"Kettlebell Swing einarmig\"],\"equipment\":\"kettlebell\",\"image\":\"One-Arm_Kettlebell_Swings\"},\"turkish_get_up\":{\"name\":\"Turkish Get-up\",\"aliases\":[\"Türkisches Aufstehen\"],\"equipment\":\"kettlebell\",\"image\":\"Kettlebell_Turkish_Get-Up_Squat_style\"},\"goblet_squat\":{\"name\":\"Goblet Squat\",\"equipment\":\"kettlebell\"}},\"workouts\":[{\"id\":\"daily\",\"name\":\"Swing & Get-up\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"3× each: glute bridge, goblet squat hold with gentle rocking, halos.\"},{\"type\":\"sets\",\"exercise\":\"kb_swing_one_arm\",\"sets\":10,\"reps\":10,\"weight_kg\":16,\"rest_s\":45,\"rest_after_s\":120,\"note\":\"Switch hands after every set.\"},{\"type\":\"sets\",\"exercise\":\"turkish_get_up\",\"sets\":10,\"reps\":1,\"weight_kg\":12,\"rest_s\":45,\"note\":\"Alternate left and right, so 5 per side. Slow and controlled.\"},{\"type\":\"cooldown\"}]}]},\"images\":{\"kb_swing_one_arm\":\"One-Arm_Kettlebell_Swings\",\"turkish_get_up\":\"Kettlebell_Turkish_Get-Up_Squat_style\",\"goblet_squat\":\"Goblet_Squat\"}},{\"id\":\"kettlebell-2-ganzkoerper\",\"group\":\"kettlebell\",\"plan\":{\"schema_version\":1,\"name\":\"Kettlebell Full Body\",\"description\":\"Full body with one kettlebell, A/B alternating, 3×/week. A with press ladders (1–2–3 per side, inspired by Rite of Passage) and swings, B with goblet squat, single-leg deadlift, get-ups and farmer's walk.\",\"goal\":\"strength\",\"defaults\":{\"rest_s\":60,\"progression\":{\"type\":\"double\",\"increment_kg\":4}},\"exercises\":{\"kb_clean_press\":{\"name\":\"Clean & Press\",\"aliases\":[\"Kettlebell Clean and Press\"],\"equipment\":\"kettlebell\",\"image\":\"One-Arm_Kettlebell_Military_Press_To_The_Side\",\"unilateral\":true},\"kb_row\":{\"name\":\"Kettlebell Row\",\"aliases\":[\"Kettlebell-Rudern\"],\"equipment\":\"kettlebell\",\"image\":\"One-Arm_Kettlebell_Row\",\"unilateral\":true},\"kb_swing\":{\"name\":\"Two-Arm Kettlebell Swing\",\"aliases\":[\"Kettlebell Swing beidarmig\"],\"equipment\":\"kettlebell\",\"image\":\"One-Arm_Kettlebell_Swings\"},\"goblet_squat\":{\"name\":\"Goblet Squat\",\"equipment\":\"kettlebell\"},\"kb_single_leg_deadlift\":{\"name\":\"Kettlebell Single-Leg Deadlift\",\"aliases\":[\"Kreuzheben einbeinig\"],\"equipment\":\"kettlebell\",\"image\":\"Kettlebell_One-Legged_Deadlift\",\"unilateral\":true},\"turkish_get_up\":{\"name\":\"Turkish Get-up\",\"aliases\":[\"Türkisches Aufstehen\"],\"equipment\":\"kettlebell\",\"image\":\"Kettlebell_Turkish_Get-Up_Squat_style\"},\"farmers_walk\":{\"name\":\"One-Arm Farmer's Walk\",\"aliases\":[\"Farmer's Walk einarmig\",\"Suitcase Carry\"],\"equipment\":\"kettlebell\",\"image\":\"Farmers_Walk\",\"unilateral\":true}},\"workouts\":[{\"id\":\"a\",\"name\":\"Full Body A – Ladders\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"circuit\",\"name\":\"Press Ladders\",\"rounds\":3,\"rest_after_exercise_s\":30,\"rest_after_round_s\":90,\"rest_after_s\":90,\"note\":\"One round = one ladder: 1, 2, 3 reps per side. More ladders (up to 5), then up to 5 rungs.\",\"exercises\":[{\"exercise\":\"kb_clean_press\",\"reps\":1,\"per_side\":true,\"weight_kg\":12,\"progression\":{\"type\":\"none\"}},{\"exercise\":\"kb_clean_press\",\"reps\":2,\"per_side\":true,\"weight_kg\":12,\"progression\":{\"type\":\"none\"}},{\"exercise\":\"kb_clean_press\",\"reps\":3,\"per_side\":true,\"weight_kg\":12,\"progression\":{\"type\":\"none\"}}]},{\"type\":\"sets\",\"exercise\":\"kb_row\",\"sets\":3,\"reps\":{\"min\":8,\"max\":12},\"per_side\":true,\"weight_kg\":16},{\"type\":\"sets\",\"exercise\":\"kb_swing\",\"sets\":5,\"reps\":{\"min\":15,\"max\":20},\"weight_kg\":16,\"rest_s\":45},{\"type\":\"cooldown\"}]},{\"id\":\"b\",\"name\":\"Full Body B – Legs & Core\",\"blocks\":[{\"type\":\"warmup\"},{\"type\":\"sets\",\"exercise\":\"goblet_squat\",\"sets\":4,\"reps\":{\"min\":8,\"max\":12},\"weight_kg\":16,\"rest_s\":90},{\"type\":\"sets\",\"exercise\":\"kb_single_leg_deadlift\",\"sets\":3,\"reps\":{\"min\":6,\"max\":10},\"per_side\":true,\"weight_kg\":12},{\"type\":\"sets\",\"exercise\":\"turkish_get_up\",\"sets\":6,\"reps\":1,\"weight_kg\":12,\"rest_s\":45,\"progression\":{\"type\":\"none\"},\"note\":\"Alternate left and right.\"},{\"type\":\"sets\",\"exercise\":\"farmers_walk\",\"sets\":3,\"duration_s\":{\"min\":30,\"max\":60},\"per_side\":true,\"weight_kg\":16},{\"type\":\"cooldown\"}]}]},\"images\":{\"kb_clean_press\":\"One-Arm_Kettlebell_Military_Press_To_The_Side\",\"kb_row\":\"One-Arm_Kettlebell_Row\",\"kb_swing\":\"One-Arm_Kettlebell_Swings\",\"goblet_squat\":\"Goblet_Squat\",\"kb_single_leg_deadlift\":\"Kettlebell_One-Legged_Deadlift\",\"turkish_get_up\":\"Kettlebell_Turkish_Get-Up_Squat_style\",\"farmers_walk\":\"Farmers_Walk\"}},{\"id\":\"kettlebell-3-armor-building-complex\",\"group\":\"kettlebell\",\"plan\":{\"schema_version\":1,\"name\":\"Kettlebell Armor Building Complex\",\"description\":\"2 cleans, 1 press, 3 front squats with two kettlebells, one round every minute for 20 minutes. Weight – something you can press 3–5×. Protocol by Dan John.\",\"goal\":\"strength\",\"defaults\":{\"rest_s\":0,\"progression\":{\"type\":\"none\"}},\"exercises\":{\"kb_double_clean\":{\"name\":\"Double Kettlebell Clean\",\"aliases\":[\"Clean (zwei Kugeln)\"],\"equipment\":\"kettlebell\",\"image\":\"Double_Kettlebell_Alternating_Hang_Clean\"},\"kb_double_press\":{\"name\":\"Double Kettlebell Press\",\"aliases\":[\"Press (zwei Kugeln)\"],\"equipment\":\"kettlebell\",\"image\":\"Two-Arm_Kettlebell_Military_Press\"},\"kb_double_front_squat\":{\"name\":\"Double Kettlebell Front Squat\",\"aliases\":[\"Front Squat (zwei Kugeln)\"],\"equipment\":\"kettlebell\",\"image\":\"Front_Squats_With_Two_Kettlebells\"}},\"workouts\":[{\"id\":\"abc\",\"name\":\"Armor Building Complex\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"A few easy rounds with half the weight.\"},{\"type\":\"circuit\",\"name\":\"ABC – 20 minutes\",\"time_cap_s\":1200,\"rest_after_exercise_s\":0,\"rest_after_round_s\":30,\"note\":\"One round every minute, rest for the remainder of the minute.\",\"exercises\":[{\"exercise\":\"kb_double_clean\",\"reps\":2,\"weight_kg\":16},{\"exercise\":\"kb_double_press\",\"reps\":1,\"weight_kg\":16},{\"exercise\":\"kb_double_front_squat\",\"reps\":3,\"weight_kg\":16}]},{\"type\":\"cooldown\"}]}]},\"images\":{\"kb_double_clean\":\"Double_Kettlebell_Alternating_Hang_Clean\",\"kb_double_press\":\"Two-Arm_Kettlebell_Military_Press\",\"kb_double_front_squat\":\"Front_Squats_With_Two_Kettlebells\"}},{\"id\":\"kettlebell-4-swing-intervalle\",\"group\":\"kettlebell\",\"plan\":{\"schema_version\":1,\"name\":\"Kettlebell Swing Intervals\",\"description\":\"Short conditioning – 10× 30 s swings / 30 s rest, then 4× 20 s goblet squats / 10 s rest. Timed, ideal with the \\\"Signals\\\" blueprint for sounds or light.\",\"goal\":\"endurance\",\"exercises\":{\"kb_swing\":{\"name\":\"Two-Arm Kettlebell Swing\",\"aliases\":[\"Kettlebell Swing beidarmig\"],\"equipment\":\"kettlebell\",\"image\":\"One-Arm_Kettlebell_Swings\"},\"goblet_squat\":{\"name\":\"Goblet Squat\",\"equipment\":\"kettlebell\"}},\"workouts\":[{\"id\":\"hiit\",\"name\":\"Swing Intervals\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"Glute bridges, light swings, goblet squat hold.\"},{\"type\":\"interval\",\"name\":\"Swings 30/30\",\"rounds\":10,\"work_s\":30,\"rest_s\":30,\"exercises\":[\"kb_swing\"],\"rest_after_s\":120},{\"type\":\"interval\",\"name\":\"Goblet Squats 20/10\",\"rounds\":4,\"work_s\":20,\"rest_s\":10,\"exercises\":[\"goblet_squat\"]},{\"type\":\"cooldown\"}]}]},\"images\":{\"kb_swing\":\"One-Arm_Kettlebell_Swings\",\"goblet_squat\":\"Goblet_Squat\"}},{\"id\":\"hiit-1-tabata\",\"group\":\"hiit\",\"plan\":{\"schema_version\":1,\"name\":\"Tabata Circuit, No Equipment\",\"description\":\"Four Tabata blocks (8× 20 s work / 10 s rest) with squats, push-ups, mountain climbers and lunges, 1 minute rest each – about 20 minutes of conditioning without equipment.\",\"goal\":\"endurance\",\"exercises\":{\"squat\":{\"name\":\"Bodyweight Squat\",\"aliases\":[\"Kniebeugen\"],\"equipment\":\"bodyweight\",\"image\":\"Bodyweight_Squat\"},\"push_up\":{\"name\":\"Push-Ups\",\"aliases\":[\"Liegestütze\"],\"equipment\":\"bodyweight\",\"image\":\"Pushups\"},\"mountain_climber\":{\"name\":\"Mountain Climbers\",\"equipment\":\"bodyweight\"},\"lunge\":{\"name\":\"Alternating Lunges\",\"aliases\":[\"Ausfallschritte im Wechsel\"],\"equipment\":\"bodyweight\",\"image\":\"Bodyweight_Walking_Lunge\",\"unilateral\":true}},\"workouts\":[{\"id\":\"tabata\",\"name\":\"Tabata ×4\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"3 minutes: jumping jacks, arm circles, slow squats.\"},{\"type\":\"interval\",\"name\":\"Tabata 1 – Squats\",\"rounds\":8,\"work_s\":20,\"rest_s\":10,\"rest_after_s\":60,\"exercises\":[\"squat\"]},{\"type\":\"interval\",\"name\":\"Tabata 2 – Push-Ups\",\"rounds\":8,\"work_s\":20,\"rest_s\":10,\"rest_after_s\":60,\"exercises\":[\"push_up\"]},{\"type\":\"interval\",\"name\":\"Tabata 3 – Mountain Climbers\",\"rounds\":8,\"work_s\":20,\"rest_s\":10,\"rest_after_s\":60,\"exercises\":[\"mountain_climber\"]},{\"type\":\"interval\",\"name\":\"Tabata 4 – Lunges\",\"rounds\":8,\"work_s\":20,\"rest_s\":10,\"exercises\":[\"lunge\"]},{\"type\":\"cooldown\"}]}]},\"images\":{\"squat\":\"Bodyweight_Squat\",\"push_up\":\"Pushups\",\"mountain_climber\":\"Mountain_Climbers\",\"lunge\":\"Bodyweight_Walking_Lunge\"}},{\"id\":\"hiit-2-tabata-kraft\",\"group\":\"hiit\",\"plan\":{\"schema_version\":1,\"name\":\"Tabata Strength (Kettlebell)\",\"description\":\"Four Tabata blocks (8× 20 s / 10 s) with kettlebell swings, goblet squats, push-ups and mountain climbers – about 20 minutes. One kettlebell is enough.\",\"goal\":\"endurance\",\"exercises\":{\"kb_swing\":{\"name\":\"Two-Arm Kettlebell Swing\",\"aliases\":[\"Kettlebell Swing beidarmig\"],\"equipment\":\"kettlebell\",\"image\":\"One-Arm_Kettlebell_Swings\"},\"goblet_squat\":{\"name\":\"Goblet Squat\",\"equipment\":\"kettlebell\"},\"push_up\":{\"name\":\"Push-Ups\",\"aliases\":[\"Liegestütze\"],\"equipment\":\"bodyweight\",\"image\":\"Pushups\"},\"mountain_climber\":{\"name\":\"Mountain Climbers\",\"equipment\":\"bodyweight\"}},\"workouts\":[{\"id\":\"tabata\",\"name\":\"Tabata Strength ×4\",\"blocks\":[{\"type\":\"warmup\",\"note\":\"3 minutes: light swings, slow squats, arm circles.\"},{\"type\":\"interval\",\"name\":\"Tabata 1 – Swings\",\"rounds\":8,\"work_s\":20,\"rest_s\":10,\"rest_after_s\":60,\"exercises\":[\"kb_swing\"]},{\"type\":\"interval\",\"name\":\"Tabata 2 – Goblet Squats\",\"rounds\":8,\"work_s\":20,\"rest_s\":10,\"rest_after_s\":60,\"exercises\":[\"goblet_squat\"]},{\"type\":\"interval\",\"name\":\"Tabata 3 – Push-Ups\",\"rounds\":8,\"work_s\":20,\"rest_s\":10,\"rest_after_s\":60,\"exercises\":[\"push_up\"]},{\"type\":\"interval\",\"name\":\"Tabata 4 – Mountain Climbers\",\"rounds\":8,\"work_s\":20,\"rest_s\":10,\"exercises\":[\"mountain_climber\"]},{\"type\":\"cooldown\"}]}]},\"images\":{\"kb_swing\":\"One-Arm_Kettlebell_Swings\",\"goblet_squat\":\"Goblet_Squat\",\"push_up\":\"Pushups\",\"mountain_climber\":\"Mountain_Climbers\"}},{\"id\":\"hiit-3-10x1\",\"group\":\"hiit\",\"plan\":{\"schema_version\":1,\"name\":\"10×1 Intervals\",\"description\":\"10 × 1 minute hard (about 85–90 % of max heart rate), 1 minute easy – about 25 minutes including warm-up. Bike, rower, running or jump rope. Inspired by Little & Gibala 2010.\",\"goal\":\"endurance\",\"exercises\":{\"cardio_hard\":{\"name\":\"Hard interval (bike, row, run)\",\"aliases\":[\"Hartes Intervall\"],\"equipment\":\"other\",\"image\":false,\"muscles\":[]}},\"workouts\":[{\"id\":\"intervals\",\"name\":\"10×1\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"5 minutes easy, the last minute a little faster.\"},{\"type\":\"interval\",\"name\":\"10×1 minute\",\"rounds\":10,\"work_s\":60,\"rest_s\":60,\"note\":\"Hard but steady – you should be able to hold the pace for all ten. Easy minute: keep moving slowly.\",\"exercises\":[\"cardio_hard\"]},{\"type\":\"cooldown\",\"duration_s\":300}]}]},\"images\":{\"cardio_hard\":null}},{\"id\":\"hiit-4-4x4\",\"group\":\"hiit\",\"plan\":{\"schema_version\":1,\"name\":\"4×4 Intervals\",\"description\":\"4 × 4 minutes hard (85–95 % of max heart rate), 3 minutes easy in between – about 40 minutes including warm-up. Strong evidence for endurance (VO2max). Inspired by Helgerud et al. 2007.\",\"goal\":\"endurance\",\"exercises\":{\"cardio_4min\":{\"name\":\"4-minute interval (bike, row, run)\",\"aliases\":[\"4-Minuten-Intervall\"],\"equipment\":\"other\",\"image\":false,\"muscles\":[]}},\"workouts\":[{\"id\":\"intervals\",\"name\":\"4×4\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":600,\"note\":\"10 minutes easy to moderate.\"},{\"type\":\"interval\",\"name\":\"4×4 minutes\",\"rounds\":4,\"work_s\":240,\"rest_s\":180,\"note\":\"Hard enough that talking is difficult. Recovery: keep moving slowly.\",\"exercises\":[\"cardio_4min\"]},{\"type\":\"cooldown\",\"duration_s\":300}]}]},\"images\":{\"cardio_4min\":null}},{\"id\":\"hiit-5-30-20-10\",\"group\":\"hiit\",\"plan\":{\"schema_version\":1,\"name\":\"30-20-10 Intervals\",\"description\":\"Three blocks of 5 × (30 s easy, 20 s moderate, 10 s sprint), 2 minutes rest between blocks – about 25 minutes. Running, bike or rower. Inspired by Gunnarsson & Bangsbo 2012.\",\"goal\":\"endurance\",\"exercises\":{\"easy_pace\":{\"name\":\"Easy\",\"aliases\":[\"Locker\"],\"equipment\":\"other\",\"image\":false,\"muscles\":[]},\"moderate_pace\":{\"name\":\"Moderate\",\"aliases\":[\"Mittel\"],\"equipment\":\"other\",\"image\":false,\"muscles\":[]},\"sprint\":{\"name\":\"Sprint\",\"equipment\":\"other\",\"image\":false,\"muscles\":[]}},\"workouts\":[{\"id\":\"intervals\",\"name\":\"30-20-10\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"5 minutes easy.\"},{\"type\":\"flow\",\"name\":\"Block 1\",\"rounds\":5,\"rest_after_s\":120,\"exercises\":[{\"exercise\":\"easy_pace\",\"duration_s\":30},{\"exercise\":\"moderate_pace\",\"duration_s\":20},{\"exercise\":\"sprint\",\"duration_s\":10}]},{\"type\":\"flow\",\"name\":\"Block 2\",\"rounds\":5,\"rest_after_s\":120,\"exercises\":[{\"exercise\":\"easy_pace\",\"duration_s\":30},{\"exercise\":\"moderate_pace\",\"duration_s\":20},{\"exercise\":\"sprint\",\"duration_s\":10}]},{\"type\":\"flow\",\"name\":\"Block 3\",\"rounds\":5,\"exercises\":[{\"exercise\":\"easy_pace\",\"duration_s\":30},{\"exercise\":\"moderate_pace\",\"duration_s\":20},{\"exercise\":\"sprint\",\"duration_s\":10}]},{\"type\":\"cooldown\",\"duration_s\":300}]}]},\"images\":{\"easy_pace\":null,\"moderate_pace\":null,\"sprint\":null}},{\"id\":\"hiit-6-sprint-intervalle\",\"group\":\"hiit\",\"plan\":{\"schema_version\":1,\"name\":\"Sprint Intervals 30/4\",\"description\":\"5 × 30 seconds all-out, 4 minutes easy in between – about 35 minutes including warm-up. Very short, very hard. Best on a bike or rower. Inspired by the sprint interval studies of Gibala et al.\",\"goal\":\"endurance\",\"exercises\":{\"sprint_30\":{\"name\":\"All-out sprint (bike, row)\",\"aliases\":[\"Vollgas-Sprint\"],\"equipment\":\"other\",\"image\":false,\"muscles\":[]}},\"workouts\":[{\"id\":\"sprints\",\"name\":\"Sprint 30/4\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":480,\"note\":\"8 minutes easy, with two short accelerations.\"},{\"type\":\"interval\",\"name\":\"5 × 30 s\",\"rounds\":5,\"work_s\":30,\"rest_s\":240,\"note\":\"All-out from the first second. Recovery: pedal or row very easily.\",\"exercises\":[\"sprint_30\"]},{\"type\":\"cooldown\",\"duration_s\":300}]}]},\"images\":{\"sprint_30\":null}},{\"id\":\"ausdauer-1-laufeinstieg\",\"group\":\"ausdauer\",\"plan\":{\"schema_version\":1,\"name\":\"Run Starter 9 Weeks\",\"description\":\"From walking to 30 minutes of running in 9 weeks: 3 runs per week with a rest day in between, about 30–40 minutes each. Runs on its own with a beep at every change between running and walking. If a run felt too hard, simply repeat it. Inspired by the NHS Couch to 5K plan.\",\"goal\":\"endurance\",\"defaults\":{\"progression\":{\"type\":\"none\"}},\"exercises\":{\"brisk_walk\":{\"name\":\"Brisk Walk\",\"aliases\":[\"Zügiges Gehen\"],\"equipment\":\"other\",\"image\":\"Walking_Treadmill\",\"muscles\":[]},\"run\":{\"name\":\"Easy Run\",\"aliases\":[\"Lockeres Laufen\",\"Joggen\"],\"equipment\":\"other\",\"image\":\"Jogging_Treadmill\",\"muscles\":[\"quads\",\"hamstrings\",\"calves\"]},\"walk\":{\"name\":\"Walk\",\"aliases\":[\"Gehen\"],\"equipment\":\"other\",\"image\":\"Walking_Treadmill\",\"muscles\":[]}},\"workouts\":[{\"id\":\"week1_run1\",\"name\":\"Week 1 · Run 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 28 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week1_run2\",\"name\":\"Week 1 · Run 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 28 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week1_run3\",\"name\":\"Week 1 · Run 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 28 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":60},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week2_run1\",\"name\":\"Week 2 · Run 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 29 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week2_run2\",\"name\":\"Week 2 · Run 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 29 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week2_run3\",\"name\":\"Week 2 · Run 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 29 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":120},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week3_run1\",\"name\":\"Week 3 · Run 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 25 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"walk\",\"duration_s\":180},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week3_run2\",\"name\":\"Week 3 · Run 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 25 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"walk\",\"duration_s\":180},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week3_run3\",\"name\":\"Week 3 · Run 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 25 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"walk\",\"duration_s\":180},{\"exercise\":\"run\",\"duration_s\":90},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week4_run1\",\"name\":\"Week 4 · Run 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 31 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":150},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week4_run2\",\"name\":\"Week 4 · Run 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 31 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":150},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week4_run3\",\"name\":\"Week 4 · Run 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 31 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":150},{\"exercise\":\"run\",\"duration_s\":180},{\"exercise\":\"walk\",\"duration_s\":90},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week5_run1\",\"name\":\"Week 5 · Run 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 31 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":180},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":180},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week5_run2\",\"name\":\"Week 5 · Run 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 31 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":480},{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":480},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week5_run3\",\"name\":\"Week 5 · Run 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 30 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1200},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week6_run1\",\"name\":\"Week 6 · Run 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 34 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":180},{\"exercise\":\"run\",\"duration_s\":480},{\"exercise\":\"walk\",\"duration_s\":180},{\"exercise\":\"run\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week6_run2\",\"name\":\"Week 6 · Run 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 33 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":600},{\"exercise\":\"walk\",\"duration_s\":180},{\"exercise\":\"run\",\"duration_s\":600},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week6_run3\",\"name\":\"Week 6 · Run 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 35 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1500},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week7_run1\",\"name\":\"Week 7 · Run 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 35 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1500},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week7_run2\",\"name\":\"Week 7 · Run 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 35 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1500},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week7_run3\",\"name\":\"Week 7 · Run 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 35 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1500},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week8_run1\",\"name\":\"Week 8 · Run 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 38 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1680},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week8_run2\",\"name\":\"Week 8 · Run 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 38 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1680},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week8_run3\",\"name\":\"Week 8 · Run 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 38 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1680},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week9_run1\",\"name\":\"Week 9 · Run 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 40 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1800},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week9_run2\",\"name\":\"Week 9 · Run 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 40 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1800},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]},{\"id\":\"week9_run3\",\"name\":\"Week 9 · Run 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Run & Walk\",\"rest_s\":0,\"note\":\"Slow enough that you could still talk. About 40 minutes.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"run\",\"duration_s\":1800},{\"exercise\":\"brisk_walk\",\"duration_s\":300}]}]}]},\"images\":{\"brisk_walk\":\"Walking_Treadmill\",\"run\":\"Jogging_Treadmill\",\"walk\":\"Walking_Treadmill\"}},{\"id\":\"yoga-1-einstieg\",\"group\":\"yoga\",\"plan\":{\"schema_version\":1,\"name\":\"Yoga Basics\",\"description\":\"Two alternating sessions (~20 min) with the foundation poses – mountain, downward dog, warriors, tree, child's pose, cat-cow, bridge. Runs on its own, every pose is announced. A mat is enough.\",\"goal\":\"general\",\"exercises\":{\"cat_cow\":{\"name\":\"Cat-Cow\",\"aliases\":[\"Katze-Kuh\"],\"equipment\":\"bodyweight\",\"image\":\"Cat_Stretch\"},\"child_pose\":{\"name\":\"Child's Pose\",\"aliases\":[\"Kind\"],\"equipment\":\"bodyweight\",\"image\":\"Childs_Pose\"},\"mountain_pose\":{\"name\":\"Mountain Pose\",\"aliases\":[\"Berg\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]},\"forward_fold\":{\"name\":\"Standing Forward Fold\",\"aliases\":[\"Vorbeuge\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"hamstrings\",\"back\"]},\"half_lift\":{\"name\":\"Half Lift\",\"aliases\":[\"Halbe Vorbeuge\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"back\"]},\"downward_dog\":{\"name\":\"Downward-Facing Dog\",\"aliases\":[\"Herabschauender Hund\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"shoulders\",\"hamstrings\",\"calves\"]},\"low_lunge\":{\"name\":\"Low Lunge\",\"aliases\":[\"Tiefer Ausfallschritt\"],\"equipment\":\"bodyweight\",\"image\":\"Kneeling_Hip_Flexor\",\"unilateral\":true},\"warrior_1\":{\"name\":\"Warrior I\",\"aliases\":[\"Krieger I\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\",\"glutes\",\"shoulders\"],\"unilateral\":true},\"warrior_2\":{\"name\":\"Warrior II\",\"aliases\":[\"Krieger II\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\",\"glutes\",\"shoulders\"],\"unilateral\":true},\"triangle\":{\"name\":\"Triangle Pose\",\"aliases\":[\"Dreieck\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"hamstrings\",\"core\"],\"unilateral\":true},\"tree\":{\"name\":\"Tree Pose\",\"aliases\":[\"Baum\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"glutes\",\"calves\",\"core\"],\"unilateral\":true},\"chair_pose\":{\"name\":\"Chair Pose\",\"aliases\":[\"Stuhl\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\",\"glutes\"]},\"cobra\":{\"name\":\"Cobra\",\"aliases\":[\"Kobra\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"back\"]},\"bridge\":{\"name\":\"Bridge Pose\",\"aliases\":[\"Brücke\"],\"equipment\":\"bodyweight\",\"image\":\"Butt_Lift_Bridge\"},\"seated_forward_fold\":{\"name\":\"Seated Forward Fold\",\"aliases\":[\"Sitzende Vorbeuge\"],\"equipment\":\"bodyweight\",\"image\":\"Seated_Floor_Hamstring_Stretch\"},\"butterfly\":{\"name\":\"Butterfly\",\"aliases\":[\"Schmetterling\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\"]},\"knee_to_chest\":{\"name\":\"Knees to Chest\",\"aliases\":[\"Knie zur Brust\"],\"equipment\":\"bodyweight\",\"image\":\"One_Knee_To_Chest\"},\"supine_twist\":{\"name\":\"Supine Twist\",\"aliases\":[\"Liegender Drehsitz\"],\"equipment\":\"bodyweight\",\"image\":\"Lying_Crossover\",\"unilateral\":true},\"savasana\":{\"name\":\"Final Relaxation\",\"aliases\":[\"Endentspannung\",\"Savasana\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]}},\"workouts\":[{\"id\":\"a\",\"name\":\"Basics A\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Arrive\",\"rest_s\":5,\"exercises\":[{\"exercise\":\"child_pose\",\"duration_s\":45},{\"exercise\":\"cat_cow\",\"duration_s\":60,\"note\":\"Breathe in – arch, breathe out – round.\"}]},{\"type\":\"flow\",\"name\":\"Standing poses\",\"rounds\":2,\"rest_s\":5,\"rest_after_round_s\":20,\"rest_after_s\":30,\"exercises\":[{\"exercise\":\"mountain_pose\",\"duration_s\":20},{\"exercise\":\"forward_fold\",\"duration_s\":30},{\"exercise\":\"half_lift\",\"duration_s\":15},{\"exercise\":\"downward_dog\",\"duration_s\":45},{\"exercise\":\"low_lunge\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"warrior_2\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"tree\",\"duration_s\":30,\"per_side\":true}]},{\"type\":\"flow\",\"name\":\"Floor\",\"rest_s\":10,\"exercises\":[{\"exercise\":\"bridge\",\"duration_s\":30},{\"exercise\":\"bridge\",\"duration_s\":30},{\"exercise\":\"supine_twist\",\"duration_s\":45,\"per_side\":true},{\"exercise\":\"savasana\",\"duration_s\":180}]}]},{\"id\":\"b\",\"name\":\"Basics B\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Arrive\",\"rest_s\":5,\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"downward_dog\",\"duration_s\":45}]},{\"type\":\"flow\",\"name\":\"Standing poses\",\"rounds\":2,\"rest_s\":5,\"rest_after_round_s\":20,\"rest_after_s\":30,\"exercises\":[{\"exercise\":\"chair_pose\",\"duration_s\":30},{\"exercise\":\"forward_fold\",\"duration_s\":30},{\"exercise\":\"warrior_1\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"triangle\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"downward_dog\",\"duration_s\":30},{\"exercise\":\"cobra\",\"duration_s\":20}]},{\"type\":\"flow\",\"name\":\"Floor\",\"rest_s\":10,\"exercises\":[{\"exercise\":\"seated_forward_fold\",\"duration_s\":60},{\"exercise\":\"butterfly\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":45},{\"exercise\":\"savasana\",\"duration_s\":180}]}]}]},\"images\":{\"cat_cow\":\"Cat_Stretch\",\"child_pose\":\"Childs_Pose\",\"mountain_pose\":null,\"forward_fold\":null,\"half_lift\":null,\"downward_dog\":null,\"low_lunge\":\"Kneeling_Hip_Flexor\",\"warrior_1\":null,\"warrior_2\":null,\"triangle\":null,\"tree\":null,\"chair_pose\":null,\"cobra\":null,\"bridge\":\"Butt_Lift_Bridge\",\"seated_forward_fold\":\"Seated_Floor_Hamstring_Stretch\",\"butterfly\":null,\"knee_to_chest\":\"One_Knee_To_Chest\",\"supine_twist\":\"Lying_Crossover\",\"savasana\":null}},{\"id\":\"yoga-2-sonnengruss\",\"group\":\"yoga\",\"plan\":{\"schema_version\":1,\"name\":\"Sun Salutation Flow\",\"description\":\"The classic sun salutation as a flowing sequence, 5 rounds (~15 min) – mountain, forward fold, plank, chaturanga, upward dog, downward dog. Ends with child's pose and relaxation.\",\"goal\":\"general\",\"exercises\":{\"mountain_pose\":{\"name\":\"Mountain Pose\",\"aliases\":[\"Berg\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]},\"forward_fold\":{\"name\":\"Standing Forward Fold\",\"aliases\":[\"Vorbeuge\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"hamstrings\",\"back\"]},\"half_lift\":{\"name\":\"Half Lift\",\"aliases\":[\"Halbe Vorbeuge\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"back\"]},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Brett\"],\"equipment\":\"bodyweight\"},\"chaturanga\":{\"name\":\"Chaturanga\",\"aliases\":[\"Halbe Liegestütze\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"chest\",\"triceps\",\"core\"]},\"upward_dog\":{\"name\":\"Upward-Facing Dog\",\"aliases\":[\"Heraufschauender Hund\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"back\",\"chest\"]},\"downward_dog\":{\"name\":\"Downward-Facing Dog\",\"aliases\":[\"Herabschauender Hund\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"shoulders\",\"hamstrings\",\"calves\"]},\"child_pose\":{\"name\":\"Child's Pose\",\"aliases\":[\"Kind\"],\"equipment\":\"bodyweight\",\"image\":\"Childs_Pose\"},\"savasana\":{\"name\":\"Final Relaxation\",\"aliases\":[\"Endentspannung\",\"Savasana\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]}},\"workouts\":[{\"id\":\"flow\",\"name\":\"Sun Salutation\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Warm-up\",\"rest_s\":5,\"rest_after_s\":15,\"exercises\":[{\"exercise\":\"child_pose\",\"duration_s\":45},{\"exercise\":\"downward_dog\",\"duration_s\":45}]},{\"type\":\"flow\",\"name\":\"Sun salutation\",\"rounds\":5,\"rest_after_round_s\":10,\"rest_after_s\":30,\"note\":\"One pose per breath – stay five breaths in downward dog.\",\"exercises\":[{\"exercise\":\"mountain_pose\",\"duration_s\":10},{\"exercise\":\"forward_fold\",\"duration_s\":10},{\"exercise\":\"half_lift\",\"duration_s\":5},{\"exercise\":\"plank\",\"duration_s\":10},{\"exercise\":\"chaturanga\",\"duration_s\":5},{\"exercise\":\"upward_dog\",\"duration_s\":10},{\"exercise\":\"downward_dog\",\"duration_s\":30},{\"exercise\":\"half_lift\",\"duration_s\":5},{\"exercise\":\"forward_fold\",\"duration_s\":10},{\"exercise\":\"mountain_pose\",\"duration_s\":10}]},{\"type\":\"flow\",\"name\":\"Wind-down\",\"rest_s\":10,\"exercises\":[{\"exercise\":\"child_pose\",\"duration_s\":60},{\"exercise\":\"savasana\",\"duration_s\":180}]}]}]},\"images\":{\"mountain_pose\":null,\"forward_fold\":null,\"half_lift\":null,\"plank\":\"Plank\",\"chaturanga\":null,\"upward_dog\":null,\"downward_dog\":null,\"child_pose\":\"Childs_Pose\",\"savasana\":null}},{\"id\":\"yoga-3-ruecken\",\"group\":\"yoga\",\"plan\":{\"schema_version\":1,\"name\":\"Back Care Yoga\",\"description\":\"Gentle yoga for the lower back (~20 min), 1–2×/week. \\\"Gentle\\\" for the first weeks, later \\\"Building\\\" with standing poses. Inspired by the Back to Health study programme. Pain is a stop signal.\",\"goal\":\"general\",\"exercises\":{\"knee_to_chest\":{\"name\":\"Knee to Chest\",\"aliases\":[\"Knie zur Brust\"],\"equipment\":\"bodyweight\",\"image\":\"One_Knee_To_Chest\"},\"pelvic_tilt\":{\"name\":\"Pelvic Tilt\",\"aliases\":[\"Beckenkippen\"],\"equipment\":\"bodyweight\",\"image\":\"Pelvic_Tilt_Into_Bridge\"},\"cat_cow\":{\"name\":\"Cat-Cow\",\"aliases\":[\"Katze-Kuh\"],\"equipment\":\"bodyweight\",\"image\":\"Cat_Stretch\"},\"child_pose\":{\"name\":\"Child's Pose\",\"aliases\":[\"Kind\"],\"equipment\":\"bodyweight\",\"image\":\"Childs_Pose\"},\"sphinx\":{\"name\":\"Sphinx\",\"aliases\":[\"Sphinx\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"back\"]},\"bird_dog\":{\"name\":\"Bird Dog\",\"aliases\":[\"Vierfüßlerstand diagonal\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"core\",\"back\",\"glutes\"],\"unilateral\":true},\"bridge\":{\"name\":\"Bridge Pose\",\"aliases\":[\"Brücke\"],\"equipment\":\"bodyweight\",\"image\":\"Butt_Lift_Bridge\"},\"supine_twist\":{\"name\":\"Supine Twist\",\"aliases\":[\"Liegender Drehsitz\"],\"equipment\":\"bodyweight\",\"image\":\"Lying_Crossover\",\"unilateral\":true},\"legs_up_wall\":{\"name\":\"Legs Up the Wall\",\"aliases\":[\"Beine an der Wand\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]},\"savasana\":{\"name\":\"Final Relaxation\",\"aliases\":[\"Endentspannung\",\"Savasana\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]},\"mountain_pose\":{\"name\":\"Mountain Pose\",\"aliases\":[\"Berg\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]},\"low_lunge\":{\"name\":\"Low Lunge\",\"aliases\":[\"Tiefer Ausfallschritt\"],\"equipment\":\"bodyweight\",\"image\":\"Kneeling_Hip_Flexor\",\"unilateral\":true},\"warrior_2\":{\"name\":\"Warrior II\",\"aliases\":[\"Krieger II\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\",\"glutes\",\"shoulders\"],\"unilateral\":true},\"triangle\":{\"name\":\"Triangle Pose\",\"aliases\":[\"Dreieck\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"hamstrings\",\"core\"],\"unilateral\":true},\"locust\":{\"name\":\"Locust\",\"aliases\":[\"Heuschrecke\"],\"equipment\":\"bodyweight\",\"image\":\"Superman\"}},\"workouts\":[{\"id\":\"gentle\",\"name\":\"Gentle\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Lying\",\"rest_s\":10,\"note\":\"Move slowly, breathe calmly. Stop if anything hurts.\",\"exercises\":[{\"exercise\":\"knee_to_chest\",\"duration_s\":45,\"per_side\":true},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"supine_twist\",\"duration_s\":45,\"per_side\":true},{\"exercise\":\"bridge\",\"duration_s\":20},{\"exercise\":\"bridge\",\"duration_s\":20}]},{\"type\":\"flow\",\"name\":\"Hands and knees\",\"rest_s\":10,\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"bird_dog\",\"duration_s\":20,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60},{\"exercise\":\"sphinx\",\"duration_s\":45},{\"exercise\":\"child_pose\",\"duration_s\":45}]},{\"type\":\"flow\",\"name\":\"Relaxation\",\"rest_s\":15,\"exercises\":[{\"exercise\":\"legs_up_wall\",\"duration_s\":180},{\"exercise\":\"savasana\",\"duration_s\":240}]}]},{\"id\":\"building\",\"name\":\"Building\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Warm-up\",\"rest_s\":10,\"exercises\":[{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"bird_dog\",\"duration_s\":30,\"per_side\":true}]},{\"type\":\"flow\",\"name\":\"Standing\",\"rest_s\":10,\"rest_after_s\":30,\"note\":\"Knees soft, back long. Use a wall for balance if needed.\",\"exercises\":[{\"exercise\":\"mountain_pose\",\"duration_s\":30},{\"exercise\":\"low_lunge\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"warrior_2\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"triangle\",\"duration_s\":30,\"per_side\":true}]},{\"type\":\"flow\",\"name\":\"Floor\",\"rest_s\":10,\"exercises\":[{\"exercise\":\"locust\",\"duration_s\":20},{\"exercise\":\"child_pose\",\"duration_s\":45},{\"exercise\":\"bridge\",\"duration_s\":30},{\"exercise\":\"supine_twist\",\"duration_s\":45,\"per_side\":true},{\"exercise\":\"savasana\",\"duration_s\":240}]}]}]},\"images\":{\"knee_to_chest\":\"One_Knee_To_Chest\",\"pelvic_tilt\":\"Pelvic_Tilt_Into_Bridge\",\"cat_cow\":\"Cat_Stretch\",\"child_pose\":\"Childs_Pose\",\"sphinx\":null,\"bird_dog\":null,\"bridge\":\"Butt_Lift_Bridge\",\"supine_twist\":\"Lying_Crossover\",\"legs_up_wall\":null,\"savasana\":null,\"mountain_pose\":null,\"low_lunge\":\"Kneeling_Hip_Flexor\",\"warrior_2\":null,\"triangle\":null,\"locust\":\"Superman\"}},{\"id\":\"yoga-4-mobility\",\"group\":\"yoga\",\"plan\":{\"schema_version\":1,\"name\":\"Mobility for Lifters\",\"description\":\"Two short sessions (~10 min) for hips and legs or shoulders and spine – after strength training or on rest days. Runs on its own, every pose is announced.\",\"goal\":\"general\",\"exercises\":{\"worlds_greatest\":{\"name\":\"World's Greatest Stretch\",\"aliases\":[\"Weltbeste Dehnung\"],\"equipment\":\"bodyweight\",\"image\":\"Worlds_Greatest_Stretch\",\"unilateral\":true},\"pigeon\":{\"name\":\"Pigeon Pose\",\"aliases\":[\"Taube\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"glutes\"],\"unilateral\":true},\"half_split\":{\"name\":\"Half Split\",\"aliases\":[\"Halber Spagat\"],\"equipment\":\"bodyweight\",\"image\":\"Runners_Stretch\",\"unilateral\":true},\"frog\":{\"name\":\"Frog Stretch\",\"aliases\":[\"Frosch\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\",\"glutes\"]},\"happy_baby\":{\"name\":\"Happy Baby\",\"aliases\":[\"Glückliches Baby\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"glutes\"]},\"low_lunge\":{\"name\":\"Low Lunge\",\"aliases\":[\"Tiefer Ausfallschritt\"],\"equipment\":\"bodyweight\",\"image\":\"Kneeling_Hip_Flexor\",\"unilateral\":true},\"cat_cow\":{\"name\":\"Cat-Cow\",\"aliases\":[\"Katze-Kuh\"],\"equipment\":\"bodyweight\",\"image\":\"Cat_Stretch\"},\"thread_needle\":{\"name\":\"Thread the Needle\",\"aliases\":[\"Nadelöhr\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"back\",\"shoulders\"],\"unilateral\":true},\"puppy\":{\"name\":\"Puppy Pose\",\"aliases\":[\"Welpe\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"shoulders\",\"back\"]},\"downward_dog\":{\"name\":\"Downward-Facing Dog\",\"aliases\":[\"Herabschauender Hund\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"shoulders\",\"hamstrings\",\"calves\"]},\"sphinx\":{\"name\":\"Sphinx\",\"aliases\":[\"Sphinx\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"back\"]},\"supine_twist\":{\"name\":\"Supine Twist\",\"aliases\":[\"Liegender Drehsitz\"],\"equipment\":\"bodyweight\",\"image\":\"Lying_Crossover\",\"unilateral\":true},\"child_pose\":{\"name\":\"Child's Pose\",\"aliases\":[\"Kind\"],\"equipment\":\"bodyweight\",\"image\":\"Childs_Pose\"}},\"workouts\":[{\"id\":\"hips\",\"name\":\"Hips & Legs\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Hips & legs\",\"rest_s\":5,\"exercises\":[{\"exercise\":\"worlds_greatest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"low_lunge\",\"duration_s\":45,\"per_side\":true},{\"exercise\":\"half_split\",\"duration_s\":45,\"per_side\":true},{\"exercise\":\"pigeon\",\"duration_s\":60,\"per_side\":true},{\"exercise\":\"frog\",\"duration_s\":60},{\"exercise\":\"happy_baby\",\"duration_s\":45},{\"exercise\":\"supine_twist\",\"duration_s\":45,\"per_side\":true}]}]},{\"id\":\"upper\",\"name\":\"Shoulders & Spine\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Shoulders & spine\",\"rest_s\":5,\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"thread_needle\",\"duration_s\":45,\"per_side\":true},{\"exercise\":\"puppy\",\"duration_s\":60},{\"exercise\":\"downward_dog\",\"duration_s\":45},{\"exercise\":\"sphinx\",\"duration_s\":60},{\"exercise\":\"child_pose\",\"duration_s\":45},{\"exercise\":\"supine_twist\",\"duration_s\":45,\"per_side\":true}]}]}]},\"images\":{\"worlds_greatest\":\"Worlds_Greatest_Stretch\",\"pigeon\":null,\"half_split\":\"Runners_Stretch\",\"frog\":null,\"happy_baby\":null,\"low_lunge\":\"Kneeling_Hip_Flexor\",\"cat_cow\":\"Cat_Stretch\",\"thread_needle\":null,\"puppy\":null,\"downward_dog\":null,\"sphinx\":null,\"supine_twist\":\"Lying_Crossover\",\"child_pose\":\"Childs_Pose\"}},{\"id\":\"yoga-5-yin\",\"group\":\"yoga\",\"plan\":{\"schema_version\":1,\"name\":\"Yin Yoga\",\"description\":\"Calm practice with long holds (2–4 min) for hips, back and legs (~35 min). Good in the evening or on rest days.\",\"goal\":\"general\",\"exercises\":{\"butterfly\":{\"name\":\"Butterfly\",\"aliases\":[\"Schmetterling\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\"]},\"dragon\":{\"name\":\"Dragon\",\"aliases\":[\"Drache\"],\"equipment\":\"bodyweight\",\"image\":\"Kneeling_Hip_Flexor\",\"unilateral\":true},\"caterpillar\":{\"name\":\"Caterpillar\",\"aliases\":[\"Raupe\"],\"equipment\":\"bodyweight\",\"image\":\"Seated_Floor_Hamstring_Stretch\"},\"sphinx\":{\"name\":\"Sphinx\",\"aliases\":[\"Sphinx\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"back\"]},\"shoelace\":{\"name\":\"Shoelace\",\"aliases\":[\"Schnürsenkel\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"glutes\"]},\"supine_twist\":{\"name\":\"Supine Twist\",\"aliases\":[\"Liegender Drehsitz\"],\"equipment\":\"bodyweight\",\"image\":\"Lying_Crossover\",\"unilateral\":true},\"child_pose\":{\"name\":\"Child's Pose\",\"aliases\":[\"Kind\"],\"equipment\":\"bodyweight\",\"image\":\"Childs_Pose\"},\"legs_up_wall\":{\"name\":\"Legs Up the Wall\",\"aliases\":[\"Beine an der Wand\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]},\"savasana\":{\"name\":\"Final Relaxation\",\"aliases\":[\"Endentspannung\",\"Savasana\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]}},\"workouts\":[{\"id\":\"yin\",\"name\":\"Yin\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Yin\",\"rest_s\":20,\"note\":\"Find a comfortable edge, not pain. Stay still and breathe.\",\"exercises\":[{\"exercise\":\"butterfly\",\"duration_s\":180},{\"exercise\":\"dragon\",\"duration_s\":120,\"per_side\":true},{\"exercise\":\"caterpillar\",\"duration_s\":180},{\"exercise\":\"sphinx\",\"duration_s\":180},{\"exercise\":\"child_pose\",\"duration_s\":60},{\"exercise\":\"shoelace\",\"duration_s\":150},{\"exercise\":\"supine_twist\",\"duration_s\":120,\"per_side\":true},{\"exercise\":\"legs_up_wall\",\"duration_s\":240},{\"exercise\":\"savasana\",\"duration_s\":300}]}]}]},\"images\":{\"butterfly\":null,\"dragon\":\"Kneeling_Hip_Flexor\",\"caterpillar\":\"Seated_Floor_Hamstring_Stretch\",\"sphinx\":null,\"shoelace\":null,\"supine_twist\":\"Lying_Crossover\",\"child_pose\":\"Childs_Pose\",\"legs_up_wall\":null,\"savasana\":null}},{\"id\":\"yoga-6-balance-kraft\",\"group\":\"yoga\",\"plan\":{\"schema_version\":1,\"name\":\"Balance & Strength Yoga\",\"description\":\"Standing poses and core holds in two rounds (~25 min) – warriors I–III, tree, chair, boat, plank and side plank. Builds balance, leg and core strength.\",\"goal\":\"general\",\"exercises\":{\"cat_cow\":{\"name\":\"Cat-Cow\",\"aliases\":[\"Katze-Kuh\"],\"equipment\":\"bodyweight\",\"image\":\"Cat_Stretch\"},\"downward_dog\":{\"name\":\"Downward-Facing Dog\",\"aliases\":[\"Herabschauender Hund\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"shoulders\",\"hamstrings\",\"calves\"]},\"warrior_1\":{\"name\":\"Warrior I\",\"aliases\":[\"Krieger I\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\",\"glutes\",\"shoulders\"],\"unilateral\":true},\"warrior_2\":{\"name\":\"Warrior II\",\"aliases\":[\"Krieger II\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\",\"glutes\",\"shoulders\"],\"unilateral\":true},\"warrior_3\":{\"name\":\"Warrior III\",\"aliases\":[\"Krieger III\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"hamstrings\",\"glutes\",\"core\"],\"unilateral\":true},\"tree\":{\"name\":\"Tree Pose\",\"aliases\":[\"Baum\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"glutes\",\"calves\",\"core\"],\"unilateral\":true},\"chair_pose\":{\"name\":\"Chair Pose\",\"aliases\":[\"Stuhl\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"quads\",\"glutes\"]},\"boat_pose\":{\"name\":\"Boat Pose\",\"aliases\":[\"Boot\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"core\"]},\"plank\":{\"name\":\"Plank\",\"aliases\":[\"Brett\"],\"equipment\":\"bodyweight\"},\"side_plank\":{\"name\":\"Side Plank\",\"aliases\":[\"Seitstütz\"],\"equipment\":\"bodyweight\",\"image\":\"Side_Bridge\",\"unilateral\":true},\"child_pose\":{\"name\":\"Child's Pose\",\"aliases\":[\"Kind\"],\"equipment\":\"bodyweight\",\"image\":\"Childs_Pose\"},\"savasana\":{\"name\":\"Final Relaxation\",\"aliases\":[\"Endentspannung\",\"Savasana\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]}},\"workouts\":[{\"id\":\"balance\",\"name\":\"Balance & Strength\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Warm-up\",\"rest_s\":5,\"rest_after_s\":20,\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"downward_dog\",\"duration_s\":45}]},{\"type\":\"flow\",\"name\":\"Standing\",\"rounds\":2,\"rest_s\":5,\"rest_after_round_s\":45,\"rest_after_s\":45,\"exercises\":[{\"exercise\":\"chair_pose\",\"duration_s\":30},{\"exercise\":\"warrior_1\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"warrior_2\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"warrior_3\",\"duration_s\":20,\"per_side\":true},{\"exercise\":\"tree\",\"duration_s\":30,\"per_side\":true}]},{\"type\":\"flow\",\"name\":\"Core\",\"rounds\":2,\"rest_s\":10,\"rest_after_round_s\":30,\"exercises\":[{\"exercise\":\"plank\",\"duration_s\":45},{\"exercise\":\"side_plank\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"boat_pose\",\"duration_s\":30}]},{\"type\":\"flow\",\"name\":\"Wind-down\",\"rest_s\":10,\"exercises\":[{\"exercise\":\"child_pose\",\"duration_s\":60},{\"exercise\":\"savasana\",\"duration_s\":180}]}]}]},\"images\":{\"cat_cow\":\"Cat_Stretch\",\"downward_dog\":null,\"warrior_1\":null,\"warrior_2\":null,\"warrior_3\":null,\"tree\":null,\"chair_pose\":null,\"boat_pose\":null,\"plank\":\"Plank\",\"side_plank\":\"Side_Bridge\",\"child_pose\":\"Childs_Pose\",\"savasana\":null}},{\"id\":\"alltag-1-gehen-taeglich\",\"group\":\"alltag\",\"plan\":{\"schema_version\":1,\"name\":\"Daily Walking 6 Weeks\",\"description\":\"Walking as training: 6 weeks, 5 walks per week, from 15 to 45 minutes. Five easy minutes at the start and end, brisk walking in between. In week 4 you reach the 150 minutes per week the WHO recommends. No equipment – good shoes are enough.\",\"goal\":\"endurance\",\"exercises\":{\"walk\":{\"name\":\"Walk\",\"aliases\":[\"Gehen\",\"Spazieren\"],\"equipment\":\"other\",\"image\":\"Walking_Treadmill\",\"muscles\":[]},\"brisk_walk\":{\"name\":\"Brisk Walk\",\"aliases\":[\"Zügiges Gehen\"],\"equipment\":\"other\",\"image\":\"Walking_Treadmill\",\"muscles\":[]}},\"workouts\":[{\"id\":\"w1d1\",\"name\":\"Week 1 · Walk 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"15 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w1d2\",\"name\":\"Week 1 · Walk 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"15 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w1d3\",\"name\":\"Week 1 · Walk 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"15 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w1d4\",\"name\":\"Week 1 · Walk 4\",\"blocks\":[{\"type\":\"flow\",\"name\":\"15 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w1d5\",\"name\":\"Week 1 · Walk 5\",\"blocks\":[{\"type\":\"flow\",\"name\":\"15 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":300},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w2d1\",\"name\":\"Week 2 · Walk 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"20 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":600},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w2d2\",\"name\":\"Week 2 · Walk 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"20 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":600},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w2d3\",\"name\":\"Week 2 · Walk 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"20 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":600},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w2d4\",\"name\":\"Week 2 · Walk 4\",\"blocks\":[{\"type\":\"flow\",\"name\":\"20 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":600},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w2d5\",\"name\":\"Week 2 · Walk 5\",\"blocks\":[{\"type\":\"flow\",\"name\":\"20 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":600},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w3d1\",\"name\":\"Week 3 · Walk 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"25 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":900},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w3d2\",\"name\":\"Week 3 · Walk 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"25 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":900},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w3d3\",\"name\":\"Week 3 · Walk 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"25 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":900},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w3d4\",\"name\":\"Week 3 · Walk 4\",\"blocks\":[{\"type\":\"flow\",\"name\":\"25 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":900},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w3d5\",\"name\":\"Week 3 · Walk 5\",\"blocks\":[{\"type\":\"flow\",\"name\":\"25 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":900},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w4d1\",\"name\":\"Week 4 · Walk 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"30 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":1200},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w4d2\",\"name\":\"Week 4 · Walk 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"30 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":1200},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w4d3\",\"name\":\"Week 4 · Walk 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"30 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":1200},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w4d4\",\"name\":\"Week 4 · Walk 4\",\"blocks\":[{\"type\":\"flow\",\"name\":\"30 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":1200},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w4d5\",\"name\":\"Week 4 · Walk 5\",\"blocks\":[{\"type\":\"flow\",\"name\":\"30 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":1200},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w5d1\",\"name\":\"Week 5 · Walk 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"40 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":1800},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w5d2\",\"name\":\"Week 5 · Walk 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"40 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":1800},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w5d3\",\"name\":\"Week 5 · Walk 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"40 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":1800},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w5d4\",\"name\":\"Week 5 · Walk 4\",\"blocks\":[{\"type\":\"flow\",\"name\":\"40 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":1800},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w5d5\",\"name\":\"Week 5 · Walk 5\",\"blocks\":[{\"type\":\"flow\",\"name\":\"40 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":1800},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w6d1\",\"name\":\"Week 6 · Walk 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"45 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":2100},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w6d2\",\"name\":\"Week 6 · Walk 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"45 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":2100},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w6d3\",\"name\":\"Week 6 · Walk 3\",\"blocks\":[{\"type\":\"flow\",\"name\":\"45 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":2100},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w6d4\",\"name\":\"Week 6 · Walk 4\",\"blocks\":[{\"type\":\"flow\",\"name\":\"45 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":2100},{\"exercise\":\"walk\",\"duration_s\":300}]}]},{\"id\":\"w6d5\",\"name\":\"Week 6 · Walk 5\",\"blocks\":[{\"type\":\"flow\",\"name\":\"45 minutes\",\"rest_s\":0,\"note\":\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\",\"exercises\":[{\"exercise\":\"walk\",\"duration_s\":300},{\"exercise\":\"brisk_walk\",\"duration_s\":2100},{\"exercise\":\"walk\",\"duration_s\":300}]}]}]},\"images\":{\"walk\":\"Walking_Treadmill\",\"brisk_walk\":\"Walking_Treadmill\"}},{\"id\":\"alltag-2-wandern\",\"group\":\"alltag\",\"plan\":{\"schema_version\":1,\"name\":\"Hiking Fitness 8 Weeks\",\"description\":\"Fit for the mountains: 8 weeks, 3 sessions per week. Leg strength for climbing and descending (step-ups, lunges, calf raises, glute bridge, side plank), stair intervals, and one long hike that grows from one to four hours. The last week ends with a tour day. A chair, a staircase and a day pack.\",\"goal\":\"endurance\",\"defaults\":{\"rest_s\":60,\"progression\":{\"type\":\"reps\"}},\"exercises\":{\"hike\":{\"name\":\"Hike\",\"aliases\":[\"Wandern\",\"Wanderung\"],\"equipment\":\"other\",\"image\":\"Walking_Treadmill\",\"muscles\":[\"quads\",\"glutes\",\"calves\"]},\"stair_climb\":{\"name\":\"Stair Climbing (brisk)\",\"aliases\":[\"Treppensteigen zügig\"],\"equipment\":\"bodyweight\",\"image\":\"Stairmaster\",\"muscles\":[\"quads\",\"glutes\",\"calves\"]},\"step_up\":{\"name\":\"Step-up onto Chair\",\"aliases\":[\"Aufsteigen auf Stuhl\"],\"equipment\":\"bodyweight\",\"image\":\"Dumbbell_Step_Ups\",\"unilateral\":true},\"reverse_lunge\":{\"name\":\"Reverse Lunge\",\"aliases\":[\"Ausfallschritt rückwärts\"],\"equipment\":\"bodyweight\",\"image\":\"Crossover_Reverse_Lunge\",\"unilateral\":true},\"calf_raise\":{\"name\":\"Calf Raise\",\"aliases\":[\"Wadenheben\"],\"equipment\":\"bodyweight\",\"image\":\"Standing_Calf_Raises\"},\"glute_bridge\":{\"name\":\"Glute Bridge\",\"aliases\":[\"Hüftheben\"],\"equipment\":\"bodyweight\",\"image\":\"Butt_Lift_Bridge\"},\"side_plank\":{\"name\":\"Side Plank\",\"aliases\":[\"Seitstütz\"],\"equipment\":\"bodyweight\",\"image\":\"Side_Bridge\",\"unilateral\":true}},\"workouts\":[{\"id\":\"w1a\",\"name\":\"Week 1 · Strength\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking or marching on the spot.\"},{\"type\":\"circuit\",\"name\":\"Legs for the mountain\",\"rounds\":2,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Slow and controlled. Step-ups: push through the heel of the upper foot.\",\"exercises\":[{\"exercise\":\"step_up\",\"reps\":{\"min\":10,\"max\":15},\"per_side\":true},{\"exercise\":\"reverse_lunge\",\"reps\":{\"min\":8,\"max\":12},\"per_side\":true},{\"exercise\":\"calf_raise\",\"reps\":{\"min\":15,\"max\":25}},{\"exercise\":\"glute_bridge\",\"reps\":{\"min\":12,\"max\":20}},{\"exercise\":\"side_plank\",\"duration_s\":25,\"per_side\":true}]},{\"type\":\"cooldown\"}]},{\"id\":\"w1b\",\"name\":\"Week 1 · Stairs\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking.\"},{\"type\":\"interval\",\"name\":\"6 × stairs\",\"rounds\":6,\"work_s\":60,\"rest_s\":60,\"note\":\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\",\"exercises\":[\"stair_climb\"]},{\"type\":\"cooldown\",\"duration_s\":300}]},{\"id\":\"w1c\",\"name\":\"Week 1 · Long hike\",\"blocks\":[{\"type\":\"flow\",\"name\":\"60 minutes\",\"rest_s\":0,\"note\":\"Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly.\",\"exercises\":[{\"exercise\":\"hike\",\"duration_s\":3600}]}]},{\"id\":\"w2a\",\"name\":\"Week 2 · Strength\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking or marching on the spot.\"},{\"type\":\"circuit\",\"name\":\"Legs for the mountain\",\"rounds\":2,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Slow and controlled. Step-ups: push through the heel of the upper foot.\",\"exercises\":[{\"exercise\":\"step_up\",\"reps\":{\"min\":10,\"max\":15},\"per_side\":true},{\"exercise\":\"reverse_lunge\",\"reps\":{\"min\":8,\"max\":12},\"per_side\":true},{\"exercise\":\"calf_raise\",\"reps\":{\"min\":15,\"max\":25}},{\"exercise\":\"glute_bridge\",\"reps\":{\"min\":12,\"max\":20}},{\"exercise\":\"side_plank\",\"duration_s\":30,\"per_side\":true}]},{\"type\":\"cooldown\"}]},{\"id\":\"w2b\",\"name\":\"Week 2 · Stairs\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking.\"},{\"type\":\"interval\",\"name\":\"6 × stairs\",\"rounds\":6,\"work_s\":75,\"rest_s\":60,\"note\":\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\",\"exercises\":[\"stair_climb\"]},{\"type\":\"cooldown\",\"duration_s\":300}]},{\"id\":\"w2c\",\"name\":\"Week 2 · Long hike\",\"blocks\":[{\"type\":\"flow\",\"name\":\"75 minutes\",\"rest_s\":0,\"note\":\"Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly.\",\"exercises\":[{\"exercise\":\"hike\",\"duration_s\":4500}]}]},{\"id\":\"w3a\",\"name\":\"Week 3 · Strength\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking or marching on the spot.\"},{\"type\":\"circuit\",\"name\":\"Legs for the mountain\",\"rounds\":2,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Slow and controlled. Step-ups: push through the heel of the upper foot.\",\"exercises\":[{\"exercise\":\"step_up\",\"reps\":{\"min\":10,\"max\":15},\"per_side\":true},{\"exercise\":\"reverse_lunge\",\"reps\":{\"min\":8,\"max\":12},\"per_side\":true},{\"exercise\":\"calf_raise\",\"reps\":{\"min\":15,\"max\":25}},{\"exercise\":\"glute_bridge\",\"reps\":{\"min\":12,\"max\":20}},{\"exercise\":\"side_plank\",\"duration_s\":35,\"per_side\":true}]},{\"type\":\"cooldown\"}]},{\"id\":\"w3b\",\"name\":\"Week 3 · Stairs\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking.\"},{\"type\":\"interval\",\"name\":\"7 × stairs\",\"rounds\":7,\"work_s\":90,\"rest_s\":60,\"note\":\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\",\"exercises\":[\"stair_climb\"]},{\"type\":\"cooldown\",\"duration_s\":300}]},{\"id\":\"w3c\",\"name\":\"Week 3 · Long hike\",\"blocks\":[{\"type\":\"flow\",\"name\":\"90 minutes\",\"rest_s\":0,\"note\":\"Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly.\",\"exercises\":[{\"exercise\":\"hike\",\"duration_s\":5400}]}]},{\"id\":\"w4a\",\"name\":\"Week 4 · Strength\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking or marching on the spot.\"},{\"type\":\"circuit\",\"name\":\"Legs for the mountain\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Slow and controlled. Step-ups: push through the heel of the upper foot.\",\"exercises\":[{\"exercise\":\"step_up\",\"reps\":{\"min\":10,\"max\":15},\"per_side\":true},{\"exercise\":\"reverse_lunge\",\"reps\":{\"min\":8,\"max\":12},\"per_side\":true},{\"exercise\":\"calf_raise\",\"reps\":{\"min\":15,\"max\":25}},{\"exercise\":\"glute_bridge\",\"reps\":{\"min\":12,\"max\":20}},{\"exercise\":\"side_plank\",\"duration_s\":40,\"per_side\":true}]},{\"type\":\"cooldown\"}]},{\"id\":\"w4b\",\"name\":\"Week 4 · Stairs\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking.\"},{\"type\":\"interval\",\"name\":\"7 × stairs\",\"rounds\":7,\"work_s\":90,\"rest_s\":60,\"note\":\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\",\"exercises\":[\"stair_climb\"]},{\"type\":\"cooldown\",\"duration_s\":300}]},{\"id\":\"w4c\",\"name\":\"Week 4 · Long hike\",\"blocks\":[{\"type\":\"flow\",\"name\":\"105 minutes\",\"rest_s\":0,\"note\":\"Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly.\",\"exercises\":[{\"exercise\":\"hike\",\"duration_s\":6300}]}]},{\"id\":\"w5a\",\"name\":\"Week 5 · Strength\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking or marching on the spot.\"},{\"type\":\"circuit\",\"name\":\"Legs for the mountain\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Slow and controlled. Step-ups: push through the heel of the upper foot.\",\"exercises\":[{\"exercise\":\"step_up\",\"reps\":{\"min\":10,\"max\":15},\"per_side\":true},{\"exercise\":\"reverse_lunge\",\"reps\":{\"min\":8,\"max\":12},\"per_side\":true},{\"exercise\":\"calf_raise\",\"reps\":{\"min\":15,\"max\":25}},{\"exercise\":\"glute_bridge\",\"reps\":{\"min\":12,\"max\":20}},{\"exercise\":\"side_plank\",\"duration_s\":40,\"per_side\":true}]},{\"type\":\"cooldown\"}]},{\"id\":\"w5b\",\"name\":\"Week 5 · Stairs\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking.\"},{\"type\":\"interval\",\"name\":\"8 × stairs\",\"rounds\":8,\"work_s\":105,\"rest_s\":60,\"note\":\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\",\"exercises\":[\"stair_climb\"]},{\"type\":\"cooldown\",\"duration_s\":300}]},{\"id\":\"w5c\",\"name\":\"Week 5 · Long hike\",\"blocks\":[{\"type\":\"flow\",\"name\":\"2 hours\",\"rest_s\":0,\"note\":\"Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly.\",\"exercises\":[{\"exercise\":\"hike\",\"duration_s\":7200}]}]},{\"id\":\"w6a\",\"name\":\"Week 6 · Strength\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking or marching on the spot.\"},{\"type\":\"circuit\",\"name\":\"Legs for the mountain\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Slow and controlled. Step-ups: push through the heel of the upper foot.\",\"exercises\":[{\"exercise\":\"step_up\",\"reps\":{\"min\":10,\"max\":15},\"per_side\":true},{\"exercise\":\"reverse_lunge\",\"reps\":{\"min\":8,\"max\":12},\"per_side\":true},{\"exercise\":\"calf_raise\",\"reps\":{\"min\":15,\"max\":25}},{\"exercise\":\"glute_bridge\",\"reps\":{\"min\":12,\"max\":20}},{\"exercise\":\"side_plank\",\"duration_s\":40,\"per_side\":true}]},{\"type\":\"cooldown\"}]},{\"id\":\"w6b\",\"name\":\"Week 6 · Stairs\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking.\"},{\"type\":\"interval\",\"name\":\"8 × stairs\",\"rounds\":8,\"work_s\":120,\"rest_s\":60,\"note\":\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\",\"exercises\":[\"stair_climb\"]},{\"type\":\"cooldown\",\"duration_s\":300}]},{\"id\":\"w6c\",\"name\":\"Week 6 · Long hike\",\"blocks\":[{\"type\":\"flow\",\"name\":\"150 minutes\",\"rest_s\":0,\"note\":\"Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly.\",\"exercises\":[{\"exercise\":\"hike\",\"duration_s\":9000}]}]},{\"id\":\"w7a\",\"name\":\"Week 7 · Strength\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking or marching on the spot.\"},{\"type\":\"circuit\",\"name\":\"Legs for the mountain\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Slow and controlled. Step-ups: push through the heel of the upper foot.\",\"exercises\":[{\"exercise\":\"step_up\",\"reps\":{\"min\":10,\"max\":15},\"per_side\":true},{\"exercise\":\"reverse_lunge\",\"reps\":{\"min\":8,\"max\":12},\"per_side\":true},{\"exercise\":\"calf_raise\",\"reps\":{\"min\":15,\"max\":25}},{\"exercise\":\"glute_bridge\",\"reps\":{\"min\":12,\"max\":20}},{\"exercise\":\"side_plank\",\"duration_s\":40,\"per_side\":true}]},{\"type\":\"cooldown\"}]},{\"id\":\"w7b\",\"name\":\"Week 7 · Stairs\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking.\"},{\"type\":\"interval\",\"name\":\"8 × stairs\",\"rounds\":8,\"work_s\":120,\"rest_s\":60,\"note\":\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\",\"exercises\":[\"stair_climb\"]},{\"type\":\"cooldown\",\"duration_s\":300}]},{\"id\":\"w7c\",\"name\":\"Week 7 · Long hike\",\"blocks\":[{\"type\":\"flow\",\"name\":\"3 hours\",\"rest_s\":0,\"note\":\"Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly.\",\"exercises\":[{\"exercise\":\"hike\",\"duration_s\":10800}]}]},{\"id\":\"w8a\",\"name\":\"Week 8 · Strength\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking or marching on the spot.\"},{\"type\":\"circuit\",\"name\":\"Legs for the mountain\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Slow and controlled. Step-ups: push through the heel of the upper foot.\",\"exercises\":[{\"exercise\":\"step_up\",\"reps\":{\"min\":10,\"max\":15},\"per_side\":true},{\"exercise\":\"reverse_lunge\",\"reps\":{\"min\":8,\"max\":12},\"per_side\":true},{\"exercise\":\"calf_raise\",\"reps\":{\"min\":15,\"max\":25}},{\"exercise\":\"glute_bridge\",\"reps\":{\"min\":12,\"max\":20}},{\"exercise\":\"side_plank\",\"duration_s\":40,\"per_side\":true}]},{\"type\":\"cooldown\"}]},{\"id\":\"w8b\",\"name\":\"Week 8 · Stairs\",\"blocks\":[{\"type\":\"warmup\",\"duration_s\":300,\"note\":\"Five minutes of brisk walking.\"},{\"type\":\"interval\",\"name\":\"6 × stairs\",\"rounds\":6,\"work_s\":90,\"rest_s\":60,\"note\":\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\",\"exercises\":[\"stair_climb\"]},{\"type\":\"cooldown\",\"duration_s\":300}]},{\"id\":\"w8c\",\"name\":\"Week 8 · Tour day\",\"blocks\":[{\"type\":\"flow\",\"name\":\"4 hours\",\"rest_s\":0,\"note\":\"The tour day: four hours with a day pack, ups and downs. Breaks are part of it – pause the timer for them.\",\"exercises\":[{\"exercise\":\"hike\",\"duration_s\":14400}]}]}]},\"images\":{\"hike\":\"Walking_Treadmill\",\"stair_climb\":\"Stairmaster\",\"step_up\":\"Dumbbell_Step_Ups\",\"reverse_lunge\":\"Crossover_Reverse_Lunge\",\"calf_raise\":\"Standing_Calf_Raises\",\"glute_bridge\":\"Butt_Lift_Bridge\",\"side_plank\":\"Side_Bridge\"}},{\"id\":\"alltag-3-rueckenschule\",\"group\":\"alltag\",\"plan\":{\"schema_version\":1,\"name\":\"Back School 8 Weeks\",\"description\":\"A strong, mobile back for everyday life: 8 weeks, 2 sessions per week, about 30 minutes. Walk in, mobilise gently, strengthen the trunk (curl-up, bird dog, side plank, glute bridge, dead bug), learn to lift with a light weight, then relax. Three stages from gentle to stronger. Inspired by the German \\\"Neue Rückenschule\\\". With acute or radiating pain see a doctor first.\",\"goal\":\"general\",\"defaults\":{\"rest_s\":30,\"progression\":{\"type\":\"none\"}},\"exercises\":{\"brisk_walk\":{\"name\":\"Brisk Walk\",\"aliases\":[\"Zügiges Gehen\"],\"equipment\":\"other\",\"image\":\"Walking_Treadmill\",\"muscles\":[]},\"cat_cow\":{\"name\":\"Cat-Cow\",\"aliases\":[\"Katze-Kuh\"],\"equipment\":\"bodyweight\",\"image\":\"Cat_Stretch\"},\"pelvic_tilt\":{\"name\":\"Pelvic Tilt\",\"aliases\":[\"Beckenkippen\"],\"equipment\":\"bodyweight\",\"image\":\"Pelvic_Tilt_Into_Bridge\"},\"knee_to_chest\":{\"name\":\"Knee to Chest\",\"aliases\":[\"Knie zur Brust\"],\"equipment\":\"bodyweight\",\"image\":\"One_Knee_To_Chest\"},\"supine_twist\":{\"name\":\"Supine Twist\",\"aliases\":[\"Liegender Drehsitz\"],\"equipment\":\"bodyweight\",\"image\":\"Lying_Crossover\",\"unilateral\":true},\"child_pose\":{\"name\":\"Child's Pose\",\"aliases\":[\"Kind\"],\"equipment\":\"bodyweight\",\"image\":\"Childs_Pose\"},\"curl_up\":{\"name\":\"McGill Curl-Up\",\"aliases\":[\"Curl-up\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"core\"],\"note\":\"One leg bent, hands under the lower back. Lift head and shoulders only slightly.\"},\"bird_dog\":{\"name\":\"Bird Dog\",\"aliases\":[\"Vierfüßlerstand diagonal\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[\"core\",\"glutes\",\"back\"],\"unilateral\":true},\"side_plank\":{\"name\":\"Side Plank\",\"aliases\":[\"Seitstütz\"],\"equipment\":\"bodyweight\",\"image\":\"Side_Bridge\",\"unilateral\":true},\"glute_bridge\":{\"name\":\"Glute Bridge\",\"aliases\":[\"Hüftheben\"],\"equipment\":\"bodyweight\",\"image\":\"Butt_Lift_Bridge\"},\"dead_bug\":{\"name\":\"Dead Bug\",\"equipment\":\"bodyweight\",\"unilateral\":true},\"superman\":{\"name\":\"Superman\",\"aliases\":[\"Rückenstrecker liegend\"],\"equipment\":\"bodyweight\",\"image\":\"Superman\"},\"db_romanian_deadlift\":{\"name\":\"Dumbbell Romanian Deadlift\",\"aliases\":[\"Rumänisches Kreuzheben Kurzhantel\"],\"equipment\":\"dumbbell\",\"image\":\"Stiff-Legged_Dumbbell_Deadlift\"},\"savasana\":{\"name\":\"Final Relaxation\",\"aliases\":[\"Endentspannung\",\"Savasana\"],\"equipment\":\"bodyweight\",\"image\":false,\"muscles\":[]}},\"workouts\":[{\"id\":\"s01\",\"name\":\"Week 1 · Session 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":2,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":6},{\"exercise\":\"bird_dog\",\"reps\":6,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":15,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":10}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":2,\"reps\":10,\"weight_kg\":2,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":180}]}]},{\"id\":\"s02\",\"name\":\"Week 1 · Session 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":2,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":6},{\"exercise\":\"bird_dog\",\"reps\":6,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":15,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":10}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":2,\"reps\":10,\"weight_kg\":2,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":180}]}]},{\"id\":\"s03\",\"name\":\"Week 2 · Session 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":2,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":6},{\"exercise\":\"bird_dog\",\"reps\":6,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":15,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":10}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":2,\"reps\":10,\"weight_kg\":2,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":180}]}]},{\"id\":\"s04\",\"name\":\"Week 2 · Session 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":2,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":6},{\"exercise\":\"bird_dog\",\"reps\":6,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":15,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":10}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":2,\"reps\":10,\"weight_kg\":2,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":180}]}]},{\"id\":\"s05\",\"name\":\"Week 3 · Session 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":8},{\"exercise\":\"bird_dog\",\"reps\":8,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":25,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":12},{\"exercise\":\"dead_bug\",\"reps\":8,\"per_side\":true}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":2,\"reps\":10,\"weight_kg\":4,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":240}]}]},{\"id\":\"s06\",\"name\":\"Week 3 · Session 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":8},{\"exercise\":\"bird_dog\",\"reps\":8,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":25,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":12},{\"exercise\":\"dead_bug\",\"reps\":8,\"per_side\":true}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":2,\"reps\":10,\"weight_kg\":4,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":240}]}]},{\"id\":\"s07\",\"name\":\"Week 4 · Session 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":8},{\"exercise\":\"bird_dog\",\"reps\":8,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":25,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":12},{\"exercise\":\"dead_bug\",\"reps\":8,\"per_side\":true}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":2,\"reps\":10,\"weight_kg\":4,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":240}]}]},{\"id\":\"s08\",\"name\":\"Week 4 · Session 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":8},{\"exercise\":\"bird_dog\",\"reps\":8,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":25,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":12},{\"exercise\":\"dead_bug\",\"reps\":8,\"per_side\":true}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":2,\"reps\":10,\"weight_kg\":4,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":240}]}]},{\"id\":\"s09\",\"name\":\"Week 5 · Session 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":8},{\"exercise\":\"bird_dog\",\"reps\":8,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":25,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":12},{\"exercise\":\"dead_bug\",\"reps\":8,\"per_side\":true}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":2,\"reps\":10,\"weight_kg\":4,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":240}]}]},{\"id\":\"s10\",\"name\":\"Week 5 · Session 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":8},{\"exercise\":\"bird_dog\",\"reps\":8,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":25,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":12},{\"exercise\":\"dead_bug\",\"reps\":8,\"per_side\":true}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":2,\"reps\":10,\"weight_kg\":4,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":240}]}]},{\"id\":\"s11\",\"name\":\"Week 6 · Session 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":10},{\"exercise\":\"bird_dog\",\"reps\":10,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":35,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":15},{\"exercise\":\"dead_bug\",\"reps\":10,\"per_side\":true},{\"exercise\":\"superman\",\"reps\":10}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":3,\"reps\":10,\"weight_kg\":6,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":300}]}]},{\"id\":\"s12\",\"name\":\"Week 6 · Session 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":10},{\"exercise\":\"bird_dog\",\"reps\":10,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":35,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":15},{\"exercise\":\"dead_bug\",\"reps\":10,\"per_side\":true},{\"exercise\":\"superman\",\"reps\":10}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":3,\"reps\":10,\"weight_kg\":6,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":300}]}]},{\"id\":\"s13\",\"name\":\"Week 7 · Session 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":10},{\"exercise\":\"bird_dog\",\"reps\":10,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":35,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":15},{\"exercise\":\"dead_bug\",\"reps\":10,\"per_side\":true},{\"exercise\":\"superman\",\"reps\":10}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":3,\"reps\":10,\"weight_kg\":6,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":300}]}]},{\"id\":\"s14\",\"name\":\"Week 7 · Session 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":10},{\"exercise\":\"bird_dog\",\"reps\":10,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":35,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":15},{\"exercise\":\"dead_bug\",\"reps\":10,\"per_side\":true},{\"exercise\":\"superman\",\"reps\":10}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":3,\"reps\":10,\"weight_kg\":6,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":300}]}]},{\"id\":\"s15\",\"name\":\"Week 8 · Session 1\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":10},{\"exercise\":\"bird_dog\",\"reps\":10,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":35,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":15},{\"exercise\":\"dead_bug\",\"reps\":10,\"per_side\":true},{\"exercise\":\"superman\",\"reps\":10}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":3,\"reps\":10,\"weight_kg\":6,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":300}]}]},{\"id\":\"s16\",\"name\":\"Week 8 · Session 2\",\"blocks\":[{\"type\":\"flow\",\"name\":\"Walk in\",\"rest_s\":0,\"note\":\"Five minutes of brisk walking – outside or through the flat.\",\"exercises\":[{\"exercise\":\"brisk_walk\",\"duration_s\":300}]},{\"type\":\"flow\",\"name\":\"Mobilise\",\"rest_s\":5,\"note\":\"Slow, small movements without pain. Breathe calmly.\",\"exercises\":[{\"exercise\":\"cat_cow\",\"duration_s\":60},{\"exercise\":\"pelvic_tilt\",\"duration_s\":60},{\"exercise\":\"knee_to_chest\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"supine_twist\",\"duration_s\":30,\"per_side\":true},{\"exercise\":\"child_pose\",\"duration_s\":60}]},{\"type\":\"circuit\",\"name\":\"Strong trunk\",\"rounds\":3,\"rest_after_exercise_s\":15,\"rest_after_round_s\":60,\"note\":\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\",\"exercises\":[{\"exercise\":\"curl_up\",\"reps\":10},{\"exercise\":\"bird_dog\",\"reps\":10,\"per_side\":true},{\"exercise\":\"side_plank\",\"duration_s\":35,\"per_side\":true},{\"exercise\":\"glute_bridge\",\"reps\":15},{\"exercise\":\"dead_bug\",\"reps\":10,\"per_side\":true},{\"exercise\":\"superman\",\"reps\":10}]},{\"type\":\"sets\",\"exercise\":\"db_romanian_deadlift\",\"sets\":3,\"reps\":10,\"weight_kg\":6,\"rest_s\":60,\"note\":\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\"},{\"type\":\"flow\",\"name\":\"Relax\",\"rest_s\":0,\"note\":\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\",\"exercises\":[{\"exercise\":\"savasana\",\"duration_s\":300}]}]}]},\"images\":{\"brisk_walk\":\"Walking_Treadmill\",\"cat_cow\":\"Cat_Stretch\",\"pelvic_tilt\":\"Pelvic_Tilt_Into_Bridge\",\"knee_to_chest\":\"One_Knee_To_Chest\",\"supine_twist\":\"Lying_Crossover\",\"child_pose\":\"Childs_Pose\",\"curl_up\":null,\"bird_dog\":null,\"side_plank\":\"Side_Bridge\",\"glute_bridge\":\"Butt_Lift_Bridge\",\"dead_bug\":\"Dead_Bug\",\"superman\":\"Superman\",\"db_romanian_deadlift\":\"Stiff-Legged_Dumbbell_Deadlift\",\"savasana\":null}}]");
+// src/core/hero/content/lib.ts
+var DE = {
+	en: {
+		"Short conditioning – 10× 30 s swings / 30 s rest, then 4× 20 s goblet squats / 10 s rest. Timed, ideal with the \"Signals\" blueprint for sounds or light.": "Short conditioning – 10× 30 s swings / 30 s rest, then 4× 20 s goblet squats / 10 s rest. Timed, with beeps.",
+		"Two alternating sessions (~20 min) with the foundation poses – mountain, downward dog, warriors, tree, child's pose, cat-cow, bridge. Runs on its own, every pose is announced. A mat is enough.": "Two alternating sessions (~20 min) with the foundation poses – mountain, downward dog, warriors, tree, child's pose, cat-cow, bridge. Runs on its own with a beep at every change. A mat is enough.",
+		"Two short sessions (~10 min) for hips and legs or shoulders and spine – after strength training or on rest days. Runs on its own, every pose is announced.": "Two short sessions (~10 min) for hips and legs or shoulders and spine – after strength training or on rest days. Runs on its own with a beep at every change."
+	},
+	de: /* @__PURE__ */ JSON.parse("{\"Beginner Strength 5×5\":\"Einsteiger-Kraft 5×5\",\"Classic barbell beginner program, 2 alternating workouts, 3×/week. +2.5 kg every session (deadlift +5 kg) as long as all 5×5 succeed. Inspired by StrongLifts 5×5.\":\"Klassisches Langhantel-Einsteigerprogramm, 2 Workouts im Wechsel, 3×/Woche. +2,5 kg pro Training (Kreuzheben +5 kg), solange alle 5×5 klappen. Angelehnt an StrongLifts 5×5.\",\"Back Squat\":\"Kniebeuge\",\"Bench Press\":\"Bankdrücken\",\"Barbell Row\":\"Langhantelrudern\",\"Overhead Press\":\"Schulterdrücken stehend\",\"Deadlift\":\"Kreuzheben\",\"Workout A\":\"Workout A\",\"5 easy minutes, then 2–3 light warm-up sets of squats.\":\"5 lockere Minuten, dann 2–3 leichte Aufwärmsätze Kniebeugen.\",\"Workout B\":\"Workout B\",\"Full Body at Home (Dumbbells)\":\"Ganzkörper zu Hause (Kurzhanteln)\",\"Two alternating full-body workouts, 3×/week, dumbbells and a bench/floor only. Double progression in the 8–12 or 10–15 rep range.\":\"Zwei Ganzkörper-Workouts im Wechsel, 3×/Woche, nur Kurzhanteln und Bank/Boden. Doppelte Progression im Bereich 8–12 bzw. 10–15 Wiederholungen.\",\"Goblet Squat\":\"Goblet Squat\",\"Dumbbell Bench Press\":\"Kurzhantel-Bankdrücken\",\"One-Arm Dumbbell Row\":\"Einarmiges Kurzhantelrudern\",\"Dumbbell Romanian Deadlift\":\"Rumänisches Kreuzheben mit Kurzhanteln\",\"Dumbbell Shoulder Press\":\"Kurzhantel-Schulterdrücken\",\"Split Squat\":\"Split Squat\",\"Push-Ups\":\"Liegestütze\",\"Dumbbell Floor Press\":\"Kurzhantel-Bodendrücken\",\"Glute Bridge\":\"Glute Bridge\",\"Lateral Raise\":\"Seitheben\",\"Dumbbell Curl\":\"Kurzhantel-Curl\",\"Plank\":\"Unterarmstütz\",\"Dead Bug\":\"Dead Bug\",\"Full Body A\":\"Ganzkörper A\",\"Shoulders & Core\":\"Schultern & Rumpf\",\"Full Body B\":\"Ganzkörper B\",\"Arms & Core\":\"Arme & Rumpf\",\"Tiered Program 4 Days\":\"Stufenprogramm 4 Tage\",\"Four workouts with a heavy main lift (5×3), a medium secondary lift (3×10) and a light volume exercise (3×15–25). For beginners after their first months. Inspired by GZCLP.\":\"Vier Workouts mit schwerer Hauptübung (5×3), mittlerer Nebenübung (3×10) und leichter Volumenübung (3×15–25). Für Einsteiger nach den ersten Monaten. Angelehnt an GZCLP.\",\"Lat Pulldown\":\"Latzug\",\"A1 – Squat\":\"A1 – Kniebeuge\",\"T1\":\"T1\",\"Last set as many clean reps as possible.\":\"Letzter Satz: so viele saubere Wiederholungen wie möglich.\",\"T2\":\"T2\",\"T3\":\"T3\",\"B1 – Overhead Press\":\"B1 – Schulterdrücken\",\"A2 – Bench Press\":\"A2 – Bankdrücken\",\"B2 – Deadlift\":\"B2 – Kreuzheben\",\"Upper/Lower 4 Days\":\"Oberkörper/Unterkörper 4 Tage\",\"Four workouts (Upper A, Lower A, Upper B, Lower B), every muscle group 2×/week, about 10–16 sets per muscle per week. Good for intermediates with 4 training days.\":\"Vier Workouts (Oberkörper A, Unterkörper A, Oberkörper B, Unterkörper B), jede Muskelgruppe 2×/Woche, etwa 10–16 Sätze pro Muskel und Woche. Gut für Fortgeschrittene mit 4 Trainingstagen.\",\"Triceps Pushdown\":\"Trizepsdrücken am Kabel\",\"Incline Dumbbell Press\":\"Schrägbankdrücken mit Kurzhanteln\",\"Chin-up\":\"Klimmzug im Untergriff\",\"Seated Cable Row\":\"Rudern am Kabel sitzend\",\"Face Pulls\":\"Face Pulls\",\"Hammer Curl\":\"Hammer-Curl\",\"Overhead Triceps Extension\":\"Trizepsstrecken über Kopf\",\"Romanian Deadlift\":\"Rumänisches Kreuzheben\",\"Leg Press\":\"Beinpresse\",\"Leg Curl\":\"Beinbeuger-Curl\",\"Calf Raise\":\"Wadenheben\",\"Bulgarian Split Squat\":\"Bulgarian Split Squat\",\"Hip Thrust\":\"Hip Thrust\",\"Leg Extension\":\"Beinstrecker\",\"Upper A\":\"Oberkörper A\",\"Arms & Shoulders\":\"Arme & Schultern\",\"Lower A\":\"Unterkörper A\",\"Upper B\":\"Oberkörper B\",\"Arms & Rear Delts\":\"Arme & hintere Schulter\",\"Lower B\":\"Unterkörper B\",\"Push/Pull/Legs\":\"Drücken/Ziehen/Beine\",\"Hypertrophy split with push, pull and leg days alternating, up to 6×/week. One heavy main lift per day, then volume with 8–12 or 15–20 reps. Inspired by the r/Fitness PPL.\":\"Muskelaufbau-Split mit Drück-, Zieh- und Beintagen im Wechsel, bis 6×/Woche. Pro Tag eine schwere Hauptübung, danach Volumen mit 8–12 bzw. 15–20 Wiederholungen. Angelehnt an den r/Fitness PPL.\",\"Push\":\"Drücken\",\"Pull\":\"Ziehen\",\"One heavy set, as clean as possible.\":\"Ein schwerer Satz, so sauber wie möglich.\",\"Biceps\":\"Bizeps\",\"Legs\":\"Beine\",\"7-Minute Circuit\":\"7-Minuten-Zirkel\",\"The scientifically described classic (Klika & Jordan, ACSM 2013) – 12 exercises of 30 s (side plank on both sides), 5 s to switch, 7 minutes per round, two rounds. Only a chair and a wall needed. Timed, beeps recommended.\":\"Der wissenschaftlich beschriebene Klassiker (Klika & Jordan, ACSM 2013) – 12 Übungen à 30 s (Seitstütz auf beiden Seiten), 5 s Wechsel, 7 Minuten pro Runde, zwei Runden. Nur Stuhl und Wand nötig. Zeitgesteuert mit Signaltönen.\",\"Side Plank, Left\":\"Seitstütz links\",\"Side Plank, Right\":\"Seitstütz rechts\",\"Jumping Jacks\":\"Hampelmann\",\"Wall Sit\":\"Wandsitzen\",\"Crunches\":\"Crunches\",\"Step-up onto Chair\":\"Aufsteigen auf einen Stuhl\",\"Bodyweight Squat\":\"Kniebeuge ohne Gewicht\",\"Triceps Dips on Chair\":\"Trizeps-Dips am Stuhl\",\"High Knees\":\"Kniehebelauf\",\"Lunges\":\"Ausfallschritte\",\"Push-up with Rotation\":\"Liegestütz mit Drehung\",\"Side Plank\":\"Seitstütz\",\"7-Minute Circuit (2 rounds)\":\"7-Minuten-Zirkel (2 Runden)\",\"Move around easily for 2–3 minutes.\":\"2–3 Minuten locker bewegen.\",\"Round 1\":\"Runde 1\",\"Round 2\":\"Runde 2\",\"Add a third round if you like.\":\"Wer mag, hängt eine dritte Runde an.\",\"Full-Body Strength, No Equipment\":\"Ganzkörper-Kraft ohne Geräte\",\"Two alternating strength workouts, 3×/week, only a chair and sofa. Reps increase from session to session; at the upper limit switch to the harder variation (hint on the exercise).\":\"Zwei Kraft-Workouts im Wechsel, 3×/Woche, nur Stuhl und Sofa. Die Wiederholungen steigen von Training zu Training; an der Obergrenze zur schwereren Variante wechseln (Hinweis bei der Übung).\",\"Harder – lower slowly (3 s), pause at the bottom, then split squat.\":\"Schwerer: langsam absenken (3 s), unten kurz halten, dann Split Squat.\",\"Levels – elevated → floor → feet elevated → archer.\":\"Stufen: erhöht → Boden → Füße erhöht → Archer.\",\"Reverse Lunge\":\"Ausfallschritt rückwärts\",\"Pike Push-up\":\"Pike-Liegestütz\",\"Hips high, head towards the floor – trains the shoulders.\":\"Hüfte hoch, Kopf Richtung Boden – trainiert die Schultern.\",\"Single-Leg Glute Bridge\":\"Einbeinige Glute Bridge\",\"Superman\":\"Superman\",\"Bulgarian Split Squat on Sofa\":\"Bulgarian Split Squat am Sofa\",\"Decline Push-up (Feet on Chair)\":\"Liegestütz mit Füßen auf dem Stuhl\",\"Hip Thrust on Sofa\":\"Hip Thrust am Sofa\",\"Strength Circuit A\":\"Kraftzirkel A\",\"Strength Circuit B\":\"Kraftzirkel B\",\"20-Minute Travel Circuit\":\"20-Minuten-Reisezirkel\",\"No equipment, 2 m² of space – as many rounds as possible in 20 minutes of squats, push-ups, lunges, mountain climbers and plank. Ideal for hotels and vacations.\":\"Ohne Geräte, 2 m² Platz – so viele Runden wie möglich in 20 Minuten mit Kniebeugen, Liegestützen, Ausfallschritten, Mountain Climbers und Unterarmstütz. Ideal für Hotel und Urlaub.\",\"Alternating Lunges\":\"Ausfallschritte im Wechsel\",\"Mountain Climbers\":\"Mountain Climbers\",\"20 Minutes – As Many Rounds as Possible\":\"20 Minuten – so viele Runden wie möglich\",\"3 minutes: jumping jacks, arm circles, slow squats.\":\"3 Minuten: Hampelmann, Armkreisen, langsame Kniebeugen.\",\"Circuit\":\"Zirkel\",\"Keep moving, rest only when needed. Goal – more rounds than last time.\":\"In Bewegung bleiben, Pause nur wenn nötig. Ziel: mehr Runden als beim letzten Mal.\",\"Calisthenics Level 0 (Starter)\":\"Calisthenics Stufe 0 (Einstieg)\",\"Getting started without prior experience, 3×/week: incline push-ups, rows at a table/bar, squats, glute bridges, pull-up prep and plank. Reps increase from session to session; at the upper limit the next variation follows.\":\"Einstieg ohne Vorerfahrung, 3×/Woche: erhöhte Liegestütze, Rudern am Tisch/an der Stange, Kniebeugen, Glute Bridges, Klimmzug-Vorbereitung und Unterarmstütz. Die Wiederholungen steigen von Training zu Training; an der Obergrenze folgt die nächste Variante.\",\"Incline Push-Up\":\"Erhöhter Liegestütz\",\"Hands on a table or bench. Next level – lower incline, then on the floor.\":\"Hände auf Tisch oder Bank. Nächste Stufe: niedriger, dann am Boden.\",\"Inverted Row\":\"Rudern unter dem Tisch\",\"The more upright the body, the easier. Next level – body flatter.\":\"Je aufrechter der Körper, desto leichter. Nächste Stufe: Körper flacher.\",\"Scapular Pull-up\":\"Schulterblatt-Klimmzug\",\"Arms straight, only pull the shoulder blades down.\":\"Arme gestreckt, nur die Schulterblätter nach unten ziehen.\",\"Pull-up Negative\":\"Negativer Klimmzug\",\"Jump up, then lower yourself under control for 3–5 seconds.\":\"Hochspringen, dann 3–5 Sekunden kontrolliert absenken.\",\"Starter A\":\"Einstieg A\",\"Arm circles, hip circles, 10 easy squats.\":\"Armkreisen, Hüftkreisen, 10 lockere Kniebeugen.\",\"Starter B\":\"Einstieg B\",\"Calisthenics Basics\":\"Calisthenics Grundlagen\",\"Full body 3×/week in pairs: pull-up + squat, dip + hinge, row + push-up, then a core triplet. 5–8 reps; at the upper limit switch to the next level. Inspired by the r/bodyweightfitness Recommended Routine.\":\"Ganzkörper 3×/Woche in Paaren: Klimmzug + Kniebeuge, Dip + Hüftstreckung, Rudern + Liegestütz, danach ein Rumpf-Dreier. 5–8 Wiederholungen; an der Obergrenze zur nächsten Stufe. Angelehnt an die Recommended Routine von r/bodyweightfitness.\",\"Pull-up (choose level)\":\"Klimmzug (Stufe wählen)\",\"Levels – negative pull-ups → band-assisted → pull-up → weighted.\":\"Stufen: negative Klimmzüge → mit Band → Klimmzug → mit Zusatzgewicht.\",\"Squat Progression\":\"Kniebeugen-Progression\",\"Levels – squat → split squat → Bulgarian split squat → shrimp/pistol.\":\"Stufen: Kniebeuge → Split Squat → Bulgarian Split Squat → Shrimp/Pistol.\",\"Dips (choose level)\":\"Dips (Stufe wählen)\",\"Levels – support hold → negative dips → parallel bar dips → weighted.\":\"Stufen: Stütz halten → negative Dips → Barrendips → mit Zusatzgewicht.\",\"Hinge Progression\":\"Hüftstreck-Progression\",\"Levels – glute bridge → single-leg → Nordic curl negative → Nordic curl.\":\"Stufen: Glute Bridge → einbeinig → Nordic Curl negativ → Nordic Curl.\",\"Levels – upright → flat → feet elevated → one-arm/archer.\":\"Stufen: aufrecht → flach → Füße erhöht → einarmig/Archer.\",\"Push-Ups (choose level)\":\"Liegestütze (Stufe wählen)\",\"Levels – wall → incline → knees → full → diamond → archer.\":\"Stufen: Wand → erhöht → auf Knien → normal → Diamant → Archer.\",\"Hanging Knee Raise\":\"Knieheben im Hang\",\"Basics\":\"Grundlagen\",\"Dynamic: arm/hip circles, squats, push-up plank, hanging from the bar.\":\"Dynamisch: Arm- und Hüftkreisen, Kniebeugen, Liegestützposition, an der Stange hängen.\",\"Pair 1 – Pull & Legs\":\"Paar 1 – Ziehen & Beine\",\"Pair 2 – Push & Hinge\":\"Paar 2 – Drücken & Hüfte\",\"Pair 3 – Row & Push-up\":\"Paar 3 – Rudern & Liegestütz\",\"Core\":\"Rumpf\",\"Calisthenics Advanced\":\"Calisthenics Fortgeschritten\",\"For advanced trainees (3×8 pull-ups and dips). Three workouts: pull & push, legs & core, skills (muscle-up, handstand push-up, L-sit). Rep progression, added weight optional.\":\"Für Fortgeschrittene (3×8 Klimmzüge und Dips). Drei Workouts: Ziehen & Drücken, Beine & Rumpf, Skills (Muscle-up, Handstand-Liegestütz, L-Sit). Progression über Wiederholungen, Zusatzgewicht optional.\",\"Pull-ups\":\"Klimmzüge\",\"Parallel Bar Dips\":\"Barrendips\",\"Archer Push-up\":\"Archer-Liegestütz\",\"Feet-Elevated Inverted Row\":\"Rudern unter der Stange, Füße erhöht\",\"Decline Push-up\":\"Liegestütz mit erhöhten Füßen\",\"Pistol Squat Progression\":\"Pistol-Squat-Progression\",\"Levels – onto a box → with support → free.\":\"Stufen: auf eine Box → mit Halt → frei.\",\"Nordic Curl (Negative)\":\"Nordic Curl (negativ)\",\"Lower as slowly as possible, catch yourself with your hands.\":\"So langsam wie möglich absenken, mit den Händen abfangen.\",\"Hanging Leg Raise\":\"Beinheben im Hang\",\"L-Sit\":\"L-Sit\",\"Levels – knees tucked → one leg straight → both straight.\":\"Stufen: Knie angezogen → ein Bein gestreckt → beide gestreckt.\",\"Muscle-up Practice\":\"Muscle-up-Übung\",\"Levels – explosive chest-to-bar pull-ups → negative muscle-ups → muscle-up.\":\"Stufen: explosive Klimmzüge bis zur Brust → negative Muscle-ups → Muscle-up.\",\"Handstand Push-up Progression\":\"Handstand-Liegestütz-Progression\",\"Levels – pike push-up → feet elevated → against the wall.\":\"Stufen: Pike-Liegestütz → Füße erhöht → an der Wand.\",\"Pull & Push\":\"Ziehen & Drücken\",\"Pair 1\":\"Paar 1\",\"Pair 2\":\"Paar 2\",\"Pair 3\":\"Paar 3\",\"Legs & Core\":\"Beine & Rumpf\",\"Skills\":\"Skills\",\"Warm up wrists and shoulders thoroughly.\":\"Handgelenke und Schultern gründlich aufwärmen.\",\"Volume\":\"Volumen\",\"Kettlebell Swing & Get-up\":\"Kettlebell Swing & Get-up\",\"100 one-arm swings (10×10) and 10 Turkish get-ups (5 per side), doable almost daily. Heavier bell only once everything feels easy. Inspired by Simple & Sinister.\":\"100 einarmige Swings (10×10) und 10 Turkish Get-ups (5 pro Seite), fast täglich machbar. Schwerere Kugel erst, wenn alles leicht fällt. Angelehnt an Simple & Sinister.\",\"One-Arm Kettlebell Swing\":\"Einarmiger Kettlebell Swing\",\"Turkish Get-up\":\"Turkish Get-up\",\"Swing & Get-up\":\"Swing & Get-up\",\"3× each: glute bridge, goblet squat hold with gentle rocking, halos.\":\"Je 3×: Glute Bridge, Goblet Squat halten mit leichtem Wippen, Halos.\",\"Switch hands after every set.\":\"Nach jedem Satz die Hand wechseln.\",\"Alternate left and right, so 5 per side. Slow and controlled.\":\"Links und rechts im Wechsel, also 5 pro Seite. Langsam und kontrolliert.\",\"Kettlebell Full Body\":\"Kettlebell Ganzkörper\",\"Full body with one kettlebell, A/B alternating, 3×/week. A with press ladders (1–2–3 per side, inspired by Rite of Passage) and swings, B with goblet squat, single-leg deadlift, get-ups and farmer's walk.\":\"Ganzkörper mit einer Kettlebell, A/B im Wechsel, 3×/Woche. A mit Drück-Leitern (1–2–3 pro Seite, angelehnt an Rite of Passage) und Swings, B mit Goblet Squat, einbeinigem Kreuzheben, Get-ups und Farmer's Walk.\",\"Clean & Press\":\"Clean & Press\",\"Kettlebell Row\":\"Kettlebell-Rudern\",\"Two-Arm Kettlebell Swing\":\"Beidarmiger Kettlebell Swing\",\"Kettlebell Single-Leg Deadlift\":\"Einbeiniges Kreuzheben mit Kettlebell\",\"One-Arm Farmer's Walk\":\"Einarmiger Farmer's Walk\",\"Full Body A – Ladders\":\"Ganzkörper A – Leitern\",\"Press Ladders\":\"Drück-Leitern\",\"One round = one ladder: 1, 2, 3 reps per side. More ladders (up to 5), then up to 5 rungs.\":\"Eine Runde = eine Leiter: 1, 2, 3 Wiederholungen pro Seite. Erst mehr Leitern (bis 5), dann bis 5 Sprossen.\",\"Full Body B – Legs & Core\":\"Ganzkörper B – Beine & Rumpf\",\"Alternate left and right.\":\"Links und rechts im Wechsel.\",\"Kettlebell Armor Building Complex\":\"Kettlebell Armor Building Complex\",\"2 cleans, 1 press, 3 front squats with two kettlebells, one round every minute for 20 minutes. Weight – something you can press 3–5×. Protocol by Dan John.\":\"2 Cleans, 1 Press, 3 Front Squats mit zwei Kettlebells, jede Minute eine Runde, 20 Minuten lang. Gewicht: etwas, das du 3–5× drücken kannst. Protokoll von Dan John.\",\"Double Kettlebell Clean\":\"Doppel-Kettlebell Clean\",\"Double Kettlebell Press\":\"Doppel-Kettlebell Press\",\"Double Kettlebell Front Squat\":\"Doppel-Kettlebell Front Squat\",\"Armor Building Complex\":\"Armor Building Complex\",\"A few easy rounds with half the weight.\":\"Ein paar lockere Runden mit halbem Gewicht.\",\"ABC – 20 minutes\":\"ABC – 20 Minuten\",\"One round every minute, rest for the remainder of the minute.\":\"Jede Minute eine Runde, den Rest der Minute Pause.\",\"Kettlebell Swing Intervals\":\"Kettlebell-Swing-Intervalle\",\"Short conditioning – 10× 30 s swings / 30 s rest, then 4× 20 s goblet squats / 10 s rest. Timed, ideal with the \\\"Signals\\\" blueprint for sounds or light.\":\"Kurzes Konditionstraining: 10× 30 s Swings / 30 s Pause, dann 4× 20 s Goblet Squats / 10 s Pause. Zeitgesteuert mit Signaltönen.\",\"Swing Intervals\":\"Swing-Intervalle\",\"Glute bridges, light swings, goblet squat hold.\":\"Glute Bridges, leichte Swings, Goblet Squat halten.\",\"Swings 30/30\":\"Swings 30/30\",\"Goblet Squats 20/10\":\"Goblet Squats 20/10\",\"Tabata Circuit, No Equipment\":\"Tabata-Zirkel ohne Geräte\",\"Four Tabata blocks (8× 20 s work / 10 s rest) with squats, push-ups, mountain climbers and lunges, 1 minute rest each – about 20 minutes of conditioning without equipment.\":\"Vier Tabata-Blöcke (8× 20 s Arbeit / 10 s Pause) mit Kniebeugen, Liegestützen, Mountain Climbers und Ausfallschritten, je 1 Minute Pause – etwa 20 Minuten Kondition ohne Geräte.\",\"Tabata ×4\":\"Tabata ×4\",\"Tabata 1 – Squats\":\"Tabata 1 – Kniebeugen\",\"Tabata 2 – Push-Ups\":\"Tabata 2 – Liegestütze\",\"Tabata 3 – Mountain Climbers\":\"Tabata 3 – Mountain Climbers\",\"Tabata 4 – Lunges\":\"Tabata 4 – Ausfallschritte\",\"Tabata Strength (Kettlebell)\":\"Tabata-Kraft (Kettlebell)\",\"Four Tabata blocks (8× 20 s / 10 s) with kettlebell swings, goblet squats, push-ups and mountain climbers – about 20 minutes. One kettlebell is enough.\":\"Vier Tabata-Blöcke (8× 20 s / 10 s) mit Kettlebell Swings, Goblet Squats, Liegestützen und Mountain Climbers – etwa 20 Minuten. Eine Kettlebell genügt.\",\"Tabata Strength ×4\":\"Tabata-Kraft ×4\",\"3 minutes: light swings, slow squats, arm circles.\":\"3 Minuten: leichte Swings, langsame Kniebeugen, Armkreisen.\",\"Tabata 1 – Swings\":\"Tabata 1 – Swings\",\"Tabata 2 – Goblet Squats\":\"Tabata 2 – Goblet Squats\",\"Tabata 3 – Push-Ups\":\"Tabata 3 – Liegestütze\",\"Tabata 4 – Mountain Climbers\":\"Tabata 4 – Mountain Climbers\",\"10×1 Intervals\":\"10×1-Intervalle\",\"10 × 1 minute hard (about 85–90 % of max heart rate), 1 minute easy – about 25 minutes including warm-up. Bike, rower, running or jump rope. Inspired by Little & Gibala 2010.\":\"10 × 1 Minute hart (etwa 85–90 % der maximalen Herzfrequenz), 1 Minute locker – etwa 25 Minuten mit Aufwärmen. Rad, Rudergerät, Laufen oder Springseil. Angelehnt an Little & Gibala 2010.\",\"Hard interval (bike, row, run)\":\"Hartes Intervall (Rad, Rudern, Laufen)\",\"10×1\":\"10×1\",\"5 minutes easy, the last minute a little faster.\":\"5 Minuten locker, die letzte Minute etwas schneller.\",\"10×1 minute\":\"10×1 Minute\",\"Hard but steady – you should be able to hold the pace for all ten. Easy minute: keep moving slowly.\":\"Hart, aber gleichmäßig – das Tempo soll für alle zehn reichen. Lockere Minute: langsam in Bewegung bleiben.\",\"4×4 Intervals\":\"4×4-Intervalle\",\"4 × 4 minutes hard (85–95 % of max heart rate), 3 minutes easy in between – about 40 minutes including warm-up. Strong evidence for endurance (VO2max). Inspired by Helgerud et al. 2007.\":\"4 × 4 Minuten hart (85–95 % der maximalen Herzfrequenz), dazwischen 3 Minuten locker – etwa 40 Minuten mit Aufwärmen. Gut belegt für die Ausdauer (VO2max). Angelehnt an Helgerud et al. 2007.\",\"4-minute interval (bike, row, run)\":\"4-Minuten-Intervall (Rad, Rudern, Laufen)\",\"4×4\":\"4×4\",\"10 minutes easy to moderate.\":\"10 Minuten locker bis mittel.\",\"4×4 minutes\":\"4×4 Minuten\",\"Hard enough that talking is difficult. Recovery: keep moving slowly.\":\"So hart, dass Sprechen schwerfällt. Erholung: langsam in Bewegung bleiben.\",\"30-20-10 Intervals\":\"30-20-10-Intervalle\",\"Three blocks of 5 × (30 s easy, 20 s moderate, 10 s sprint), 2 minutes rest between blocks – about 25 minutes. Running, bike or rower. Inspired by Gunnarsson & Bangsbo 2012.\":\"Drei Blöcke mit 5 × (30 s locker, 20 s mittel, 10 s Sprint), 2 Minuten Pause zwischen den Blöcken – etwa 25 Minuten. Laufen, Rad oder Rudergerät. Angelehnt an Gunnarsson & Bangsbo 2012.\",\"Easy\":\"Locker\",\"Moderate\":\"Mittel\",\"Sprint\":\"Sprint\",\"30-20-10\":\"30-20-10\",\"5 minutes easy.\":\"5 Minuten locker.\",\"Block 1\":\"Block 1\",\"Block 2\":\"Block 2\",\"Block 3\":\"Block 3\",\"Sprint Intervals 30/4\":\"Sprint-Intervalle 30/4\",\"5 × 30 seconds all-out, 4 minutes easy in between – about 35 minutes including warm-up. Very short, very hard. Best on a bike or rower. Inspired by the sprint interval studies of Gibala et al.\":\"5 × 30 Sekunden Vollgas, dazwischen 4 Minuten locker – etwa 35 Minuten mit Aufwärmen. Sehr kurz, sehr hart. Am besten auf Rad oder Rudergerät. Angelehnt an die Sprintintervall-Studien von Gibala et al.\",\"All-out sprint (bike, row)\":\"Vollgas-Sprint (Rad, Rudern)\",\"Sprint 30/4\":\"Sprint 30/4\",\"8 minutes easy, with two short accelerations.\":\"8 Minuten locker, mit zwei kurzen Steigerungen.\",\"5 × 30 s\":\"5 × 30 s\",\"All-out from the first second. Recovery: pedal or row very easily.\":\"Vollgas ab der ersten Sekunde. Erholung: ganz locker treten oder rudern.\",\"Yoga Basics\":\"Yoga Grundlagen\",\"Two alternating sessions (~20 min) with the foundation poses – mountain, downward dog, warriors, tree, child's pose, cat-cow, bridge. Runs on its own, every pose is announced. A mat is enough.\":\"Zwei Einheiten im Wechsel (~20 min) mit den Grundhaltungen – Berg, herabschauender Hund, Krieger, Baum, Kindhaltung, Katze-Kuh, Brücke. Läuft von selbst, mit Signalton bei jedem Wechsel. Eine Matte genügt.\",\"Cat-Cow\":\"Katze-Kuh\",\"Child's Pose\":\"Kindhaltung\",\"Mountain Pose\":\"Berg\",\"Standing Forward Fold\":\"Stehende Vorbeuge\",\"Half Lift\":\"Halbe Vorbeuge\",\"Downward-Facing Dog\":\"Herabschauender Hund\",\"Low Lunge\":\"Tiefer Ausfallschritt\",\"Warrior I\":\"Krieger I\",\"Warrior II\":\"Krieger II\",\"Triangle Pose\":\"Dreieck\",\"Tree Pose\":\"Baum\",\"Chair Pose\":\"Stuhl\",\"Cobra\":\"Kobra\",\"Bridge Pose\":\"Brücke\",\"Seated Forward Fold\":\"Sitzende Vorbeuge\",\"Butterfly\":\"Schmetterling\",\"Knees to Chest\":\"Knie zur Brust\",\"Supine Twist\":\"Drehung in Rückenlage\",\"Final Relaxation\":\"Endentspannung\",\"Basics A\":\"Grundlagen A\",\"Arrive\":\"Ankommen\",\"Breathe in – arch, breathe out – round.\":\"Einatmen – Hohlkreuz, ausatmen – Rundrücken.\",\"Standing poses\":\"Stehende Haltungen\",\"Floor\":\"Boden\",\"Basics B\":\"Grundlagen B\",\"Sun Salutation Flow\":\"Sonnengruß-Flow\",\"The classic sun salutation as a flowing sequence, 5 rounds (~15 min) – mountain, forward fold, plank, chaturanga, upward dog, downward dog. Ends with child's pose and relaxation.\":\"Der klassische Sonnengruß als fließende Abfolge, 5 Runden (~15 min) – Berg, Vorbeuge, Brett, Chaturanga, heraufschauender Hund, herabschauender Hund. Zum Schluss Kindhaltung und Entspannung.\",\"Chaturanga\":\"Chaturanga\",\"Upward-Facing Dog\":\"Heraufschauender Hund\",\"Sun Salutation\":\"Sonnengruß\",\"Warm-up\":\"Aufwärmen\",\"Sun salutation\":\"Sonnengruß\",\"One pose per breath – stay five breaths in downward dog.\":\"Eine Haltung pro Atemzug – im herabschauenden Hund fünf Atemzüge bleiben.\",\"Wind-down\":\"Ausklang\",\"Back Care Yoga\":\"Yoga für den Rücken\",\"Gentle yoga for the lower back (~20 min), 1–2×/week. \\\"Gentle\\\" for the first weeks, later \\\"Building\\\" with standing poses. Inspired by the Back to Health study programme. Pain is a stop signal.\":\"Sanftes Yoga für den unteren Rücken (~20 min), 1–2×/Woche. In den ersten Wochen „Sanft“, später „Aufbau“ mit stehenden Haltungen. Angelehnt an das Studienprogramm Back to Health. Schmerz ist ein Stoppsignal.\",\"Knee to Chest\":\"Knie zur Brust\",\"Pelvic Tilt\":\"Beckenkippen\",\"Sphinx\":\"Sphinx\",\"Bird Dog\":\"Vierfüßlerstand diagonal\",\"Legs Up the Wall\":\"Beine an die Wand\",\"Locust\":\"Heuschrecke\",\"Gentle\":\"Sanft\",\"Lying\":\"Im Liegen\",\"Move slowly, breathe calmly. Stop if anything hurts.\":\"Langsam bewegen, ruhig atmen. Aufhören, wenn etwas weh tut.\",\"Hands and knees\":\"Vierfüßlerstand\",\"Relaxation\":\"Entspannung\",\"Building\":\"Aufbau\",\"Standing\":\"Im Stehen\",\"Knees soft, back long. Use a wall for balance if needed.\":\"Knie locker, Rücken lang. Bei Bedarf an der Wand abstützen.\",\"Mobility for Lifters\":\"Mobilität für Kraftsportler\",\"Two short sessions (~10 min) for hips and legs or shoulders and spine – after strength training or on rest days. Runs on its own, every pose is announced.\":\"Zwei kurze Einheiten (~10 min) für Hüfte und Beine oder Schultern und Wirbelsäule – nach dem Krafttraining oder an Ruhetagen. Läuft von selbst, mit Signalton bei jedem Wechsel.\",\"World's Greatest Stretch\":\"World's Greatest Stretch\",\"Pigeon Pose\":\"Taube\",\"Half Split\":\"Halber Spagat\",\"Frog Stretch\":\"Frosch\",\"Happy Baby\":\"Glückliches Baby\",\"Thread the Needle\":\"Nadelöhr\",\"Puppy Pose\":\"Welpe\",\"Hips & Legs\":\"Hüfte & Beine\",\"Hips & legs\":\"Hüfte & Beine\",\"Shoulders & Spine\":\"Schultern & Wirbelsäule\",\"Shoulders & spine\":\"Schultern & Wirbelsäule\",\"Yin Yoga\":\"Yin Yoga\",\"Calm practice with long holds (2–4 min) for hips, back and legs (~35 min). Good in the evening or on rest days.\":\"Ruhige Praxis mit langem Halten (2–4 min) für Hüfte, Rücken und Beine (~35 min). Gut am Abend oder an Ruhetagen.\",\"Dragon\":\"Drache\",\"Caterpillar\":\"Raupe\",\"Shoelace\":\"Schnürsenkel\",\"Yin\":\"Yin\",\"Find a comfortable edge, not pain. Stay still and breathe.\":\"Eine angenehme Dehngrenze suchen, keinen Schmerz. Still bleiben und atmen.\",\"Balance & Strength Yoga\":\"Yoga für Gleichgewicht & Kraft\",\"Standing poses and core holds in two rounds (~25 min) – warriors I–III, tree, chair, boat, plank and side plank. Builds balance, leg and core strength.\":\"Stehende Haltungen und Rumpf-Halteübungen in zwei Runden (~25 min) – Krieger I–III, Baum, Stuhl, Boot, Brett und Seitstütz. Stärkt Gleichgewicht, Beine und Rumpf.\",\"Warrior III\":\"Krieger III\",\"Boat Pose\":\"Boot\",\"Balance & Strength\":\"Gleichgewicht & Kraft\",\"Full Body 3 Days (Gym)\":\"Ganzkörper 3 Tage (Studio)\",\"Three different full-body workouts (A, B, C), 3×/week with a day off in between, about 60 minutes. Barbell, dumbbells and machines. Every muscle group is trained in every session – good for beginners and anyone who can only train on three days.\":\"Drei verschiedene Ganzkörper-Workouts (A, B, C), 3×/Woche mit je einem Tag Pause, etwa 60 Minuten. Langhantel, Kurzhanteln und Geräte. Jede Muskelgruppe kommt in jedem Training dran – gut für Einsteiger und alle, die nur an drei Tagen trainieren können.\",\"5 easy minutes, then 2 light warm-up sets of squats.\":\"5 lockere Minuten, dann 2 leichte Aufwärmsätze Kniebeugen.\",\"Arms\":\"Arme\",\"Full Body C\":\"Ganzkörper C\",\"Shoulders & Calves\":\"Schultern & Waden\",\"Minimal Strength 2 Days\":\"Minimal-Kraft 2 Tage\",\"For little time: two short full-body workouts (~30 min), 2×/week, mostly machines and dumbbells. Only 1–2 sets per exercise – but each one hard, 1–2 reps short of failure. A proven minimum dose for strength and health.\":\"Für wenig Zeit: zwei kurze Ganzkörper-Workouts (~30 min), 2×/Woche, vor allem Geräte und Kurzhanteln. Nur 1–2 Sätze pro Übung – dafür jeder hart, 1–2 Wiederholungen vor dem Muskelversagen. Eine erprobte Mindestdosis für Kraft und Gesundheit.\",\"Machine Chest Press\":\"Brustpresse\",\"5 easy minutes, then one light set of the first exercise.\":\"5 lockere Minuten, dann ein leichter Satz der ersten Übung.\",\"Stop 1–2 reps before failure.\":\"1–2 Wiederholungen vor dem Muskelversagen aufhören.\",\"Exercise Snacks\":\"Bewegungs-Snacks\",\"Three mini workouts of 2–5 minutes – stairs, legs, upper body. No changing, no equipment: do one or more of them spread over the day, e.g. before lunch or after long sitting. Ideal for days without time for a real workout.\":\"Drei Mini-Workouts von 2–5 Minuten – Treppe, Beine, Oberkörper. Ohne Umziehen, ohne Geräte: eins oder mehrere über den Tag verteilt, z. B. vor dem Mittagessen oder nach langem Sitzen. Ideal für Tage ohne Zeit für ein richtiges Training.\",\"Stair Climbing (brisk)\":\"Treppensteigen (zügig)\",\"Hands on a table or windowsill.\":\"Hände auf einen Tisch oder die Fensterbank.\",\"Stair Snack\":\"Treppen-Snack\",\"Stairs\":\"Treppe\",\"Climb briskly, two steps at a time if you can – walk back down in the rest.\":\"Zügig hochsteigen, wenn möglich zwei Stufen auf einmal – in der Pause wieder hinuntergehen.\",\"Leg Snack\":\"Bein-Snack\",\"Upper Body Snack\":\"Oberkörper-Snack\",\"Upper Body\":\"Oberkörper\",\"Balance & Leg Strength\":\"Gleichgewicht & Beinkraft\",\"About 30 minutes, 3×/week: chair stands, calf and toe raises, side leg raises, then balance exercises on a timer. Always stand next to a sturdy chair or worktop. Inspired by the Otago Exercise Programme for fall prevention.\":\"Etwa 30 Minuten, 3×/Woche: Aufstehen vom Stuhl, Waden- und Zehenheben, Bein seitlich heben, dann Gleichgewichtsübungen nach Zeit. Immer neben einem stabilen Stuhl oder der Arbeitsplatte stehen. Angelehnt an das Otago-Programm zur Sturzvorbeugung.\",\"Sit to Stand\":\"Aufstehen vom Stuhl\",\"Arms crossed – use your hands only if you need to.\":\"Arme verschränkt – die Hände nur nehmen, wenn es nötig ist.\",\"Toe Raise\":\"Zehenheben\",\"Standing Side Leg Raise\":\"Bein seitlich heben im Stand\",\"Seated Knee Extension\":\"Knie strecken im Sitzen\",\"Standing Knee Curl\":\"Knie beugen im Stand\",\"Tandem Stand\":\"Fuß vor Fuß stehen\",\"Single-Leg Stand\":\"Einbeinstand\",\"Heel-to-Toe Walk\":\"Seiltänzergang\",\"Walking Backwards\":\"Rückwärtsgehen\",\"Sideways Walk\":\"Seitwärtsgehen\",\"Strength & Balance\":\"Kraft & Gleichgewicht\",\"March on the spot, circle your shoulders and ankles, turn your head slowly – holding on to the chair.\":\"Auf der Stelle gehen, Schultern und Fußgelenke kreisen, den Kopf langsam drehen – dabei am Stuhl festhalten.\",\"Hold on to the chair. Move slowly – about 3 seconds up and 3 seconds down.\":\"Am Stuhl festhalten. Langsam bewegen – etwa 3 Sekunden hoch und 3 Sekunden runter.\",\"Balance\":\"Gleichgewicht\",\"Stay next to the chair. Easier: hold on with both hands. Harder: one hand, then fingertips, then no hands.\":\"Neben dem Stuhl bleiben. Leichter: mit beiden Händen festhalten. Schwerer: eine Hand, dann Fingerspitzen, dann freihändig.\",\"Walk around calmly for a few minutes.\":\"Ein paar Minuten ruhig umhergehen.\",\"Core Stability Trio\":\"Rumpf-Trio\",\"Three back-friendly core exercises in about 10 minutes – daily or as a warm-up before strength training. Short holds of about 10 seconds, three rounds with fewer reps each time. Inspired by Stuart McGill's \\\"Big 3\\\".\":\"Drei rückenfreundliche Rumpfübungen in etwa 10 Minuten – täglich oder als Aufwärmen vor dem Krafttraining. Kurze Haltephasen von etwa 10 Sekunden, drei Runden mit jeweils weniger Wiederholungen. Angelehnt an die „Big 3“ von Stuart McGill.\",\"McGill Curl-Up\":\"McGill Curl-up\",\"One leg bent, hands under the lower back. Lift head and shoulders only slightly.\":\"Ein Bein angewinkelt, Hände unter dem unteren Rücken. Kopf und Schultern nur leicht anheben.\",\"Core Trio\":\"Rumpf-Trio\",\"Cat-cow on all fours and a few easy steps.\":\"Katze-Kuh im Vierfüßlerstand und ein paar lockere Schritte.\",\"Hold every rep for about 10 seconds – then relax briefly.\":\"Jede Wiederholung etwa 10 Sekunden halten – dann kurz lösen.\",\"Knees bent is fine.\":\"Mit angewinkelten Knien ist in Ordnung.\",\"Round 3\":\"Runde 3\",\"Run Starter 9 Weeks\":\"Laufeinstieg in 9 Wochen\",\"From walking to 30 minutes of running in 9 weeks: 3 runs per week with a rest day in between, about 30–40 minutes each. Runs on its own with a beep at every change between running and walking. If a run felt too hard, simply repeat it. Inspired by the NHS Couch to 5K plan.\":\"Vom Gehen zu 30 Minuten Laufen in 9 Wochen: 3 Läufe pro Woche mit je einem Ruhetag dazwischen, jeweils etwa 30–40 Minuten. Läuft von selbst, mit Signalton bei jedem Wechsel zwischen Laufen und Gehen. War ein Lauf zu schwer, einfach wiederholen. Angelehnt an den NHS-Plan „Couch to 5K“.\",\"Brisk Walk\":\"Zügiges Gehen\",\"Easy Run\":\"Lockeres Laufen\",\"Walk\":\"Gehen\",\"Run & Walk\":\"Laufen & Gehen\",\"Slow enough that you could still talk. About 28 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 28 Minuten.\",\"Slow enough that you could still talk. About 29 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 29 Minuten.\",\"Slow enough that you could still talk. About 25 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 25 Minuten.\",\"Slow enough that you could still talk. About 31 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 31 Minuten.\",\"Slow enough that you could still talk. About 30 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 30 Minuten.\",\"Slow enough that you could still talk. About 34 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 34 Minuten.\",\"Slow enough that you could still talk. About 33 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 33 Minuten.\",\"Slow enough that you could still talk. About 35 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 35 Minuten.\",\"Slow enough that you could still talk. About 38 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 38 Minuten.\",\"Slow enough that you could still talk. About 40 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 40 Minuten.\",\"Week 1 · Run 1\":\"Woche 1 · Lauf 1\",\"Week 1 · Run 2\":\"Woche 1 · Lauf 2\",\"Week 1 · Run 3\":\"Woche 1 · Lauf 3\",\"Week 2 · Run 1\":\"Woche 2 · Lauf 1\",\"Week 2 · Run 2\":\"Woche 2 · Lauf 2\",\"Week 2 · Run 3\":\"Woche 2 · Lauf 3\",\"Week 3 · Run 1\":\"Woche 3 · Lauf 1\",\"Week 3 · Run 2\":\"Woche 3 · Lauf 2\",\"Week 3 · Run 3\":\"Woche 3 · Lauf 3\",\"Week 4 · Run 1\":\"Woche 4 · Lauf 1\",\"Week 4 · Run 2\":\"Woche 4 · Lauf 2\",\"Week 4 · Run 3\":\"Woche 4 · Lauf 3\",\"Week 5 · Run 1\":\"Woche 5 · Lauf 1\",\"Week 5 · Run 2\":\"Woche 5 · Lauf 2\",\"Week 5 · Run 3\":\"Woche 5 · Lauf 3\",\"Week 6 · Run 1\":\"Woche 6 · Lauf 1\",\"Week 6 · Run 2\":\"Woche 6 · Lauf 2\",\"Week 6 · Run 3\":\"Woche 6 · Lauf 3\",\"Week 7 · Run 1\":\"Woche 7 · Lauf 1\",\"Week 7 · Run 2\":\"Woche 7 · Lauf 2\",\"Week 7 · Run 3\":\"Woche 7 · Lauf 3\",\"Week 8 · Run 1\":\"Woche 8 · Lauf 1\",\"Week 8 · Run 2\":\"Woche 8 · Lauf 2\",\"Week 8 · Run 3\":\"Woche 8 · Lauf 3\",\"Week 9 · Run 1\":\"Woche 9 · Lauf 1\",\"Week 9 · Run 2\":\"Woche 9 · Lauf 2\",\"Week 9 · Run 3\":\"Woche 9 · Lauf 3\",\"Week 1 · Walk 1\":\"Woche 1 · Spaziergang 1\",\"15 minutes\":\"15 Minuten\",\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\":\"Locker beginnen und ausklingen; dazwischen zügig gehen – etwas außer Atem, aber noch im Gespräch.\",\"Week 1 · Walk 2\":\"Woche 1 · Spaziergang 2\",\"Week 1 · Walk 3\":\"Woche 1 · Spaziergang 3\",\"Week 1 · Walk 4\":\"Woche 1 · Spaziergang 4\",\"Week 1 · Walk 5\":\"Woche 1 · Spaziergang 5\",\"Week 2 · Walk 1\":\"Woche 2 · Spaziergang 1\",\"20 minutes\":\"20 Minuten\",\"Week 2 · Walk 2\":\"Woche 2 · Spaziergang 2\",\"Week 2 · Walk 3\":\"Woche 2 · Spaziergang 3\",\"Week 2 · Walk 4\":\"Woche 2 · Spaziergang 4\",\"Week 2 · Walk 5\":\"Woche 2 · Spaziergang 5\",\"Week 3 · Walk 1\":\"Woche 3 · Spaziergang 1\",\"25 minutes\":\"25 Minuten\",\"Week 3 · Walk 2\":\"Woche 3 · Spaziergang 2\",\"Week 3 · Walk 3\":\"Woche 3 · Spaziergang 3\",\"Week 3 · Walk 4\":\"Woche 3 · Spaziergang 4\",\"Week 3 · Walk 5\":\"Woche 3 · Spaziergang 5\",\"Week 4 · Walk 1\":\"Woche 4 · Spaziergang 1\",\"30 minutes\":\"30 Minuten\",\"Week 4 · Walk 2\":\"Woche 4 · Spaziergang 2\",\"Week 4 · Walk 3\":\"Woche 4 · Spaziergang 3\",\"Week 4 · Walk 4\":\"Woche 4 · Spaziergang 4\",\"Week 4 · Walk 5\":\"Woche 4 · Spaziergang 5\",\"Week 5 · Walk 1\":\"Woche 5 · Spaziergang 1\",\"40 minutes\":\"40 Minuten\",\"Week 5 · Walk 2\":\"Woche 5 · Spaziergang 2\",\"Week 5 · Walk 3\":\"Woche 5 · Spaziergang 3\",\"Week 5 · Walk 4\":\"Woche 5 · Spaziergang 4\",\"Week 5 · Walk 5\":\"Woche 5 · Spaziergang 5\",\"Week 6 · Walk 1\":\"Woche 6 · Spaziergang 1\",\"45 minutes\":\"45 Minuten\",\"Week 6 · Walk 2\":\"Woche 6 · Spaziergang 2\",\"Week 6 · Walk 3\":\"Woche 6 · Spaziergang 3\",\"Week 6 · Walk 4\":\"Woche 6 · Spaziergang 4\",\"Week 6 · Walk 5\":\"Woche 6 · Spaziergang 5\",\"Daily Walking 6 Weeks\":\"Jeden Tag gehen 6 Wochen\",\"Walking as training: 6 weeks, 5 walks per week, from 15 to 45 minutes. Five easy minutes at the start and end, brisk walking in between. In week 4 you reach the 150 minutes per week the WHO recommends. No equipment – good shoes are enough.\":\"Gehen als Training: 6 Wochen, 5 Spaziergänge pro Woche, von 15 auf 45 Minuten. Fünf lockere Minuten am Anfang und Ende, dazwischen zügig gehen. In Woche 4 erreichst du die 150 Minuten pro Woche, die die WHO empfiehlt. Ohne Geräte – gute Schuhe genügen.\",\"Week 1 · Strength\":\"Woche 1 · Kraft\",\"Five minutes of brisk walking or marching on the spot.\":\"Fünf Minuten zügig gehen oder auf der Stelle marschieren.\",\"Legs for the mountain\":\"Beine für den Berg\",\"Slow and controlled. Step-ups: push through the heel of the upper foot.\":\"Langsam und kontrolliert. Step-ups: über die Ferse des oberen Fußes hochdrücken.\",\"Week 1 · Stairs\":\"Woche 1 · Treppe\",\"Five minutes of brisk walking.\":\"Fünf Minuten zügig gehen.\",\"6 × stairs\":\"6 × Treppe\",\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\":\"Zügig hinauf, in der Pause ruhig wieder hinunter. Ein Hügel geht genauso.\",\"60 minutes\":\"60 Minuten\",\"Week 1 · Long hike\":\"Woche 1 · Lange Wanderung\",\"Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly.\":\"Gleichmäßiges Tempo mit Tagesrucksack (3–5 kg), Steigungen, wo immer du welche findest. Regelmäßig trinken.\",\"Week 2 · Strength\":\"Woche 2 · Kraft\",\"Week 2 · Stairs\":\"Woche 2 · Treppe\",\"75 minutes\":\"75 Minuten\",\"Week 2 · Long hike\":\"Woche 2 · Lange Wanderung\",\"Week 3 · Strength\":\"Woche 3 · Kraft\",\"Week 3 · Stairs\":\"Woche 3 · Treppe\",\"7 × stairs\":\"7 × Treppe\",\"90 minutes\":\"90 Minuten\",\"Week 3 · Long hike\":\"Woche 3 · Lange Wanderung\",\"Week 4 · Strength\":\"Woche 4 · Kraft\",\"Week 4 · Stairs\":\"Woche 4 · Treppe\",\"105 minutes\":\"105 Minuten\",\"Week 4 · Long hike\":\"Woche 4 · Lange Wanderung\",\"Week 5 · Strength\":\"Woche 5 · Kraft\",\"Week 5 · Stairs\":\"Woche 5 · Treppe\",\"8 × stairs\":\"8 × Treppe\",\"2 hours\":\"2 Stunden\",\"Week 5 · Long hike\":\"Woche 5 · Lange Wanderung\",\"Week 6 · Strength\":\"Woche 6 · Kraft\",\"Week 6 · Stairs\":\"Woche 6 · Treppe\",\"150 minutes\":\"150 Minuten\",\"Week 6 · Long hike\":\"Woche 6 · Lange Wanderung\",\"Week 7 · Strength\":\"Woche 7 · Kraft\",\"Week 7 · Stairs\":\"Woche 7 · Treppe\",\"3 hours\":\"3 Stunden\",\"Week 7 · Long hike\":\"Woche 7 · Lange Wanderung\",\"Week 8 · Strength\":\"Woche 8 · Kraft\",\"Week 8 · Stairs\":\"Woche 8 · Treppe\",\"4 hours\":\"4 Stunden\",\"Week 8 · Tour day\":\"Woche 8 · Tourentag\",\"The tour day: four hours with a day pack, ups and downs. Breaks are part of it – pause the timer for them.\":\"Der Tourentag: vier Stunden mit Tagesrucksack, bergauf und bergab. Pausen gehören dazu – dafür den Timer anhalten.\",\"Hiking Fitness 8 Weeks\":\"Fit fürs Wandern 8 Wochen\",\"Fit for the mountains: 8 weeks, 3 sessions per week. Leg strength for climbing and descending (step-ups, lunges, calf raises, glute bridge, side plank), stair intervals, and one long hike that grows from one to four hours. The last week ends with a tour day. A chair, a staircase and a day pack.\":\"Fit für die Berge: 8 Wochen, 3 Einheiten pro Woche. Beinkraft für bergauf und bergab (Step-ups, Ausfallschritte, Wadenheben, Glute Bridge, Seitstütz), Treppen-Intervalle und eine lange Wanderung, die von einer auf vier Stunden wächst. Die letzte Woche endet mit einem Tourentag. Ein Stuhl, eine Treppe und ein Tagesrucksack.\",\"Week 1 · Session 1\":\"Woche 1 · Einheit 1\",\"Walk in\":\"Eingehen\",\"Five minutes of brisk walking – outside or through the flat.\":\"Fünf Minuten zügig gehen – draußen oder durch die Wohnung.\",\"Mobilise\":\"Mobilisieren\",\"Slow, small movements without pain. Breathe calmly.\":\"Langsame, kleine Bewegungen ohne Schmerz. Ruhig atmen.\",\"Strong trunk\":\"Starker Rumpf\",\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\":\"Jede Wiederholung von Curl-up und Bird Dog etwa 10 Sekunden halten. Den Rücken in seiner natürlichen Form lassen.\",\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\":\"Richtig heben: aus der Hüfte beugen, Rücken lang, Gewicht nah am Körper. Zwei Wasserflaschen genügen am Anfang.\",\"Relax\":\"Entspannen\",\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\":\"Auf dem Rücken liegen. Nacheinander jede Körperpartie fünf Sekunden anspannen, dann ganz loslassen.\",\"Week 1 · Session 2\":\"Woche 1 · Einheit 2\",\"Week 2 · Session 1\":\"Woche 2 · Einheit 1\",\"Week 2 · Session 2\":\"Woche 2 · Einheit 2\",\"Week 3 · Session 1\":\"Woche 3 · Einheit 1\",\"Week 3 · Session 2\":\"Woche 3 · Einheit 2\",\"Week 4 · Session 1\":\"Woche 4 · Einheit 1\",\"Week 4 · Session 2\":\"Woche 4 · Einheit 2\",\"Week 5 · Session 1\":\"Woche 5 · Einheit 1\",\"Week 5 · Session 2\":\"Woche 5 · Einheit 2\",\"Week 6 · Session 1\":\"Woche 6 · Einheit 1\",\"Week 6 · Session 2\":\"Woche 6 · Einheit 2\",\"Week 7 · Session 1\":\"Woche 7 · Einheit 1\",\"Week 7 · Session 2\":\"Woche 7 · Einheit 2\",\"Week 8 · Session 1\":\"Woche 8 · Einheit 1\",\"Week 8 · Session 2\":\"Woche 8 · Einheit 2\",\"Back School 8 Weeks\":\"Rückenschule 8 Wochen\",\"A strong, mobile back for everyday life: 8 weeks, 2 sessions per week, about 30 minutes. Walk in, mobilise gently, strengthen the trunk (curl-up, bird dog, side plank, glute bridge, dead bug), learn to lift with a light weight, then relax. Three stages from gentle to stronger. Inspired by the German \\\"Neue Rückenschule\\\". With acute or radiating pain see a doctor first.\":\"Ein starker, beweglicher Rücken für den Alltag: 8 Wochen, 2 Einheiten pro Woche, etwa 30 Minuten. Eingehen, sanft mobilisieren, den Rumpf kräftigen (Curl-up, Bird Dog, Seitstütz, Glute Bridge, Dead Bug), mit leichtem Gewicht richtig heben lernen, dann entspannen. Drei Abschnitte von sanft bis kräftigend. Angelehnt an die „Neue Rückenschule“. Bei akuten oder ausstrahlenden Schmerzen erst zum Arzt.\"}")
+}.de ?? {};
+var TPL = new Map(templates_default.map((t) => [t.id, t.plan]));
+var pad$1 = (n) => String(n).padStart(2, "0");
+/** Text, den es schon in den Vorlagen gibt: dieselbe Übersetzung wie dort (sonst der mitgegebene deutsche Text) */
+var tx = (en, de) => T(en, DE[en] ?? de ?? en);
+/** Übung aus einer Vorlage übernehmen (Name, Bild, Hinweis), `extra` ergänzt oder überschreibt Felder */
+function lib(template, key, extra = {}) {
+	const src = TPL.get(template)?.exercises?.[key];
+	if (!src) throw new Error(`exercise ${template}/${key} not found`);
+	const e = structuredClone(src);
+	e.name = tx(e.name);
+	if (e.note) e.note = tx(e.note);
+	return {
+		...e,
+		...extra
+	};
+}
+/** Eigene Übung ohne Gerät: Name en/de, Art „Kraft“, weitere Felder nach Bedarf */
+var own = (en, de, extra = {}) => ({
+	name: T(en, de),
+	equipment: "bodyweight",
+	kind: "strength",
+	...extra
+});
+/** Nur die Übungen, die in den Trainings wirklich vorkommen (in der Reihenfolge des Vorrats) */
+function used(workouts, stock) {
+	const ids = /* @__PURE__ */ new Set();
+	const walk = (o) => {
+		if (Array.isArray(o)) o.forEach(walk);
+		else if (o && typeof o === "object") {
+			if (typeof o.exercise === "string") ids.add(o.exercise);
+			if (Array.isArray(o.exercises)) o.exercises.forEach((x) => typeof x === "string" ? ids.add(x) : walk(x));
+			if (Array.isArray(o.blocks)) walk(o.blocks);
+		}
+	};
+	walk(workouts);
+	const out = {};
+	for (const [id, def] of Object.entries(stock)) if (ids.has(id)) out[id] = structuredClone(def);
+	for (const id of ids) if (!(id in out)) throw new Error(`exercise ${id} is not in the stock`);
+	return out;
+}
+/** „Woche 3 · Tag 2“ (+ Zusatz) für das i-te Training bei `per` Trainings je Woche */
+function weekDay(i, per, en = "", de = "") {
+	const week = Math.floor(i / per) + 1, day = i % per + 1;
+	return T(`Week ${week} · Day ${day}${en ? ` · ${en}` : ""}`, `Woche ${week} · Tag ${day}${de ? ` · ${de}` : ""}`);
+}
+/** Sätze mit Wiederholungen (lo–hi, gleiche Zahl = feste Zahl) */
+var R = (exercise, sets, lo, hi = lo, extra = {}) => ({
+	type: "sets",
+	exercise,
+	sets,
+	reps: lo === hi ? lo : {
+		min: lo,
+		max: hi
+	},
+	...extra
+});
+/** Sätze nach Zeit (Halten lo–hi Sekunden) */
+var H = (exercise, sets, lo, hi = lo, extra = {}) => ({
+	type: "sets",
+	exercise,
+	sets,
+	duration_s: lo === hi ? lo : {
+		min: lo,
+		max: hi
+	},
+	...extra
+});
+/** Zwei Übungen im Wechsel */
+var pair = (name, rounds, a, b, rest = 90) => ({
+	type: "circuit",
+	name,
+	rounds,
+	rest_after_exercise_s: rest,
+	rest_after_round_s: rest,
+	rest_after_s: 60,
+	exercises: [a, b]
+});
+// src/core/hero/content/story-plans-extra.ts
+var NONE$2 = { type: "none" };
+var MOB$1 = { kind: "mobility" };
+function twoHands() {
+	const K = "kraft-2-ganzkoerper-kurzhantel";
+	const stock = {
+		goblet_squat: lib(K, "goblet_squat"),
+		db_floor_press: lib(K, "db_floor_press"),
+		dumbbell_row: lib(K, "dumbbell_row"),
+		db_romanian_deadlift: lib(K, "db_romanian_deadlift"),
+		db_shoulder_press: lib(K, "db_shoulder_press"),
+		split_squat: lib(K, "split_squat"),
+		db_curl: lib(K, "db_curl"),
+		plank: lib(K, "plank"),
+		dead_bug: lib(K, "dead_bug")
+	};
+	const workouts = [];
+	for (let i = 0; i < 24; i++) {
+		const week = Math.floor(i / 3) + 1, a = i % 2 === 0, sets = week <= 2 ? 2 : 3;
+		const blocks = [{
+			type: "warmup",
+			note: T("5 easy minutes, then one light set of the first two exercises.", "5 lockere Minuten, dann je ein leichter Satz der ersten beiden Übungen.")
+		}];
+		if (a) blocks.push(R("goblet_squat", sets, 8, 12, { weight_kg: 10 }), R("db_floor_press", sets, 8, 12, { weight_kg: 8 }), R("dumbbell_row", sets, 8, 12, { weight_kg: 10 }), H("plank", 2, 30, 45, { rest_s: 60 }));
+		else blocks.push(R("db_romanian_deadlift", sets, 8, 12, { weight_kg: 10 }), R("db_shoulder_press", sets, 8, 12, { weight_kg: 6 }), R("split_squat", sets, 8, 12, { weight_kg: 6 }), R("db_curl", 2, 10, 15, { weight_kg: 6 }), R("dead_bug", 2, 8, 12, {
+			rest_s: 60,
+			progression: { type: "reps" }
+		}));
+		if (i === 0) blocks[1].note = T("Start light: a weight you could lift about 15 times. When all sets reach 12, the app suggests a little more.", "Leicht anfangen: ein Gewicht, das du etwa 15-mal heben könntest. Schaffst du in allen Sätzen 12, schlägt die App etwas mehr vor.");
+		blocks.push({ type: "cooldown" });
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, a ? "A" : "B", a ? "A" : "B"),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Dumbbell Basics 8 Weeks", "Kurzhantel-Einstieg 8 Wochen"),
+		description: T("Strength training with a pair of dumbbells: 8 weeks, 3 workouts per week, two full-body workouts in turn. Squat, press, row and hip hinge with 8–12 reps – two sets in the first two weeks, then three. First more reps, then a little more weight. No bench or barbell needed.", "Krafttraining mit einem Paar Kurzhanteln: 8 Wochen, 3 Trainings pro Woche, zwei Ganzkörper-Workouts im Wechsel. Kniebeuge, Drücken, Rudern und Hüftbeuge mit 8–12 Wiederholungen – in den ersten zwei Wochen zwei Sätze, danach drei. Erst mehr Wiederholungen, dann etwas mehr Gewicht. Ohne Bank und ohne Langhantel."),
+		goal: "hypertrophy",
+		defaults: {
+			rest_s: 90,
+			progression: {
+				type: "double",
+				increment_kg: 2
+			}
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+function steadyGround() {
+	const B = "bodyweight-5-balance-beinkraft";
+	const stock = Object.fromEntries([
+		"sit_to_stand",
+		"calf_raise",
+		"toe_raise",
+		"side_leg_raise",
+		"knee_extension",
+		"standing_knee_curl",
+		"tandem_stand",
+		"single_leg_stand",
+		"heel_toe_walk",
+		"backwards_walk",
+		"sideways_walk"
+	].map((k) => [k, lib(B, k)]));
+	const workouts = [];
+	for (let i = 0; i < 24; i++) {
+		const week = Math.floor(i / 3) + 1, stage = week <= 2 ? 0 : week <= 5 ? 1 : 2;
+		const rounds = [
+			1,
+			2,
+			2
+		][stage], hold = [
+			15,
+			20,
+			30
+		][stage], reps = {
+			min: 8,
+			max: [
+				10,
+				12,
+				15
+			][stage]
+		};
+		const side = (exercise) => ({
+			exercise,
+			reps,
+			per_side: true
+		});
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3),
+			blocks: [
+				{
+					type: "warmup",
+					duration_s: 300,
+					note: T("March on the spot, circle shoulders and ankles – holding on to the chair.", "Auf der Stelle gehen, Schultern und Fußgelenke kreisen – mit einer Hand am Stuhl.")
+				},
+				R("sit_to_stand", [
+					2,
+					2,
+					3
+				][stage], 5, [
+					10,
+					12,
+					15
+				][stage], { rest_s: 60 }),
+				{
+					type: "circuit",
+					name: T("Legs", "Beine"),
+					rounds,
+					rest_after_exercise_s: 15,
+					rest_after_round_s: 60,
+					note: T("Hold on to the chair and move slowly: about three seconds up, three seconds down.", "Halt dich am Stuhl fest und beweg dich langsam: etwa drei Sekunden hoch, drei Sekunden runter."),
+					exercises: [
+						{
+							exercise: "calf_raise",
+							reps
+						},
+						{
+							exercise: "toe_raise",
+							reps
+						},
+						side("side_leg_raise"),
+						side("knee_extension"),
+						side("standing_knee_curl")
+					]
+				},
+				{
+					type: "flow",
+					name: T("Balance", "Gleichgewicht"),
+					rounds,
+					rest_s: 5,
+					rest_after_round_s: 30,
+					note: T("Stay next to the chair. Easier: both hands on it. Harder: one hand, then fingertips, then no hands.", "Bleib neben dem Stuhl. Leichter: beide Hände daran. Schwerer: eine Hand, dann Fingerspitzen, dann ohne Hände."),
+					exercises: [
+						{
+							exercise: "tandem_stand",
+							duration_s: hold,
+							per_side: true
+						},
+						{
+							exercise: "single_leg_stand",
+							duration_s: hold,
+							per_side: true
+						},
+						{
+							exercise: "heel_toe_walk",
+							duration_s: 30
+						},
+						{
+							exercise: "backwards_walk",
+							duration_s: 30
+						},
+						{
+							exercise: "sideways_walk",
+							duration_s: 30
+						}
+					]
+				},
+				{
+					type: "cooldown",
+					note: T("Walk around calmly for a few minutes.", "Ein paar Minuten ruhig umhergehen.")
+				}
+			]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Balance and Leg Strength 8 Weeks", "Gleichgewicht und Beinkraft 8 Wochen"),
+		description: T("Stand and walk more safely: 8 weeks, 3 workouts per week, about 20 minutes with a sturdy chair. Leg strength (standing up, heel and toe raises, leg lifts) and balance (foot in front of foot, one-leg stand, walking heel to toe, backwards and sideways). Three stages with more rounds and longer holds. Also for older or untrained people. Inspired by the Otago Exercise Programme.", "Sicherer stehen und gehen: 8 Wochen, 3 Trainings pro Woche, etwa 20 Minuten mit einem stabilen Stuhl. Beinkraft (Aufstehen, Fersen und Zehen heben, Beinheben) und Gleichgewicht (Fuß vor Fuß, Einbeinstand, Seiltänzergang, rückwärts und seitwärts gehen). Drei Abschnitte mit mehr Runden und längeren Halten. Auch für Ältere und Untrainierte. Angelehnt an das Otago-Übungsprogramm."),
+		goal: "general",
+		defaults: {
+			rest_s: 60,
+			progression: { type: "reps" }
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+function betweenFloors() {
+	const B = "bodyweight-4-exercise-snacks";
+	const stock = Object.fromEntries([
+		"stair_climb",
+		"bodyweight_squat",
+		"reverse_lunge",
+		"calf_raise",
+		"incline_push_up",
+		"superman",
+		"plank"
+	].map((k) => [k, lib(B, k)]));
+	const workouts = [];
+	for (let i = 0; i < 20; i++) {
+		const week = Math.floor(i / 5), climb = [
+			20,
+			30,
+			40,
+			60
+		][week], rounds = week < 2 ? 1 : 2;
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 5),
+			blocks: [
+				{
+					type: "interval",
+					name: T("Stairs", "Treppe"),
+					rounds: 3,
+					work_s: climb,
+					rest_s: 60,
+					rest_after_s: 120,
+					note: T("Three snacks today: stairs, legs, upper body. Best spread over the day – tap Pause after each one. Climb briskly, walk back down in the rest.", "Drei Snacks heute: Treppe, Beine, Oberkörper. Am besten über den Tag verteilt – tippe nach jedem auf Pause. Zügig hochsteigen, in der Pause wieder hinuntergehen."),
+					exercises: ["stair_climb"]
+				},
+				{
+					type: "circuit",
+					name: T("Legs", "Beine"),
+					rounds,
+					rest_after_exercise_s: 0,
+					rest_after_round_s: 30,
+					rest_after_s: 120,
+					exercises: [
+						{
+							exercise: "bodyweight_squat",
+							reps: {
+								min: 10,
+								max: 20
+							}
+						},
+						{
+							exercise: "reverse_lunge",
+							reps: {
+								min: 6,
+								max: 12
+							},
+							per_side: true
+						},
+						{
+							exercise: "calf_raise",
+							reps: {
+								min: 15,
+								max: 25
+							}
+						}
+					]
+				},
+				{
+					type: "circuit",
+					name: T("Upper Body", "Oberkörper"),
+					rounds,
+					rest_after_exercise_s: 0,
+					rest_after_round_s: 30,
+					exercises: [
+						{
+							exercise: "incline_push_up",
+							reps: {
+								min: 8,
+								max: 15
+							}
+						},
+						{
+							exercise: "superman",
+							reps: {
+								min: 8,
+								max: 15
+							}
+						},
+						{
+							exercise: "plank",
+							duration_s: 30,
+							progression: NONE$2
+						}
+					]
+				}
+			]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Exercise Snacks 4 Weeks", "Bewegungs-Snacks 4 Wochen"),
+		description: T("Movement in small bites: 4 weeks, 5 days per week, three snacks of two to four minutes each – brisk stair climbing, legs, upper body. Best spread over the day. The stair climbs grow from 20 to 60 seconds, the strength snacks from one round to two. You need a staircase and a table. Inspired by studies on brief stair-climbing bouts.", "Bewegung in kleinen Happen: 4 Wochen, 5 Tage pro Woche, je drei Snacks von zwei bis vier Minuten – zügiges Treppensteigen, Beine, Oberkörper. Am besten über den Tag verteilt. Das Treppensteigen wächst von 20 auf 60 Sekunden, die Kraft-Snacks von einer Runde auf zwei. Du brauchst eine Treppe und einen Tisch. Angelehnt an Studien zu kurzen Treppen-Einheiten."),
+		goal: "general",
+		defaults: {
+			rest_s: 60,
+			progression: { type: "reps" }
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+function stormBell() {
+	const K = "kettlebell-2-ganzkoerper";
+	const stock = {
+		goblet_squat: {
+			name: T("Goblet Squat", "Goblet Squat"),
+			equipment: "kettlebell",
+			kind: "strength"
+		},
+		kb_clean_press: lib(K, "kb_clean_press", { kind: "strength" }),
+		kb_row: lib(K, "kb_row", { kind: "strength" }),
+		kb_single_leg_deadlift: lib(K, "kb_single_leg_deadlift", { kind: "strength" }),
+		kb_swing: lib(K, "kb_swing", { kind: "strength" }),
+		farmers_walk: lib(K, "farmers_walk", { kind: "strength" }),
+		turkish_get_up: lib("kettlebell-1-swing-getup", "turkish_get_up", { kind: "strength" })
+	};
+	const W = 12;
+	const workouts = [];
+	for (let i = 0; i < 24; i++) {
+		const week = Math.floor(i / 3) + 1, a = i % 2 === 0, sets = week <= 2 ? 2 : week <= 6 ? 3 : 4;
+		const side = (exercise, lo, hi, extra = {}) => R(exercise, sets, lo, hi, {
+			per_side: true,
+			weight_kg: W,
+			...extra
+		});
+		const blocks = [{
+			type: "warmup",
+			note: T("A few goblet squats, hip bridges and easy two-arm swings.", "Ein paar Goblet Squats, Glute Bridges und lockere beidarmige Swings.")
+		}];
+		if (a) blocks.push(R("goblet_squat", sets, 8, 12, { weight_kg: W }), side("kb_clean_press", 5, 8), side("kb_row", 8, 12), R("kb_swing", 3, 12, 12, {
+			weight_kg: 16,
+			rest_s: 60,
+			progression: NONE$2
+		}), H("farmers_walk", 2, 30, 30, {
+			per_side: true,
+			weight_kg: 16,
+			rest_s: 60
+		}));
+		else blocks.push(side("kb_single_leg_deadlift", 6, 10), side("kb_clean_press", 5, 8), R("turkish_get_up", 3, 1, 1, {
+			per_side: true,
+			weight_kg: 8,
+			rest_s: 60,
+			progression: NONE$2
+		}), R("kb_swing", 5, 10, 10, {
+			weight_kg: 16,
+			rest_s: 60,
+			progression: NONE$2
+		}));
+		if (i === 0) blocks[1].note = T("Pick a bell you can press about 8 times. When all sets reach the upper number, take the next heavier bell.", "Nimm eine Kugel, die du etwa 8-mal drücken kannst. Schaffst du in allen Sätzen die obere Zahl, nimm die nächstschwerere Kugel.");
+		blocks.push({ type: "cooldown" });
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, a ? "A" : "B", a ? "A" : "B"),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Kettlebell Strength 8 Weeks", "Kettlebell-Kraft 8 Wochen"),
+		description: T("Strength for the whole body with one kettlebell: 8 weeks, 3 workouts per week, two workouts in turn. Clean and press, row, goblet squat and single-leg deadlift, plus swings, carries and Turkish get-ups. Two sets in the first two weeks, then three, at the end four. You should already be able to swing safely.", "Kraft für den ganzen Körper mit einer Kettlebell: 8 Wochen, 3 Trainings pro Woche, zwei Workouts im Wechsel. Umsetzen und Drücken, Rudern, Goblet Squat und einbeiniges Kreuzheben, dazu Swings, Tragen und Turkish Get-ups. In den ersten zwei Wochen zwei Sätze, dann drei, am Ende vier. Den Swing solltest du schon sicher können."),
+		goal: "strength",
+		defaults: {
+			rest_s: 90,
+			progression: { type: "reps" }
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var PLATED_ROUNDS = [
+	6,
+	8,
+	10,
+	12,
+	14,
+	16
+];
+function plated() {
+	const stock = {
+		kb_clean_press: lib("kettlebell-2-ganzkoerper", "kb_clean_press", { kind: "strength" }),
+		goblet_squat: {
+			name: T("Goblet Squat", "Goblet Squat"),
+			equipment: "kettlebell",
+			kind: "strength"
+		},
+		kb_swing: lib("kettlebell-2-ganzkoerper", "kb_swing", { kind: "strength" })
+	};
+	const W = 12;
+	const workouts = [];
+	for (let i = 0; i < 18; i++) {
+		const week = Math.floor(i / 3), light = i % 3 === 1, rounds = light ? PLATED_ROUNDS[week] / 2 : PLATED_ROUNDS[week];
+		const blocks = [{
+			type: "warmup",
+			note: T("A few easy swings, goblet squats and one light press per side.", "Ein paar lockere Swings, Goblet Squats und je Seite ein leichtes Drücken.")
+		}, {
+			type: "circuit",
+			name: T("Complex", "Komplex"),
+			rounds,
+			rest_after_exercise_s: 0,
+			rest_after_round_s: 75,
+			note: T(`${rounds} rounds: clean and press twice per side, then three goblet squats. Rest until the next round is clean again.`, `${rounds} Runden: je Seite zweimal umsetzen und drücken, dann drei Goblet Squats. Pause, bis die nächste Runde wieder sauber geht.`),
+			exercises: [{
+				exercise: "kb_clean_press",
+				reps: 2,
+				per_side: true,
+				weight_kg: W
+			}, {
+				exercise: "goblet_squat",
+				reps: 3,
+				weight_kg: W
+			}]
+		}];
+		if (light) blocks.push(R("kb_swing", 5, 10, 10, {
+			rest_s: 60,
+			weight_kg: 16
+		}));
+		blocks.push({ type: "cooldown" });
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, light ? "Light + swings" : `${rounds} rounds`, light ? "Leicht + Swings" : `${rounds} Runden`),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Kettlebell Complex 6 Weeks", "Kettlebell-Komplex 6 Wochen"),
+		description: T("One bell, one complex: clean and press, then squat. 6 weeks, 3 workouts per week – two days with the full number of rounds (from 6 up to 16), in between a light day with half of them and swings. Short breaks, clean reps, a strong upper back. Pick a bell you can press about 5 times. Inspired by the Armor Building Complex.", "Eine Kugel, ein Komplex: umsetzen und drücken, dann Kniebeuge. 6 Wochen, 3 Trainings pro Woche – zwei Tage mit der vollen Rundenzahl (von 6 bis 16), dazwischen ein leichter Tag mit der Hälfte und Swings. Kurze Pausen, saubere Wiederholungen, ein starker oberer Rücken. Nimm eine Kugel, die du etwa 5-mal drücken kannst. Angelehnt an den Armor Building Complex."),
+		goal: "strength",
+		defaults: {
+			rest_s: 75,
+			progression: NONE$2
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var TEN_K = {
+	easy: [
+		30,
+		30,
+		35,
+		35,
+		40,
+		40,
+		40,
+		30
+	],
+	long: [
+		40,
+		45,
+		50,
+		55,
+		60,
+		65,
+		70,
+		0
+	]
+};
+function outOfRange() {
+	const A = "ausdauer-1-laufeinstieg";
+	const stock = {
+		brisk_walk: lib(A, "brisk_walk"),
+		run: lib(A, "run"),
+		walk: lib(A, "walk")
+	};
+	const workouts = [];
+	for (let i = 0; i < 24; i++) {
+		const week = Math.floor(i / 3), long = i % 3 === 2, last = i === 23;
+		let blocks;
+		if (last) blocks = [
+			{
+				type: "warmup",
+				duration_s: 300,
+				note: T("Five minutes of brisk walking.", "Fünf Minuten zügig gehen.")
+			},
+			{
+				type: "sets",
+				exercise: "run",
+				sets: 1,
+				duration_s: "max",
+				note: T("Ten kilometers at your own pace. Start slower than you think; walking breaks are allowed. Stop the timer when you arrive.", "Zehn Kilometer in deinem Tempo. Starte langsamer, als du denkst; Gehpausen sind erlaubt. Stoppe die Zeit, wenn du ankommst.")
+			},
+			{
+				type: "cooldown",
+				duration_s: 300
+			}
+		];
+		else if (long) {
+			const min = TEN_K.long[week], items = [{
+				exercise: "brisk_walk",
+				duration_s: 300
+			}];
+			for (let k = 0; k < Math.floor(min / 10); k++) items.push({
+				exercise: "run",
+				duration_s: 540
+			}, {
+				exercise: "walk",
+				duration_s: 60
+			});
+			if (min % 10) items.push({
+				exercise: "run",
+				duration_s: min % 10 * 60
+			});
+			else items.pop();
+			items.push({
+				exercise: "brisk_walk",
+				duration_s: 300
+			});
+			blocks = [{
+				type: "flow",
+				name: T("Long run", "Langer Lauf"),
+				rest_s: 0,
+				note: T(`About ${min} minutes: nine minutes of running, one minute of walking. Slow enough that you could still talk.`, `Etwa ${min} Minuten: neun Minuten laufen, eine Minute gehen. So langsam, dass du noch sprechen könntest.`),
+				exercises: items
+			}];
+		} else {
+			const min = TEN_K.easy[week];
+			blocks = [{
+				type: "flow",
+				name: T("Easy run", "Lockerer Lauf"),
+				rest_s: 0,
+				note: T(`${min} minutes of easy running in one piece.`, `${min} Minuten locker laufen, an einem Stück.`),
+				exercises: [
+					{
+						exercise: "brisk_walk",
+						duration_s: 300
+					},
+					{
+						exercise: "run",
+						duration_s: min * 60
+					},
+					{
+						exercise: "brisk_walk",
+						duration_s: 300
+					}
+				]
+			}];
+		}
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: last ? T("Week 8 · 10 kilometers", "Woche 8 · 10 Kilometer") : weekDay(i, 3, long ? "Long run" : "Easy run", long ? "Langer Lauf" : "Lockerer Lauf"),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("From 5 to 10 Kilometers 8 Weeks", "Von 5 auf 10 Kilometer 8 Wochen"),
+		description: T("The next step after 30 minutes of running: 8 weeks, 3 runs per week. Two easy runs of 30–40 minutes and one long run that grows from 40 to 70 minutes – with one minute of walking after every nine. Everything at a pace at which you could still talk. The last run is the 10 kilometers. For everyone who can run 30 minutes without a break.", "Der nächste Schritt nach 30 Minuten Laufen: 8 Wochen, 3 Läufe pro Woche. Zwei lockere Läufe von 30–40 Minuten und ein langer Lauf, der von 40 auf 70 Minuten wächst – mit einer Gehminute nach je neun Laufminuten. Alles in einem Tempo, bei dem du noch sprechen könntest. Der letzte Lauf sind die 10 Kilometer. Für alle, die 30 Minuten am Stück laufen können."),
+		goal: "endurance",
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var FUSE_ROUNDS = [
+	6,
+	7,
+	8,
+	9,
+	10,
+	10
+];
+function tenFuses() {
+	const stock = { cardio_hard: lib("hiit-3-10x1", "cardio_hard", { kind: "cardio" }) };
+	const workouts = [];
+	for (let i = 0; i < 18; i++) {
+		const rounds = FUSE_ROUNDS[Math.floor(i / 3)];
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, `${rounds} × 1 min`, `${rounds} × 1 min`),
+			blocks: [
+				{
+					type: "warmup",
+					duration_s: 300,
+					note: T("5 minutes easy.", "5 Minuten locker.")
+				},
+				{
+					type: "interval",
+					name: T(`${rounds} × 1 minute`, `${rounds} × 1 Minute`),
+					rounds,
+					work_s: 60,
+					rest_s: 60,
+					note: T("Hard, but not all-out: about nine on a scale of ten. Keep moving slowly in the rest.", "Hart, aber nicht mit letztem Einsatz: etwa neun auf einer Skala bis zehn. In der Pause langsam in Bewegung bleiben."),
+					exercises: ["cardio_hard"]
+				},
+				{
+					type: "cooldown",
+					duration_s: 300
+				}
+			]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("One-Minute Intervals 6 Weeks", "Ein-Minuten-Intervalle 6 Wochen"),
+		description: T("One minute hard, one minute easy: 6 weeks, 3 sessions per week. The rounds grow from 6 to 10 – with warm-up and cool-down never more than half an hour. Bike, rower or running. Hard, but more forgiving than all-out sprints. Inspired by the 10×1 protocol (Little, Gibala et al.).", "Eine Minute hart, eine Minute locker: 6 Wochen, 3 Einheiten pro Woche. Die Runden wachsen von 6 auf 10 – mit Aufwärmen und Ausklang nie mehr als eine halbe Stunde. Rad, Rudergerät oder Laufen. Hart, aber verzeihender als Sprints mit vollem Einsatz. Angelehnt an das 10×1-Protokoll (Little, Gibala et al.)."),
+		goal: "endurance",
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var LIGHT_HOLD = [
+	30,
+	40,
+	50,
+	60
+];
+function firstLight() {
+	const Y = "yoga-4-mobility";
+	const stock = Object.fromEntries([
+		"cat_cow",
+		"worlds_greatest",
+		"low_lunge",
+		"half_split",
+		"frog",
+		"happy_baby",
+		"thread_needle",
+		"puppy",
+		"downward_dog",
+		"sphinx",
+		"child_pose",
+		"supine_twist"
+	].map((k) => [k, lib(Y, k, MOB$1)]));
+	const workouts = [];
+	for (let i = 0; i < 28; i++) {
+		const s = LIGHT_HOLD[Math.floor(i / 7)], hips = i % 2 === 0;
+		const one = (exercise) => ({
+			exercise,
+			duration_s: s
+		}), two = (exercise) => ({
+			exercise,
+			duration_s: s,
+			per_side: true
+		});
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 7, hips ? "Hips and legs" : "Shoulders and spine", hips ? "Hüfte und Beine" : "Schultern und Wirbelsäule"),
+			blocks: [{
+				type: "flow",
+				name: hips ? T("Hips and legs", "Hüfte und Beine") : T("Shoulders and spine", "Schultern und Wirbelsäule"),
+				rest_s: 5,
+				note: T(`${s} seconds per position. Breathe calmly and go only as far as it feels good.`, `${s} Sekunden je Position. Ruhig atmen und nur so weit gehen, wie es sich gut anfühlt.`),
+				exercises: hips ? [
+					one("cat_cow"),
+					two("worlds_greatest"),
+					two("low_lunge"),
+					two("half_split"),
+					one("frog"),
+					one("happy_baby")
+				] : [
+					one("cat_cow"),
+					two("thread_needle"),
+					one("puppy"),
+					one("downward_dog"),
+					one("sphinx"),
+					two("supine_twist"),
+					one("child_pose")
+				]
+			}]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Daily Mobility 4 Weeks", "Tägliche Beweglichkeit 4 Wochen"),
+		description: T("A few minutes every morning: 4 weeks, daily. Two flows take turns – hips and legs, shoulders and spine. The holds grow from 30 to 60 seconds, the session from about 5 to 10 minutes. Runs on its own with beeps. A mat is enough.", "Ein paar Minuten jeden Morgen: 4 Wochen, täglich. Zwei Abläufe wechseln sich ab – Hüfte und Beine, Schultern und Wirbelsäule. Die Haltezeit wächst von 30 auf 60 Sekunden, die Einheit von etwa 5 auf 10 Minuten. Läuft von selbst mit Signaltönen. Eine Matte genügt."),
+		goal: "general",
+		defaults: {
+			rest_s: 5,
+			progression: NONE$2
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var WIRE_HOLD = [
+	20,
+	25,
+	30,
+	35,
+	40,
+	45
+];
+function highWire() {
+	const Y = "yoga-6-balance-kraft";
+	const stock = Object.fromEntries([
+		"cat_cow",
+		"downward_dog",
+		"warrior_1",
+		"warrior_2",
+		"warrior_3",
+		"tree",
+		"chair_pose",
+		"boat_pose",
+		"plank",
+		"side_plank",
+		"child_pose",
+		"savasana"
+	].map((k) => [k, lib(Y, k, k === "plank" || k === "side_plank" || k === "boat_pose" ? {} : MOB$1)]));
+	const workouts = [];
+	for (let i = 0; i < 18; i++) {
+		const s = WIRE_HOLD[Math.floor(i / 3)];
+		const two = (exercise, d = s) => ({
+			exercise,
+			duration_s: d,
+			per_side: true
+		});
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, `${s} s`, `${s} s`),
+			blocks: [
+				{
+					type: "flow",
+					name: T("Warm-up", "Aufwärmen"),
+					rest_s: 5,
+					rest_after_s: 20,
+					exercises: [{
+						exercise: "cat_cow",
+						duration_s: 60
+					}, {
+						exercise: "downward_dog",
+						duration_s: 45
+					}]
+				},
+				{
+					type: "flow",
+					name: tx("Standing", "Im Stand"),
+					rounds: 2,
+					rest_s: 5,
+					rest_after_round_s: 45,
+					rest_after_s: 45,
+					note: T(`${s} seconds per pose. Fix your eyes on one point; a hand on the wall is fine.`, `${s} Sekunden je Haltung. Richte den Blick auf einen Punkt; eine Hand an der Wand ist in Ordnung.`),
+					exercises: [
+						{
+							exercise: "chair_pose",
+							duration_s: s
+						},
+						two("warrior_1"),
+						two("warrior_2"),
+						two("warrior_3", Math.max(15, s - 10)),
+						two("tree")
+					]
+				},
+				{
+					type: "flow",
+					name: T("Core", "Rumpf"),
+					rounds: 2,
+					rest_s: 10,
+					rest_after_round_s: 30,
+					exercises: [
+						{
+							exercise: "plank",
+							duration_s: s + 10
+						},
+						two("side_plank"),
+						{
+							exercise: "boat_pose",
+							duration_s: s
+						}
+					]
+				},
+				{
+					type: "flow",
+					name: T("Wind-down", "Ausklang"),
+					rest_s: 10,
+					exercises: [{
+						exercise: "child_pose",
+						duration_s: 60
+					}, {
+						exercise: "savasana",
+						duration_s: 120
+					}]
+				}
+			]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Yoga for Balance 6 Weeks", "Yoga für Balance 6 Wochen"),
+		description: T("Stand firm on one leg: 6 weeks, 3 sessions per week, 20–30 minutes. Chair, the three warriors and the tree for balance, plank, side plank and boat for the core. The holds grow from 20 to 45 seconds. Runs on its own with beeps. A mat is enough.", "Sicher auf einem Bein stehen: 6 Wochen, 3 Einheiten pro Woche, 20–30 Minuten. Stuhl, die drei Krieger und der Baum für die Balance, Brett, Seitstütz und Boot für den Rumpf. Die Haltezeit wächst von 20 auf 45 Sekunden. Läuft von selbst mit Signaltönen. Eine Matte genügt."),
+		goal: "general",
+		defaults: {
+			rest_s: 10,
+			progression: NONE$2
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var EXTRA_STORY_PLANS = [
+	{
+		story: "two_hands",
+		group: "kraft",
+		plan: twoHands()
+	},
+	{
+		story: "steady_ground",
+		group: "bodyweight",
+		plan: steadyGround()
+	},
+	{
+		story: "between_floors",
+		group: "bodyweight",
+		plan: betweenFloors()
+	},
+	{
+		story: "storm_bell",
+		group: "kettlebell",
+		plan: stormBell()
+	},
+	{
+		story: "plated",
+		group: "kettlebell",
+		plan: plated()
+	},
+	{
+		story: "out_of_range",
+		group: "ausdauer",
+		plan: outOfRange()
+	},
+	{
+		story: "ten_fuses",
+		group: "hiit",
+		plan: tenFuses()
+	},
+	{
+		story: "first_light",
+		group: "yoga",
+		plan: firstLight()
+	},
+	{
+		story: "high_wire",
+		group: "yoga",
+		plan: highWire()
+	}
+];
+// src/core/hero/content/story-plans-more.ts
+var WARMUP_BAR$1 = T("5 easy minutes, then 2–3 light warm-up sets of the first lift.", "5 lockere Minuten, dann 2–3 leichte Aufwärmsätze der ersten Übung.");
+var NONE$1 = { type: "none" };
+var BARBELL = () => ({
+	back_squat: lib("kraft-1-einsteiger-5x5", "back_squat"),
+	bench_press: lib("kraft-1-einsteiger-5x5", "bench_press"),
+	overhead_press: lib("kraft-1-einsteiger-5x5", "overhead_press"),
+	deadlift: lib("kraft-1-einsteiger-5x5", "deadlift"),
+	barbell_row: lib("kraft-1-einsteiger-5x5", "barbell_row"),
+	chin_up: lib("kraft-4-oberkoerper-unterkoerper", "chin_up", { kind: "strength" }),
+	plank: lib("kraft-2-ganzkoerper-kurzhantel", "plank"),
+	superman: lib("bodyweight-2-ganzkoerper-kraft", "superman"),
+	kb_swing: lib("kettlebell-2-ganzkoerper", "kb_swing", { kind: "strength" })
+});
+var FAMILY_PCT = [
+	[
+		65,
+		75,
+		85
+	],
+	[
+		70,
+		80,
+		90
+	],
+	[
+		75,
+		85,
+		95
+	]
+];
+function theFamily() {
+	const reps = [
+		[
+			5,
+			5,
+			5
+		],
+		[
+			3,
+			3,
+			3
+		],
+		[
+			5,
+			3,
+			1
+		]
+	];
+	const main = (exercise, k) => {
+		const p = FAMILY_PCT[k], r = reps[k];
+		return [
+			{
+				type: "sets",
+				exercise,
+				name: T(`${p[0]} %`, `${p[0]} %`),
+				sets: 1,
+				reps: r[0],
+				rest_s: 120
+			},
+			{
+				type: "sets",
+				exercise,
+				name: T(`${p[1]} %`, `${p[1]} %`),
+				sets: 1,
+				reps: r[1],
+				rest_s: 150
+			},
+			{
+				type: "sets",
+				exercise,
+				name: T(`${p[2]} % – as many as clean`, `${p[2]} % – so viele wie sauber`),
+				sets: 1,
+				reps: "max",
+				rest_s: 180,
+				note: T(`At least ${r[2]} clean reps, more if they are there. Stop one or two before your limit.`, `Mindestens ${r[2]} saubere Wiederholungen, mehr, wenn sie da sind. Hör ein bis zwei vor deiner Grenze auf.`)
+			}
+		];
+	};
+	const volume = (exercise, k) => ({
+		type: "sets",
+		exercise,
+		name: T("Volume", "Volumen"),
+		sets: 3,
+		reps: 5,
+		rest_s: 120,
+		note: T(`Back to ${FAMILY_PCT[k][0]} % of your training max.`, `Zurück auf ${FAMILY_PCT[k][0]} % deines Trainingsmaximums.`)
+	});
+	const workouts = [];
+	for (let i = 0; i < 36; i++) {
+		const week = Math.floor(i / 3), k = week % 3, d = i % 3, cycle = Math.floor(week / 3) + 1;
+		const blocks = [{
+			type: "warmup",
+			note: WARMUP_BAR$1
+		}];
+		if (d === 0) blocks.push(...main("back_squat", k), ...main("bench_press", k), R("chin_up", 3, 5, 10, { rest_s: 90 }));
+		else if (d === 1) blocks.push(...main("deadlift", k), ...main("overhead_press", k), H("plank", 3, 30, 60, { rest_s: 60 }));
+		else blocks.push(volume("back_squat", k), volume("bench_press", k), R("barbell_row", 3, 8, 8, { rest_s: 90 }));
+		blocks.push({ type: "cooldown" });
+		const w = {
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, [
+				"Squat & Bench",
+				"Deadlift & Press",
+				"Volume"
+			][d], [
+				"Kniebeuge & Bank",
+				"Kreuzheben & Drücken",
+				"Volumen"
+			][d]),
+			blocks
+		};
+		if (i === 0) w.note = T("Before you start: set a training max for each lift – about 90 % of the heaviest single you could do cleanly today. All percentages refer to it.", "Bevor du anfängst: Lege für jede Übung ein Trainingsmaximum fest – etwa 90 % des schwersten sauberen Einzelversuchs von heute. Alle Prozente beziehen sich darauf.");
+		else if (k === 0 && d === 0) w.note = T(`Cycle ${cycle}: raise the training max – 2.5 kg for bench and press, 5 kg for squat and deadlift.`, `Zyklus ${cycle}: Trainingsmaximum anheben – 2,5 kg bei Bank und Drücken, 5 kg bei Kniebeuge und Kreuzheben.`);
+		workouts.push(w);
+	}
+	return {
+		schema_version: 1,
+		name: T("Strength Cycles 12 Weeks", "Kraftzyklen 12 Wochen"),
+		description: T("Four lifts, four cycles of three weeks: 12 weeks, 3 workouts per week. Every main lift gets three rising sets by percentage of your training max (about 90 % of your best single); on the last one you do as many clean reps as you have. After each cycle the training max goes up a little. Set the weights yourself with − and +. Inspired by 5/3/1.", "Vier Grundübungen, vier Zyklen zu drei Wochen: 12 Wochen, 3 Trainings pro Woche. Jede Hauptübung bekommt drei ansteigende Sätze nach Prozent deines Trainingsmaximums (etwa 90 % deines besten Einzelversuchs); im letzten machst du so viele saubere Wiederholungen, wie da sind. Nach jedem Zyklus steigt das Trainingsmaximum ein wenig. Die Gewichte stellst du selbst mit − und + ein. Angelehnt an 5/3/1."),
+		goal: "strength",
+		defaults: {
+			rest_s: 150,
+			progression: NONE$1
+		},
+		exercises: used(workouts, BARBELL()),
+		workouts
+	};
+}
+function fortyNights() {
+	const lifts = [
+		"overhead_press",
+		"chin_up",
+		"deadlift"
+	];
+	const scheme = [
+		"2x5",
+		"2x5",
+		"5-3-2",
+		"2x5",
+		"1x10"
+	];
+	const workouts = [];
+	for (let i = 0; i < 40; i++) {
+		const s = scheme[i % 5];
+		const blocks = [{
+			type: "warmup",
+			note: T("A few easy minutes and one light set of each lift.", "Ein paar lockere Minuten und je ein leichter Satz jeder Übung.")
+		}];
+		for (const ex of lifts) if (s === "2x5") blocks.push(R(ex, 2, 5, 5, { rest_s: 120 }));
+		else if (s === "1x10") blocks.push(R(ex, 1, 10, 10, {
+			rest_s: 120,
+			note: T("Light day: about three quarters of your usual weight, smooth and fast.", "Leichter Tag: etwa drei Viertel des üblichen Gewichts, flüssig und zügig.")
+		}));
+		else blocks.push({
+			type: "circuit",
+			name: T("5-3-2", "5-3-2"),
+			rounds: 1,
+			rest_after_exercise_s: 120,
+			rest_after_s: 120,
+			note: T("Three sets, getting shorter. Add a little weight for each one – still no grinding.", "Drei Sätze, immer kürzer. Für jeden etwas mehr Gewicht – trotzdem ohne Quälen."),
+			exercises: [
+				5,
+				3,
+				2
+			].map((reps) => ({
+				exercise: ex,
+				reps
+			}))
+		});
+		blocks.push(R("kb_swing", 2, 10, 10, {
+			rest_s: 90,
+			weight_kg: 16
+		}), H("plank", 1, 30, 45));
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: T(`Night ${i + 1} · ${s}`, `Nacht ${i + 1} · ${s}`),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Easy Strength 40 Workouts", "Leichte Kraft 40 Trainings"),
+		description: T("Forty workouts with the same five moves: press, chin-up, deadlift, swing and plank. 5 short workouts per week, about 8 weeks. Only a few sets, always with weights that feel easy – you never go to your limit. Add weight only when the bar feels light. You get strong by showing up, not by suffering. Inspired by “Easy Strength”.", "Vierzig Trainings mit denselben fünf Übungen: Drücken, Klimmzug im Untergriff, Kreuzheben, Swing und Unterarmstütz. 5 kurze Trainings pro Woche, etwa 8 Wochen. Nur wenige Sätze, immer mit Gewichten, die sich leicht anfühlen – du gehst nie an deine Grenze. Mehr Gewicht erst, wenn die Hantel leicht wirkt. Stark wirst du durchs Kommen, nicht durchs Leiden. Angelehnt an „Easy Strength“."),
+		goal: "strength",
+		defaults: {
+			rest_s: 120,
+			progression: NONE$1
+		},
+		exercises: used(workouts, BARBELL()),
+		workouts
+	};
+}
+function clockwork() {
+	const workouts = [];
+	for (let i = 0; i < 36; i++) {
+		const week = Math.floor(i / 3), d = i % 3;
+		const press = week % 2 === 0 ? "bench_press" : "overhead_press", other = week % 2 === 0 ? "overhead_press" : "bench_press";
+		const blocks = [{
+			type: "warmup",
+			note: WARMUP_BAR$1
+		}];
+		if (d === 0) blocks.push(R("back_squat", 5, 5, 5, {
+			rest_s: 180,
+			note: T("Volume day: about 90 % of your best set of five. All five sets with the same weight.", "Volumentag: etwa 90 % deines besten Fünfersatzes. Alle fünf Sätze mit demselben Gewicht.")
+		}), R(press, 5, 5, 5, { rest_s: 150 }), R("deadlift", 1, 5, 5, { rest_s: 180 }));
+		else if (d === 1) blocks.push(R("back_squat", 2, 5, 5, {
+			rest_s: 120,
+			note: T("Light day: about 80 % of the volume day. It should feel easy.", "Leichter Tag: etwa 80 % vom Volumentag. Es soll sich leicht anfühlen.")
+		}), R(other, 3, 5, 5, { rest_s: 120 }), {
+			type: "sets",
+			exercise: "chin_up",
+			sets: 3,
+			reps: "max",
+			rest_s: 120
+		}, R("superman", 3, 10, 15, { rest_s: 60 }));
+		else blocks.push(R("back_squat", 1, 5, 5, {
+			rest_s: 240,
+			note: T("Record day: one set of five, a little heavier than last week. Warm up thoroughly in small steps.", "Bestwerttag: ein Fünfersatz, etwas schwerer als letzte Woche. Gründlich in kleinen Schritten aufwärmen.")
+		}), R(press, 1, 5, 5, { rest_s: 240 }), R("barbell_row", 3, 5, 5, { rest_s: 120 }));
+		blocks.push({ type: "cooldown" });
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, [
+				"Volume",
+				"Light",
+				"Record"
+			][d], [
+				"Volumen",
+				"Leicht",
+				"Bestwert"
+			][d]),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Barbell Weekly Rhythm 12 Weeks", "Langhantel im Wochentakt 12 Wochen"),
+		description: T("For lifters who no longer improve from workout to workout: 12 weeks, 3 workouts per week with fixed roles. Day 1 is volume (five sets of five), day 2 is light, day 3 is one heavy set of five – a little more than the week before. Bench press and overhead press take turns every week. Set the weights yourself with − and +. Inspired by the Texas Method.", "Für alle, die nicht mehr von Training zu Training besser werden: 12 Wochen, 3 Trainings pro Woche mit festen Rollen. Tag 1 ist Volumen (fünf Sätze mit fünf), Tag 2 ist leicht, Tag 3 ein schwerer Fünfersatz – etwas mehr als in der Woche davor. Bankdrücken und Drücken wechseln sich wochenweise ab. Die Gewichte stellst du selbst mit − und + ein. Angelehnt an die Texas Method."),
+		goal: "strength",
+		defaults: {
+			rest_s: 150,
+			progression: NONE$1
+		},
+		exercises: used(workouts, BARBELL()),
+		workouts
+	};
+}
+function faultLine() {
+	const G = "calisthenics-2-grundlagen";
+	const stock = {
+		pull_up: lib(G, "pull_up"),
+		squat_progression: lib(G, "squat_progression"),
+		dip: lib(G, "dip"),
+		hinge_progression: lib(G, "hinge_progression"),
+		row: lib(G, "row"),
+		push_up: lib(G, "push_up"),
+		plank: lib("kraft-2-ganzkoerper-kurzhantel", "plank"),
+		hanging_knee_raise: lib(G, "hanging_knee_raise"),
+		superman: lib("bodyweight-2-ganzkoerper-kraft", "superman")
+	};
+	const workouts = [];
+	for (let i = 0; i < 36; i++) {
+		const week = Math.floor(i / 3) + 1, check = i % 12 === 11, rounds = week <= 2 ? 2 : 3;
+		const reps = {
+			min: 5,
+			max: 8
+		};
+		const blocks = [{
+			type: "warmup",
+			note: T("Arm circles, a few easy squats, a short hang and a short plank.", "Armkreisen, ein paar lockere Kniebeugen, kurz hängen und kurz stützen.")
+		}];
+		if (check) {
+			const one = (exercise) => ({
+				type: "sets",
+				exercise,
+				sets: 1,
+				reps: "max",
+				rest_s: 180
+			});
+			blocks.push(one("pull_up"), one("dip"), one("push_up"), one("row"));
+			blocks[1].note = T("Checkpoint: one set of each, as many clean reps as you can at your current level. Compare with last month.", "Kontrolltag: je ein Satz, so viele saubere Wiederholungen wie möglich auf deiner aktuellen Stufe. Vergleiche mit dem Vormonat.");
+		} else {
+			blocks.push(pair(T("Pair 1", "Paar 1"), rounds, {
+				exercise: "pull_up",
+				reps
+			}, {
+				exercise: "squat_progression",
+				reps
+			}), pair(T("Pair 2", "Paar 2"), rounds, {
+				exercise: "dip",
+				reps
+			}, {
+				exercise: "hinge_progression",
+				reps
+			}), pair(T("Pair 3", "Paar 3"), rounds, {
+				exercise: "row",
+				reps
+			}, {
+				exercise: "push_up",
+				reps
+			}), {
+				type: "circuit",
+				name: T("Core", "Rumpf"),
+				rounds,
+				rest_after_exercise_s: 45,
+				rest_after_round_s: 60,
+				exercises: [
+					{
+						exercise: "plank",
+						duration_s: {
+							min: 30,
+							max: 60
+						}
+					},
+					{
+						exercise: "hanging_knee_raise",
+						reps: {
+							min: 8,
+							max: 12
+						}
+					},
+					{
+						exercise: "superman",
+						reps: {
+							min: 10,
+							max: 15
+						}
+					}
+				]
+			});
+			if (i === 0) blocks[1].note = T("Pick the level of each exercise so that 5 clean reps are possible. When you reach 3×8, move up one level.", "Wähle bei jeder Übung die Stufe so, dass 5 saubere Wiederholungen gehen. Schaffst du 3×8, geh eine Stufe höher.");
+		}
+		blocks.push({ type: "cooldown" });
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: check ? T(`Week ${week} · Checkpoint`, `Woche ${week} · Kontrolltag`) : weekDay(i, 3),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Bodyweight Basics 12 Weeks", "Körpergewicht-Grundlagen 12 Wochen"),
+		description: T("The basics of bodyweight strength: 12 weeks, 3 workouts per week. Three pairs – pull-up and squat, dip and hip hinge, row and push-up – each in levels from easy to hard, plus core. Two rounds in the first two weeks, then three. Every fourth week ends with a checkpoint. You need a bar; rings or parallel bars help. Inspired by the Recommended Routine.", "Die Grundlagen der Kraft mit dem eigenen Körper: 12 Wochen, 3 Trainings pro Woche. Drei Paare – Klimmzug und Kniebeuge, Dip und Hüftstreckung, Rudern und Liegestütz – jeweils in Stufen von leicht bis schwer, dazu Rumpf. In den ersten zwei Wochen zwei Runden, danach drei. Jede vierte Woche endet mit einem Kontrolltag. Du brauchst eine Stange; Ringe oder Barren helfen. Angelehnt an die Recommended Routine."),
+		goal: "strength",
+		defaults: {
+			rest_s: 90,
+			progression: { type: "reps" }
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+function bareHands() {
+	const uni = { unilateral: true };
+	const PISTOL = {
+		aliases: ["Pistol Squat"],
+		image: "Kettlebell_Pistol_Squat"
+	};
+	const stock = {
+		box_pistol_high: own("One-Leg Squat to a Chair", "Einbeinige Kniebeuge auf einen Stuhl", {
+			...uni,
+			...PISTOL
+		}),
+		box_pistol_low: own("One-Leg Squat to a Low Box", "Einbeinige Kniebeuge auf eine niedrige Kiste", {
+			...uni,
+			...PISTOL
+		}),
+		assisted_pistol: own("Assisted Pistol Squat", "Pistol-Kniebeuge mit Festhalten", {
+			...uni,
+			...PISTOL
+		}),
+		negative_pistol: own("Pistol Squat Negative", "Pistol-Kniebeuge, nur abwärts", {
+			...uni,
+			...PISTOL,
+			note: T("Lower on one leg for 3–5 seconds, stand up with both.", "Auf einem Bein 3–5 Sekunden absenken, mit beiden aufstehen.")
+		}),
+		pistol_squat: own("Pistol Squat", "Pistol-Kniebeuge", {
+			...uni,
+			image: "Kettlebell_Pistol_Squat"
+		}),
+		one_arm_table: own("One-Arm Push-up on a Table", "Einarmiger Liegestütz am Tisch", {
+			...uni,
+			image: "Incline_Push-Up"
+		}),
+		one_arm_chair: own("One-Arm Push-up on a Chair", "Einarmiger Liegestütz am Stuhl", {
+			...uni,
+			image: "Incline_Push-Up"
+		}),
+		archer_push_up: lib("calisthenics-3-fortgeschritten", "archer_push_up", { kind: "strength" }),
+		one_arm_negative: own("One-Arm Push-up Negative", "Einarmiger Liegestütz, nur abwärts", {
+			...uni,
+			image: "Pushups",
+			note: T("Lower on one arm for 3–5 seconds, push up with both.", "Auf einem Arm 3–5 Sekunden absenken, mit beiden hochdrücken.")
+		}),
+		one_arm_push_up: own("One-Arm Push-up", "Einarmiger Liegestütz", {
+			...uni,
+			image: "Pushups"
+		})
+	};
+	const legs = [
+		"box_pistol_high",
+		"box_pistol_low",
+		"assisted_pistol",
+		"negative_pistol",
+		"pistol_squat"
+	];
+	const arms = [
+		"one_arm_table",
+		"one_arm_chair",
+		"archer_push_up",
+		"one_arm_negative",
+		"one_arm_push_up"
+	];
+	const GROOVE = T("Few reps, full tension, long breaks – never to failure. Best spread over the day: tap Pause between sets. Stay on the earlier level if this one is not clean yet.", "Wenige Wiederholungen, volle Spannung, lange Pausen – nie bis zum Versagen. Am besten über den Tag verteilt: zwischen den Sätzen auf Pause tippen. Bleib auf der früheren Stufe, wenn diese noch nicht sauber geht.");
+	const workouts = [];
+	for (let i = 0; i < 50; i++) {
+		const stage = Math.floor(i / 10), second = i % 10 >= 5, last = i === 49;
+		const reps = stage >= 3 ? second ? 2 : 1 : second ? 3 : 2;
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: last ? T("Week 10 · Test", "Woche 10 · Test") : weekDay(i, 5),
+			blocks: last ? [
+				{
+					type: "warmup",
+					note: T("Warm up well: squats, push-ups, one easy rep of each move per side.", "Gut aufwärmen: Kniebeugen, Liegestütze, je Seite eine leichte Wiederholung beider Übungen.")
+				},
+				{
+					type: "sets",
+					exercise: "pistol_squat",
+					sets: 1,
+					reps: "max",
+					per_side: true,
+					rest_s: 240,
+					note: T("One set per side, clean reps only. One clean rep is the goal.", "Ein Satz je Seite, nur saubere Wiederholungen. Eine saubere Wiederholung ist das Ziel.")
+				},
+				{
+					type: "sets",
+					exercise: "one_arm_push_up",
+					sets: 1,
+					reps: "max",
+					per_side: true
+				}
+			] : [R(legs[stage], 5, reps, reps, {
+				per_side: true,
+				rest_s: 180,
+				note: GROOVE
+			}), R(arms[stage], 5, reps, reps, {
+				per_side: true,
+				rest_s: 180
+			})]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Pistol and One-Arm Push-Up 10 Weeks", "Pistol und einarmiger Liegestütz 10 Wochen"),
+		description: T("Two moves, no equipment: the pistol squat and the one-arm push-up. 10 weeks, 5 short workouts per week. Five sets of one to three reps per side with full tension and long breaks, never to failure. Every two weeks the level gets harder – from the chair and the table down to the floor. The plan sets the pace; stay on a level as long as you need. Ends with a test. Inspired by “The Naked Warrior”.", "Zwei Übungen, kein Gerät: die Pistol-Kniebeuge und der einarmige Liegestütz. 10 Wochen, 5 kurze Trainings pro Woche. Fünf Sätze mit ein bis drei Wiederholungen je Seite, mit voller Spannung und langen Pausen, nie bis zum Versagen. Alle zwei Wochen wird die Stufe schwerer – vom Stuhl und vom Tisch bis auf den Boden. Der Plan gibt den Takt vor; bleib auf einer Stufe, solange du sie brauchst. Am Ende ein Test. Angelehnt an „The Naked Warrior“."),
+		goal: "strength",
+		defaults: {
+			rest_s: 180,
+			progression: NONE$1
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var PENDULUM_WEEKS = [
+	{
+		two: 5,
+		one: 0,
+		tgu: 2,
+		heavy: 0
+	},
+	{
+		two: 8,
+		one: 0,
+		tgu: 3,
+		heavy: 0
+	},
+	{
+		two: 10,
+		one: 0,
+		tgu: 5,
+		heavy: 0
+	},
+	{
+		two: 10,
+		one: 0,
+		tgu: 5,
+		heavy: 0
+	},
+	{
+		two: 6,
+		one: 2,
+		tgu: 5,
+		heavy: 0
+	},
+	{
+		two: 4,
+		one: 3,
+		tgu: 5,
+		heavy: 0
+	},
+	{
+		two: 0,
+		one: 5,
+		tgu: 5,
+		heavy: 0
+	},
+	{
+		two: 0,
+		one: 5,
+		tgu: 5,
+		heavy: 0
+	},
+	{
+		two: 0,
+		one: 5,
+		tgu: 5,
+		heavy: 1
+	},
+	{
+		two: 0,
+		one: 5,
+		tgu: 5,
+		heavy: 2
+	},
+	{
+		two: 0,
+		one: 5,
+		tgu: 5,
+		heavy: 3
+	},
+	{
+		two: 0,
+		one: 5,
+		tgu: 5,
+		heavy: 4
+	}
+];
+function thePendulum() {
+	const stock = {
+		goblet_squat: {
+			name: T("Goblet Squat", "Goblet Squat"),
+			equipment: "kettlebell"
+		},
+		glute_bridge: own("Bodyweight Glute Bridge", "Glute Bridge ohne Gewicht", {
+			aliases: ["Glute Bridge"],
+			image: "Butt_Lift_Bridge"
+		}),
+		kb_swing: lib("kettlebell-2-ganzkoerper", "kb_swing", { kind: "strength" }),
+		kb_swing_one_arm: lib("kettlebell-1-swing-getup", "kb_swing_one_arm", { kind: "strength" }),
+		turkish_get_up: lib("kettlebell-1-swing-getup", "turkish_get_up", { kind: "strength" })
+	};
+	const workouts = [];
+	for (let i = 0; i < 72; i++) {
+		const w = PENDULUM_WEEKS[Math.floor(i / 6)], last = i === 71;
+		const blocks = [{
+			type: "circuit",
+			name: T("Loosen up", "Lockern"),
+			rounds: 3,
+			rest_after_exercise_s: 10,
+			rest_after_round_s: 20,
+			rest_after_s: 60,
+			exercises: [{
+				exercise: "goblet_squat",
+				reps: 5,
+				weight_kg: 8
+			}, {
+				exercise: "glute_bridge",
+				reps: 5
+			}]
+		}];
+		const heavy = w.heavy ? T(`Take the next heavier bell for ${w.heavy} of the five swing sets per side and for ${w.heavy} of the get-ups per side. The rest with your usual bell.`, `Nimm für ${w.heavy} der fünf Swing-Sätze je Seite und für ${w.heavy} der Get-ups je Seite die nächstschwerere Kugel. Den Rest mit der gewohnten.`) : null;
+		if (w.two) blocks.push(R("kb_swing", w.two, 10, 10, {
+			rest_s: 45,
+			weight_kg: 16,
+			note: T("Powerful swings, not many. Rest until you could talk in full sentences.", "Kraftvolle Swings, nicht viele. Pause, bis du in ganzen Sätzen sprechen könntest.")
+		}));
+		if (w.one) blocks.push(R("kb_swing_one_arm", w.one, 10, 10, {
+			per_side: true,
+			rest_s: 45,
+			weight_kg: 16,
+			...heavy ? { note: heavy } : {}
+		}));
+		blocks.push(R("turkish_get_up", w.tgu, 1, 1, {
+			per_side: true,
+			rest_s: 60,
+			weight_kg: 8,
+			note: last ? T("Standard check, if you like: 100 one-arm swings within 5 minutes, then 10 get-ups within 10 minutes – with your working bell.", "Standard-Probe, wenn du magst: 100 einarmige Swings in 5 Minuten, danach 10 Get-ups in 10 Minuten – mit deiner Arbeitskugel.") : T("Slowly and under control. Start without weight or with a shoe on your fist if the move is new.", "Langsam und kontrolliert. Fang ohne Gewicht oder mit einem Schuh auf der Faust an, wenn die Bewegung neu ist.")
+		}));
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: last ? T("Week 12 · Day 6 · Standard check", "Woche 12 · Tag 6 · Standard-Probe") : weekDay(i, 6),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Swings and Get-Ups 12 Weeks", "Swings und Get-ups 12 Wochen"),
+		description: T("One kettlebell, two moves: 12 weeks, 6 short workouts per week. The swing grows from 50 two-arm swings to 100 one-arm swings, the Turkish get-up from 2 to 5 per side. From week 9 you bring in the next heavier bell set by set. Always powerful, never out of breath – about 20 minutes. Inspired by “Simple & Sinister”.", "Eine Kettlebell, zwei Übungen: 12 Wochen, 6 kurze Trainings pro Woche. Der Swing wächst von 50 beidarmigen auf 100 einarmige Swings, das Turkish Get-up von 2 auf 5 je Seite. Ab Woche 9 kommt Satz für Satz die nächstschwerere Kugel dazu. Immer kraftvoll, nie außer Atem – etwa 20 Minuten. Angelehnt an „Simple & Sinister“."),
+		goal: "strength",
+		defaults: {
+			rest_s: 60,
+			progression: NONE$1
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var DEEP_LADDERS = [
+	[
+		3,
+		3,
+		3
+	],
+	[
+		3,
+		3,
+		3,
+		3
+	],
+	[
+		3,
+		3,
+		3,
+		3,
+		3
+	],
+	[
+		4,
+		4,
+		3,
+		3,
+		3
+	],
+	[
+		4,
+		4,
+		4,
+		3,
+		3
+	],
+	[
+		4,
+		4,
+		4,
+		4,
+		4
+	],
+	[
+		5,
+		4,
+		4,
+		4,
+		4
+	],
+	[
+		5,
+		5,
+		4,
+		4,
+		4
+	],
+	[
+		5,
+		5,
+		5,
+		4,
+		4
+	],
+	[
+		5,
+		5,
+		5,
+		5,
+		4
+	],
+	[
+		5,
+		5,
+		5,
+		5,
+		5
+	],
+	[
+		5,
+		5,
+		5,
+		5,
+		5
+	]
+];
+function theDeep() {
+	const stock = {
+		kb_clean_press: lib("kettlebell-2-ganzkoerper", "kb_clean_press", { kind: "strength" }),
+		pull_up: lib("calisthenics-3-fortgeschritten", "pull_up", { kind: "strength" }),
+		kb_swing: lib("kettlebell-2-ganzkoerper", "kb_swing", { kind: "strength" })
+	};
+	const workouts = [];
+	for (let i = 0; i < 36; i++) {
+		const week = Math.floor(i / 3), d = i % 3;
+		const tops = DEEP_LADDERS[week].map((n) => Math.max(1, n - (2 - d)));
+		const blocks = [{
+			type: "warmup",
+			note: T("A few easy swings, goblet squats and one light press per side.", "Ein paar lockere Swings, Goblet Squats und je Seite ein leichtes Drücken.")
+		}];
+		tops.forEach((top, k) => {
+			const exercises = [];
+			for (let n = 1; n <= top; n++) exercises.push({
+				exercise: "kb_clean_press",
+				reps: n,
+				per_side: true,
+				weight_kg: 16
+			}, {
+				exercise: "pull_up",
+				reps: n
+			});
+			blocks.push({
+				type: "circuit",
+				name: T(`Ladder ${k + 1}`, `Leiter ${k + 1}`),
+				rounds: 1,
+				rest_after_exercise_s: 45,
+				rest_after_s: 150,
+				exercises,
+				...k === 0 ? { note: T("Clean and press, then the same number of pull-ups: one rep, two, three … After each ladder a longer break. Never to failure.", "Umsetzen und drücken, danach genauso viele Klimmzüge: eine Wiederholung, zwei, drei … Nach jeder Leiter eine längere Pause. Nie bis zum Versagen.") } : {}
+			});
+		});
+		blocks.push(R("kb_swing", [
+			4,
+			6,
+			8
+		][d], 10, 10, {
+			rest_s: 60,
+			weight_kg: 16
+		}), { type: "cooldown" });
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, [
+				"Light",
+				"Medium",
+				"Heavy"
+			][d], [
+				"Leicht",
+				"Mittel",
+				"Schwer"
+			][d]),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Press Ladders 12 Weeks", "Drück-Leitern 12 Wochen"),
+		description: T("A strong press with one kettlebell: 12 weeks, 3 workouts per week – one light, one medium, one heavy. You clean and press in ladders (1, 2, 3 reps and up) and do the same number of pull-ups in between. The heavy day grows from three ladders of three to five ladders of five; the other days stay one and two rungs below. Swings finish the session. Pick a bell you can press about 5–8 times. Inspired by the “Rite of Passage”.", "Starkes Drücken mit einer Kettlebell: 12 Wochen, 3 Trainings pro Woche – ein leichtes, ein mittleres, ein schweres. Du setzt um und drückst in Leitern (1, 2, 3 Wiederholungen und weiter) und machst dazwischen genauso viele Klimmzüge. Der schwere Tag wächst von drei Dreier-Leitern auf fünf Fünfer-Leitern; die anderen Tage bleiben eine und zwei Sprossen darunter. Swings schließen die Einheit ab. Nimm eine Kugel, die du etwa 5–8-mal drücken kannst. Angelehnt an die „Rite of Passage“."),
+		goal: "strength",
+		defaults: {
+			rest_s: 60,
+			progression: NONE$1
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var TABATA = [
+	"squat",
+	"push_up",
+	"mountain_climber",
+	"lunge"
+];
+function eightRounds() {
+	const stock = {
+		squat: lib("hiit-1-tabata", "squat"),
+		push_up: lib("hiit-1-tabata", "push_up"),
+		mountain_climber: lib("hiit-1-tabata", "mountain_climber"),
+		lunge: lib("hiit-1-tabata", "lunge")
+	};
+	const titles = {
+		squat: ["Squats", "Kniebeugen"],
+		push_up: ["Push-Ups", "Liegestütze"],
+		mountain_climber: ["Mountain Climbers", "Mountain Climbers"],
+		lunge: ["Lunges", "Ausfallschritte"]
+	};
+	const workouts = [];
+	for (let i = 0; i < 18; i++) {
+		const last = i === 17;
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: last ? T("Week 6 · Final", "Woche 6 · Finale") : weekDay(i, 3, "Tabata ×4", "Tabata ×4"),
+			blocks: [
+				{
+					type: "warmup",
+					note: T("3 minutes: jumping jacks, arm circles, slow squats.", "3 Minuten: Hampelmann, Armkreisen, langsame Kniebeugen.")
+				},
+				...TABATA.map((ex, n) => ({
+					type: "interval",
+					name: T(`Tabata ${n + 1} – ${titles[ex][0]}`, `Tabata ${n + 1} – ${titles[ex][1]}`),
+					rounds: 8,
+					work_s: 20,
+					rest_s: 10,
+					...n < TABATA.length - 1 ? { rest_after_s: 60 } : {},
+					exercises: [ex],
+					...n === 0 ? { note: T("Eight rounds, every one with everything you have – as many clean reps as you can in 20 seconds.", "Acht Runden, jede mit allem, was du hast – so viele saubere Wiederholungen wie möglich in 20 Sekunden.") } : {}
+				})),
+				{ type: "cooldown" }
+			]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Tabata Circuit 6 Weeks", "Tabata-Zirkel 6 Wochen"),
+		description: T("Four Tabatas without equipment – squats, push-ups, mountain climbers and lunges, each 8 rounds of 20 seconds all-out and 10 seconds rest, 1 minute between blocks. About 20 minutes, 3 times a week for 6 weeks. Very hard – only if you are healthy. Inspired by Tabata et al. 1996.", "Vier Tabatas ohne Geräte – Kniebeugen, Liegestütze, Mountain Climbers und Ausfallschritte, je 8 Runden mit 20 Sekunden vollem Einsatz und 10 Sekunden Pause, 1 Minute zwischen den Blöcken. Etwa 20 Minuten, 3-mal pro Woche über 6 Wochen. Sehr hart – nur, wenn du gesund bist. Angelehnt an Tabata et al. 1996."),
+		goal: "endurance",
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var SQUAT_DAYS = [
+	[6, 30],
+	[6, 30],
+	[7, 30],
+	[7, 30],
+	[8, 30],
+	[8, 30],
+	[8, 30],
+	[5, 60],
+	[5, 60],
+	[5, 60],
+	[6, 60],
+	[6, 60],
+	[6, 60],
+	[6, 60],
+	[3, 120],
+	[3, 120],
+	[4, 120],
+	[4, 120],
+	[4, 120],
+	[4, 120],
+	[4, 120],
+	[4, 150],
+	[4, 150],
+	[4, 150],
+	[2, 300],
+	[2, 300],
+	[2, 300],
+	[1, 600]
+];
+function belowTheCity() {
+	const stock = {
+		cat_cow: lib("yoga-1-einstieg", "cat_cow", { kind: "mobility" }),
+		low_lunge: lib("yoga-1-einstieg", "low_lunge", { kind: "mobility" }),
+		deep_squat: {
+			name: T("Deep Squat Hold", "Tiefe Hocke halten"),
+			equipment: "bodyweight",
+			image: "Bodyweight_Squat",
+			muscles: [
+				"quads",
+				"glutes",
+				"calves"
+			],
+			kind: "mobility",
+			note: T("Heels down, knees over the toes, chest up. Hold on to a door frame or put something under your heels if you need to.", "Fersen am Boden, Knie über den Zehen, Brust aufrecht. Halt dich am Türrahmen fest oder leg etwas unter die Fersen, wenn nötig.")
+		}
+	};
+	const fmt = (s) => s % 60 ? `${Math.floor(s / 60)}:${pad$1(s % 60)}` : `${s / 60}`;
+	const workouts = SQUAT_DAYS.map(([sets, sec], i) => {
+		const total = fmt(sets * sec);
+		return {
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 7, `${total} min`, `${total} min`),
+			blocks: [{
+				type: "flow",
+				name: T("Loosen up", "Lockern"),
+				rest_s: 5,
+				rest_after_s: 15,
+				exercises: [{
+					exercise: "cat_cow",
+					duration_s: 45
+				}, {
+					exercise: "low_lunge",
+					duration_s: 30
+				}]
+			}, H("deep_squat", sets, sec, sec, {
+				rest_s: 30,
+				note: T(`${total} minutes in the squat today. Breathe calmly; shift your weight gently if it gets stiff.`, `Heute ${total} Minuten in der Hocke. Ruhig atmen; verlagere sanft das Gewicht, wenn es steif wird.`)
+			})]
+		};
+	});
+	return {
+		schema_version: 1,
+		name: T("Deep Squat 4 Weeks", "Tiefe Hocke 4 Wochen"),
+		description: T("Win back the deep squat: 4 weeks, a few minutes every day. The time in the squat grows from 3 to 10 minutes a day – first in many short holds, at the end in one piece. Hold on to something or raise your heels as long as you need. No equipment. Inspired by the 10-minute squat test.", "Die tiefe Hocke zurückerobern: 4 Wochen, jeden Tag ein paar Minuten. Die Zeit in der Hocke wächst von 3 auf 10 Minuten am Tag – erst in vielen kurzen Abschnitten, am Ende an einem Stück. Halt dich fest oder erhöhe die Fersen, solange du es brauchst. Kein Gerät. Angelehnt an den 10-Minuten-Hocke-Test."),
+		goal: "general",
+		defaults: {
+			rest_s: 30,
+			progression: NONE$1
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var MORE_STORY_PLANS = [
+	{
+		story: "the_family",
+		group: "kraft",
+		plan: theFamily()
+	},
+	{
+		story: "forty_nights",
+		group: "kraft",
+		plan: fortyNights()
+	},
+	{
+		story: "clockwork",
+		group: "kraft",
+		plan: clockwork()
+	},
+	{
+		story: "fault_line",
+		group: "bodyweight",
+		plan: faultLine()
+	},
+	{
+		story: "bare_hands",
+		group: "bodyweight",
+		plan: bareHands()
+	},
+	{
+		story: "the_pendulum",
+		group: "kettlebell",
+		plan: thePendulum()
+	},
+	{
+		story: "the_deep",
+		group: "kettlebell",
+		plan: theDeep()
+	},
+	{
+		story: "eight_rounds",
+		group: "hiit",
+		plan: eightRounds()
+	},
+	{
+		story: "below_the_city",
+		group: "yoga",
+		plan: belowTheCity()
+	}
+];
+// src/core/hero/content/story-plans-popular.ts
+var NONE = { type: "none" };
+var MOB = { kind: "mobility" };
+var BAR = T("5 easy minutes, then 2–3 light warm-up sets of the first lift.", "5 lockere Minuten, dann 2–3 leichte Aufwärmsätze der ersten Übung.");
+var from = (template, keys, extra = {}) => Object.fromEntries(keys.map((k) => [k, lib(template, k, extra)]));
+var TIER_DAYS = [
+	[
+		"back_squat",
+		"bench_press",
+		"lat_pulldown"
+	],
+	[
+		"overhead_press",
+		"deadlift",
+		"dumbbell_row"
+	],
+	[
+		"bench_press",
+		"back_squat",
+		"lat_pulldown"
+	],
+	[
+		"deadlift",
+		"overhead_press",
+		"dumbbell_row"
+	]
+];
+function threeTiers() {
+	const stock = from("kraft-3-stufen-4-tage", [
+		"back_squat",
+		"bench_press",
+		"overhead_press",
+		"deadlift",
+		"lat_pulldown",
+		"dumbbell_row"
+	]);
+	const lower = (e) => e === "back_squat" || e === "deadlift";
+	const T1_KG = {
+		back_squat: 40,
+		bench_press: 30,
+		overhead_press: 20,
+		deadlift: 50
+	};
+	const T2_KG = {
+		back_squat: 30,
+		bench_press: 20,
+		overhead_press: 15,
+		deadlift: 40
+	};
+	const workouts = [];
+	for (let i = 0; i < 36; i++) {
+		const [t1, t2, t3] = TIER_DAYS[i % 4];
+		const blocks = [
+			{
+				type: "warmup",
+				note: BAR
+			},
+			R(t1, 5, 3, 3, {
+				weight_kg: T1_KG[t1],
+				rest_s: 180,
+				progression: {
+					type: "linear",
+					increment_kg: lower(t1) ? 5 : 2.5
+				},
+				note: T("Tier 1, heavy: five sets of three. In the last set do as many clean reps as you can – stop one rep before failure.", "Stufe 1, schwer: fünf Sätze mit drei. Im letzten Satz so viele saubere Wiederholungen wie möglich – eine vor dem Versagen aufhören.")
+			}),
+			R(t2, 3, 10, 10, {
+				weight_kg: T2_KG[t2],
+				rest_s: 120,
+				progression: {
+					type: "linear",
+					increment_kg: lower(t2) ? 5 : 2.5
+				},
+				note: T("Tier 2, medium: three sets of ten.", "Stufe 2, mittel: drei Sätze mit zehn.")
+			}),
+			R(t3, 3, 15, 25, {
+				weight_kg: t3 === "lat_pulldown" ? 25 : 12,
+				rest_s: 60,
+				progression: {
+					type: "double",
+					increment_kg: 2.5
+				},
+				note: T("Tier 3, light: three sets of 15 or more. When all sets reach 25, take a little more.", "Stufe 3, leicht: drei Sätze mit 15 oder mehr. Schaffst du in allen Sätzen 25, nimm etwas mehr.")
+			}),
+			{ type: "cooldown" }
+		];
+		if (i === 0) blocks[1].note = T("Start lighter than you could: a weight you could lift 6–7 times. If a tier-1 workout fails, repeat the weight next time; fails it twice, take 10 % off.", "Leichter anfangen, als du könntest: ein Gewicht, das du 6–7-mal heben könntest. Klappt ein Stufe-1-Training nicht, beim nächsten Mal dasselbe Gewicht; klappt es zweimal nicht, 10 % weniger.");
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, [
+				"A1",
+				"B1",
+				"A2",
+				"B2"
+			][i % 4], [
+				"A1",
+				"B1",
+				"A2",
+				"B2"
+			][i % 4]),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Strength in Three Tiers 12 Weeks", "Kraft in drei Stufen 12 Wochen"),
+		description: T("Barbell strength in three tiers: 12 weeks, 3 workouts per week, four workouts in turn. Each workout has one heavy main lift (5×3, last set as many as you can), a second lift lighter (3×10) and a pull-down or row with many reps. Squat, bench press, deadlift and overhead press – a little more weight every time. For everyone who has learned the barbell lifts. Inspired by GZCLP (Cody Lefever).", "Langhantel-Kraft in drei Stufen: 12 Wochen, 3 Trainings pro Woche, vier Workouts im Wechsel. Jedes Training hat eine schwere Hauptübung (5×3, der letzte Satz so viele wie möglich), eine zweite Übung leichter (3×10) und Latziehen oder Rudern mit vielen Wiederholungen. Kniebeuge, Bankdrücken, Kreuzheben und Schulterdrücken – jedes Mal etwas mehr Gewicht. Für alle, die die Langhantel-Übungen gelernt haben. Angelehnt an GZCLP (Cody Lefever)."),
+		goal: "strength",
+		defaults: { rest_s: 120 },
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+function doubleShift() {
+	const stock = {
+		...from("kraft-5-push-pull-beine", [
+			"bench_press",
+			"overhead_press",
+			"incline_db_press",
+			"triceps_pushdown",
+			"overhead_triceps",
+			"lateral_raise",
+			"deadlift",
+			"lat_pulldown",
+			"cable_row",
+			"face_pull",
+			"hammer_curl",
+			"db_curl",
+			"back_squat",
+			"romanian_deadlift",
+			"leg_press",
+			"leg_curl",
+			"calf_raise"
+		]),
+		barbell_row: lib("kraft-4-oberkoerper-unterkoerper", "barbell_row")
+	};
+	const heavy = (exercise, sets, kg, inc) => R(exercise, sets, 5, 5, {
+		weight_kg: kg,
+		rest_s: 180,
+		progression: {
+			type: "linear",
+			increment_kg: inc
+		}
+	});
+	const mid = (exercise, sets = 3, extra = {}) => R(exercise, sets, 8, 12, extra);
+	const DAY = [
+		[
+			"Pull",
+			"Zug",
+			() => [
+				heavy("deadlift", 1, 60, 5),
+				mid("lat_pulldown"),
+				mid("cable_row"),
+				R("face_pull", 4, 15, 20, { rest_s: 60 }),
+				mid("hammer_curl", 3, { rest_s: 60 }),
+				mid("db_curl", 3, { rest_s: 60 })
+			]
+		],
+		[
+			"Push",
+			"Drücken",
+			() => [
+				heavy("bench_press", 4, 40, 2.5),
+				mid("overhead_press"),
+				mid("incline_db_press"),
+				mid("triceps_pushdown", 3, { rest_s: 60 }),
+				R("lateral_raise", 3, 15, 20, { rest_s: 60 }),
+				mid("overhead_triceps", 3, { rest_s: 60 })
+			]
+		],
+		[
+			"Legs",
+			"Beine",
+			() => [
+				heavy("back_squat", 3, 50, 2.5),
+				mid("romanian_deadlift"),
+				mid("leg_press"),
+				mid("leg_curl", 3, { rest_s: 60 }),
+				R("calf_raise", 5, 8, 12, { rest_s: 60 })
+			]
+		],
+		[
+			"Pull",
+			"Zug",
+			() => [
+				heavy("barbell_row", 4, 40, 2.5),
+				mid("lat_pulldown"),
+				mid("cable_row"),
+				R("face_pull", 4, 15, 20, { rest_s: 60 }),
+				mid("hammer_curl", 3, { rest_s: 60 }),
+				mid("db_curl", 3, { rest_s: 60 })
+			]
+		],
+		[
+			"Push",
+			"Drücken",
+			() => [
+				heavy("overhead_press", 4, 25, 2.5),
+				mid("bench_press"),
+				mid("incline_db_press"),
+				mid("triceps_pushdown", 3, { rest_s: 60 }),
+				R("lateral_raise", 3, 15, 20, { rest_s: 60 }),
+				mid("overhead_triceps", 3, { rest_s: 60 })
+			]
+		],
+		[
+			"Legs",
+			"Beine",
+			() => [
+				heavy("back_squat", 3, 50, 2.5),
+				mid("romanian_deadlift"),
+				mid("leg_press"),
+				mid("leg_curl", 3, { rest_s: 60 }),
+				R("calf_raise", 5, 8, 12, { rest_s: 60 })
+			]
+		]
+	];
+	const workouts = [];
+	for (let i = 0; i < 48; i++) {
+		const [en, de, make] = DAY[i % 6];
+		const blocks = [
+			{
+				type: "warmup",
+				note: BAR
+			},
+			...make(),
+			{ type: "cooldown" }
+		];
+		if (i === 0) blocks[1].note = T("Start light – the first weeks are for learning the rhythm. The first lift goes up a little every time, the others when all sets reach 12.", "Leicht anfangen – die ersten Wochen sind zum Einfinden. Die erste Übung steigt jedes Mal ein wenig, die anderen, wenn alle Sätze 12 erreichen.");
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 6, en, de),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Push Pull Legs 8 Weeks", "Drücken Ziehen Beine 8 Wochen"),
+		description: T("Six days in the gym: 8 weeks, push, pull and legs, each twice a week. Every day starts with one heavy lift of five reps (deadlift or barbell row, bench or overhead press, squat) that goes up a little every time, then four to five exercises with 8–12 reps. Rest on the seventh day. Needs a gym with cables and machines. Inspired by the popular Reddit PPL (Metallicadpa).", "Sechs Tage im Studio: 8 Wochen, Drücken, Ziehen und Beine, jedes zweimal pro Woche. Jeder Tag beginnt mit einer schweren Übung mit fünf Wiederholungen (Kreuzheben oder Langhantelrudern, Bank- oder Schulterdrücken, Kniebeuge), die jedes Mal etwas steigt, danach vier bis fünf Übungen mit 8–12 Wiederholungen. Am siebten Tag Pause. Braucht ein Studio mit Kabelzug und Maschinen. Angelehnt an das beliebte Reddit-PPL (Metallicadpa)."),
+		goal: "hypertrophy",
+		defaults: {
+			rest_s: 90,
+			progression: {
+				type: "double",
+				increment_kg: 2.5
+			}
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+function loadBearing() {
+	const stock = {
+		...from("kraft-4-oberkoerper-unterkoerper", [
+			"hip_thrust",
+			"romanian_deadlift",
+			"bulgarian_split_squat"
+		]),
+		...from("kraft-2-ganzkoerper-kurzhantel", [
+			"glute_bridge",
+			"goblet_squat",
+			"dumbbell_row",
+			"push_up",
+			"plank"
+		]),
+		...from("bodyweight-2-ganzkoerper-kraft", [
+			"single_leg_glute_bridge",
+			"step_up",
+			"side_plank"
+		]),
+		side_leg_raise: lib("bodyweight-5-balance-beinkraft", "side_leg_raise"),
+		glute_kickback: own("Glute Kickback", "Glute Kickback (Bein nach hinten)", {
+			aliases: ["Glute Kickback"],
+			unilateral: true,
+			muscles: ["glutes"]
+		})
+	};
+	const MAIN = [
+		[
+			3,
+			15,
+			20
+		],
+		[
+			3,
+			10,
+			12
+		],
+		[
+			4,
+			6,
+			10
+		]
+	], ACC = [
+		[
+			2,
+			12,
+			15
+		],
+		[
+			3,
+			10,
+			15
+		],
+		[
+			3,
+			8,
+			12
+		]
+	];
+	const workouts = [];
+	for (let i = 0; i < 36; i++) {
+		const week = Math.floor(i / 3), stage = week < 4 ? 0 : week < 8 ? 1 : 2, day = i % 3;
+		const [ms, mlo, mhi] = MAIN[stage], [as, alo, ahi] = ACC[stage];
+		const main = (e, kg) => R(e, ms, mlo, mhi, kg ? { weight_kg: kg } : {});
+		const acc = (e, kg) => R(e, as, alo, ahi, kg ? {
+			weight_kg: kg,
+			rest_s: 75
+		} : { rest_s: 75 });
+		const glute = (e) => R(e, 2, 15, 20, {
+			rest_s: 45,
+			progression: { type: "reps" }
+		});
+		let blocks;
+		if (day === 0) blocks = [
+			stage === 0 ? main("glute_bridge") : main("hip_thrust", stage === 1 ? 30 : 40),
+			acc("goblet_squat", 8),
+			acc("dumbbell_row", 10),
+			glute("side_leg_raise"),
+			H("plank", 2, 30, 45, { rest_s: 45 })
+		];
+		else if (day === 1) blocks = [
+			main("romanian_deadlift", stage === 0 ? 20 : 30),
+			acc("step_up"),
+			acc("push_up"),
+			glute("glute_kickback"),
+			H("side_plank", 2, 20, 30, { rest_s: 45 })
+		];
+		else blocks = [
+			stage === 0 ? main("single_leg_glute_bridge") : main("hip_thrust", stage === 1 ? 30 : 40),
+			acc("bulgarian_split_squat", stage === 0 ? 0 : 6),
+			acc("dumbbell_row", 10),
+			R("glute_bridge", 1, 20, 30, {
+				rest_s: 45,
+				progression: { type: "reps" },
+				note: T("Finisher: one long set, squeeze at the top.", "Zum Schluss: ein langer Satz, oben fest anspannen.")
+			})
+		];
+		if (day === 2 && stage === 0) blocks[1] = acc("bulgarian_split_squat");
+		blocks.unshift({
+			type: "warmup",
+			note: T("A few glute bridges, leg swings and bodyweight squats.", "Ein paar Glute Bridges, Beinschwingen und Kniebeugen ohne Gewicht.")
+		});
+		blocks.push({ type: "cooldown" });
+		if (i === 0) blocks[1].note = T("Weeks 1–4: learn the movements with many reps. From week 5 the hip thrust comes in with a barbell; from week 9 it gets heavier.", "Woche 1–4: die Bewegungen mit vielen Wiederholungen lernen. Ab Woche 5 kommt der Hip Thrust mit Langhantel dazu, ab Woche 9 wird es schwerer.");
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, [
+				"A",
+				"B",
+				"C"
+			][day], [
+				"A",
+				"B",
+				"C"
+			][day]),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Glutes and Legs 12 Weeks", "Gesäß und Beine 12 Wochen"),
+		description: T("Strong hips, glutes and legs: 12 weeks, 3 workouts per week, three workouts in turn. Hip thrust and glute bridge, Romanian deadlift, split squats and step-ups, plus side leg raises and kickbacks – and a little upper body. Three stages: learn (15–20 reps), build (10–12), heavier (6–10). Dumbbells, a barbell and a bench. Inspired by “Strong Curves” (Bret Contreras).", "Starke Hüfte, Gesäß und Beine: 12 Wochen, 3 Trainings pro Woche, drei Workouts im Wechsel. Hip Thrust und Glute Bridge, rumänisches Kreuzheben, Ausfallschritte und Step-ups, dazu Bein seitlich heben und Kickbacks – und etwas Oberkörper. Drei Abschnitte: lernen (15–20 Wiederholungen), aufbauen (10–12), schwerer (6–10). Kurzhanteln, eine Langhantel und eine Bank. Angelehnt an „Strong Curves“ (Bret Contreras)."),
+		goal: "hypertrophy",
+		defaults: {
+			rest_s: 90,
+			progression: {
+				type: "double",
+				increment_kg: 2
+			}
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var HUNDRED_BASE = [
+	[
+		6,
+		6,
+		4,
+		4,
+		5
+	],
+	[
+		6,
+		8,
+		6,
+		6,
+		7
+	],
+	[
+		8,
+		10,
+		7,
+		7,
+		10
+	]
+];
+var hundredSets = (i) => HUNDRED_BASE[i % 3].map((n) => Math.round(n * (1 + .6 * Math.floor(i / 3))));
+function theHundred() {
+	const stock = { push_up: lib("bodyweight-2-ganzkoerper-kraft", "push_up") };
+	const workouts = [];
+	for (let i = 0; i < 18; i++) {
+		let blocks;
+		if (i === 17) blocks = [{
+			type: "warmup",
+			note: T("Move easily, then 2 sets of 5 easy push-ups.", "Locker bewegen, dann 2 Sätze mit 5 lockeren Liegestützen.")
+		}, R("push_up", 1, 1, 1, {
+			reps: "max",
+			note: T("The test: as many clean push-ups as you can in one set. The goal is 100 – every number above your first test counts.", "Der Test: so viele saubere Liegestütze wie möglich in einem Satz. Das Ziel sind 100 – jede Zahl über deinem ersten Test zählt.")
+		})];
+		else {
+			const sets = hundredSets(i);
+			blocks = [
+				{
+					type: "warmup",
+					note: T("Shoulder circles, a few arm swings and 5 easy push-ups.", "Schulterkreisen, Armschwingen und 5 lockere Liegestütze.")
+				},
+				...sets.slice(0, 4).map((n) => R("push_up", 1, n, n, { rest_s: 90 })),
+				R("push_up", 1, 1, 1, {
+					reps: "max",
+					note: T(`Last set: as many as you can, at least ${sets[4]}.`, `Letzter Satz: so viele wie möglich, mindestens ${sets[4]}.`)
+				})
+			];
+			if (i === 0) blocks[1].note = T("Can't manage the numbers yet? Do the push-ups with your hands on a bench or table edge. Was a day too hard, repeat the week.", "Schaffst du die Zahlen noch nicht? Mach die Liegestütze mit den Händen auf einer Bank oder Tischkante. War ein Tag zu schwer, wiederhole die Woche.");
+		}
+		blocks.push({ type: "cooldown" });
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: i === 17 ? T("Week 6 · Test", "Woche 6 · Test") : weekDay(i, 3),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("100 Push-ups 6 Weeks", "100 Liegestütze 6 Wochen"),
+		description: T("Toward 100 push-ups in a row: 6 weeks, 3 short workouts per week. Five sets each time, the last one as many as you can; the numbers rise every week. The last workout is the test. For everyone who can do at least five clean push-ups – otherwise start with your hands on a bench. Inspired by the One Hundred Push-ups program.", "Auf dem Weg zu 100 Liegestützen am Stück: 6 Wochen, 3 kurze Trainings pro Woche. Jedes Mal fünf Sätze, der letzte so viele wie möglich; die Zahlen steigen jede Woche. Das letzte Training ist der Test. Für alle, die mindestens fünf saubere Liegestütze schaffen – sonst mit den Händen auf einer Bank beginnen. Angelehnt an das „One Hundred Push-ups“-Programm."),
+		goal: "strength",
+		defaults: {
+			rest_s: 90,
+			progression: NONE
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var SCRAMBLE_TARGETS = {
+	toe: [
+		12,
+		15,
+		18,
+		21,
+		24,
+		27
+	],
+	sit: [
+		6,
+		9,
+		12,
+		15,
+		18,
+		21
+	],
+	back: [
+		8,
+		11,
+		14,
+		17,
+		20,
+		23
+	],
+	push: [
+		4,
+		6,
+		8,
+		10,
+		13,
+		16
+	],
+	steps: [
+		150,
+		180,
+		210,
+		240,
+		270,
+		300
+	]
+};
+function scramble() {
+	const stock = {
+		forward_fold: lib("yoga-1-einstieg", "forward_fold", { kind: "strength" }),
+		sit_up: own("Sit-up", "Sit-up", {
+			aliases: ["Sit-Up"],
+			muscles: ["core"]
+		}),
+		superman: lib("bodyweight-2-ganzkoerper-kraft", "superman"),
+		push_up: lib("bodyweight-2-ganzkoerper-kraft", "push_up"),
+		high_knees: lib("bodyweight-1-7-minuten-zirkel", "high_knees"),
+		star_jump: own("Star Jump", "Hampelmann-Sprung", {
+			aliases: ["Star Jump"],
+			kind: "cardio",
+			muscles: ["quads", "calves"]
+		})
+	};
+	const t = SCRAMBLE_TARGETS;
+	const workouts = [];
+	for (let i = 0; i < 30; i++) {
+		const w = Math.floor(i / 5);
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 5),
+			blocks: [{
+				type: "flow",
+				name: T("Eleven minutes", "Elf Minuten"),
+				rest_s: 5,
+				note: T(`Goals this week: ${t.toe[w]} toe touches in 2 minutes, then per minute ${t.sit[w]} sit-ups, ${t.back[w]} back raises, ${t.push[w]} push-ups. Then run on the spot – about ${t.steps[w]} steps per minute and 10 star jumps in each jump phase.`, `Ziele dieser Woche: ${t.toe[w]}-mal Zehen berühren in 2 Minuten, dann je Minute ${t.sit[w]} Sit-ups, ${t.back[w]}-mal Rücken heben, ${t.push[w]} Liegestütze. Danach auf der Stelle laufen – etwa ${t.steps[w]} Schritte pro Minute und je Sprungphase 10 Hampelmann-Sprünge.`),
+				exercises: [
+					{
+						exercise: "forward_fold",
+						duration_s: 120
+					},
+					{
+						exercise: "sit_up",
+						duration_s: 60
+					},
+					{
+						exercise: "superman",
+						duration_s: 60
+					},
+					{
+						exercise: "push_up",
+						duration_s: 60
+					},
+					...[
+						0,
+						1,
+						2,
+						3
+					].flatMap(() => [{
+						exercise: "high_knees",
+						duration_s: 75
+					}, {
+						exercise: "star_jump",
+						duration_s: 15
+					}])
+				]
+			}]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Eleven Minutes a Day 6 Weeks", "Elf Minuten am Tag 6 Wochen"),
+		description: T("The classic short program: 6 weeks, 5 days per week, eleven minutes without equipment. Toe touches for two minutes, one minute each of sit-ups, back raises and push-ups, then six minutes of running on the spot with star jumps. The time stays the same – the goals for each exercise rise every week. Runs on its own with beeps. Inspired by 5BX (Royal Canadian Air Force, 1961).", "Das klassische Kurzprogramm: 6 Wochen, 5 Tage pro Woche, elf Minuten ohne Geräte. Zwei Minuten Zehen berühren, je eine Minute Sit-ups, Rücken heben und Liegestütze, dann sechs Minuten auf der Stelle laufen mit Hampelmann-Sprüngen. Die Zeit bleibt gleich – die Ziele je Übung steigen jede Woche. Läuft von selbst mit Signaltönen. Angelehnt an 5BX (Royal Canadian Air Force, 1961)."),
+		goal: "general",
+		defaults: {
+			rest_s: 5,
+			progression: NONE
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+function kickOff() {
+	const stock = {
+		run: lib("ausdauer-1-laufeinstieg", "run"),
+		high_knees: lib("bodyweight-1-7-minuten-zirkel", "high_knees"),
+		plank: lib("kraft-2-ganzkoerper-kurzhantel", "plank"),
+		side_plank: lib("bodyweight-2-ganzkoerper-kraft", "side_plank"),
+		nordic_curl: lib("calisthenics-3-fortgeschritten", "nordic_curl"),
+		single_leg_stand: lib("bodyweight-5-balance-beinkraft", "single_leg_stand"),
+		squat: lib("bodyweight-2-ganzkoerper-kraft", "squat"),
+		lunge: lib("bodyweight-1-7-minuten-zirkel", "lunge"),
+		jump_squat: own("Vertical Jump", "Strecksprung", {
+			aliases: ["Freehand Jump Squat"],
+			muscles: [
+				"quads",
+				"glutes",
+				"calves"
+			]
+		}),
+		sprint: own("Sprint", "Sprint", {
+			aliases: ["Sprint"],
+			equipment: "other",
+			kind: "cardio",
+			muscles: [
+				"quads",
+				"hamstrings",
+				"calves"
+			]
+		})
+	};
+	const PLANK = [
+		[20, 30],
+		[30, 40],
+		[40, 60]
+	], NORDIC = [
+		[3, 5],
+		[5, 8],
+		[8, 12]
+	], JUMP = [
+		[8, 10],
+		[10, 12],
+		[12, 15]
+	];
+	const LEVEL = [
+		T("Level 1: plank on the forearms, squats with a calf raise at the top, jumps straight up.", "Stufe 1: Unterarmstütz, Kniebeugen mit Fersenheben oben, Sprünge gerade nach oben."),
+		T("Level 2: in the plank lift one foot at a time, walking lunges, jumps sideways from leg to leg.", "Stufe 2: im Stütz abwechselnd einen Fuß heben, Ausfallschritte im Gehen, Sprünge seitlich von Bein zu Bein."),
+		T("Level 3: in the plank hold one leg up, lunges with a short pause at the bottom, jumps in all directions.", "Stufe 3: im Stütz ein Bein oben halten, Ausfallschritte mit kurzer Pause unten, Sprünge in alle Richtungen.")
+	];
+	const workouts = [];
+	for (let i = 0; i < 18; i++) {
+		const L = Math.min(2, Math.floor(i / 6));
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 2),
+			blocks: [
+				{
+					type: "flow",
+					name: T("Running drills", "Laufschule"),
+					rest_s: 0,
+					note: T("Across the pitch and back: jog straight, hip out, hip in, around a partner, shoulder to shoulder, quick forwards and backwards.", "Über den Platz und zurück: geradeaus joggen, Hüfte auf, Hüfte zu, um einen Partner, Schulter an Schulter, schnell vor und zurück."),
+					exercises: [
+						{
+							exercise: "run",
+							duration_s: 120
+						},
+						{
+							exercise: "high_knees",
+							duration_s: 30
+						},
+						{
+							exercise: "run",
+							duration_s: 120
+						},
+						{
+							exercise: "high_knees",
+							duration_s: 30
+						},
+						{
+							exercise: "run",
+							duration_s: 120
+						}
+					]
+				},
+				H("plank", 3, PLANK[L][0], PLANK[L][1], {
+					rest_s: 30,
+					note: LEVEL[L]
+				}),
+				H("side_plank", 2, PLANK[L][0], PLANK[L][1], {
+					per_side: true,
+					rest_s: 30
+				}),
+				R("nordic_curl", 1, NORDIC[L][0], NORDIC[L][1], {
+					rest_s: 60,
+					progression: NONE
+				}),
+				H("single_leg_stand", 2, 30, 30, {
+					per_side: true,
+					rest_s: 15,
+					progression: NONE
+				}),
+				L === 0 ? R("squat", 2, 10, 15, { rest_s: 30 }) : R("lunge", 2, 8, 10, {
+					per_side: true,
+					rest_s: 30
+				}),
+				R("jump_squat", 2, JUMP[L][0], JUMP[L][1], { rest_s: 30 }),
+				{
+					type: "flow",
+					name: T("Runs with tempo", "Läufe mit Tempo"),
+					rest_s: 0,
+					note: T("Across the pitch at about 75 % speed, then bounding strides, then plant and cut. Jog back easily.", "Mit etwa 75 % Tempo über den Platz, dann Sprunglauf, dann Stoppen und Richtung wechseln. Locker zurückjoggen."),
+					exercises: [
+						{
+							exercise: "sprint",
+							duration_s: 15
+						},
+						{
+							exercise: "run",
+							duration_s: 45
+						},
+						{
+							exercise: "sprint",
+							duration_s: 15
+						},
+						{
+							exercise: "run",
+							duration_s: 45
+						},
+						{
+							exercise: "sprint",
+							duration_s: 15
+						},
+						{
+							exercise: "run",
+							duration_s: 45
+						}
+					]
+				}
+			]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Injury-Prevention Warm-up 9 Weeks", "Verletzungsprophylaxe 9 Wochen"),
+		description: T("The warm-up that keeps players on their feet: 9 weeks, 2 sessions per week, about 20 minutes – best before training. Running drills, then plank, side plank, Nordic curls, one-leg balance, squats or lunges and jumps, finally runs with tempo. Three levels of three weeks each. For football and all team sports with sprints and changes of direction. Inspired by the 11+ programme (FIFA Medical).", "Das Aufwärmen, das Spieler auf den Beinen hält: 9 Wochen, 2 Einheiten pro Woche, etwa 20 Minuten – am besten vor dem Training. Laufschule, dann Unterarmstütz, Seitstütz, Nordic Curls, Einbeinstand, Kniebeugen oder Ausfallschritte und Sprünge, zum Schluss Läufe mit Tempo. Drei Stufen zu je drei Wochen. Für Fußball und alle Mannschaftssportarten mit Sprints und Richtungswechseln. Angelehnt an das Programm 11+ (FIFA Medical)."),
+		goal: "general",
+		defaults: {
+			rest_s: 30,
+			progression: { type: "reps" }
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var SNATCH_ROUNDS = [
+	16,
+	18,
+	20,
+	20,
+	22,
+	24,
+	24,
+	26,
+	28,
+	28,
+	30,
+	32,
+	32,
+	34,
+	36,
+	36,
+	38,
+	40
+];
+function fifteenSeconds() {
+	const stock = {
+		kb_swing_one_arm: lib("kettlebell-1-swing-getup", "kb_swing_one_arm", { kind: "strength" }),
+		kb_snatch: own("Kettlebell Snatch", "Kettlebell-Snatch", {
+			aliases: ["One-Arm Kettlebell Snatch"],
+			equipment: "kettlebell",
+			unilateral: true,
+			muscles: [
+				"glutes",
+				"hamstrings",
+				"shoulders"
+			]
+		}),
+		turkish_get_up: lib("kettlebell-1-swing-getup", "turkish_get_up", { kind: "strength" })
+	};
+	const workouts = [];
+	for (let i = 0; i < 24; i++) {
+		const blocks = [{
+			type: "warmup",
+			note: T("A few goblet squats, hip bridges and easy two-arm swings.", "Ein paar Goblet Squats, Glute Bridges und lockere beidarmige Swings.")
+		}];
+		if (i < 6) {
+			const rounds = [
+				10,
+				12,
+				14,
+				16,
+				18,
+				20
+			][i];
+			blocks.push(R("kb_snatch", 5, 3, 3, {
+				per_side: true,
+				weight_kg: 12,
+				rest_s: 60,
+				progression: NONE,
+				note: T("Technique: pull the bell close to the body, punch the hand through at the top, the bell lands softly on the forearm. Light bell, clean reps.", "Technik: die Kugel nah am Körper hochziehen, oben die Hand durchstoßen, die Kugel landet weich auf dem Unterarm. Leichte Kugel, saubere Wiederholungen.")
+			}), {
+				type: "interval",
+				name: T(`${rounds} × 15/15 swings`, `${rounds} × 15/15 Swings`),
+				rounds,
+				work_s: 15,
+				rest_s: 15,
+				rest_after_s: 60,
+				note: T("15 seconds of one-arm swings, 15 seconds rest, switch hands every round. About 7 swings per round.", "15 Sekunden einarmige Swings, 15 Sekunden Pause, jede Runde die Hand wechseln. Etwa 7 Swings je Runde."),
+				exercises: ["kb_swing_one_arm"]
+			});
+		} else {
+			const rounds = SNATCH_ROUNDS[i - 6];
+			blocks.push({
+				type: "interval",
+				name: T(`${rounds} × 15/15 snatches`, `${rounds} × 15/15 Snatches`),
+				rounds,
+				work_s: 15,
+				rest_s: 15,
+				rest_after_s: 60,
+				note: T("15 seconds of snatches, 15 seconds rest, switch hands every round. Keep the same number every round (about 7–8). If it drops, stop for today.", "15 Sekunden Snatches, 15 Sekunden Pause, jede Runde die Hand wechseln. Jede Runde dieselbe Zahl halten (etwa 7–8). Fällt sie ab, für heute aufhören."),
+				exercises: ["kb_snatch"]
+			});
+		}
+		if (i % 3 === 2) blocks.push(R("turkish_get_up", 2, 1, 1, {
+			per_side: true,
+			weight_kg: 12,
+			rest_s: 60,
+			progression: NONE
+		}));
+		blocks.push({ type: "cooldown" });
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, i < 6 ? "Swings" : `${SNATCH_ROUNDS[i - 6]} rounds`, i < 6 ? "Swings" : `${SNATCH_ROUNDS[i - 6]} Runden`),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Snatch Intervals 8 Weeks", "Snatch-Intervalle 8 Wochen"),
+		description: T("Endurance with one kettlebell: 8 weeks, 3 sessions per week. Always 15 seconds of work, 15 seconds of rest, switching hands every round. Weeks 1–2: one-arm swings in this rhythm and snatch technique. Then snatch intervals from 16 to 40 rounds (8 to 20 minutes). Every third session a few Turkish get-ups. You should be able to swing safely. Inspired by the VO2max protocol of Viking Warrior Conditioning (Kenneth Jay).", "Ausdauer mit einer Kettlebell: 8 Wochen, 3 Einheiten pro Woche. Immer 15 Sekunden Arbeit, 15 Sekunden Pause, jede Runde die Hand wechseln. Woche 1–2: einarmige Swings in diesem Takt und Snatch-Technik. Danach Snatch-Intervalle von 16 bis 40 Runden (8 bis 20 Minuten). Jede dritte Einheit ein paar Turkish Get-ups. Den Swing solltest du sicher können. Angelehnt an das VO2max-Protokoll aus Viking Warrior Conditioning (Kenneth Jay)."),
+		goal: "endurance",
+		defaults: {
+			rest_s: 60,
+			progression: NONE
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var HALF = {
+	easy: [
+		30,
+		30,
+		35,
+		35,
+		40,
+		30,
+		40,
+		45,
+		45,
+		45,
+		35,
+		25
+	],
+	long: [
+		50,
+		55,
+		60,
+		70,
+		80,
+		60,
+		85,
+		95,
+		105,
+		115,
+		80,
+		0
+	]
+};
+function twentyOne() {
+	const stock = from("ausdauer-1-laufeinstieg", ["brisk_walk", "run"]);
+	const workouts = [];
+	for (let i = 0; i < 48; i++) {
+		const week = Math.floor(i / 4), day = i % 4, last = i === 47;
+		let blocks, label;
+		if (last) {
+			label = ["Half marathon", "Halbmarathon"];
+			blocks = [
+				{
+					type: "warmup",
+					duration_s: 300,
+					note: T("Five minutes of brisk walking, a few easy strides.", "Fünf Minuten zügig gehen, ein paar lockere Steigerungen.")
+				},
+				{
+					type: "sets",
+					exercise: "run",
+					sets: 1,
+					duration_s: "max",
+					note: T("21.1 kilometers at your own pace. Start slower than you think, drink at every chance. Stop the timer at the finish.", "21,1 Kilometer in deinem Tempo. Langsamer starten, als du denkst, bei jeder Gelegenheit trinken. Stoppe die Zeit im Ziel.")
+				},
+				{
+					type: "cooldown",
+					duration_s: 300
+				}
+			];
+		} else {
+			const long = day === 3, min = long ? HALF.long[week] : day === 1 ? Math.max(25, HALF.easy[week] - 5) : HALF.easy[week];
+			label = long ? ["Long run", "Langer Lauf"] : ["Easy run", "Lockerer Lauf"];
+			blocks = [{
+				type: "flow",
+				name: T(`${label[0]} ${min} min`, `${label[1]} ${min} min`),
+				rest_s: 0,
+				note: long ? T(`About ${min} minutes, slow enough to talk. Walking a minute every 10 minutes is allowed – drink on the way from 60 minutes on.`, `Etwa ${min} Minuten, so langsam, dass du noch sprechen kannst. Eine Gehminute alle 10 Minuten ist erlaubt – ab 60 Minuten unterwegs trinken.`) : T(`${min} minutes of easy running in one piece.`, `${min} Minuten locker laufen, an einem Stück.`),
+				exercises: [
+					{
+						exercise: "brisk_walk",
+						duration_s: 300
+					},
+					{
+						exercise: "run",
+						duration_s: min * 60
+					},
+					{
+						exercise: "brisk_walk",
+						duration_s: 300
+					}
+				]
+			}];
+		}
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: last ? T("Week 12 · Half marathon", "Woche 12 · Halbmarathon") : weekDay(i, 4, label[0], label[1]),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Half Marathon 12 Weeks", "Halbmarathon 12 Wochen"),
+		description: T("From 10 kilometers to the half marathon: 12 weeks, 4 runs per week. Three easy runs of 25–45 minutes and one long run that grows from 50 minutes to almost two hours. Week 6 is lighter, week 12 shorter, so you start rested. Everything at a pace at which you could still talk. The last run is the 21.1 kilometers. For everyone who can run 10 kilometers. Inspired by Hal Higdon's novice half marathon plan.", "Von 10 Kilometern zum Halbmarathon: 12 Wochen, 4 Läufe pro Woche. Drei lockere Läufe von 25–45 Minuten und ein langer Lauf, der von 50 Minuten auf fast zwei Stunden wächst. Woche 6 ist leichter, Woche 12 kürzer, damit du ausgeruht startest. Alles in einem Tempo, bei dem du noch sprechen könntest. Der letzte Lauf sind die 21,1 Kilometer. Für alle, die 10 Kilometer laufen können. Angelehnt an den Einsteigerplan für den Halbmarathon von Hal Higdon."),
+		goal: "endurance",
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var TEMPO_BLOCKS = [
+	2,
+	2,
+	3,
+	3,
+	3,
+	3,
+	4,
+	4
+];
+function threeTempos() {
+	const pace = (en, de) => own(en, de, {
+		aliases: ["Easy Run"],
+		equipment: "other",
+		kind: "cardio",
+		muscles: [
+			"quads",
+			"hamstrings",
+			"calves"
+		]
+	});
+	const stock = {
+		easy_pace: pace("Easy pace", "Locker"),
+		moderate_pace: pace("Steady pace", "Zügig"),
+		sprint: own("Sprint", "Sprint", {
+			aliases: ["Sprint"],
+			equipment: "other",
+			kind: "cardio",
+			muscles: [
+				"quads",
+				"hamstrings",
+				"calves"
+			]
+		})
+	};
+	const cycle = [
+		{
+			exercise: "easy_pace",
+			duration_s: 30
+		},
+		{
+			exercise: "moderate_pace",
+			duration_s: 20
+		},
+		{
+			exercise: "sprint",
+			duration_s: 10
+		}
+	];
+	const workouts = [];
+	for (let i = 0; i < 24; i++) {
+		const n = TEMPO_BLOCKS[Math.floor(i / 3)];
+		const blocks = [{
+			type: "warmup",
+			duration_s: 300,
+			note: T("5 minutes of easy running.", "5 Minuten locker laufen.")
+		}];
+		for (let b = 1; b <= n; b++) blocks.push({
+			type: "flow",
+			name: T(`Block ${b}`, `Block ${b}`),
+			rounds: 5,
+			...b < n ? { rest_after_s: 120 } : {},
+			...b === 1 ? { note: T("Five times in a row: 30 seconds easy, 20 seconds steady, 10 seconds as fast as you can. Then 2 minutes of walking.", "Fünfmal am Stück: 30 Sekunden locker, 20 Sekunden zügig, 10 Sekunden so schnell du kannst. Danach 2 Minuten gehen.") } : {},
+			exercises: cycle
+		});
+		blocks.push({
+			type: "cooldown",
+			duration_s: 300
+		});
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 3, `${n} blocks`, `${n} Blöcke`),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("30-20-10 Intervals 8 Weeks", "30-20-10-Intervalle 8 Wochen"),
+		description: T("Faster in little time: 8 weeks, 3 sessions per week, 20–35 minutes. A block is five times 30 seconds easy, 20 seconds steady, 10 seconds sprint – five minutes in one go, then two minutes of walking. From 2 blocks to 4. Running, cycling or rowing. Runs on its own with beeps. Inspired by 10-20-30 training (Gunnarsson & Bangsbo, University of Copenhagen).", "Schneller in wenig Zeit: 8 Wochen, 3 Einheiten pro Woche, 20–35 Minuten. Ein Block sind fünfmal 30 Sekunden locker, 20 Sekunden zügig, 10 Sekunden Sprint – fünf Minuten am Stück, danach zwei Minuten gehen. Von 2 Blöcken auf 4. Laufen, Radfahren oder Rudern. Läuft von selbst mit Signaltönen. Angelehnt an das 10-20-30-Training (Gunnarsson & Bangsbo, Universität Kopenhagen)."),
+		goal: "endurance",
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var YIN_HOLD = [
+	120,
+	150,
+	180,
+	240
+];
+function lightsOut() {
+	const stock = from("yoga-5-yin", [
+		"butterfly",
+		"dragon",
+		"caterpillar",
+		"sphinx",
+		"shoelace",
+		"supine_twist",
+		"child_pose",
+		"legs_up_wall",
+		"savasana"
+	], MOB);
+	const workouts = [];
+	for (let i = 0; i < 20; i++) {
+		const s = YIN_HOLD[Math.floor(i / 5)], hips = i % 2 === 0;
+		const one = (exercise) => ({
+			exercise,
+			duration_s: s
+		}), two = (exercise) => ({
+			exercise,
+			duration_s: s,
+			per_side: true
+		});
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 5, hips ? "Hips and legs" : "Spine", hips ? "Hüfte und Beine" : "Wirbelsäule"),
+			blocks: [{
+				type: "flow",
+				name: hips ? T("Hips and legs", "Hüfte und Beine") : T("Spine", "Wirbelsäule"),
+				rest_s: 15,
+				note: T(`${Math.round(s / 60 * 10) / 10} minutes per pose. Find a gentle stretch, not a strong one – then stay still and let go. Pillows and blankets help.`, `${String(Math.round(s / 60 * 10) / 10).replace(".", ",")} Minuten je Haltung. Eine sanfte Dehnung suchen, keine starke – dann still bleiben und loslassen. Kissen und Decken helfen.`),
+				exercises: hips ? [
+					one("butterfly"),
+					two("dragon"),
+					two("shoelace"),
+					one("child_pose"),
+					one("legs_up_wall"),
+					{
+						exercise: "savasana",
+						duration_s: 300
+					}
+				] : [
+					one("child_pose"),
+					one("caterpillar"),
+					one("sphinx"),
+					two("supine_twist"),
+					one("legs_up_wall"),
+					{
+						exercise: "savasana",
+						duration_s: 300
+					}
+				]
+			}]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Evening Yin Yoga 4 Weeks", "Yin Yoga am Abend 4 Wochen"),
+		description: T("Calm down in the evening: 4 weeks, 5 evenings per week, 25–45 minutes. Long, quiet holds on the floor – one evening for hips and legs, the next for the spine – and every session ends lying down. The holds grow from 2 to 4 minutes. Runs on its own with gentle beeps. A mat, a pillow and a blanket. Inspired by Yin Yoga (Paulie Zink, Paul Grilley).", "Abends zur Ruhe kommen: 4 Wochen, 5 Abende pro Woche, 25–45 Minuten. Lange, ruhige Haltungen am Boden – ein Abend für Hüfte und Beine, der nächste für die Wirbelsäule – und jede Einheit endet im Liegen. Die Haltezeit wächst von 2 auf 4 Minuten. Läuft von selbst mit leisen Signaltönen. Eine Matte, ein Kissen und eine Decke. Angelehnt an Yin Yoga (Paulie Zink, Paul Grilley)."),
+		goal: "general",
+		defaults: {
+			rest_s: 15,
+			progression: NONE
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var SPLIT_HOLD = [
+	30,
+	30,
+	40,
+	40,
+	45,
+	50,
+	60,
+	60
+];
+function theDivide() {
+	const stock = {
+		...from("yoga-4-mobility", [
+			"worlds_greatest",
+			"low_lunge",
+			"half_split",
+			"pigeon"
+		], MOB),
+		dragon: lib("yoga-5-yin", "dragon", MOB),
+		forward_fold: lib("yoga-1-einstieg", "forward_fold", MOB),
+		front_split: own("Front Split", "Spagat", {
+			aliases: ["Front Split"],
+			unilateral: true,
+			kind: "mobility",
+			muscles: ["hamstrings", "quads"]
+		}),
+		split_squat: lib("kraft-2-ganzkoerper-kurzhantel", "split_squat")
+	};
+	const workouts = [];
+	for (let i = 0; i < 24; i++) {
+		const s = SPLIT_HOLD[Math.floor(i / 3)], last = i === 23;
+		const two = (exercise, d = s) => ({
+			exercise,
+			duration_s: d,
+			per_side: true
+		});
+		const blocks = [
+			{
+				type: "warmup",
+				note: T("A few minutes of easy movement until you are warm – never stretch cold.", "Ein paar Minuten locker bewegen, bis dir warm ist – nie kalt dehnen.")
+			},
+			{
+				type: "flow",
+				name: T("Open up", "Öffnen"),
+				rest_s: 5,
+				note: T(`${s} seconds per position. Breathe out into the stretch, never bounce.`, `${s} Sekunden je Position. In die Dehnung ausatmen, nie wippen.`),
+				exercises: [
+					two("worlds_greatest", 30),
+					two("low_lunge"),
+					two("half_split"),
+					two("dragon"),
+					two("pigeon"),
+					{
+						exercise: "forward_fold",
+						duration_s: s
+					}
+				]
+			},
+			last ? H("front_split", 1, 1, 1, {
+				duration_s: "max",
+				per_side: true,
+				rest_s: 60,
+				note: T("The test: go as low as you can and hold. Measure the gap between hips and floor – and compare with week 1.", "Der Test: so tief wie möglich und halten. Miss den Abstand zwischen Hüfte und Boden – und vergleiche mit Woche 1.")
+			}) : H("front_split", 2, s, s, {
+				per_side: true,
+				rest_s: 45,
+				progression: NONE,
+				note: T("Hands on yoga blocks or books. Slide down only as far as you can breathe calmly; a little lower each week.", "Hände auf Yoga-Blöcken oder Büchern. Nur so weit hinunterrutschen, wie du ruhig atmen kannst; jede Woche etwas tiefer.")
+			})
+		];
+		if (!last) blocks.push(R("split_squat", 2, 8, 12, {
+			rest_s: 45,
+			progression: { type: "reps" },
+			note: T("Without weight, slow and deep.", "Ohne Gewicht, langsam und tief.")
+		}));
+		blocks.push({ type: "cooldown" });
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: last ? T("Week 8 · Test", "Woche 8 · Test") : weekDay(i, 3),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Front Split 8 Weeks", "Spagat 8 Wochen"),
+		description: T("Closer to the front split: 8 weeks, 3 sessions per week, about 25 minutes. First open up hip flexors, hamstrings and hips (lunge, half split, dragon, pigeon), then the split itself on each side with blocks under your hands, finally slow split squats for strength in the stretch. The holds grow from 30 to 60 seconds. The last session is the test. How far you get depends on your body – every centimeter counts.", "Dem Spagat näherkommen: 8 Wochen, 3 Einheiten pro Woche, etwa 25 Minuten. Erst Hüftbeuger, Beinrückseite und Hüfte öffnen (Ausfallschritt, halber Spagat, Drache, Taube), dann der Spagat selbst auf jeder Seite mit Blöcken unter den Händen, zum Schluss langsame Ausfallschritte für Kraft in der Dehnung. Die Haltezeit wächst von 30 auf 60 Sekunden. Die letzte Einheit ist der Test. Wie weit du kommst, hängt von deinem Körper ab – jeder Zentimeter zählt."),
+		goal: "general",
+		defaults: {
+			rest_s: 30,
+			progression: NONE
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var SPROUT_HOLD = [
+	30,
+	30,
+	40,
+	45
+];
+function overgrown() {
+	const stock = from("yoga-1-einstieg", [
+		"cat_cow",
+		"child_pose",
+		"mountain_pose",
+		"forward_fold",
+		"half_lift",
+		"downward_dog",
+		"low_lunge",
+		"warrior_1",
+		"warrior_2",
+		"triangle",
+		"tree",
+		"chair_pose",
+		"cobra",
+		"bridge",
+		"seated_forward_fold",
+		"butterfly",
+		"knee_to_chest",
+		"supine_twist",
+		"savasana"
+	], MOB);
+	const FLOOR = [
+		"cat_cow",
+		"child_pose",
+		"downward_dog",
+		"cobra",
+		"bridge"
+	], END = [
+		"knee_to_chest",
+		"supine_twist",
+		"savasana"
+	];
+	const STAND = [
+		"mountain_pose",
+		"forward_fold",
+		"half_lift",
+		"low_lunge",
+		"chair_pose"
+	], WARRIOR = [
+		"warrior_1",
+		"warrior_2",
+		"triangle",
+		"tree"
+	];
+	const SEATED = ["seated_forward_fold", "butterfly"];
+	const SIDES = /* @__PURE__ */ new Set([
+		"low_lunge",
+		"warrior_1",
+		"warrior_2",
+		"triangle",
+		"tree",
+		"supine_twist"
+	]);
+	const workouts = [];
+	for (let i = 0; i < 28; i++) {
+		const week = Math.floor(i / 7), s = SPROUT_HOLD[week], a = i % 2 === 0;
+		const items = [
+			...FLOOR.slice(0, a ? 5 : 3),
+			...week >= 1 ? STAND.slice(0, a ? 5 : 3) : [],
+			...week >= 2 ? a ? WARRIOR : WARRIOR.slice(1) : [],
+			...week === 3 || !a ? SEATED : [],
+			...END
+		].map((e) => e === "savasana" ? {
+			exercise: e,
+			duration_s: 120 + 30 * week
+		} : {
+			exercise: e,
+			duration_s: s,
+			...SIDES.has(e) ? { per_side: true } : {}
+		});
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: T(`Day ${i + 1}`, `Tag ${i + 1}`),
+			blocks: [{
+				type: "flow",
+				name: T([
+					"Arrive",
+					"Stand",
+					"Strength and balance",
+					"Everything together"
+				][week], [
+					"Ankommen",
+					"Stehen",
+					"Kraft und Balance",
+					"Alles zusammen"
+				][week]),
+				rest_s: 5,
+				note: T(`${s} seconds per pose. Move slowly, breathe through the nose, nothing has to hurt.`, `${s} Sekunden je Haltung. Langsam bewegen, durch die Nase atmen, nichts muss wehtun.`),
+				exercises: items
+			}]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Yoga for Beginners 4 Weeks", "Yoga für Einsteiger 4 Wochen"),
+		description: T("Start yoga from zero: 4 weeks, one short session every day, 10–25 minutes. Week 1 on the floor (cat-cow, child's pose, downward dog, cobra, bridge), week 2 standing and bending forward, week 3 the warriors, triangle and tree, week 4 everything together. Two sequences in turn, the holds grow from 30 to 45 seconds. Runs on its own with beeps. A mat is enough. Inspired by popular 30-day yoga challenges.", "Yoga von null an: 4 Wochen, jeden Tag eine kurze Einheit, 10–25 Minuten. Woche 1 am Boden (Katze-Kuh, Kind, herabschauender Hund, Kobra, Brücke), Woche 2 Stehen und Vorbeugen, Woche 3 die Krieger, Dreieck und Baum, Woche 4 alles zusammen. Zwei Abläufe im Wechsel, die Haltezeit wächst von 30 auf 45 Sekunden. Läuft von selbst mit Signaltönen. Eine Matte genügt. Angelehnt an beliebte 30-Tage-Yoga-Challenges."),
+		goal: "general",
+		defaults: {
+			rest_s: 5,
+			progression: NONE
+		},
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var POPULAR_STORY_PLANS = [
+	{
+		story: "three_tiers",
+		group: "kraft",
+		plan: threeTiers()
+	},
+	{
+		story: "double_shift",
+		group: "kraft",
+		plan: doubleShift()
+	},
+	{
+		story: "load_bearing",
+		group: "kraft",
+		plan: loadBearing()
+	},
+	{
+		story: "the_hundred",
+		group: "bodyweight",
+		plan: theHundred()
+	},
+	{
+		story: "scramble",
+		group: "bodyweight",
+		plan: scramble()
+	},
+	{
+		story: "kick_off",
+		group: "bodyweight",
+		plan: kickOff()
+	},
+	{
+		story: "fifteen_seconds",
+		group: "kettlebell",
+		plan: fifteenSeconds()
+	},
+	{
+		story: "twenty_one",
+		group: "ausdauer",
+		plan: twentyOne()
+	},
+	{
+		story: "three_tempos",
+		group: "hiit",
+		plan: threeTempos()
+	},
+	{
+		story: "lights_out",
+		group: "yoga",
+		plan: lightsOut()
+	},
+	{
+		story: "the_divide",
+		group: "yoga",
+		plan: theDivide()
+	},
+	{
+		story: "overgrown",
+		group: "yoga",
+		plan: overgrown()
+	}
+];
+// src/core/hero/content/story-plans-everyday.ts
+var WALK_ROUNDS = [
+	3,
+	3,
+	4,
+	4,
+	5,
+	5,
+	5,
+	5
+];
+function threeMinutes() {
+	const A = "alltag-1-gehen-taeglich";
+	const stock = {
+		walk: lib(A, "walk"),
+		brisk_walk: lib(A, "brisk_walk")
+	};
+	const workouts = [];
+	for (let i = 0; i < 32; i++) {
+		const rounds = WALK_ROUNDS[Math.floor(i / 4)];
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: weekDay(i, 4, `${rounds} rounds`, `${rounds} Runden`),
+			blocks: [{
+				type: "flow",
+				name: T(`${rounds} × 3 + 3 minutes`, `${rounds} × 3 + 3 Minuten`),
+				rounds,
+				rest_s: 0,
+				note: T("Three minutes brisk – out of breath, talking gets hard – then three minutes easy. A beep marks each change.", "Drei Minuten zügig – außer Atem, Sprechen fällt schwer –, dann drei Minuten gemächlich. Ein Signalton zeigt jeden Wechsel."),
+				exercises: [{
+					exercise: "brisk_walk",
+					duration_s: 180
+				}, {
+					exercise: "walk",
+					duration_s: 180
+				}]
+			}]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Interval Walking 8 Weeks", "Intervall-Gehen 8 Wochen"),
+		description: T("Walking in two speeds: 8 weeks, 4 walks per week. Three minutes brisk, three minutes easy, in turn – from 3 to 5 rounds (18 to 30 minutes). Studies found more stamina and leg strength than with walking at an even pace. Good shoes are enough. Inspired by Japanese interval walking (Nose et al., Shinshu University).", "Gehen in zwei Tempi: 8 Wochen, 4 Spaziergänge pro Woche. Drei Minuten zügig, drei Minuten gemächlich im Wechsel – von 3 auf 5 Runden (18 bis 30 Minuten). Studien fanden mehr Ausdauer und Beinkraft als beim Gehen in gleichem Tempo. Gute Schuhe genügen. Angelehnt an das japanische Intervall-Gehen (Nose et al., Shinshu-Universität)."),
+		goal: "endurance",
+		exercises: used(workouts, stock),
+		workouts
+	};
+}
+var EVERYDAY_STORY_PLANS = [{
+	story: "three_minutes",
+	group: "alltag",
+	plan: threeMinutes()
+}];
+// src/core/hero/content/story-plans-skills.ts
+var C1 = "calisthenics-1-stufe-0-einstieg";
+var C2 = "calisthenics-2-grundlagen";
+var C3 = "calisthenics-3-fortgeschritten";
+var S = "strength";
+var LSIT = {
+	aliases: ["L-Sit"],
+	muscles: ["core", "triceps"]
+};
+var DIP = { aliases: ["Parallel Bar Dip"] };
+var arms = [
+	"shoulders",
+	"triceps",
+	"core"
+];
+var pull = [
+	"back",
+	"biceps",
+	"core"
+];
+/** Vorrat an Übungen (jede Story nimmt nur, was sie braucht) */
+var STOCK = () => ({
+	pull_up: lib(C3, "pull_up", { kind: S }),
+	chin_up: lib("kraft-4-oberkoerper-unterkoerper", "chin_up", { kind: S }),
+	dip: lib(C3, "dip", { kind: S }),
+	push_up: lib("kraft-2-ganzkoerper-kurzhantel", "push_up", { kind: S }),
+	archer_push_up: lib(C3, "archer_push_up", { kind: S }),
+	decline_push_up: lib(C3, "decline_push_up", { kind: S }),
+	feet_elevated_row: lib(C3, "feet_elevated_row", { kind: S }),
+	pike_push_up: lib("bodyweight-2-ganzkoerper-kraft", "pike_push_up", { kind: S }),
+	pistol_progression: lib(C3, "pistol_progression", { kind: S }),
+	nordic_curl: lib(C3, "nordic_curl", { kind: S }),
+	hanging_knee_raise: lib(C2, "hanging_knee_raise", { kind: S }),
+	hanging_leg_raise: lib(C3, "hanging_leg_raise", { kind: S }),
+	scapular_pull_up: lib(C1, "scapular_pull_up", { kind: S }),
+	boat_pose: lib("yoga-6-balance-kraft", "boat_pose", { kind: S }),
+	weighted_chin_up: own("Weighted Chin-Up", "Klimmzug mit Zusatzgewicht", {
+		equipment: "other",
+		note: T("A backpack or a dumbbell between the feet. Start with very little.", "Ein Rucksack oder eine Kurzhantel zwischen den Füßen. Mit sehr wenig anfangen.")
+	}),
+	support_hold: own("Support Hold on Bars", "Stütz am Barren halten", {
+		...DIP,
+		muscles: [
+			"triceps",
+			"shoulders",
+			"chest"
+		],
+		note: T("Arms straight, shoulders pushed down. Two chairs or push-up handles work too.", "Arme gestreckt, Schultern nach unten gedrückt. Zwei Stühle oder Liegestützgriffe gehen auch.")
+	}),
+	tuck_l_sit: own("Tuck L-Sit", "L-Sitz angewinkelt", LSIT),
+	one_leg_l_sit: own("One-Leg L-Sit", "L-Sitz einbeinig", {
+		...LSIT,
+		unilateral: true
+	}),
+	l_sit_full: own("Straight L-Sit", "L-Sitz gestreckt", {
+		...LSIT,
+		muscles: [
+			"core",
+			"triceps",
+			"quads"
+		]
+	}),
+	explosive_pull_up: own("Explosive Pull-up (chest to bar)", "Explosiver Klimmzug (Brust zur Stange)", { aliases: ["Pull-ups"] }),
+	negative_muscle_up: own("Muscle-up Negative", "Muscle-up, nur abwärts", {
+		aliases: ["Muscle Up"],
+		note: T("Start in support above the bar, lower through the transition as slowly as you can.", "Im Stütz über der Stange beginnen, so langsam wie möglich durch den Übergang absenken.")
+	}),
+	jumping_muscle_up: own("Jumping Muscle-up", "Muscle-up mit Absprung", {
+		aliases: ["Muscle Up"],
+		note: T("On a low bar: use a small jump, as little as possible.", "An einer niedrigen Stange: mit einem kleinen Absprung, so wenig wie möglich.")
+	}),
+	bar_muscle_up: own("Muscle-up", "Muscle-up", { aliases: ["Muscle Up"] }),
+	plank: lib("kraft-2-ganzkoerper-kurzhantel", "plank"),
+	dead_hang: own("Dead Hang", "Hängen", {
+		aliases: ["Hängen", "Dead Hang"],
+		muscles: ["back", "biceps"]
+	}),
+	hollow_hold: own("Hollow Body Hold", "Hollow Hold (Schiffchen)", {
+		aliases: ["Hollow Body Hold"],
+		muscles: ["core"],
+		note: T("Lower back pressed into the floor, arms and legs just above it.", "Unterer Rücken fest am Boden, Arme und Beine knapp darüber.")
+	}),
+	wall_walk: own("Wall Walk", "An der Wand hochlaufen", {
+		aliases: ["Wall Walk"],
+		muscles: arms
+	}),
+	hs_back_wall: own("Handstand, Back to the Wall", "Handstand, Rücken zur Wand", {
+		aliases: ["Handstand Back to Wall"],
+		muscles: arms
+	}),
+	hs_chest_wall: own("Handstand, Chest to the Wall", "Handstand, Bauch zur Wand", {
+		aliases: ["Handstand Chest to Wall"],
+		muscles: arms,
+		note: T("Hands close to the wall, body in one line, push the floor away.", "Hände nah an der Wand, Körper in einer Linie, den Boden wegdrücken.")
+	}),
+	hs_shoulder_taps: own("Shoulder Taps in the Wall Handstand", "Schultertippen im Wandhandstand", {
+		aliases: ["Wall Handstand Shoulder Tap"],
+		muscles: arms
+	}),
+	hs_toe_pulls: own("Toe Pulls off the Wall", "Zehen von der Wand lösen", {
+		aliases: ["Handstand Toe Pull"],
+		muscles: arms,
+		note: T("Chest to the wall: take the toes off the wall with pressure from your fingers and balance for a moment.", "Bauch zur Wand: Zehen mit Druck aus den Fingern von der Wand lösen und kurz balancieren.")
+	}),
+	hs_kick_up: own("Kick-up to Handstand", "Aufschwingen in den Handstand", {
+		aliases: ["Handstand Kick-Up"],
+		muscles: arms,
+		note: T("Away from the wall, with room to roll or step out. Count every attempt.", "Weg von der Wand, mit Platz zum Abrollen oder Abdrehen. Jeder Versuch zählt.")
+	}),
+	hs_free: own("Free Handstand", "Freier Handstand", {
+		aliases: ["Free Handstand"],
+		muscles: arms
+	}),
+	scap_push_up: own("Scapular Push-up", "Schulterblatt-Liegestütz", {
+		aliases: ["Scapular Push-Up"],
+		muscles: ["chest", "shoulders"],
+		note: T("Arms stay straight: only let the chest sink between the shoulder blades and push it out again.", "Arme bleiben gestreckt: nur die Brust zwischen die Schulterblätter sinken lassen und wieder herausdrücken.")
+	}),
+	planche_lean: own("Planche Lean", "Planche-Lehne", {
+		aliases: ["Planche Lean"],
+		muscles: [
+			"shoulders",
+			"chest",
+			"core"
+		],
+		note: T("Push-up position, arms straight, shoulders far in front of the hands.", "Liegestützposition, Arme gestreckt, Schultern weit vor die Hände.")
+	}),
+	frog_stand: own("Frog Stand", "Froschstand", {
+		aliases: ["Frog Stand"],
+		muscles: arms
+	}),
+	tuck_planche: own("Tuck Planche", "Tuck-Planche", {
+		aliases: ["Tuck Planche"],
+		muscles: [
+			"shoulders",
+			"chest",
+			"core"
+		]
+	}),
+	adv_tuck_planche: own("Advanced Tuck Planche", "Advanced-Tuck-Planche", {
+		aliases: ["Advanced Tuck Planche"],
+		muscles: [
+			"shoulders",
+			"chest",
+			"core"
+		],
+		note: T("Like the tuck, but with a flat back and the knees behind the elbows.", "Wie der Tuck, aber mit flachem Rücken und den Knien hinter den Ellbogen.")
+	}),
+	straddle_planche: own("Straddle Planche", "Planche gegrätscht", {
+		aliases: ["Straddle Planche"],
+		muscles: [
+			"shoulders",
+			"chest",
+			"core"
+		]
+	}),
+	pseudo_planche_push_up: own("Pseudo Planche Push-up", "Pseudo-Planche-Liegestütz", {
+		aliases: ["Pseudo Planche Push-Up"],
+		muscles: [
+			"chest",
+			"shoulders",
+			"triceps"
+		]
+	}),
+	tuck_planche_push_up: own("Tuck Planche Push-up", "Tuck-Planche-Liegestütz", {
+		aliases: ["Tuck Planche Push-Up"],
+		muscles: [
+			"shoulders",
+			"chest",
+			"triceps"
+		]
+	}),
+	tuck_fl: own("Tuck Front Lever", "Front Lever angewinkelt (Tuck)", {
+		aliases: ["Tuck Front Lever"],
+		muscles: pull
+	}),
+	adv_tuck_fl: own("Advanced Tuck Front Lever", "Front Lever, Advanced Tuck", {
+		aliases: ["Advanced Tuck Front Lever"],
+		muscles: pull,
+		note: T("Flat back, hips at shoulder height, knees still bent.", "Flacher Rücken, Hüfte auf Schulterhöhe, Knie noch gebeugt.")
+	}),
+	one_leg_fl: own("One-Leg Front Lever", "Front Lever einbeinig", {
+		aliases: ["One-Leg Front Lever"],
+		muscles: pull,
+		unilateral: true
+	}),
+	straddle_fl: own("Straddle Front Lever", "Front Lever gegrätscht", {
+		aliases: ["Straddle Front Lever"],
+		muscles: pull
+	}),
+	fl_raise: own("Tuck Front Lever Raise", "Front-Lever-Heben (Tuck)", {
+		aliases: ["Tuck Front Lever Raise"],
+		muscles: pull
+	}),
+	fl_negative: own("Front Lever Negative", "Front Lever, nur abwärts", {
+		aliases: ["Front Lever Negative"],
+		muscles: pull,
+		note: T("From the inverted hang, lower as slowly as you can in your current shape.", "Aus dem Hang kopfüber so langsam wie möglich in deiner aktuellen Form absenken.")
+	}),
+	tuck_fl_row: own("Tuck Front Lever Row", "Rudern im Tuck Front Lever", {
+		aliases: ["Tuck Front Lever Row"],
+		muscles: pull
+	}),
+	german_hang: own("German Hang", "German Hang", {
+		aliases: ["German Hang"],
+		muscles: ["shoulders", "chest"],
+		note: T("Low rings, feet close to the floor. Go into the stretch slowly, never bounce.", "Niedrige Ringe, Füße nah am Boden. Langsam in die Dehnung gehen, nie federn.")
+	}),
+	skin_the_cat: own("Skin the Cat", "Skin the Cat", {
+		aliases: ["Skin the Cat"],
+		muscles: [
+			"back",
+			"shoulders",
+			"core"
+		]
+	}),
+	tuck_bl: own("Tuck Back Lever", "Back Lever angewinkelt (Tuck)", {
+		aliases: ["Tuck Back Lever"],
+		muscles: [
+			"back",
+			"shoulders",
+			"core"
+		]
+	}),
+	adv_tuck_bl: own("Advanced Tuck Back Lever", "Back Lever, Advanced Tuck", {
+		aliases: ["Advanced Tuck Back Lever"],
+		muscles: [
+			"back",
+			"shoulders",
+			"core"
+		]
+	}),
+	straddle_bl: own("Straddle Back Lever", "Back Lever gegrätscht", {
+		aliases: ["Straddle Back Lever"],
+		muscles: [
+			"back",
+			"shoulders",
+			"core"
+		]
+	}),
+	ring_support: own("Ring Support Hold", "Stütz an den Ringen", {
+		aliases: ["Ring Support Hold"],
+		muscles: [
+			"triceps",
+			"shoulders",
+			"chest"
+		],
+		note: T("Arms straight, rings close to the body, shoulders down.", "Arme gestreckt, Ringe nah am Körper, Schultern unten.")
+	}),
+	rto_support: own("Rings-Turned-Out Support", "Stütz mit ausgedrehten Ringen", {
+		aliases: ["Rings Turned Out Support"],
+		muscles: [
+			"triceps",
+			"shoulders",
+			"chest",
+			"biceps"
+		],
+		note: T("In support, turn the palms forward. Small angle first.", "Im Stütz die Handflächen nach vorn drehen. Erst nur ein kleiner Winkel.")
+	}),
+	ring_row: own("Ring Row", "Rudern an den Ringen", {
+		aliases: ["Ring Row"],
+		muscles: pull
+	}),
+	ring_push_up: own("Ring Push-up", "Liegestütz an den Ringen", {
+		aliases: ["Ring Push-Up"],
+		muscles: [
+			"chest",
+			"triceps",
+			"shoulders"
+		]
+	}),
+	ring_dip_negative: own("Ring Dip Negative", "Ring-Dip, nur abwärts", {
+		aliases: ["Ring Dips"],
+		muscles: [
+			"triceps",
+			"chest",
+			"shoulders"
+		]
+	}),
+	ring_dip: own("Ring Dips", "Dips an den Ringen", {
+		aliases: ["Ring Dips"],
+		muscles: [
+			"triceps",
+			"chest",
+			"shoulders"
+		]
+	}),
+	ring_pull_up: own("Ring Pull-up", "Klimmzug an den Ringen", {
+		aliases: ["Ring Pull-Up"],
+		muscles: pull
+	}),
+	ring_tuck_l_sit: own("Tuck L-Sit on Rings", "L-Sitz angewinkelt an den Ringen", {
+		aliases: ["Ring Tuck L-Sit"],
+		muscles: ["core", "triceps"]
+	}),
+	ring_l_sit: own("L-Sit on Rings", "L-Sitz an den Ringen", {
+		aliases: ["Ring L-Sit"],
+		muscles: ["core", "triceps"]
+	}),
+	false_grip_hang: own("False Grip Hang", "Hängen im falschen Griff", {
+		aliases: ["False Grip Hang"],
+		muscles: ["back", "biceps"],
+		note: T("Wrist over the ring, the heel of the hand rests on it.", "Handgelenk über dem Ring, der Handballen liegt auf.")
+	}),
+	false_grip_row: own("False Grip Ring Row", "Rudern im falschen Griff", {
+		aliases: ["Ring Row"],
+		muscles: pull
+	}),
+	false_grip_pull_up: own("False Grip Pull-up", "Klimmzug im falschen Griff", {
+		aliases: ["Ring Pull-Up"],
+		muscles: pull
+	}),
+	ring_transition: own("Ring Transition with Feet on the Floor", "Ring-Übergang mit Füßen am Boden", {
+		aliases: ["Ring Transition"],
+		muscles: [
+			"back",
+			"chest",
+			"triceps"
+		],
+		note: T("Low rings: pull to the chest, roll the shoulders over the hands, push up. Help with your legs as little as possible.", "Niedrige Ringe: zur Brust ziehen, Schultern über die Hände rollen, hochdrücken. So wenig wie möglich mit den Beinen helfen.")
+	}),
+	ring_mu_negative: own("Ring Muscle-up Negative", "Ring-Muscle-up, nur abwärts", {
+		aliases: ["Ring Muscle-Up"],
+		muscles: [
+			"back",
+			"chest",
+			"triceps"
+		]
+	}),
+	ring_muscle_up: own("Ring Muscle-up", "Ring-Muscle-up", {
+		aliases: ["Ring Muscle-Up"],
+		muscles: [
+			"back",
+			"chest",
+			"triceps"
+		]
+	}),
+	ring_tuck_fl: own("Tuck Front Lever on Rings", "Tuck Front Lever an den Ringen", {
+		aliases: ["Ring Tuck Front Lever"],
+		muscles: pull
+	}),
+	ring_tuck_bl: own("Tuck Back Lever on Rings", "Tuck Back Lever an den Ringen", {
+		aliases: ["Tuck Back Lever"],
+		muscles: [
+			"back",
+			"shoulders",
+			"core"
+		]
+	})
+});
+var WARM$1 = T("Warm up wrists, elbows and shoulders thoroughly: circles, a short hang, a short support.", "Handgelenke, Ellbogen und Schultern gründlich aufwärmen: Kreisen, kurz hängen, kurz stützen.");
+var PACE = (en, de) => T(`${en} The plan sets the pace – stay on an earlier stage as long as you need, and stop at pain in wrists, elbows or shoulders.`, `${de} Der Plan gibt den Takt vor – bleib auf einer früheren Stufe, solange du sie brauchst, und hör bei Schmerz in Handgelenk, Ellbogen oder Schulter auf.`);
+/** Abschnitte nacheinander: `per` Trainings je Woche, jedes mit Aufwärmen, den Blöcken des Abschnitts und Ausklang */
+function staged(per, stages, test) {
+	const workouts = [];
+	let i = 0;
+	const total = stages.reduce((a, s) => a + s.weeks, 0) * per;
+	for (const st of stages) for (let k = 0; k < st.weeks * per; k++, i++) {
+		const week = Math.floor(i / per) + 1, day = i % per + 1, last = !!test && i === total - 1;
+		workouts.push({
+			id: `w${pad$1(i + 1)}`,
+			name: last ? T(`Week ${week} · ${test.en}`, `Woche ${week} · ${test.de}`) : T(`Week ${week} · Day ${day} · ${st.en}`, `Woche ${week} · Tag ${day} · ${st.de}`),
+			blocks: [
+				{
+					type: "warmup",
+					note: WARM$1
+				},
+				...structuredClone(last ? test.blocks : st.blocks),
+				{ type: "cooldown" }
+			]
+		});
+	}
+	return workouts;
+}
+var plan = (name, description, workouts, rest = 90) => ({
+	schema_version: 1,
+	name,
+	description,
+	goal: "strength",
+	defaults: {
+		rest_s: rest,
+		progression: { type: "reps" }
+	},
+	exercises: used(workouts, STOCK()),
+	workouts
+});
+var TEST = (blocks) => ({
+	en: "Test",
+	de: "Test",
+	blocks
+});
+var max = (exercise, extra = {}) => ({
+	type: "sets",
+	exercise,
+	sets: 1,
+	duration_s: "max",
+	rest_s: 180,
+	...extra
+});
+function defyGravity() {
+	const legs = R("pistol_progression", 3, 3, 6, { per_side: true });
+	const P1 = T("Pair 1", "Paar 1"), P2 = T("Pair 2", "Paar 2");
+	const workouts = staged(3, [
+		{
+			weeks: 3,
+			en: "Foundation",
+			de: "Fundament",
+			blocks: [
+				H("tuck_l_sit", 4, 8, 15, { rest_s: 60 }),
+				pair(P1, 3, {
+					exercise: "pull_up",
+					reps: {
+						min: 5,
+						max: 8
+					}
+				}, {
+					exercise: "dip",
+					reps: {
+						min: 5,
+						max: 8
+					}
+				}),
+				pair(P2, 3, {
+					exercise: "feet_elevated_row",
+					reps: {
+						min: 5,
+						max: 8
+					}
+				}, {
+					exercise: "pike_push_up",
+					reps: {
+						min: 5,
+						max: 8
+					}
+				}),
+				legs,
+				R("hanging_knee_raise", 3, 8, 12, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Harder levers",
+			de: "Schwerere Hebel",
+			blocks: [
+				H("one_leg_l_sit", 4, 6, 12, { rest_s: 60 }),
+				pair(P1, 3, {
+					exercise: "chin_up",
+					reps: {
+						min: 6,
+						max: 10
+					}
+				}, {
+					exercise: "decline_push_up",
+					reps: {
+						min: 8,
+						max: 12
+					}
+				}),
+				pair(P2, 3, {
+					exercise: "feet_elevated_row",
+					reps: {
+						min: 6,
+						max: 10
+					}
+				}, {
+					exercise: "archer_push_up",
+					reps: {
+						min: 4,
+						max: 8
+					},
+					per_side: true
+				}),
+				legs,
+				R("hanging_leg_raise", 3, 5, 10, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Explosive",
+			de: "Explosiv",
+			blocks: [
+				H("l_sit_full", 4, 5, 12, { rest_s: 60 }),
+				pair(P1, 3, {
+					exercise: "explosive_pull_up",
+					reps: {
+						min: 3,
+						max: 5
+					}
+				}, {
+					exercise: "dip",
+					reps: {
+						min: 8,
+						max: 12
+					}
+				}, 120),
+				pair(P2, 3, {
+					exercise: "pull_up",
+					reps: {
+						min: 6,
+						max: 10
+					}
+				}, {
+					exercise: "archer_push_up",
+					reps: {
+						min: 5,
+						max: 10
+					},
+					per_side: true
+				}),
+				R("nordic_curl", 3, 3, 6, { rest_s: 120 }),
+				legs
+			]
+		},
+		{
+			weeks: 3,
+			en: "Added weight",
+			de: "Zusatzgewicht",
+			blocks: [
+				H("l_sit_full", 4, 8, 15, { rest_s: 60 }),
+				R("weighted_chin_up", 4, 3, 5, {
+					rest_s: 150,
+					weight_kg: 5,
+					progression: {
+						type: "linear",
+						increment_kg: 2.5
+					}
+				}),
+				pair(P1, 3, {
+					exercise: "explosive_pull_up",
+					reps: {
+						min: 3,
+						max: 5
+					}
+				}, {
+					exercise: "pike_push_up",
+					reps: {
+						min: 6,
+						max: 10
+					}
+				}, 120),
+				R("dip", 3, 8, 12, { rest_s: 120 }),
+				R("nordic_curl", 3, 3, 6, { rest_s: 120 }),
+				legs
+			]
+		}
+	]);
+	return plan(T("Calisthenics Build-Up 12 Weeks", "Calisthenics-Aufbau 12 Wochen"), PACE("The step after the basics: 12 weeks, 3 workouts per week in four stages. Each workout starts with the L-sit, then strength in pairs with harder levers – one-sided push-ups, explosive pull-ups, finally chin-ups with added weight – then legs. For everyone who can do about 8 pull-ups and 8 dips. Inspired by “Overcoming Gravity”.", "Der Schritt nach den Grundlagen: 12 Wochen, 3 Trainings pro Woche in vier Abschnitten. Jedes Training beginnt mit dem L-Sitz, dann Kraft in Paaren mit schwereren Hebeln – einseitige Liegestütze, explosive Klimmzüge, zuletzt Klimmzüge mit Zusatzgewicht – dann Beine. Für alle, die etwa 8 Klimmzüge und 8 Dips schaffen. Angelehnt an „Overcoming Gravity“."), workouts, 90);
+}
+function breakthrough() {
+	const workouts = staged(3, [
+		{
+			weeks: 3,
+			en: "Pull high",
+			de: "Hoch ziehen",
+			blocks: [
+				R("explosive_pull_up", 5, 3, 3, {
+					rest_s: 150,
+					note: T("Pull as high and as fast as you can – the bar should reach your chest.", "So hoch und so schnell ziehen, wie es geht – die Stange soll die Brust erreichen.")
+				}),
+				R("pull_up", 3, 5, 8, { rest_s: 120 }),
+				R("dip", 4, 5, 8, { rest_s: 120 }),
+				R("hanging_knee_raise", 3, 8, 12, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Negatives",
+			de: "Abwärts",
+			blocks: [
+				R("explosive_pull_up", 5, 3, 3, { rest_s: 150 }),
+				R("negative_muscle_up", 5, 2, 2, { rest_s: 150 }),
+				R("dip", 4, 6, 10, { rest_s: 120 }),
+				R("pull_up", 2, 6, 10, { rest_s: 120 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "Transition",
+			de: "Übergang",
+			blocks: [
+				R("jumping_muscle_up", 5, 3, 3, { rest_s: 150 }),
+				R("negative_muscle_up", 4, 2, 2, { rest_s: 150 }),
+				R("explosive_pull_up", 3, 3, 3, { rest_s: 150 }),
+				R("dip", 3, 8, 12, { rest_s: 120 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "First muscle-up",
+			de: "Erster Muscle-up",
+			blocks: [
+				R("bar_muscle_up", 6, 1, 1, {
+					rest_s: 180,
+					note: T("Six single attempts, fully rested. If none works today, do jumping muscle-ups with the smallest jump possible instead.", "Sechs Einzelversuche, voll erholt. Klappt heute keiner, mach stattdessen Muscle-ups mit dem kleinstmöglichen Absprung.")
+				}),
+				R("explosive_pull_up", 4, 3, 3, { rest_s: 150 }),
+				R("dip", 3, 8, 12, { rest_s: 120 })
+			]
+		}
+	]);
+	return plan(T("Bar Muscle-Up 10 Weeks", "Muscle-up an der Stange 10 Wochen"), PACE("From the pull-up over the bar: 10 weeks, 3 workouts per week in four stages. First you pull explosively to the chest, then you lower slowly through the transition, then you jump into it – and at the end you try the first muscle-up. You need a bar and about 8 clean pull-ups and dips. Many need more than one round; the story can be played again.", "Vom Klimmzug über die Stange: 10 Wochen, 3 Trainings pro Woche in vier Abschnitten. Erst ziehst du explosiv bis zur Brust, dann senkst du dich langsam durch den Übergang ab, dann springst du hinein – und am Ende versuchst du den ersten Muscle-up. Du brauchst eine Stange und etwa 8 saubere Klimmzüge und Dips. Viele brauchen mehr als einen Durchgang; die Story lässt sich erneut spielen."), workouts, 120);
+}
+function holdTheLine() {
+	const workouts = staged(4, [
+		{
+			weeks: 2,
+			en: "Tucked",
+			de: "Angewinkelt",
+			blocks: [
+				H("support_hold", 3, 20, 30, { rest_s: 60 }),
+				H("tuck_l_sit", 6, 8, 15, { rest_s: 60 }),
+				R("hanging_knee_raise", 3, 8, 12, { rest_s: 60 }),
+				H("boat_pose", 3, 20, 40, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "One leg",
+			de: "Einbeinig",
+			blocks: [
+				H("one_leg_l_sit", 5, 6, 12, { rest_s: 60 }),
+				H("tuck_l_sit", 3, 15, 20, { rest_s: 60 }),
+				R("hanging_knee_raise", 3, 10, 15, { rest_s: 60 }),
+				H("boat_pose", 3, 30, 45, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "Straight",
+			de: "Gestreckt",
+			blocks: [
+				H("l_sit_full", 6, 5, 10, { rest_s: 75 }),
+				H("one_leg_l_sit", 3, 8, 12, { rest_s: 60 }),
+				R("hanging_leg_raise", 3, 5, 8, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "Thirty seconds",
+			de: "Dreißig Sekunden",
+			blocks: [
+				H("l_sit_full", 5, 10, 20, { rest_s: 90 }),
+				H("tuck_l_sit", 2, 20, 30, { rest_s: 60 }),
+				R("hanging_leg_raise", 3, 5, 10, { rest_s: 60 })
+			]
+		}
+	], {
+		en: "Test",
+		de: "Test",
+		blocks: [{
+			type: "sets",
+			exercise: "l_sit_full",
+			sets: 1,
+			duration_s: "max",
+			rest_s: 180,
+			note: T("One hold with straight legs, as long as the heels stay off the floor. 30 seconds is the goal.", "Ein Halt mit gestreckten Beinen, solange die Fersen in der Luft bleiben. 30 Sekunden sind das Ziel.")
+		}]
+	});
+	return plan(T("L-Sit 8 Weeks", "L-Sitz 8 Wochen"), PACE("Legs straight out in front of you, held by your arms and your core: 8 weeks, 4 short workouts per week. Two weeks each for the tucked, the one-leg and the straight L-sit, then you build the time up to 30 seconds. Ends with a test. On the floor, on push-up handles or between two chairs; the leg raises need a bar.", "Die Beine gestreckt vor dem Körper, gehalten von Armen und Rumpf: 8 Wochen, 4 kurze Trainings pro Woche. Je zwei Wochen für den angewinkelten, den einbeinigen und den gestreckten L-Sitz, dann baust du die Zeit bis 30 Sekunden auf. Am Ende ein Test. Am Boden, auf Liegestützgriffen oder zwischen zwei Stühlen; für das Beinheben brauchst du eine Stange."), workouts, 60);
+}
+function upsideDown() {
+	const workouts = staged(4, [
+		{
+			weeks: 3,
+			en: "Back to the wall",
+			de: "Rücken zur Wand",
+			blocks: [
+				H("hs_back_wall", 5, 15, 30, {
+					rest_s: 90,
+					note: T("Kick up with your back to the wall. Arms straight, look between your hands.", "Mit dem Rücken zur Wand aufschwingen. Arme gestreckt, Blick zwischen die Hände.")
+				}),
+				R("pike_push_up", 3, 5, 8),
+				H("hollow_hold", 3, 20, 40, { rest_s: 60 }),
+				H("plank", 2, 30, 60, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Walking up",
+			de: "Hochlaufen",
+			blocks: [
+				R("wall_walk", 4, 2, 3, {
+					rest_s: 120,
+					note: T("From the push-up position, walk your feet up the wall and your hands towards it – only as far as you stay in control.", "Aus der Liegestützposition mit den Füßen die Wand hoch und mit den Händen zur Wand laufen – nur so weit, wie du die Kontrolle behältst.")
+				}),
+				H("hs_chest_wall", 5, 15, 30, { rest_s: 90 }),
+				H("hollow_hold", 3, 30, 45, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "Chest to the wall",
+			de: "Bauch zur Wand",
+			blocks: [
+				H("hs_chest_wall", 5, 30, 45, { rest_s: 120 }),
+				R("hs_shoulder_taps", 3, 6, 10, { rest_s: 120 }),
+				H("hollow_hold", 3, 30, 45, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "One minute",
+			de: "Eine Minute",
+			blocks: [
+				H("hs_chest_wall", 4, 40, 60, { rest_s: 150 }),
+				R("hs_toe_pulls", 4, 3, 5, { rest_s: 120 }),
+				R("pike_push_up", 3, 6, 10)
+			]
+		}
+	], TEST([max("hs_chest_wall", { note: T("One hold, chest to the wall, as long as the line stays clean. 60 seconds is the goal.", "Ein Halt, Bauch zur Wand, solange die Linie sauber bleibt. 60 Sekunden sind das Ziel.") })]));
+	return plan(T("Wall Handstand 10 Weeks", "Handstand an der Wand 10 Wochen"), PACE("Stand on your hands, with the wall as a partner: 10 weeks, 4 short workouts per week. First with your back to the wall, then you walk up it, then chest to the wall with a straight line – up to one minute. Ends with a test. You need a free wall and healthy wrists.", "Auf den Händen stehen, mit der Wand als Partner: 10 Wochen, 4 kurze Trainings pro Woche. Erst mit dem Rücken zur Wand, dann läufst du an ihr hoch, dann Bauch zur Wand mit gerader Linie – bis zu einer Minute. Am Ende ein Test. Du brauchst eine freie Wand und gesunde Handgelenke."), workouts, 90);
+}
+function withoutANet() {
+	const workouts = staged(5, [
+		{
+			weeks: 3,
+			en: "The line",
+			de: "Die Linie",
+			blocks: [
+				H("hs_chest_wall", 4, 30, 45, { rest_s: 120 }),
+				R("hs_toe_pulls", 5, 3, 5, { rest_s: 90 }),
+				H("hollow_hold", 3, 30, 45, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Leaving the wall",
+			de: "Weg von der Wand",
+			blocks: [
+				R("hs_toe_pulls", 5, 5, 5, { rest_s: 90 }),
+				R("hs_kick_up", 2, 5, 5, {
+					rest_s: 120,
+					note: T("Ten kick-ups in two sets. Learn the way out first: turn to the side and step down.", "Zehn Aufschwünge in zwei Sätzen. Lern zuerst den Ausweg: zur Seite drehen und absteigen.")
+				}),
+				H("hs_chest_wall", 3, 45, 45, { rest_s: 120 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Balance",
+			de: "Balance",
+			blocks: [
+				R("hs_kick_up", 2, 6, 6, { rest_s: 120 }),
+				{
+					type: "sets",
+					exercise: "hs_free",
+					sets: 6,
+					duration_s: "max",
+					rest_s: 90,
+					note: T("Six holds as long as they last. Balance with your fingers, not with your back.", "Sechs Halte, solange sie dauern. Balanciere mit den Fingern, nicht mit dem Rücken.")
+				},
+				H("hs_chest_wall", 2, 60, 60, { rest_s: 120 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Thirty seconds",
+			de: "Dreißig Sekunden",
+			blocks: [
+				R("hs_kick_up", 1, 5, 5, { rest_s: 120 }),
+				{
+					type: "sets",
+					exercise: "hs_free",
+					sets: 8,
+					duration_s: "max",
+					rest_s: 90
+				},
+				R("hs_shoulder_taps", 3, 6, 10, { rest_s: 120 })
+			]
+		}
+	], TEST([{
+		type: "sets",
+		exercise: "hs_free",
+		sets: 3,
+		duration_s: "max",
+		rest_s: 180,
+		note: T("Three attempts, the best one counts. 30 seconds without the wall is the goal.", "Drei Versuche, der beste zählt. 30 Sekunden ohne Wand sind das Ziel.")
+	}]));
+	return plan(T("Free Handstand 12 Weeks", "Freier Handstand 12 Wochen"), PACE("Away from the wall: 12 weeks, 5 short workouts per week – balance is learned through many short attempts. First the line at the wall, then you take your toes off it, then you kick up freely and hold as long as it lasts. The goal is 30 seconds; many need longer than 12 weeks, and that is normal. Requires a solid wall handstand of about 60 seconds.", "Weg von der Wand: 12 Wochen, 5 kurze Trainings pro Woche – Balance lernt man durch viele kurze Versuche. Erst die Linie an der Wand, dann löst du die Zehen von ihr, dann schwingst du frei auf und hältst, solange es dauert. Das Ziel sind 30 Sekunden; viele brauchen länger als 12 Wochen, und das ist normal. Voraussetzung ist ein sicherer Wandhandstand von etwa 60 Sekunden."), workouts, 90);
+}
+function float(season) {
+	const lean = (lo, hi) => H("planche_lean", 3, lo, hi, { rest_s: 60 });
+	const s = {
+		1: {
+			test: "tuck_planche",
+			name: ["Planche Season 1: Tuck", "Planche Staffel 1: Tuck"],
+			desc: ["The way to the tuck planche: 12 weeks, 3 workouts per week in four stages – planche lean, frog stand, the first lift-off, then holding the tuck. The planche is the slowest of all skills: this season aims at an honest, reachable stage. You should be able to do about 15 push-ups and 8 dips.", "Der Weg zur Tuck-Planche: 12 Wochen, 3 Trainings pro Woche in vier Abschnitten – Planche-Lehne, Froschstand, das erste Abheben, dann den Tuck halten. Die Planche ist die langsamste aller Figuren: Diese Staffel zielt auf eine ehrliche, erreichbare Stufe. Du solltest etwa 15 Liegestütze und 8 Dips schaffen."],
+			stages: [
+				{
+					weeks: 3,
+					en: "Lean",
+					de: "Lehne",
+					blocks: [
+						H("planche_lean", 5, 10, 20, { rest_s: 75 }),
+						R("scap_push_up", 3, 8, 12, { rest_s: 60 }),
+						H("frog_stand", 4, 10, 20, { rest_s: 60 }),
+						R("pseudo_planche_push_up", 3, 5, 8),
+						H("hollow_hold", 3, 20, 40, { rest_s: 60 })
+					]
+				},
+				{
+					weeks: 3,
+					en: "Frog stand",
+					de: "Froschstand",
+					blocks: [
+						H("frog_stand", 4, 20, 40, { rest_s: 75 }),
+						H("planche_lean", 4, 15, 25, { rest_s: 75 }),
+						R("pseudo_planche_push_up", 3, 6, 10),
+						R("scap_push_up", 3, 10, 15, { rest_s: 60 })
+					]
+				},
+				{
+					weeks: 3,
+					en: "Lift-off",
+					de: "Abheben",
+					blocks: [
+						H("tuck_planche", 6, 3, 8, { rest_s: 90 }),
+						H("frog_stand", 3, 30, 30, { rest_s: 60 }),
+						lean(20, 30),
+						R("pseudo_planche_push_up", 3, 6, 10)
+					]
+				},
+				{
+					weeks: 3,
+					en: "Tuck",
+					de: "Tuck",
+					blocks: [
+						H("tuck_planche", 6, 5, 12, { rest_s: 90 }),
+						lean(20, 30),
+						R("pseudo_planche_push_up", 3, 8, 12),
+						H("hollow_hold", 3, 30, 45, { rest_s: 60 })
+					]
+				}
+			]
+		},
+		2: {
+			test: "adv_tuck_planche",
+			name: ["Planche Season 2: Advanced Tuck", "Planche Staffel 2: Advanced Tuck"],
+			desc: ["From the tuck to the advanced tuck planche: 12 weeks, 3 workouts per week. The back becomes flat, the knees move behind the elbows – a small change that feels like a new skill. Requires a tuck planche of about 10 seconds.", "Vom Tuck zur Advanced-Tuck-Planche: 12 Wochen, 3 Trainings pro Woche. Der Rücken wird flach, die Knie wandern hinter die Ellbogen – eine kleine Änderung, die sich wie eine neue Figur anfühlt. Voraussetzung ist eine Tuck-Planche von etwa 10 Sekunden."],
+			stages: [
+				{
+					weeks: 3,
+					en: "Solid tuck",
+					de: "Sicherer Tuck",
+					blocks: [
+						H("tuck_planche", 5, 10, 20, { rest_s: 90 }),
+						R("pseudo_planche_push_up", 4, 6, 10),
+						lean(20, 30),
+						H("hollow_hold", 3, 30, 45, { rest_s: 60 })
+					]
+				},
+				{
+					weeks: 3,
+					en: "Flatten",
+					de: "Flach werden",
+					blocks: [
+						H("adv_tuck_planche", 6, 3, 8, { rest_s: 120 }),
+						H("tuck_planche", 3, 15, 15, { rest_s: 90 }),
+						R("pseudo_planche_push_up", 3, 8, 12)
+					]
+				},
+				{
+					weeks: 3,
+					en: "Advanced tuck",
+					de: "Advanced Tuck",
+					blocks: [
+						H("adv_tuck_planche", 6, 5, 10, { rest_s: 120 }),
+						R("tuck_planche_push_up", 3, 3, 5, { rest_s: 120 }),
+						lean(25, 35)
+					]
+				},
+				{
+					weeks: 3,
+					en: "Hold it",
+					de: "Halten",
+					blocks: [
+						H("adv_tuck_planche", 5, 8, 15, { rest_s: 120 }),
+						R("tuck_planche_push_up", 3, 4, 6, { rest_s: 120 }),
+						H("tuck_planche", 2, 20, 20, { rest_s: 90 })
+					]
+				}
+			]
+		},
+		3: {
+			test: "straddle_planche",
+			name: ["Planche Season 3: Straddle", "Planche Staffel 3: Gegrätscht"],
+			desc: ["The legs open: 12 weeks, 3 workouts per week towards the straddle planche. This stage takes many people a year or more – the season is a clean block of work on it, not a promise. Requires an advanced tuck planche of about 10 seconds.", "Die Beine öffnen sich: 12 Wochen, 3 Trainings pro Woche in Richtung gegrätschte Planche. Diese Stufe kostet viele ein Jahr oder mehr – die Staffel ist ein sauberer Arbeitsblock daran, kein Versprechen. Voraussetzung ist eine Advanced-Tuck-Planche von etwa 10 Sekunden."],
+			stages: [
+				{
+					weeks: 3,
+					en: "Solid advanced tuck",
+					de: "Sicherer Advanced Tuck",
+					blocks: [
+						H("adv_tuck_planche", 5, 10, 15, { rest_s: 120 }),
+						R("tuck_planche_push_up", 4, 3, 6, { rest_s: 120 }),
+						lean(25, 35)
+					]
+				},
+				{
+					weeks: 3,
+					en: "Open the legs",
+					de: "Beine öffnen",
+					blocks: [
+						H("straddle_planche", 6, 2, 5, {
+							rest_s: 150,
+							note: T("Open the legs wide and only as far back as you can hold. A band around the hips is fine.", "Die Beine weit öffnen und nur so weit nach hinten, wie du halten kannst. Ein Band um die Hüfte ist in Ordnung.")
+						}),
+						H("adv_tuck_planche", 3, 12, 12, { rest_s: 120 }),
+						R("pseudo_planche_push_up", 3, 8, 12)
+					]
+				},
+				{
+					weeks: 3,
+					en: "Straddle",
+					de: "Gegrätscht",
+					blocks: [
+						H("straddle_planche", 6, 3, 6, { rest_s: 150 }),
+						R("tuck_planche_push_up", 3, 4, 6, { rest_s: 120 }),
+						lean(30, 40)
+					]
+				},
+				{
+					weeks: 3,
+					en: "Hold it",
+					de: "Halten",
+					blocks: [
+						H("straddle_planche", 6, 4, 8, { rest_s: 150 }),
+						H("adv_tuck_planche", 2, 15, 15, { rest_s: 120 }),
+						R("tuck_planche_push_up", 3, 5, 8, { rest_s: 120 })
+					]
+				}
+			]
+		}
+	}[season];
+	const workouts = staged(3, s.stages, TEST([max(s.test, { note: T("One hold, as long as the shape stays clean. Write the time down – it is your mark for the next round.", "Ein Halt, solange die Form sauber bleibt. Notier die Zeit – sie ist deine Marke für den nächsten Durchgang.") })]));
+	return plan(T(s.name[0], s.name[1]), PACE(s.desc[0], s.desc[1]), workouts, 90);
+}
+function horizon(season) {
+	const pulls = R("pull_up", 3, 5, 8, { rest_s: 120 });
+	const core = R("hanging_leg_raise", 3, 5, 10, { rest_s: 60 });
+	const s = {
+		1: {
+			test: "adv_tuck_fl",
+			name: ["Front Lever Season 1: Tuck", "Front Lever Staffel 1: Tuck"],
+			desc: ["Hang horizontally under the bar: 12 weeks, 3 workouts per week from the tuck to the advanced tuck front lever. Holds first, then pulling strength and core. You should be able to do about 8 clean pull-ups.", "Waagerecht unter der Stange hängen: 12 Wochen, 3 Trainings pro Woche vom Tuck zum Advanced Tuck Front Lever. Erst die Halte, dann Zugkraft und Rumpf. Du solltest etwa 8 saubere Klimmzüge schaffen."],
+			stages: [
+				{
+					weeks: 3,
+					en: "Tuck",
+					de: "Tuck",
+					blocks: [
+						H("tuck_fl", 5, 8, 15, { rest_s: 90 }),
+						R("scapular_pull_up", 3, 8, 8, { rest_s: 60 }),
+						pulls,
+						core
+					]
+				},
+				{
+					weeks: 3,
+					en: "Solid tuck",
+					de: "Sicherer Tuck",
+					blocks: [
+						H("tuck_fl", 5, 12, 20, { rest_s: 90 }),
+						R("fl_raise", 3, 3, 5, { rest_s: 120 }),
+						pulls,
+						core
+					]
+				},
+				{
+					weeks: 3,
+					en: "Flatten",
+					de: "Flach werden",
+					blocks: [
+						H("adv_tuck_fl", 6, 3, 8, { rest_s: 120 }),
+						H("tuck_fl", 3, 15, 15, { rest_s: 90 }),
+						pulls,
+						core
+					]
+				},
+				{
+					weeks: 3,
+					en: "Advanced tuck",
+					de: "Advanced Tuck",
+					blocks: [
+						H("adv_tuck_fl", 6, 5, 12, { rest_s: 120 }),
+						R("tuck_fl_row", 3, 3, 5, { rest_s: 120 }),
+						pulls
+					]
+				}
+			]
+		},
+		2: {
+			test: "one_leg_fl",
+			name: ["Front Lever Season 2: One Leg", "Front Lever Staffel 2: Einbeinig"],
+			desc: ["One leg stretches out: 12 weeks, 3 workouts per week towards the one-leg front lever. The lever gets longer, the pull harder. Requires an advanced tuck front lever of about 10 seconds.", "Ein Bein streckt sich: 12 Wochen, 3 Trainings pro Woche in Richtung einbeiniger Front Lever. Der Hebel wird länger, der Zug schwerer. Voraussetzung ist ein Advanced Tuck Front Lever von etwa 10 Sekunden."],
+			stages: [
+				{
+					weeks: 3,
+					en: "Solid advanced tuck",
+					de: "Sicherer Advanced Tuck",
+					blocks: [
+						H("adv_tuck_fl", 5, 10, 15, { rest_s: 120 }),
+						R("tuck_fl_row", 4, 4, 6, { rest_s: 120 }),
+						pulls,
+						core
+					]
+				},
+				{
+					weeks: 3,
+					en: "One leg out",
+					de: "Ein Bein raus",
+					blocks: [
+						H("one_leg_fl", 5, 3, 6, { rest_s: 120 }),
+						H("adv_tuck_fl", 2, 12, 12, { rest_s: 120 }),
+						pulls,
+						core
+					]
+				},
+				{
+					weeks: 3,
+					en: "One leg",
+					de: "Einbeinig",
+					blocks: [
+						H("one_leg_fl", 5, 5, 8, { rest_s: 120 }),
+						R("fl_negative", 3, 2, 2, { rest_s: 150 }),
+						pulls
+					]
+				},
+				{
+					weeks: 3,
+					en: "Hold it",
+					de: "Halten",
+					blocks: [
+						H("one_leg_fl", 5, 6, 10, { rest_s: 120 }),
+						R("fl_negative", 3, 2, 3, { rest_s: 150 }),
+						R("tuck_fl_row", 3, 5, 8, { rest_s: 120 })
+					]
+				}
+			]
+		},
+		3: {
+			test: "straddle_fl",
+			name: ["Front Lever Season 3: Straddle", "Front Lever Staffel 3: Gegrätscht"],
+			desc: ["Both legs out, wide apart: 12 weeks, 3 workouts per week towards the straddle front lever. Often a matter of one to two years in total – this season is the next clean block. Requires a one-leg front lever of about 8 seconds per side.", "Beide Beine raus, weit gegrätscht: 12 Wochen, 3 Trainings pro Woche in Richtung gegrätschter Front Lever. Insgesamt oft eine Sache von ein bis zwei Jahren – diese Staffel ist der nächste saubere Block. Voraussetzung ist ein einbeiniger Front Lever von etwa 8 Sekunden je Seite."],
+			stages: [
+				{
+					weeks: 3,
+					en: "Solid one leg",
+					de: "Sicher einbeinig",
+					blocks: [
+						H("one_leg_fl", 5, 8, 12, { rest_s: 120 }),
+						R("fl_negative", 3, 2, 3, { rest_s: 150 }),
+						pulls,
+						core
+					]
+				},
+				{
+					weeks: 3,
+					en: "Open the legs",
+					de: "Beine öffnen",
+					blocks: [
+						H("straddle_fl", 6, 2, 5, { rest_s: 150 }),
+						H("one_leg_fl", 2, 10, 10, { rest_s: 120 }),
+						pulls
+					]
+				},
+				{
+					weeks: 3,
+					en: "Straddle",
+					de: "Gegrätscht",
+					blocks: [
+						H("straddle_fl", 6, 3, 6, { rest_s: 150 }),
+						R("fl_negative", 3, 3, 3, { rest_s: 150 }),
+						R("tuck_fl_row", 3, 6, 8, { rest_s: 120 })
+					]
+				},
+				{
+					weeks: 3,
+					en: "Hold it",
+					de: "Halten",
+					blocks: [
+						H("straddle_fl", 6, 4, 8, { rest_s: 150 }),
+						R("fl_negative", 3, 3, 3, { rest_s: 150 }),
+						pulls
+					]
+				}
+			]
+		}
+	}[season];
+	const workouts = staged(3, s.stages, TEST([max(s.test, { note: T("One hold, as long as the hips stay at shoulder height. Write the time down.", "Ein Halt, solange die Hüfte auf Schulterhöhe bleibt. Notier die Zeit.") })]));
+	return plan(T(s.name[0], s.name[1]), PACE(s.desc[0], s.desc[1]), workouts, 120);
+}
+function behindTheHorizon() {
+	const workouts = staged(3, [
+		{
+			weeks: 3,
+			en: "German hang",
+			de: "German Hang",
+			blocks: [
+				H("german_hang", 4, 10, 20, { rest_s: 75 }),
+				R("skin_the_cat", 4, 2, 3, { rest_s: 120 }),
+				R("ring_row", 3, 8, 12),
+				H("ring_support", 3, 20, 30, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Skin the cat",
+			de: "Skin the Cat",
+			blocks: [
+				R("skin_the_cat", 5, 3, 5, { rest_s: 120 }),
+				H("tuck_bl", 5, 5, 10, { rest_s: 90 }),
+				H("german_hang", 2, 20, 20, { rest_s: 60 }),
+				R("ring_row", 3, 8, 12)
+			]
+		},
+		{
+			weeks: 3,
+			en: "Tuck",
+			de: "Tuck",
+			blocks: [
+				H("tuck_bl", 5, 10, 15, { rest_s: 90 }),
+				H("adv_tuck_bl", 4, 3, 8, { rest_s: 120 }),
+				R("skin_the_cat", 3, 3, 5, { rest_s: 120 }),
+				R("ring_dip", 3, 5, 8, { rest_s: 120 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Straddle",
+			de: "Gegrätscht",
+			blocks: [
+				H("straddle_bl", 6, 3, 8, { rest_s: 150 }),
+				H("adv_tuck_bl", 3, 10, 10, { rest_s: 120 }),
+				R("skin_the_cat", 3, 3, 5, { rest_s: 120 })
+			]
+		}
+	], TEST([max("straddle_bl", { note: T("One hold in your best shape – straddle, or advanced tuck if the straddle is not there yet.", "Ein Halt in deiner besten Form – gegrätscht, oder Advanced Tuck, wenn es gegrätscht noch nicht geht.") })]));
+	return plan(T("Back Lever on Rings 12 Weeks", "Back Lever an den Ringen 12 Wochen"), PACE("The front lever's mirror image: 12 weeks, 3 workouts per week on rings. First you get the shoulders used to the position with the German hang and skin the cat, then you hold the tuck, then the legs open. Elbows and biceps need time here – go slowly. Requires a solid support and about 8 pull-ups.", "Das Spiegelbild des Front Levers: 12 Wochen, 3 Trainings pro Woche an den Ringen. Erst gewöhnst du die Schultern mit German Hang und Skin the Cat an die Position, dann hältst du den Tuck, dann öffnen sich die Beine. Ellbogen und Bizeps brauchen hier Zeit – geh langsam vor. Voraussetzung sind ein sicherer Stütz und etwa 8 Klimmzüge."), workouts, 120);
+}
+function stillRings() {
+	const workouts = staged(3, [
+		{
+			weeks: 2,
+			en: "Support",
+			de: "Stütz",
+			blocks: [
+				H("ring_support", 5, 10, 20, { rest_s: 75 }),
+				R("ring_row", 3, 6, 10),
+				R("push_up", 3, 8, 12),
+				H("dead_hang", 3, 20, 30, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "Rows and push-ups",
+			de: "Rudern und Liegestütze",
+			blocks: [
+				H("ring_support", 4, 20, 30, { rest_s: 75 }),
+				R("ring_row", 4, 8, 12),
+				R("ring_push_up", 3, 5, 8),
+				R("hanging_knee_raise", 3, 8, 12, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "Down",
+			de: "Abwärts",
+			blocks: [
+				H("ring_support", 3, 30, 30, { rest_s: 75 }),
+				R("ring_dip_negative", 4, 3, 5, {
+					rest_s: 120,
+					note: T("Lower for 3–5 seconds, get back up with your feet.", "3–5 Sekunden absenken, mit den Füßen wieder hoch.")
+				}),
+				R("ring_push_up", 3, 8, 12),
+				R("ring_row", 3, 10, 15)
+			]
+		},
+		{
+			weeks: 2,
+			en: "Dips",
+			de: "Dips",
+			blocks: [
+				R("ring_dip", 4, 3, 6, { rest_s: 120 }),
+				R("ring_row", 4, 10, 15),
+				R("ring_push_up", 3, 10, 15),
+				H("ring_support", 2, 30, 45, { rest_s: 75 })
+			]
+		}
+	]);
+	return plan(T("Rings for Beginners 8 Weeks", "Ringe für Einsteiger 8 Wochen"), PACE("Rings make everything wobbly – and strong: 8 weeks, 3 workouts per week. First the quiet support, then rows and push-ups on the rings, then you lower into the dip, and at the end you push yourself up. You need a pair of rings; you should be able to do about 10 push-ups and a few rows.", "Ringe machen alles wackelig – und stark: 8 Wochen, 3 Trainings pro Woche. Erst der ruhige Stütz, dann Rudern und Liegestütze an den Ringen, dann senkst du dich in den Dip ab, und am Ende drückst du dich hoch. Du brauchst ein Paar Ringe; etwa 10 Liegestütze und ein paar Ruderzüge solltest du schaffen."), workouts, 90);
+}
+function underTension() {
+	const workouts = staged(3, [
+		{
+			weeks: 3,
+			en: "Dips",
+			de: "Dips",
+			blocks: [
+				R("ring_dip", 4, 5, 8, { rest_s: 120 }),
+				R("ring_pull_up", 4, 5, 8, { rest_s: 120 }),
+				H("false_grip_hang", 4, 10, 20, { rest_s: 75 }),
+				H("ring_support", 2, 30, 45, { rest_s: 75 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "False grip",
+			de: "Falscher Griff",
+			blocks: [
+				R("false_grip_row", 4, 5, 8, { rest_s: 90 }),
+				H("false_grip_hang", 4, 15, 25, { rest_s: 75 }),
+				R("ring_dip", 4, 6, 10, { rest_s: 120 }),
+				H("ring_tuck_l_sit", 4, 8, 15, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "L-sit and skin the cat",
+			de: "L-Sitz und Skin the Cat",
+			blocks: [
+				H("ring_l_sit", 5, 5, 12, { rest_s: 75 }),
+				R("skin_the_cat", 4, 2, 3, { rest_s: 120 }),
+				R("false_grip_pull_up", 4, 2, 4, { rest_s: 120 }),
+				R("ring_dip", 3, 8, 12, { rest_s: 120 })
+			]
+		},
+		{
+			weeks: 2,
+			en: "All together",
+			de: "Alles zusammen",
+			blocks: [
+				R("false_grip_pull_up", 4, 3, 5, { rest_s: 120 }),
+				R("ring_dip", 4, 8, 12, { rest_s: 120 }),
+				H("ring_l_sit", 4, 8, 15, { rest_s: 75 }),
+				R("skin_the_cat", 3, 3, 5, { rest_s: 120 })
+			]
+		}
+	]);
+	return plan(T("Ring Strength 10 Weeks", "Ringkraft 10 Wochen"), PACE("The strength for everything that comes later on rings: 10 weeks, 3 workouts per week. Clean ring dips, the false grip, the L-sit on rings and skin the cat. The false grip is uncomfortable at first – short holds, often. Requires ring dips and pull-ups (about 5 each).", "Die Kraft für alles, was an den Ringen später kommt: 10 Wochen, 3 Trainings pro Woche. Saubere Ring-Dips, der falsche Griff, der L-Sitz an den Ringen und Skin the Cat. Der falsche Griff ist anfangs unbequem – kurze Halte, oft. Voraussetzung sind Ring-Dips und Klimmzüge (je etwa 5)."), workouts, 90);
+}
+function throughTheRings() {
+	const workouts = staged(3, [
+		{
+			weeks: 3,
+			en: "False grip",
+			de: "Falscher Griff",
+			blocks: [
+				H("false_grip_hang", 4, 20, 30, { rest_s: 75 }),
+				R("false_grip_pull_up", 5, 3, 5, { rest_s: 120 }),
+				R("ring_dip", 4, 6, 10, { rest_s: 120 }),
+				H("hollow_hold", 3, 30, 45, { rest_s: 60 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Transition",
+			de: "Übergang",
+			blocks: [
+				R("ring_transition", 5, 3, 5, { rest_s: 120 }),
+				R("false_grip_pull_up", 4, 4, 6, {
+					rest_s: 120,
+					note: T("Pull the rings to the lower chest.", "Zieh die Ringe bis zur unteren Brust.")
+				}),
+				R("ring_dip", 4, 6, 10, {
+					rest_s: 120,
+					note: T("As deep as your shoulders allow – that is where the muscle-up starts.", "So tief, wie die Schultern es erlauben – dort beginnt der Muscle-up.")
+				})
+			]
+		},
+		{
+			weeks: 3,
+			en: "Negatives",
+			de: "Abwärts",
+			blocks: [
+				R("ring_mu_negative", 5, 2, 3, { rest_s: 150 }),
+				R("ring_transition", 4, 5, 5, { rest_s: 120 }),
+				R("false_grip_pull_up", 3, 4, 6, { rest_s: 120 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "First ring muscle-up",
+			de: "Erster Ring-Muscle-up",
+			blocks: [
+				R("ring_muscle_up", 6, 1, 1, {
+					rest_s: 180,
+					note: T("Six single attempts, fully rested, no swinging. If none works today, do the transition with your feet on the floor.", "Sechs Einzelversuche, voll erholt, ohne Schwung. Klappt heute keiner, mach den Übergang mit den Füßen am Boden.")
+				}),
+				R("ring_mu_negative", 3, 2, 2, { rest_s: 150 }),
+				R("ring_dip", 3, 8, 12, { rest_s: 120 })
+			]
+		}
+	]);
+	return plan(T("Ring Muscle-Up 12 Weeks", "Ring-Muscle-up 12 Wochen"), PACE("From below the rings to above them, without swinging: 12 weeks, 3 workouts per week. False grip, the transition with your feet on the floor, slow negatives, then single attempts. The ring muscle-up can take much longer than one round – every round makes the transition cleaner. Requires solid ring dips and false grip pull-ups.", "Von unter den Ringen nach oben, ohne Schwung: 12 Wochen, 3 Trainings pro Woche. Falscher Griff, der Übergang mit den Füßen am Boden, langsames Absenken, dann Einzelversuche. Der Ring-Muscle-up kann viel länger dauern als ein Durchgang – jeder Durchgang macht den Übergang sauberer. Voraussetzung sind sichere Ring-Dips und Klimmzüge im falschen Griff."), workouts, 120);
+}
+function centerStage() {
+	const workouts = staged(3, [
+		{
+			weeks: 3,
+			en: "Turn out",
+			de: "Ausdrehen",
+			blocks: [
+				H("rto_support", 5, 10, 20, { rest_s: 90 }),
+				H("ring_tuck_fl", 4, 8, 12, { rest_s: 90 }),
+				R("skin_the_cat", 3, 3, 5, { rest_s: 120 }),
+				R("ring_dip", 3, 6, 10, { rest_s: 120 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Front",
+			de: "Front",
+			blocks: [
+				H("ring_tuck_fl", 5, 10, 20, { rest_s: 90 }),
+				H("rto_support", 4, 15, 25, { rest_s: 90 }),
+				H("ring_tuck_bl", 4, 8, 12, { rest_s: 90 }),
+				R("ring_pull_up", 3, 6, 10, { rest_s: 120 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "Back",
+			de: "Back",
+			blocks: [
+				H("ring_tuck_bl", 5, 10, 20, { rest_s: 90 }),
+				H("ring_tuck_fl", 4, 12, 20, { rest_s: 90 }),
+				H("rto_support", 3, 20, 30, { rest_s: 90 }),
+				R("ring_dip", 3, 8, 12, { rest_s: 120 })
+			]
+		},
+		{
+			weeks: 3,
+			en: "The routine",
+			de: "Die Kür",
+			blocks: [{
+				type: "circuit",
+				name: T("Routine", "Kür"),
+				rounds: 4,
+				rest_after_exercise_s: 60,
+				rest_after_round_s: 150,
+				note: T("Three holds in a row, like a small routine: support turned out, front lever, back lever.", "Drei Halte nacheinander, wie eine kleine Kür: Stütz ausgedreht, Front Lever, Back Lever."),
+				exercises: [
+					{
+						exercise: "rto_support",
+						duration_s: {
+							min: 15,
+							max: 30
+						}
+					},
+					{
+						exercise: "ring_tuck_fl",
+						duration_s: {
+							min: 10,
+							max: 20
+						}
+					},
+					{
+						exercise: "ring_tuck_bl",
+						duration_s: {
+							min: 10,
+							max: 20
+						}
+					}
+				]
+			}, H("ring_l_sit", 3, 8, 15, { rest_s: 75 })]
+		}
+	]);
+	return plan(T("Ring Skills 12 Weeks", "Ringfiguren 12 Wochen"), PACE("Three figures on the rings: 12 weeks, 3 workouts per week. The support with turned-out rings, the tuck front lever and the tuck back lever – each gets its own stage, and at the end you hold them one after the other like a small routine. Requires ring strength: dips, L-sit and skin the cat on rings.", "Drei Figuren an den Ringen: 12 Wochen, 3 Trainings pro Woche. Der Stütz mit ausgedrehten Ringen, der Tuck Front Lever und der Tuck Back Lever – jede bekommt ihren eigenen Abschnitt, und am Ende hältst du sie nacheinander wie eine kleine Kür. Voraussetzung ist Ringkraft: Dips, L-Sitz und Skin the Cat an den Ringen."), workouts, 90);
+}
+var SKILL_STORY_PLANS = [
+	{
+		story: "defy_gravity",
+		group: "calisthenics",
+		plan: defyGravity()
+	},
+	{
+		story: "breakthrough",
+		group: "calisthenics",
+		plan: breakthrough()
+	},
+	{
+		story: "hold_the_line",
+		group: "calisthenics",
+		plan: holdTheLine()
+	},
+	{
+		story: "upside_down",
+		group: "calisthenics",
+		plan: upsideDown()
+	},
+	{
+		story: "without_a_net",
+		group: "calisthenics",
+		plan: withoutANet()
+	},
+	{
+		story: "float_1",
+		group: "calisthenics",
+		plan: float(1)
+	},
+	{
+		story: "float_2",
+		group: "calisthenics",
+		plan: float(2)
+	},
+	{
+		story: "float_3",
+		group: "calisthenics",
+		plan: float(3)
+	},
+	{
+		story: "horizon_1",
+		group: "calisthenics",
+		plan: horizon(1)
+	},
+	{
+		story: "horizon_2",
+		group: "calisthenics",
+		plan: horizon(2)
+	},
+	{
+		story: "horizon_3",
+		group: "calisthenics",
+		plan: horizon(3)
+	},
+	{
+		story: "behind_the_horizon",
+		group: "calisthenics",
+		plan: behindTheHorizon()
+	},
+	{
+		story: "still_rings",
+		group: "calisthenics",
+		plan: stillRings()
+	},
+	{
+		story: "under_tension",
+		group: "calisthenics",
+		plan: underTension()
+	},
+	{
+		story: "through_the_rings",
+		group: "calisthenics",
+		plan: throughTheRings()
+	},
+	{
+		story: "center_stage",
+		group: "calisthenics",
+		plan: centerStage()
+	}
+];
+// src/core/hero/content/story-plans.ts
+var pad = (n) => String(n).padStart(2, "0");
+var WARMUP_BAR = T("5 easy minutes, then 2–3 light warm-up sets of the first lift.", "5 lockere Minuten, dann 2–3 leichte Aufwärmsätze der ersten Übung.");
+function ironOrigins() {
+	const workouts = [];
+	for (let i = 0; i < 36; i++) {
+		const week = Math.floor(i / 3) + 1, a = i % 2 === 0;
+		workouts.push({
+			id: `w${pad(i + 1)}`,
+			name: T(`Week ${week} · Day ${i % 3 + 1} (${a ? "A" : "B"})`, `Woche ${week} · Tag ${i % 3 + 1} (${a ? "A" : "B"})`),
+			blocks: [
+				{
+					type: "warmup",
+					note: WARMUP_BAR
+				},
+				{
+					type: "sets",
+					exercise: "back_squat",
+					sets: 3,
+					reps: 5,
+					weight_kg: 20
+				},
+				a ? {
+					type: "sets",
+					exercise: "bench_press",
+					sets: 3,
+					reps: 5,
+					weight_kg: 20
+				} : {
+					type: "sets",
+					exercise: "overhead_press",
+					sets: 3,
+					reps: 5,
+					weight_kg: 20
+				},
+				a ? {
+					type: "sets",
+					exercise: "deadlift",
+					sets: 1,
+					reps: 5,
+					weight_kg: 40,
+					progression: {
+						type: "linear",
+						increment_kg: 5
+					}
+				} : {
+					type: "sets",
+					exercise: "barbell_row",
+					sets: 3,
+					reps: 5,
+					weight_kg: 30
+				},
+				{ type: "cooldown" }
+			]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Barbell Basics 12 Weeks", "Langhantel-Einstieg 12 Wochen"),
+		description: T("Barbell program for beginners: 12 weeks, 3 workouts per week, two workouts in turn. Three sets of five – a little more weight every time, as long as all reps are clean. Start light. Inspired by classic linear beginner programs.", "Langhantel-Programm für Einsteiger: 12 Wochen, 3 Trainings pro Woche, zwei Workouts im Wechsel. Drei Sätze mit fünf Wiederholungen – jedes Mal etwas mehr Gewicht, solange alle Wiederholungen sauber sind. Leicht anfangen. Angelehnt an klassische lineare Einsteigerprogramme."),
+		goal: "strength",
+		defaults: {
+			rest_s: 180,
+			progression: {
+				type: "linear",
+				increment_kg: 2.5
+			}
+		},
+		exercises: {
+			back_squat: {
+				name: T("Back Squat", "Kniebeuge"),
+				aliases: ["Kniebeuge"],
+				equipment: "barbell",
+				image: "Barbell_Squat"
+			},
+			bench_press: {
+				name: T("Bench Press", "Bankdrücken"),
+				aliases: ["Bankdrücken"],
+				equipment: "barbell"
+			},
+			overhead_press: {
+				name: T("Overhead Press", "Schulterdrücken stehend"),
+				aliases: ["Schulterdrücken stehend"],
+				equipment: "barbell",
+				image: "Standing_Military_Press"
+			},
+			deadlift: {
+				name: T("Deadlift", "Kreuzheben"),
+				aliases: ["Kreuzheben"],
+				equipment: "barbell",
+				image: "Barbell_Deadlift"
+			},
+			barbell_row: {
+				name: T("Barbell Row", "Langhantelrudern"),
+				aliases: ["Langhantelrudern"],
+				equipment: "barbell",
+				image: "Bent_Over_Barbell_Row"
+			}
+		},
+		workouts
+	};
+}
+function sevenMinutes() {
+	const order = [
+		"jumping_jack",
+		"wall_sit",
+		"push_up",
+		"crunch",
+		"step_up",
+		"squat",
+		"chair_dip",
+		"plank",
+		"high_knees",
+		"lunge",
+		"push_up_rotation",
+		"side_plank_left",
+		"side_plank_right"
+	];
+	const workouts = [];
+	for (let i = 0; i < 18; i++) {
+		const week = Math.floor(i / 3) + 1, rounds = week <= 2 ? 1 : week <= 4 ? 2 : 3;
+		const blocks = [{
+			type: "warmup",
+			note: T("Move around easily for 2–3 minutes.", "2–3 Minuten locker bewegen.")
+		}];
+		for (let r = 1; r <= rounds; r++) blocks.push({
+			type: "interval",
+			name: T(`Round ${r}`, `Runde ${r}`),
+			rounds: order.length,
+			work_s: 30,
+			rest_s: 5,
+			...r < rounds ? { rest_after_s: 60 } : {},
+			exercises: order
+		});
+		blocks.push({ type: "cooldown" });
+		workouts.push({
+			id: `w${pad(i + 1)}`,
+			name: T(`Week ${week} · Circuit ${i % 3 + 1}`, `Woche ${week} · Zirkel ${i % 3 + 1}`),
+			blocks
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("7-Minute Build-Up 6 Weeks", "7-Minuten-Aufbau 6 Wochen"),
+		description: T("The 7-minute circuit as a program: 6 weeks, 3 workouts per week. Weeks 1–2 one round, weeks 3–4 two, weeks 5–6 three. Twelve exercises of 30 seconds (side plank on both sides), only a chair and a wall needed. Runs on its own with beeps. Inspired by Klika & Jordan (ACSM 2013).", "Der 7-Minuten-Zirkel als Programm: 6 Wochen, 3 Trainings pro Woche. Woche 1–2 eine Runde, Woche 3–4 zwei, Woche 5–6 drei. Zwölf Übungen je 30 Sekunden (Seitstütz auf beiden Seiten), nur Stuhl und Wand nötig. Läuft von selbst mit Signaltönen. Angelehnt an Klika & Jordan (ACSM 2013)."),
+		goal: "endurance",
+		exercises: {
+			jumping_jack: {
+				name: T("Jumping Jacks", "Hampelmann"),
+				aliases: ["Hampelmann"],
+				equipment: "bodyweight",
+				image: false
+			},
+			wall_sit: {
+				name: T("Wall Sit", "Wandsitzen"),
+				aliases: ["Wandsitzen"],
+				equipment: "bodyweight",
+				image: false,
+				muscles: ["quads", "glutes"]
+			},
+			push_up: {
+				name: T("Push-Ups", "Liegestütze"),
+				aliases: ["Liegestütze"],
+				equipment: "bodyweight",
+				image: "Pushups"
+			},
+			crunch: {
+				name: T("Crunches", "Crunches"),
+				equipment: "bodyweight"
+			},
+			step_up: {
+				name: T("Step-up onto Chair", "Aufsteigen auf einen Stuhl"),
+				aliases: ["Aufsteigen auf Stuhl"],
+				equipment: "bodyweight",
+				image: "Dumbbell_Step_Ups",
+				unilateral: true
+			},
+			squat: {
+				name: T("Bodyweight Squat", "Kniebeuge ohne Gewicht"),
+				aliases: ["Kniebeugen"],
+				equipment: "bodyweight",
+				image: "Bodyweight_Squat"
+			},
+			chair_dip: {
+				name: T("Triceps Dips on Chair", "Trizeps-Dips am Stuhl"),
+				aliases: ["Trizeps-Dips am Stuhl", "Bench Dips"],
+				equipment: "bodyweight",
+				image: "Bench_Dips"
+			},
+			plank: {
+				name: T("Plank", "Unterarmstütz"),
+				aliases: ["Unterarmstütz"],
+				equipment: "bodyweight"
+			},
+			high_knees: {
+				name: T("High Knees", "Kniehebelauf"),
+				aliases: ["Kniehebelauf auf der Stelle"],
+				equipment: "bodyweight",
+				image: false
+			},
+			lunge: {
+				name: T("Lunges", "Ausfallschritte"),
+				aliases: ["Ausfallschritte"],
+				equipment: "bodyweight",
+				image: "Bodyweight_Walking_Lunge",
+				unilateral: true
+			},
+			push_up_rotation: {
+				name: T("Push-up with Rotation", "Liegestütz mit Drehung"),
+				aliases: ["Liegestütz mit Drehung"],
+				equipment: "bodyweight",
+				image: "Push_Up_to_Side_Plank"
+			},
+			side_plank_left: {
+				name: T("Side Plank, Left", "Seitstütz links"),
+				aliases: ["Seitstütz links", "Side Plank"],
+				equipment: "bodyweight",
+				image: "Side_Bridge",
+				muscles: ["core"]
+			},
+			side_plank_right: {
+				name: T("Side Plank, Right", "Seitstütz rechts"),
+				aliases: ["Seitstütz rechts", "Side Plank"],
+				equipment: "bodyweight",
+				image: "Side_Bridge",
+				muscles: ["core"]
+			}
+		},
+		workouts
+	};
+}
+var PULL_UP = () => ({
+	name: T("Pull-ups", "Klimmzüge"),
+	aliases: ["Klimmzüge"],
+	equipment: "bodyweight",
+	image: "Pullups",
+	kind: "strength"
+});
+function onCall() {
+	const setsOf = [
+		4,
+		5,
+		6,
+		6
+	];
+	const workouts = [];
+	for (let i = 0; i < 24; i++) {
+		const week = Math.floor(i / 6) + 1, day = i % 6 + 1, last = i === 23;
+		workouts.push({
+			id: `w${pad(i + 1)}`,
+			name: last ? T("Week 4 · Test", "Woche 4 · Test") : T(`Week ${week} · Day ${day}`, `Woche ${week} · Tag ${day}`),
+			blocks: last ? [{
+				type: "warmup",
+				note: T("Warm up well: arm circles, a short hang, 2 easy pull-ups.", "Gut aufwärmen: Armkreisen, kurz hängen, 2 leichte Klimmzüge.")
+			}, {
+				type: "sets",
+				exercise: "pull_up",
+				sets: 1,
+				reps: "max",
+				note: T("One set, as many clean pull-ups as you can. Compare with your start.", "Ein Satz, so viele saubere Klimmzüge wie möglich. Vergleiche mit deinem Start.")
+			}] : [{
+				type: "sets",
+				exercise: "pull_up",
+				sets: setsOf[week - 1],
+				reps: 3,
+				rest_s: 180,
+				note: T("About half of your maximum per set – set the number with − and +. Never to failure. Best spread over the day: tap Pause between sets.", "Pro Satz etwa die Hälfte deines Maximums – Zahl mit − und + einstellen. Nie bis zum Versagen. Am besten über den Tag verteilt: zwischen den Sätzen auf Pause tippen.")
+			}]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Pull-Up Groove 4 Weeks", "Klimmzug-Groove 4 Wochen"),
+		description: T("More pull-ups through practice instead of exhaustion: 4 weeks, 6 short days per week. A few easy sets at about half of your maximum, ideally spread over the day, never to failure. Ends with a test. You need a bar and at least 2 clean pull-ups. Inspired by “Grease the Groove”.", "Mehr Klimmzüge durch Üben statt Erschöpfung: 4 Wochen, 6 kurze Tage pro Woche. Ein paar leichte Sätze mit etwa der Hälfte deines Maximums, am besten über den Tag verteilt, nie bis zum Versagen. Am Ende ein Test. Du brauchst eine Stange und mindestens 2 saubere Klimmzüge. Angelehnt an „Grease the Groove“."),
+		goal: "strength",
+		defaults: {
+			rest_s: 180,
+			progression: { type: "none" }
+		},
+		exercises: { pull_up: PULL_UP() },
+		workouts
+	};
+}
+function towerLadder(trainingDay) {
+	const ladder = [
+		5,
+		4,
+		3,
+		2,
+		1
+	];
+	for (let k = 1; k < trainingDay; k++) ladder[4 - (k - 1) % 5] += 1;
+	return ladder;
+}
+function theTower() {
+	const workouts = [];
+	let n = 0;
+	for (let day = 1; day <= 30; day++) {
+		if (day % 6 === 0) continue;
+		n++;
+		workouts.push({
+			id: `d${pad(day)}`,
+			name: T(`Day ${day}`, `Tag ${day}`),
+			blocks: [...n === 1 ? [{
+				type: "warmup",
+				note: T("Arm circles, a short hang, 2 easy pull-ups.", "Armkreisen, kurz hängen, 2 leichte Klimmzüge.")
+			}] : [], {
+				type: "circuit",
+				name: T("Ladder", "Leiter"),
+				rounds: 1,
+				rest_after_exercise_s: 120,
+				note: T("Five sets, getting shorter. Clean reps only – if one fails, stop the set and note what you did.", "Fünf Sätze, immer kürzer. Nur saubere Wiederholungen – klappt eine nicht, Satz beenden und eintragen, was ging."),
+				exercises: towerLadder(n).map((reps) => ({
+					exercise: "pull_up",
+					reps
+				}))
+			}]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Pull-Up Ladders 30 Days", "Klimmzug-Leitern 30 Tage"),
+		description: T("30 days of pull-up ladders: five training days, then one day off. Every day five sets that get shorter (5-4-3-2-1), and every day one rep more. For everyone who can do about 5 clean pull-ups. Inspired by the Fighter Pull-up Program.", "30 Tage Klimmzug-Leitern: fünf Trainingstage, dann ein Tag frei. Jeden Tag fünf Sätze, die kürzer werden (5-4-3-2-1), und jeden Tag eine Wiederholung mehr. Für alle, die etwa 5 saubere Klimmzüge schaffen. Angelehnt an das Fighter Pull-up Program."),
+		goal: "strength",
+		defaults: {
+			rest_s: 120,
+			progression: { type: "none" }
+		},
+		exercises: { pull_up: PULL_UP() },
+		workouts
+	};
+}
+function tenThousand() {
+	const between = [
+		"kb_press",
+		"goblet_squat",
+		"pull_up",
+		null
+	];
+	const label = {
+		kb_press: ["Press", "Drücken"],
+		goblet_squat: ["Goblet Squat", "Goblet Squat"],
+		pull_up: ["Pull-ups", "Klimmzüge"]
+	};
+	const workouts = [];
+	for (let i = 0; i < 20; i++) {
+		const move = between[i % 4];
+		const swing = (reps) => ({
+			exercise: "kb_swing",
+			reps,
+			weight_kg: 16
+		});
+		const extra = (reps) => move ? [{
+			exercise: move,
+			reps,
+			...move === "pull_up" ? {} : { weight_kg: 16 }
+		}] : [];
+		const total = (i + 1) * 500;
+		workouts.push({
+			id: `w${pad(i + 1)}`,
+			name: move ? T(`Workout ${i + 1} · Swings + ${label[move][0]}`, `Training ${i + 1} · Swings + ${label[move][1]}`) : T(`Workout ${i + 1} · Swings only`, `Training ${i + 1} · nur Swings`),
+			blocks: [
+				{
+					type: "warmup",
+					note: T("3× each: glute bridge, goblet squat hold, a few easy swings.", "Je 3×: Glute Bridge, Goblet Squat halten, ein paar lockere Swings.")
+				},
+				{
+					type: "circuit",
+					name: T("500 swings", "500 Swings"),
+					rounds: 5,
+					rest_after_exercise_s: 30,
+					rest_after_round_s: 180,
+					note: T(`Five rounds of 10-15-25-50 swings. After this workout you are at ${total.toLocaleString("en-US")} of 10,000. Put the bell down whenever your form slips.`, `Fünf Runden mit 10-15-25-50 Swings. Nach diesem Training stehst du bei ${total.toLocaleString("de-DE")} von 10.000. Stell die Kugel ab, sobald die Technik nachlässt.`),
+					exercises: [
+						swing(10),
+						...extra(1),
+						swing(15),
+						...extra(2),
+						swing(25),
+						...extra(3),
+						swing(50)
+					]
+				},
+				{ type: "cooldown" }
+			]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("10,000 Swings", "10.000 Swings"),
+		description: T("10,000 kettlebell swings in 20 workouts: 500 per workout in five rounds of 10-15-25-50, with a strength move in between (press, goblet squat or pull-ups, 1-2-3 reps). 4–5 workouts per week. Pick a bell you can swing cleanly 20 times. Inspired by Dan John's 10,000 swing challenge.", "10.000 Kettlebell-Swings in 20 Trainings: 500 pro Training in fünf Runden mit 10-15-25-50, dazwischen eine Kraftübung (Drücken, Goblet Squat oder Klimmzüge, 1-2-3 Wiederholungen). 4–5 Trainings pro Woche. Nimm eine Kugel, die du 20-mal sauber schwingen kannst. Angelehnt an Dan Johns 10.000-Swing-Challenge."),
+		goal: "endurance",
+		defaults: {
+			rest_s: 60,
+			progression: { type: "none" }
+		},
+		exercises: {
+			kb_swing: {
+				name: T("Two-Arm Kettlebell Swing", "Beidarmiger Kettlebell Swing"),
+				aliases: ["Kettlebell Swing beidarmig"],
+				equipment: "kettlebell",
+				image: "One-Arm_Kettlebell_Swings"
+			},
+			kb_press: {
+				name: T("Kettlebell Press", "Kettlebell-Drücken"),
+				aliases: ["Kettlebell-Drücken", "Kettlebell Clean and Press"],
+				equipment: "kettlebell",
+				image: "One-Arm_Kettlebell_Military_Press_To_The_Side",
+				unilateral: true
+			},
+			goblet_squat: {
+				name: T("Goblet Squat", "Goblet Squat"),
+				equipment: "kettlebell"
+			},
+			pull_up: PULL_UP()
+		},
+		workouts
+	};
+}
+function redLine() {
+	const workouts = [];
+	for (let i = 0; i < 24; i++) {
+		const week = Math.floor(i / 3) + 1, work = week === 1 ? 180 : 240;
+		workouts.push({
+			id: `w${pad(i + 1)}`,
+			name: T(`Week ${week} · Session ${i % 3 + 1}`, `Woche ${week} · Einheit ${i % 3 + 1}`),
+			blocks: [
+				{
+					type: "warmup",
+					duration_s: 600,
+					note: T("10 minutes easy to moderate.", "10 Minuten locker bis mittel.")
+				},
+				{
+					type: "interval",
+					name: week === 1 ? T("4×3 minutes", "4×3 Minuten") : T("4×4 minutes", "4×4 Minuten"),
+					rounds: 4,
+					work_s: work,
+					rest_s: 180,
+					note: T("Hard enough that talking is difficult. Recovery: keep moving slowly.", "So hart, dass Sprechen schwerfällt. Erholung: langsam in Bewegung bleiben."),
+					exercises: ["cardio_hard"]
+				},
+				{
+					type: "cooldown",
+					duration_s: 300
+				}
+			]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("4×4 Intervals 8 Weeks", "4×4-Intervalle 8 Wochen"),
+		description: T("The Norwegian 4×4 as a program: 8 weeks, 3 sessions per week. Four times 4 minutes hard with 3 minutes easy in between – running, bike or rower. Week 1 starts with 3-minute intervals. About 40 minutes including warm-up. Inspired by Helgerud et al. 2007.", "Das norwegische 4×4 als Programm: 8 Wochen, 3 Einheiten pro Woche. Viermal 4 Minuten hart, dazwischen 3 Minuten locker – Laufen, Rad oder Rudergerät. Woche 1 beginnt mit 3-Minuten-Intervallen. Etwa 40 Minuten mit Aufwärmen. Angelehnt an Helgerud et al. 2007."),
+		goal: "endurance",
+		exercises: { cardio_hard: {
+			name: T("Hard interval (bike, row, run)", "Hartes Intervall (Rad, Rudern, Laufen)"),
+			aliases: ["Hartes Intervall"],
+			equipment: "other",
+			image: false,
+			muscles: [],
+			kind: "cardio"
+		} },
+		workouts
+	};
+}
+function backbone() {
+	const pyramids = [
+		[
+			3,
+			2,
+			1
+		],
+		[
+			4,
+			2,
+			1
+		],
+		[
+			4,
+			3,
+			2
+		],
+		[
+			5,
+			3,
+			2
+		],
+		[
+			5,
+			4,
+			3
+		]
+	];
+	const pyramid = (exercise, steps) => {
+		const items = [];
+		steps.forEach((n, i) => {
+			for (let k = 0; k < n; k++) items.push({
+				exercise,
+				duration_s: 10
+			});
+			if (i < steps.length - 1) items.push({
+				exercise: "breather",
+				duration_s: 20
+			});
+		});
+		return items;
+	};
+	const workouts = [];
+	for (let i = 0; i < 30; i++) {
+		const week = Math.floor(i / 6) + 1, steps = pyramids[week - 1];
+		const how = steps.join("-");
+		workouts.push({
+			id: `w${pad(i + 1)}`,
+			name: T(`Week ${week} · Day ${i % 6 + 1}`, `Woche ${week} · Tag ${i % 6 + 1}`),
+			blocks: [
+				{
+					type: "flow",
+					name: T("Loosen up", "Lockern"),
+					rest_after_s: 10,
+					exercises: [{
+						exercise: "cat_cow",
+						duration_s: 60
+					}]
+				},
+				{
+					type: "flow",
+					name: T("Curl-up", "Curl-up"),
+					rest_s: 4,
+					rest_after_s: 20,
+					note: T(`Holds of 10 seconds as a pyramid ${how}. Keep breathing calmly.`, `Halten je 10 Sekunden als Pyramide ${how}. Ruhig weiteratmen.`),
+					exercises: pyramid("curl_up", steps)
+				},
+				{
+					type: "flow",
+					name: T("Side plank", "Seitstütz"),
+					rest_s: 4,
+					rest_after_s: 20,
+					exercises: pyramid("side_plank", steps)
+				},
+				{
+					type: "flow",
+					name: T("Bird dog", "Vierfüßler diagonal"),
+					rest_s: 4,
+					exercises: pyramid("bird_dog", steps)
+				}
+			]
+		});
+	}
+	return {
+		schema_version: 1,
+		name: T("Strong Back 5 Weeks", "Starker Rücken 5 Wochen"),
+		description: T("Three back-friendly core exercises as a daily habit: 5 weeks, 6 short days per week, 6–10 minutes. Curl-up, side plank and bird dog with short holds of 10 seconds as a pyramid – more reps over the weeks, never longer holds. Runs on its own with beeps. Inspired by Stuart McGill's “Big 3”.", "Drei rückenfreundliche Rumpfübungen als tägliche Gewohnheit: 5 Wochen, 6 kurze Tage pro Woche, 6–10 Minuten. Curl-up, Seitstütz und Vierfüßler diagonal mit kurzen Halten von 10 Sekunden als Pyramide – über die Wochen mehr Wiederholungen, nie längere Halte. Läuft von selbst mit Signaltönen. Angelehnt an Stuart McGills „Big 3“."),
+		goal: "general",
+		defaults: {
+			rest_s: 30,
+			progression: { type: "none" }
+		},
+		exercises: {
+			cat_cow: {
+				name: T("Cat-Cow", "Katze-Kuh"),
+				aliases: ["Katze-Kuh"],
+				equipment: "bodyweight",
+				image: "Cat_Stretch",
+				kind: "mobility"
+			},
+			curl_up: {
+				name: T("McGill Curl-Up", "McGill Curl-up"),
+				aliases: ["Curl-up"],
+				equipment: "bodyweight",
+				image: false,
+				muscles: ["core"],
+				note: T("One leg bent, hands under the lower back. Lift head and shoulders only slightly.", "Ein Bein angewinkelt, Hände unter dem unteren Rücken. Kopf und Schultern nur leicht anheben.")
+			},
+			side_plank: {
+				name: T("Side Plank", "Seitstütz"),
+				aliases: ["Seitstütz"],
+				equipment: "bodyweight",
+				image: "Side_Bridge",
+				unilateral: true,
+				note: T("Knees bent is fine.", "Mit angewinkelten Knien ist in Ordnung.")
+			},
+			bird_dog: {
+				name: T("Bird Dog", "Vierfüßlerstand diagonal"),
+				aliases: ["Vierfüßlerstand diagonal"],
+				equipment: "bodyweight",
+				image: false,
+				muscles: [
+					"core",
+					"glutes",
+					"back"
+				],
+				unilateral: true
+			},
+			breather: {
+				name: T("Relax briefly", "Kurz lockern"),
+				equipment: "bodyweight",
+				image: false,
+				muscles: [],
+				kind: "mobility"
+			}
+		},
+		workouts
+	};
+}
+var SUN_COUNTS = [
+	12,
+	12,
+	18,
+	18,
+	24,
+	24,
+	27,
+	27,
+	36,
+	36,
+	45,
+	54,
+	54,
+	63,
+	72,
+	81,
+	90,
+	108
+];
+var SUN_SALUTATION = () => ({
+	name: T("Sun Salutation", "Sonnengruß"),
+	aliases: ["Sonnengruß", "Downward Dog"],
+	equipment: "bodyweight",
+	muscles: [
+		"shoulders",
+		"core",
+		"hamstrings"
+	],
+	kind: "mobility",
+	rep_s: 40,
+	note: T("Mountain, forward fold, plank, lower, upward dog, downward dog, step forward, rise. One breath per movement.", "Berg, Vorbeuge, Brett, absenken, heraufschauender Hund, herabschauender Hund, nach vorn steigen, aufrichten. Ein Atemzug pro Bewegung.")
+});
+function suns108() {
+	const workouts = SUN_COUNTS.map((count, i) => {
+		const week = Math.floor(i / 3) + 1, size = count % 9 === 0 ? 9 : 6;
+		return {
+			id: `w${pad(i + 1)}`,
+			name: T(`Week ${week} · Day ${i % 3 + 1} · ${count} salutations`, `Woche ${week} · Tag ${i % 3 + 1} · ${count} Grüße`),
+			blocks: [
+				{
+					type: "warmup",
+					duration_s: 120,
+					note: T("Child's pose and downward dog, a few calm breaths.", "Kindhaltung und herabschauender Hund, ein paar ruhige Atemzüge.")
+				},
+				{
+					type: "sets",
+					exercise: "sun_salutation",
+					sets: count / size,
+					reps: size,
+					rest_s: 20,
+					note: T(`${count} sun salutations in sets of ${size}. Tap after every set. Your own pace – it is not a race.`, `${count} Sonnengrüße in Sätzen zu ${size}. Nach jedem Satz tippen. Dein eigenes Tempo – es ist kein Rennen.`)
+				},
+				{
+					type: "flow",
+					name: T("Wind-down", "Ausklang"),
+					rest_s: 10,
+					exercises: [{
+						exercise: "child_pose",
+						duration_s: 60
+					}, {
+						exercise: "savasana",
+						duration_s: 120
+					}]
+				}
+			]
+		};
+	});
+	return {
+		schema_version: 1,
+		name: T("Sun Salutation Build-Up 6 Weeks", "Sonnengruß-Aufbau 6 Wochen"),
+		description: T("From 12 to 108 sun salutations in 6 weeks, 3 sessions per week. You count in small sets and add a little every week; the last session is the full 108 of the yoga tradition. A mat is enough.", "Von 12 auf 108 Sonnengrüße in 6 Wochen, 3 Einheiten pro Woche. Du zählst in kleinen Sätzen und legst jede Woche etwas drauf; die letzte Einheit sind die vollen 108 der Yoga-Tradition. Eine Matte genügt."),
+		goal: "general",
+		defaults: {
+			rest_s: 20,
+			progression: { type: "none" }
+		},
+		exercises: {
+			sun_salutation: SUN_SALUTATION(),
+			child_pose: {
+				name: T("Child's Pose", "Kindhaltung"),
+				aliases: ["Kind"],
+				equipment: "bodyweight",
+				image: "Childs_Pose",
+				kind: "mobility"
+			},
+			savasana: {
+				name: T("Final Relaxation", "Endentspannung"),
+				aliases: ["Endentspannung", "Savasana"],
+				equipment: "bodyweight",
+				image: false,
+				muscles: [],
+				kind: "mobility"
+			}
+		},
+		workouts
+	};
+}
+/** Spielbare Stories mit eigenem Plan. group = Vorlagen-Gruppe (für die Liste ohne Heldenmodus). */
+var STORY_PLANS = [
+	{
+		story: "iron_origins",
+		group: "kraft",
+		plan: ironOrigins()
+	},
+	{
+		story: "seven_minutes",
+		group: "bodyweight",
+		plan: sevenMinutes()
+	},
+	{
+		story: "on_call",
+		group: "calisthenics",
+		plan: onCall()
+	},
+	{
+		story: "the_tower",
+		group: "calisthenics",
+		plan: theTower()
+	},
+	{
+		story: "ten_thousand",
+		group: "kettlebell",
+		plan: tenThousand()
+	},
+	{
+		story: "red_line",
+		group: "hiit",
+		plan: redLine()
+	},
+	{
+		story: "backbone",
+		group: "yoga",
+		plan: backbone()
+	},
+	{
+		story: "suns_108",
+		group: "yoga",
+		plan: suns108()
+	},
+	...MORE_STORY_PLANS,
+	...SKILL_STORY_PLANS,
+	...EXTRA_STORY_PLANS,
+	...POPULAR_STORY_PLANS,
+	...EVERYDAY_STORY_PLANS
+];
+/** Stories, die eine vorhandene Vorlage nutzen: Story → Vorlagen-ID */
+var STORY_TEMPLATES = {
+	thirty_minutes: "ausdauer-1-laufeinstieg",
+	long_trail: "alltag-2-wandern",
+	back_school: "alltag-3-rueckenschule"
+};
+// src/core/hero/stories.ts
+/** Gruppen im Reiter Stories. Calisthenics ist geteilt: Grundprogramme, Figuren (skills) und Ringe (rings). */
+var STORY_GROUPS = [
+	"strength",
+	"bodyweight",
+	"calisthenics",
+	"skills",
+	"rings",
+	"kettlebell",
+	"cardio",
+	"yoga",
+	"everyday"
+];
+/** Vorlagen-ID einer spielbaren Story */
+var storyTemplateId = (story) => STORY_TEMPLATES[story] ?? (STORY_PLANS.some((p) => p.story === story) ? `story-${story.replace(/_/g, "-")}` : null);
+var ROWS = [
+	[
+		"iron_origins",
+		"strength",
+		"flame",
+		8,
+		3,
+		12,
+		["clockwork", "forty_nights"]
+	],
+	[
+		"the_family",
+		"strength",
+		"users",
+		350,
+		3,
+		12,
+		["eight_rounds"]
+	],
+	[
+		"forty_nights",
+		"strength",
+		"moon",
+		250,
+		5,
+		8
+	],
+	[
+		"clockwork",
+		"strength",
+		"clock",
+		38,
+		3,
+		12
+	],
+	[
+		"two_hands",
+		"strength",
+		"dumbbell",
+		195,
+		3,
+		8,
+		["iron_origins"]
+	],
+	[
+		"seven_minutes",
+		"bodyweight",
+		"hourglass",
+		200,
+		3,
+		6,
+		["bare_hands", "fault_line"]
+	],
+	[
+		"fault_line",
+		"bodyweight",
+		"mountain",
+		25,
+		3,
+		12,
+		["defy_gravity"]
+	],
+	[
+		"bare_hands",
+		"bodyweight",
+		"body",
+		140,
+		5,
+		10
+	],
+	[
+		"steady_ground",
+		"everyday",
+		"scale",
+		220,
+		3,
+		8,
+		["seven_minutes"]
+	],
+	[
+		"between_floors",
+		"everyday",
+		"arrowup",
+		30,
+		5,
+		4,
+		["seven_minutes"]
+	],
+	[
+		"defy_gravity",
+		"calisthenics",
+		"arrowdown",
+		275,
+		3,
+		12,
+		["hold_the_line", "float_1"]
+	],
+	[
+		"on_call",
+		"calisthenics",
+		"bolt",
+		45,
+		6,
+		4,
+		["the_tower"]
+	],
+	[
+		"the_tower",
+		"calisthenics",
+		"skyscraper",
+		215,
+		5,
+		5,
+		["breakthrough", "horizon_1"]
+	],
+	[
+		"breakthrough",
+		"calisthenics",
+		"sparkles",
+		185,
+		3,
+		10
+	],
+	[
+		"hold_the_line",
+		"calisthenics",
+		"shield",
+		160,
+		4,
+		8,
+		["upside_down", "under_tension"]
+	],
+	[
+		"upside_down",
+		"skills",
+		"swap",
+		290,
+		4,
+		10,
+		["without_a_net", "float_1"]
+	],
+	[
+		"without_a_net",
+		"skills",
+		"star",
+		330,
+		5,
+		12
+	],
+	[
+		"float_1",
+		"skills",
+		"feather",
+		300,
+		3,
+		12,
+		["float_2"]
+	],
+	[
+		"float_2",
+		"skills",
+		"feather",
+		310,
+		3,
+		12,
+		["float_3"]
+	],
+	[
+		"float_3",
+		"skills",
+		"feather",
+		320,
+		3,
+		12
+	],
+	[
+		"horizon_1",
+		"skills",
+		"wave",
+		205,
+		3,
+		12,
+		["horizon_2"]
+	],
+	[
+		"horizon_2",
+		"skills",
+		"wave",
+		215,
+		3,
+		12,
+		["horizon_3"]
+	],
+	[
+		"horizon_3",
+		"skills",
+		"wave",
+		225,
+		3,
+		12,
+		["behind_the_horizon"]
+	],
+	[
+		"behind_the_horizon",
+		"rings",
+		"search",
+		190,
+		3,
+		12
+	],
+	[
+		"still_rings",
+		"rings",
+		"ufo",
+		150,
+		3,
+		8,
+		["under_tension"]
+	],
+	[
+		"under_tension",
+		"rings",
+		"ufo",
+		100,
+		3,
+		10,
+		["through_the_rings"]
+	],
+	[
+		"through_the_rings",
+		"rings",
+		"rocket",
+		20,
+		3,
+		12,
+		["center_stage"]
+	],
+	[
+		"center_stage",
+		"rings",
+		"star",
+		50,
+		3,
+		12
+	],
+	[
+		"the_pendulum",
+		"kettlebell",
+		"kettlebell",
+		265,
+		6,
+		12,
+		["the_deep", "ten_thousand"]
+	],
+	[
+		"the_deep",
+		"kettlebell",
+		"swim",
+		210,
+		3,
+		12
+	],
+	[
+		"ten_thousand",
+		"kettlebell",
+		"grid",
+		55,
+		5,
+		4,
+		["storm_bell"]
+	],
+	[
+		"storm_bell",
+		"kettlebell",
+		"wave",
+		235,
+		3,
+		8
+	],
+	[
+		"plated",
+		"kettlebell",
+		"shield",
+		15,
+		3,
+		6,
+		["the_deep"]
+	],
+	[
+		"red_line",
+		"cardio",
+		"treadmill",
+		355,
+		3,
+		8,
+		["ten_fuses"]
+	],
+	[
+		"thirty_minutes",
+		"cardio",
+		"run",
+		35,
+		3,
+		9,
+		["red_line", "out_of_range"]
+	],
+	[
+		"out_of_range",
+		"cardio",
+		"wifioff",
+		165,
+		3,
+		8,
+		["twenty_one"]
+	],
+	[
+		"ten_fuses",
+		"cardio",
+		"flame",
+		20,
+		3,
+		6,
+		["eight_rounds"]
+	],
+	[
+		"eight_rounds",
+		"cardio",
+		"trophy",
+		5,
+		3,
+		6
+	],
+	[
+		"suns_108",
+		"yoga",
+		"sun",
+		42,
+		3,
+		6
+	],
+	[
+		"below_the_city",
+		"yoga",
+		"stairs",
+		170,
+		7,
+		4
+	],
+	[
+		"backbone",
+		"everyday",
+		"scale",
+		125,
+		6,
+		5
+	],
+	[
+		"first_light",
+		"yoga",
+		"leaf",
+		60,
+		7,
+		4,
+		["high_wire", "the_divide"]
+	],
+	[
+		"high_wire",
+		"yoga",
+		"yoga",
+		285,
+		3,
+		6
+	],
+	[
+		"three_tiers",
+		"strength",
+		"layers",
+		160,
+		3,
+		12,
+		["the_family"]
+	],
+	[
+		"load_bearing",
+		"strength",
+		"home",
+		95,
+		3,
+		12,
+		["double_shift"]
+	],
+	[
+		"double_shift",
+		"strength",
+		"grid",
+		28,
+		6,
+		8
+	],
+	[
+		"scramble",
+		"bodyweight",
+		"rocket",
+		205,
+		5,
+		6,
+		["the_hundred"]
+	],
+	[
+		"the_hundred",
+		"bodyweight",
+		"target",
+		0,
+		3,
+		6,
+		["fault_line"]
+	],
+	[
+		"kick_off",
+		"bodyweight",
+		"run",
+		130,
+		2,
+		9,
+		["seven_minutes"]
+	],
+	[
+		"fifteen_seconds",
+		"kettlebell",
+		"bolt",
+		48,
+		3,
+		8
+	],
+	[
+		"twenty_one",
+		"cardio",
+		"flag",
+		150,
+		4,
+		12
+	],
+	[
+		"three_tempos",
+		"cardio",
+		"heart",
+		320,
+		3,
+		8,
+		["red_line"]
+	],
+	[
+		"overgrown",
+		"yoga",
+		"leaf",
+		110,
+		7,
+		4,
+		["lights_out", "first_light"]
+	],
+	[
+		"lights_out",
+		"yoga",
+		"moon",
+		240,
+		5,
+		4
+	],
+	[
+		"the_divide",
+		"yoga",
+		"swap",
+		15,
+		3,
+		8
+	],
+	[
+		"three_minutes",
+		"everyday",
+		"clock",
+		205,
+		4,
+		8,
+		["long_trail"]
+	],
+	[
+		"long_trail",
+		"everyday",
+		"mountain",
+		120,
+		3,
+		8
+	],
+	[
+		"back_school",
+		"everyday",
+		"body",
+		40,
+		2,
+		8,
+		["backbone"]
+	]
+];
+var LORE = lore_default;
+/** Staffeln (Schweben, Horizont): Untertitel aus Figur, Staffel und Stufen zusammensetzen */
+function seasonText(id, text) {
+	const m = /^(float|horizon)_(\d)$/.exec(id);
+	if (!m) return text;
+	const fig = m[1] === "float" ? "Planche" : "Front lever";
+	const up = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+	return {
+		en: {
+			...text.en,
+			sub: `${fig}, season ${m[2]} · ${text.en.sub} · 12 weeks, 3×`
+		},
+		de: {
+			...text.de,
+			sub: `${up(fig)}, Staffel ${m[2]} · ${text.de.sub} · 12 Wochen, 3×`
+		}
+	};
+}
+var STORIES = ROWS.map(([id, group, icon, hue, per_week, weeks, next]) => ({
+	id,
+	group,
+	icon,
+	hue,
+	per_week,
+	weeks,
+	next: next ?? [],
+	text: seasonText(id, LORE[id]),
+	template: storyTemplateId(id)
+}));
+var STORY_BY_ID = new Map(STORIES.map((s) => [s.id, s]));
+var PLAYABLE_STORIES = STORIES.filter((s) => s.template);
+/**
+* Stories einer Gruppe in der Reihenfolge fürs Regal: zusammenhängende Reihen stehen beieinander, der Vorgänger immer
+* vor dem Nachfolger, die Fortsetzung vor dem Spin-off (Reihenfolge in `next`). Verbindungen in andere Gruppen zählen
+* hier nicht. Reihen ohne Verbindung behalten die Reihenfolge der Tabelle.
+*/
+function storiesOfGroup(group) {
+	const all = STORIES.filter((s) => s.group === group), ids = new Set(all.map((s) => s.id));
+	const next = (s) => s.next.filter((n) => ids.has(n)).map((n) => STORY_BY_ID.get(n));
+	const preds = new Map(all.map((s) => [s.id, []]));
+	for (const s of all) for (const n of next(s)) preds.get(n.id).push(s.id);
+	const chain = /* @__PURE__ */ new Map();
+	all.forEach((s, i) => {
+		if (chain.has(s.id)) return;
+		const todo = [s.id];
+		while (todo.length) {
+			const id = todo.pop();
+			if (chain.has(id)) continue;
+			chain.set(id, i);
+			todo.push(...preds.get(id), ...next(STORY_BY_ID.get(id)).map((n) => n.id));
+		}
+	});
+	const out = [], seen = /* @__PURE__ */ new Set();
+	const put = (s) => {
+		if (seen.has(s.id) || preds.get(s.id).some((p) => !seen.has(p))) return;
+		seen.add(s.id);
+		out.push(s);
+		next(s).forEach(put);
+	};
+	const byChain = [...all].sort((a, b) => chain.get(a.id) - chain.get(b.id));
+	byChain.forEach(put);
+	return [...out, ...byChain.filter((s) => !seen.has(s.id))];
+}
+STORY_PLANS.map((p) => ({
+	id: storyTemplateId(p.story),
+	group: p.group,
+	plan: p.plan,
+	story: p.story
+}));
+/** Wie viele Wochen dauert die Story bei diesem Wochenziel? (ehrliche Anzeige: „etwa 18 statt 12 Wochen“) */
+var weeksAt = (sessions, perWeek) => Math.max(1, Math.ceil(sessions / Math.max(1, perWeek)));
+// src/core/hero/content/challenges.ts
+var REST = {
+	rest_s: 60,
+	progression: { type: "none" }
+};
+var one = (id, name, blocks) => [{
+	id,
+	name,
+	blocks
+}];
+var WARM = T("Warm up for a few minutes first.", "Erst ein paar Minuten aufwärmen.");
+var SET_TIME = T("Set the time you are going for with − and + during the countdown. Stopped earlier? Tap the set afterwards and enter your time.", "Stell im Countdown mit − und + die Zeit ein, die du schaffen willst. Früher aufgehört? Danach den Satz antippen und deine Zeit eintragen.");
+var COUNT_REPS = T("Do as many clean reps as you can, then enter the number with − and +.", "So viele saubere Wiederholungen wie möglich, dann die Zahl mit − und + eintragen.");
+var ex = {
+	push_up: () => ({
+		name: T("Push-Ups", "Liegestütze"),
+		aliases: ["Liegestütze"],
+		equipment: "bodyweight",
+		image: "Pushups",
+		kind: "strength"
+	}),
+	pull_up: () => ({
+		name: T("Pull-ups", "Klimmzüge"),
+		aliases: ["Klimmzüge"],
+		equipment: "bodyweight",
+		image: "Pullups",
+		kind: "strength"
+	}),
+	squat: () => ({
+		name: T("Bodyweight Squat", "Kniebeuge ohne Gewicht"),
+		aliases: ["Kniebeugen"],
+		equipment: "bodyweight",
+		image: "Bodyweight_Squat"
+	})
+};
+var CHALLENGES = [
+	{
+		id: "four_minutes",
+		group: "conditioning",
+		tplGroup: "hiit",
+		icon: "bolt",
+		safety: ["test"],
+		title: {
+			en: "Four-Minute Fury",
+			de: "Vier Minuten Vollgas"
+		},
+		gear: {
+			en: "No equipment",
+			de: "Ohne Gerät"
+		},
+		metrics: [{
+			ex: ["score_low"],
+			kind: "reps",
+			label: {
+				en: "reps in the weakest round",
+				de: "Wdh. in der schwächsten Runde"
+			}
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("Four-Minute Fury", "Vier Minuten Vollgas"),
+			goal: "endurance",
+			defaults: REST,
+			description: T("Eight rounds of 20 seconds all-out and 10 seconds rest with squats – four minutes in total. Count your squats per round; your score is the weakest round. Inspired by the interval protocol of Izumi Tabata (1996).", "Acht Runden mit 20 Sekunden Vollgas und 10 Sekunden Pause mit Kniebeugen – vier Minuten insgesamt. Zähl deine Kniebeugen je Runde; dein Ergebnis ist die schwächste Runde. Angelehnt an das Intervall-Protokoll von Izumi Tabata (1996)."),
+			exercises: {
+				squat: ex.squat(),
+				score_low: {
+					name: T("Weakest round (reps)", "Schwächste Runde (Wdh.)"),
+					equipment: "bodyweight",
+					image: false,
+					muscles: []
+				}
+			},
+			workouts: one("go", T("Four-Minute Fury", "Vier Minuten Vollgas"), [
+				{
+					type: "warmup",
+					duration_s: 180,
+					note: T("3 minutes: jumping jacks, arm circles, slow squats.", "3 Minuten: Hampelmann, Armkreisen, langsame Kniebeugen.")
+				},
+				{
+					type: "interval",
+					name: T("8 × 20 s", "8 × 20 s"),
+					rounds: 8,
+					work_s: 20,
+					rest_s: 10,
+					rest_after_s: 60,
+					exercises: ["squat"]
+				},
+				{
+					type: "sets",
+					exercise: "score_low",
+					sets: 1,
+					reps: "max",
+					note: T("Enter the number of squats in your weakest round.", "Trag die Zahl der Kniebeugen in deiner schwächsten Runde ein.")
+				}
+			])
+		}
+	},
+	{
+		id: "seven_minute_circuit",
+		group: "conditioning",
+		tplGroup: "bodyweight",
+		icon: "hourglass",
+		safety: [],
+		title: {
+			en: "Seven-Minute Circuit",
+			de: "Sieben-Minuten-Zirkel"
+		},
+		gear: {
+			en: "Chair, wall",
+			de: "Stuhl, Wand"
+		},
+		stages: [
+			1,
+			2,
+			3
+		],
+		metrics: [{
+			ex: [
+				"jumping_jack",
+				"wall_sit",
+				"push_up",
+				"crunch",
+				"step_up",
+				"squat",
+				"chair_dip",
+				"plank",
+				"high_knees",
+				"lunge",
+				"push_up_rotation",
+				"side_plank_left"
+			],
+			kind: "rounds",
+			per: 12,
+			label: {
+				en: "rounds",
+				de: "Runden"
+			}
+		}],
+		plan: (() => {
+			const order = [
+				"jumping_jack",
+				"wall_sit",
+				"push_up",
+				"crunch",
+				"step_up",
+				"squat",
+				"chair_dip",
+				"plank",
+				"high_knees",
+				"lunge",
+				"push_up_rotation",
+				"side_plank_left",
+				"side_plank_right"
+			];
+			const round = (r) => ({
+				type: "interval",
+				name: T(`Round ${r}`, `Runde ${r}`),
+				rounds: order.length,
+				work_s: 30,
+				rest_s: 5,
+				...r < 3 ? { rest_after_s: 60 } : {},
+				exercises: order,
+				...r > 1 ? { note: T("Had enough? Tap Finish – every full round counts.", "Genug? Tippe auf Beenden – jede volle Runde zählt.") } : {}
+			});
+			return {
+				schema_version: 1,
+				name: T("Seven-Minute Circuit", "Sieben-Minuten-Zirkel"),
+				goal: "endurance",
+				description: T("Twelve exercises of 30 seconds (side plank on both sides) with 5 seconds to switch – 7 minutes per round, up to three rounds. Your result: the number of full rounds. Inspired by Klika & Jordan (ACSM 2013).", "Zwölf Übungen je 30 Sekunden (Seitstütz auf beiden Seiten), 5 Sekunden zum Wechseln – 7 Minuten pro Runde, bis zu drei Runden. Dein Ergebnis: die Zahl der vollen Runden. Angelehnt an Klika & Jordan (ACSM 2013)."),
+				exercises: {
+					jumping_jack: {
+						name: T("Jumping Jacks", "Hampelmann"),
+						aliases: ["Hampelmann"],
+						equipment: "bodyweight",
+						image: false
+					},
+					wall_sit: {
+						name: T("Wall Sit", "Wandsitzen"),
+						aliases: ["Wandsitzen"],
+						equipment: "bodyweight",
+						image: false,
+						muscles: ["quads", "glutes"]
+					},
+					push_up: {
+						name: T("Push-Ups", "Liegestütze"),
+						aliases: ["Liegestütze"],
+						equipment: "bodyweight",
+						image: "Pushups"
+					},
+					crunch: {
+						name: T("Crunches", "Crunches"),
+						equipment: "bodyweight"
+					},
+					step_up: {
+						name: T("Step-up onto Chair", "Aufsteigen auf einen Stuhl"),
+						aliases: ["Aufsteigen auf Stuhl"],
+						equipment: "bodyweight",
+						image: "Dumbbell_Step_Ups",
+						unilateral: true
+					},
+					squat: ex.squat(),
+					chair_dip: {
+						name: T("Triceps Dips on Chair", "Trizeps-Dips am Stuhl"),
+						aliases: ["Trizeps-Dips am Stuhl", "Bench Dips"],
+						equipment: "bodyweight",
+						image: "Bench_Dips"
+					},
+					plank: {
+						name: T("Plank", "Unterarmstütz"),
+						aliases: ["Unterarmstütz"],
+						equipment: "bodyweight"
+					},
+					high_knees: {
+						name: T("High Knees", "Kniehebelauf"),
+						aliases: ["Kniehebelauf auf der Stelle"],
+						equipment: "bodyweight",
+						image: false
+					},
+					lunge: {
+						name: T("Lunges", "Ausfallschritte"),
+						aliases: ["Ausfallschritte"],
+						equipment: "bodyweight",
+						image: "Bodyweight_Walking_Lunge",
+						unilateral: true
+					},
+					push_up_rotation: {
+						name: T("Push-up with Rotation", "Liegestütz mit Drehung"),
+						aliases: ["Liegestütz mit Drehung"],
+						equipment: "bodyweight",
+						image: "Push_Up_to_Side_Plank"
+					},
+					side_plank_left: {
+						name: T("Side Plank, Left", "Seitstütz links"),
+						aliases: ["Seitstütz links", "Side Plank"],
+						equipment: "bodyweight",
+						image: "Side_Bridge",
+						muscles: ["core"]
+					},
+					side_plank_right: {
+						name: T("Side Plank, Right", "Seitstütz rechts"),
+						aliases: ["Seitstütz rechts", "Side Plank"],
+						equipment: "bodyweight",
+						image: "Side_Bridge",
+						muscles: ["core"]
+					}
+				},
+				workouts: one("go", T("Seven-Minute Circuit", "Sieben-Minuten-Zirkel"), [
+					{
+						type: "warmup",
+						note: T("Move around easily for 2–3 minutes.", "2–3 Minuten locker bewegen.")
+					},
+					round(1),
+					round(2),
+					round(3)
+				])
+			};
+		})()
+	},
+	{
+		id: "push_up_test",
+		group: "tests",
+		tplGroup: "bodyweight",
+		icon: "arrowup",
+		safety: ["test"],
+		title: {
+			en: "Push-Up Benchmark",
+			de: "Liegestütz-Test"
+		},
+		gear: {
+			en: "No equipment",
+			de: "Ohne Gerät"
+		},
+		stages: [
+			10,
+			20,
+			30,
+			40
+		],
+		metrics: [{
+			ex: ["push_up"],
+			kind: "reps",
+			label: {
+				en: "push-ups",
+				de: "Liegestütze"
+			},
+			pass: 40
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("Push-Up Benchmark", "Liegestütz-Test"),
+			goal: "strength",
+			defaults: REST,
+			description: T("One set of clean push-ups, as many as you can without stopping. The goal is 40. Inspired by a Harvard study on push-up capacity and heart health (Yang et al., JAMA Network Open 2019).", "Ein Satz saubere Liegestütze, so viele wie möglich ohne Absetzen. Das Ziel sind 40. Angelehnt an eine Harvard-Studie zu Liegestützen und Herzgesundheit (Yang et al., JAMA Network Open 2019)."),
+			exercises: { push_up: ex.push_up() },
+			workouts: one("go", T("Push-Up Benchmark", "Liegestütz-Test"), [{
+				type: "warmup",
+				note: WARM
+			}, {
+				type: "sets",
+				exercise: "push_up",
+				sets: 1,
+				reps: "max",
+				note: COUNT_REPS
+			}])
+		}
+	},
+	{
+		id: "one_leg",
+		group: "tests",
+		tplGroup: "bodyweight",
+		icon: "scale",
+		safety: ["test"],
+		title: {
+			en: "Ten on One Leg",
+			de: "Zehn auf einem Bein"
+		},
+		gear: {
+			en: "No equipment",
+			de: "Ohne Gerät"
+		},
+		metrics: [{
+			ex: ["one_leg_stand"],
+			kind: "best_time",
+			label: {
+				en: "seconds per side",
+				de: "Sekunden pro Seite"
+			},
+			pass: 10
+		}, {
+			ex: ["one_leg_stand_closed"],
+			kind: "best_time",
+			label: {
+				en: "seconds, eyes closed",
+				de: "Sekunden, Augen zu"
+			}
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("Ten on One Leg", "Zehn auf einem Bein"),
+			goal: "general",
+			defaults: REST,
+			description: T("Stand on one leg for 10 seconds, the free foot resting against the standing leg, arms at your sides – then the other side. Second part for more: the same with your eyes closed. Stand next to a wall or chair. Inspired by the 10-second balance test of Araújo et al. (2022).", "Steh 10 Sekunden auf einem Bein, der freie Fuß am Standbein, Arme an der Seite – dann die andere Seite. Zweiter Teil für mehr: dasselbe mit geschlossenen Augen. Stell dich neben eine Wand oder einen Stuhl. Angelehnt an den 10-Sekunden-Balancetest von Araújo et al. (2022)."),
+			exercises: {
+				one_leg_stand: {
+					name: T("Single-Leg Stand", "Einbeinstand"),
+					aliases: ["Single-Leg Stand"],
+					equipment: "bodyweight",
+					muscles: ["calves", "glutes"],
+					unilateral: true,
+					kind: "mobility"
+				},
+				one_leg_stand_closed: {
+					name: T("Single-Leg Stand, Eyes Closed", "Einbeinstand, Augen zu"),
+					aliases: ["Single-Leg Stand"],
+					equipment: "bodyweight",
+					muscles: ["calves", "glutes"],
+					unilateral: true,
+					kind: "mobility"
+				}
+			},
+			workouts: one("go", T("Ten on One Leg", "Zehn auf einem Bein"), [{
+				type: "sets",
+				exercise: "one_leg_stand",
+				sets: 1,
+				duration_s: 10,
+				progression: { type: "none" },
+				note: T("Did not make it? Tap the set afterwards and enter your time.", "Nicht geschafft? Danach den Satz antippen und deine Zeit eintragen.")
+			}, {
+				type: "sets",
+				exercise: "one_leg_stand_closed",
+				sets: 1,
+				duration_s: 10,
+				progression: { type: "none" },
+				note: T("Optional – skip it if you do not feel safe.", "Freiwillig – überspring es, wenn du dich nicht sicher fühlst.")
+			}])
+		}
+	},
+	{
+		id: "ten_minute_squat",
+		group: "mobility",
+		tplGroup: "yoga",
+		icon: "clock",
+		safety: [],
+		title: {
+			en: "Ten-Minute Squat",
+			de: "Zehn-Minuten-Hocke"
+		},
+		gear: {
+			en: "No equipment",
+			de: "Ohne Gerät"
+		},
+		stages: [
+			150,
+			300,
+			450,
+			600
+		],
+		metrics: [{
+			ex: ["deep_squat"],
+			kind: "time",
+			label: {
+				en: "in the squat",
+				de: "in der Hocke"
+			},
+			pass: 600
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("Ten-Minute Squat", "Zehn-Minuten-Hocke"),
+			goal: "general",
+			defaults: REST,
+			description: T("Ten minutes in a deep squat, feet flat – in five parts of two minutes with short breaks. Hold on to something if you need to; shorten a part with − if it gets too much. Inspired by Kelly Starrett's 10-minute squat test.", "Zehn Minuten in der tiefen Hocke, Füße flach – in fünf Abschnitten von zwei Minuten mit kurzen Pausen. Halt dich fest, wenn nötig; verkürze einen Abschnitt mit −, wenn es zu viel wird. Angelehnt an Kelly Starretts 10-Minuten-Hocke."),
+			exercises: { deep_squat: {
+				name: T("Deep Squat Hold", "Tiefe Hocke halten"),
+				equipment: "bodyweight",
+				image: "Bodyweight_Squat",
+				muscles: [
+					"quads",
+					"glutes",
+					"calves"
+				],
+				kind: "mobility"
+			} },
+			workouts: one("go", T("Ten-Minute Squat", "Zehn-Minuten-Hocke"), [{
+				type: "sets",
+				exercise: "deep_squat",
+				sets: 5,
+				duration_s: 120,
+				rest_s: 30,
+				progression: { type: "none" }
+			}])
+		}
+	},
+	{
+		id: "hang_test",
+		group: "tests",
+		tplGroup: "calisthenics",
+		icon: "clock",
+		safety: ["hold", "test"],
+		title: {
+			en: "Hang Tough",
+			de: "Hängepartie"
+		},
+		gear: {
+			en: "Bar",
+			de: "Stange"
+		},
+		stages: [
+			30,
+			60,
+			90,
+			120
+		],
+		metrics: [{
+			ex: ["dead_hang"],
+			kind: "best_time",
+			label: {
+				en: "seconds",
+				de: "Sekunden"
+			},
+			pass: 120
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("Hang Tough", "Hängepartie"),
+			goal: "strength",
+			defaults: REST,
+			description: T("Hang from a bar for as long as you can. Levels: 30, 60, 90 and 120 seconds – two minutes is the mark often named for grip strength and healthy ageing (Peter Attia).", "Häng so lange wie möglich an einer Stange. Stufen: 30, 60, 90 und 120 Sekunden – zwei Minuten sind die Marke, die oft für Griffkraft und gesundes Altern genannt wird (Peter Attia)."),
+			exercises: { dead_hang: {
+				name: T("Dead Hang", "Hängen"),
+				aliases: ["Hängen", "Scapular Pull-up"],
+				equipment: "bodyweight",
+				muscles: ["back", "biceps"],
+				kind: "strength"
+			} },
+			workouts: one("go", T("Hang Tough", "Hängepartie"), [{
+				type: "warmup",
+				note: WARM
+			}, {
+				type: "sets",
+				exercise: "dead_hang",
+				sets: 1,
+				duration_s: "max",
+				note: SET_TIME
+			}])
+		}
+	},
+	{
+		id: "entry_exam",
+		group: "conditioning",
+		tplGroup: "bodyweight",
+		icon: "shield",
+		safety: ["test"],
+		title: {
+			en: "Entry Exam",
+			de: "Aufnahmeprüfung"
+		},
+		gear: {
+			en: "Bar",
+			de: "Stange"
+		},
+		metrics: [
+			{
+				ex: ["push_up"],
+				kind: "reps",
+				label: {
+					en: "push-ups",
+					de: "Liegestütze"
+				},
+				pass: 50,
+				goal: 80
+			},
+			{
+				ex: ["sit_up"],
+				kind: "reps",
+				label: {
+					en: "sit-ups",
+					de: "Sit-ups"
+				},
+				pass: 50,
+				goal: 80
+			},
+			{
+				ex: ["pull_up"],
+				kind: "reps",
+				label: {
+					en: "pull-ups",
+					de: "Klimmzüge"
+				},
+				pass: 10,
+				goal: 15
+			}
+		],
+		plan: {
+			schema_version: 1,
+			name: T("Entry Exam", "Aufnahmeprüfung"),
+			goal: "strength",
+			defaults: {
+				rest_s: 120,
+				progression: { type: "none" }
+			},
+			description: T("Three tests in a row: push-ups in 2 minutes, sit-ups in 2 minutes, then pull-ups without a time limit – 2 minutes rest in between. Passed with 50 / 50 / 10, strong with 80 / 80 / 15. Use a timer for the two minutes. Inspired by the strength part of the US Navy physical screening test, without swimming and running.", "Drei Tests nacheinander: Liegestütze in 2 Minuten, Sit-ups in 2 Minuten, dann Klimmzüge ohne Zeitlimit – dazwischen 2 Minuten Pause. Bestanden mit 50 / 50 / 10, stark mit 80 / 80 / 15. Nimm für die zwei Minuten eine Uhr. Angelehnt an den Kraftteil des Eignungstests der US Navy, ohne Schwimmen und Laufen."),
+			exercises: {
+				push_up: ex.push_up(),
+				pull_up: ex.pull_up(),
+				sit_up: {
+					name: T("Sit-Ups", "Sit-ups"),
+					aliases: ["Crunches"],
+					equipment: "bodyweight",
+					image: "Sit-Up",
+					kind: "strength"
+				}
+			},
+			workouts: one("go", T("Entry Exam", "Aufnahmeprüfung"), [
+				{
+					type: "warmup",
+					note: WARM
+				},
+				{
+					type: "sets",
+					exercise: "push_up",
+					sets: 1,
+					reps: "max",
+					note: T("As many as you can in 2 minutes, then enter the number.", "So viele wie möglich in 2 Minuten, dann die Zahl eintragen.")
+				},
+				{
+					type: "sets",
+					exercise: "sit_up",
+					sets: 1,
+					reps: "max",
+					note: T("As many as you can in 2 minutes, then enter the number.", "So viele wie möglich in 2 Minuten, dann die Zahl eintragen.")
+				},
+				{
+					type: "sets",
+					exercise: "pull_up",
+					sets: 1,
+					reps: "max",
+					note: T("No time limit, without letting go of the bar.", "Ohne Zeitlimit, ohne die Stange loszulassen.")
+				}
+			])
+		}
+	},
+	{
+		id: "kettlebell_standard",
+		group: "weights",
+		tplGroup: "kettlebell",
+		icon: "kettlebell",
+		safety: ["test"],
+		title: {
+			en: "The Kettlebell Standard",
+			de: "Der Kettlebell-Standard"
+		},
+		gear: {
+			en: "Kettlebell",
+			de: "Kettlebell"
+		},
+		metrics: [
+			{
+				ex: ["kb_swing_one_arm"],
+				kind: "reps",
+				label: {
+					en: "swings in 5 min",
+					de: "Swings in 5 min"
+				},
+				pass: 100
+			},
+			{
+				ex: ["turkish_get_up"],
+				kind: "reps",
+				label: {
+					en: "get-ups in 10 min",
+					de: "Get-ups in 10 min"
+				},
+				pass: 10
+			},
+			{
+				ex: ["kb_swing_one_arm"],
+				kind: "weight",
+				label: {
+					en: "kg",
+					de: "kg"
+				}
+			}
+		],
+		plan: {
+			schema_version: 1,
+			name: T("The Kettlebell Standard", "Der Kettlebell-Standard"),
+			goal: "strength",
+			defaults: {
+				rest_s: 20,
+				progression: { type: "none" }
+			},
+			description: T("100 one-arm swings in 5 minutes (10 every 30 seconds, switching hands), 1 minute rest, then 10 Turkish get-ups in 10 minutes (one per minute, alternating sides). Choose your own bell – the well-known mark is 32 kg, or 24 kg for swings and 16 kg for get-ups. Inspired by the standard from “Simple & Sinister” (StrongFirst).", "100 einarmige Swings in 5 Minuten (10 alle 30 Sekunden, Hand wechseln), 1 Minute Pause, dann 10 Turkish Get-ups in 10 Minuten (einer pro Minute, Seiten im Wechsel). Wähl deine Kugel selbst – die bekannte Marke sind 32 kg bzw. 24 kg für Swings und 16 kg für Get-ups. Angelehnt an den Standard aus „Simple & Sinister“ (StrongFirst)."),
+			exercises: {
+				kb_swing_one_arm: {
+					name: T("One-Arm Kettlebell Swing", "Einarmiger Kettlebell Swing"),
+					aliases: ["Kettlebell Swing einarmig"],
+					equipment: "kettlebell",
+					image: "One-Arm_Kettlebell_Swings"
+				},
+				turkish_get_up: {
+					name: T("Turkish Get-up", "Turkish Get-up"),
+					aliases: ["Türkisches Aufstehen"],
+					equipment: "kettlebell",
+					image: "Kettlebell_Turkish_Get-Up_Squat_style"
+				}
+			},
+			workouts: one("go", T("The Kettlebell Standard", "Der Kettlebell-Standard"), [
+				{
+					type: "warmup",
+					note: T("3× each: glute bridge, goblet squat hold, a few easy swings.", "Je 3×: Glute Bridge, Goblet Squat halten, ein paar lockere Swings.")
+				},
+				{
+					type: "circuit",
+					name: T("Swings · 5 minutes", "Swings · 5 Minuten"),
+					time_cap_s: 300,
+					rest_after_round_s: 15,
+					rest_after_s: 60,
+					note: T("10 swings, then rest until the next half minute. The block ends by itself after 5 minutes.", "10 Swings, dann Pause bis zur nächsten halben Minute. Der Block endet nach 5 Minuten von selbst."),
+					exercises: [{
+						exercise: "kb_swing_one_arm",
+						reps: 10,
+						weight_kg: 16
+					}]
+				},
+				{
+					type: "circuit",
+					name: T("Get-ups · 10 minutes", "Get-ups · 10 Minuten"),
+					time_cap_s: 600,
+					rest_after_round_s: 30,
+					note: T("One get-up per minute, alternating sides. The block ends by itself after 10 minutes.", "Ein Get-up pro Minute, Seiten im Wechsel. Der Block endet nach 10 Minuten von selbst."),
+					exercises: [{
+						exercise: "turkish_get_up",
+						reps: 1,
+						weight_kg: 12
+					}]
+				}
+			])
+		}
+	},
+	{
+		id: "solstice",
+		group: "mobility",
+		tplGroup: "yoga",
+		icon: "sun",
+		safety: [],
+		title: {
+			en: "Solstice",
+			de: "Sonnenwende"
+		},
+		gear: {
+			en: "Mat",
+			de: "Matte"
+		},
+		stages: [
+			27,
+			54,
+			108
+		],
+		metrics: [{
+			ex: ["sun_salutation"],
+			kind: "reps",
+			label: {
+				en: "sun salutations",
+				de: "Sonnengrüße"
+			},
+			pass: 108
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("Solstice", "Sonnenwende"),
+			goal: "general",
+			defaults: {
+				rest_s: 20,
+				progression: { type: "none" }
+			},
+			description: T("Sun salutations for the turn of the seasons: 27, 54 or the traditional 108. You count in sets of nine – tap Finish when you have reached your number. Your own pace.", "Sonnengrüße zum Wechsel der Jahreszeiten: 27, 54 oder die traditionellen 108. Du zählst in Sätzen zu neun – tippe auf Beenden, wenn du deine Zahl erreicht hast. Dein eigenes Tempo."),
+			exercises: { sun_salutation: SUN_SALUTATION() },
+			workouts: one("go", T("Solstice", "Sonnenwende"), [{
+				type: "warmup",
+				duration_s: 120,
+				note: T("Child's pose and downward dog, a few calm breaths.", "Kindhaltung und herabschauender Hund, ein paar ruhige Atemzüge.")
+			}, {
+				type: "sets",
+				exercise: "sun_salutation",
+				sets: 12,
+				reps: 9,
+				rest_s: 20,
+				note: T("3 sets = 27 · 6 sets = 54 · 12 sets = 108.", "3 Sätze = 27 · 6 Sätze = 54 · 12 Sätze = 108.")
+			}])
+		}
+	},
+	{
+		id: "wall_sit_test",
+		group: "tests",
+		tplGroup: "bodyweight",
+		icon: "clock",
+		safety: ["hold", "test"],
+		title: {
+			en: "Hold the Wall",
+			de: "Wandsitz-Test"
+		},
+		gear: {
+			en: "Wall",
+			de: "Wand"
+		},
+		stages: [
+			30,
+			60,
+			90,
+			120
+		],
+		metrics: [{
+			ex: ["wall_sit"],
+			kind: "best_time",
+			label: {
+				en: "seconds",
+				de: "Sekunden"
+			}
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("Hold the Wall", "Wandsitz-Test"),
+			goal: "endurance",
+			defaults: REST,
+			description: T("Sit against a wall with your knees at 90 degrees for as long as you can. Isometric holds like this lower resting blood pressure in the long run (Edwards et al., Br J Sports Med 2023).", "Sitz so lange wie möglich mit 90 Grad in den Knien an der Wand. Solche Halteübungen senken auf Dauer den Ruheblutdruck (Edwards et al., Br J Sports Med 2023)."),
+			exercises: { wall_sit: {
+				name: T("Wall Sit", "Wandsitzen"),
+				aliases: ["Wandsitzen"],
+				equipment: "bodyweight",
+				image: false,
+				muscles: ["quads", "glutes"],
+				kind: "strength"
+			} },
+			workouts: one("go", T("Hold the Wall", "Wandsitz-Test"), [{
+				type: "warmup",
+				note: WARM
+			}, {
+				type: "sets",
+				exercise: "wall_sit",
+				sets: 1,
+				duration_s: "max",
+				note: SET_TIME
+			}])
+		}
+	},
+	{
+		id: "iron_core",
+		group: "mobility",
+		tplGroup: "bodyweight",
+		icon: "target",
+		safety: ["hold"],
+		title: {
+			en: "Iron Core",
+			de: "Eisen-Rumpf"
+		},
+		gear: {
+			en: "Mat",
+			de: "Matte"
+		},
+		metrics: [{
+			ex: [
+				"curl_up",
+				"side_plank",
+				"bird_dog"
+			],
+			kind: "reps",
+			label: {
+				en: "holds",
+				de: "Halte"
+			},
+			pass: 36
+		}],
+		plan: (() => {
+			const round = (n, r) => ({
+				type: "circuit",
+				name: T(`Round ${r}`, `Runde ${r}`),
+				rounds: 1,
+				rest_after_exercise_s: 20,
+				...r < 3 ? { rest_after_s: 30 } : {},
+				...r === 1 ? { note: T("Hold every rep for about 10 seconds – then relax briefly.", "Jede Wiederholung etwa 10 Sekunden halten – dann kurz lösen.") } : {},
+				exercises: [
+					{
+						exercise: "curl_up",
+						reps: n
+					},
+					{
+						exercise: "side_plank",
+						reps: n,
+						per_side: true
+					},
+					{
+						exercise: "bird_dog",
+						reps: n,
+						per_side: true
+					}
+				]
+			});
+			return {
+				schema_version: 1,
+				name: T("Iron Core", "Eisen-Rumpf"),
+				goal: "general",
+				defaults: {
+					rest_s: 30,
+					progression: { type: "none" }
+				},
+				description: T("Curl-up, side plank and bird dog as a pyramid of 10-second holds: 6, 4 and 2 reps. Short holds, clean tension, no long planks. Inspired by Stuart McGill's “Big 3”.", "Curl-up, Seitstütz und Vierfüßler diagonal als Pyramide aus 10-Sekunden-Halten: 6, 4 und 2 Wiederholungen. Kurze Halte, saubere Spannung, keine langen Planks. Angelehnt an Stuart McGills „Big 3“."),
+				exercises: {
+					curl_up: {
+						name: T("McGill Curl-Up", "McGill Curl-up"),
+						aliases: ["Curl-up"],
+						equipment: "bodyweight",
+						image: false,
+						muscles: ["core"],
+						rep_s: 10,
+						note: T("One leg bent, hands under the lower back. Lift head and shoulders only slightly.", "Ein Bein angewinkelt, Hände unter dem unteren Rücken. Kopf und Schultern nur leicht anheben.")
+					},
+					side_plank: {
+						name: T("Side Plank", "Seitstütz"),
+						aliases: ["Seitstütz"],
+						equipment: "bodyweight",
+						image: "Side_Bridge",
+						unilateral: true,
+						rep_s: 10
+					},
+					bird_dog: {
+						name: T("Bird Dog", "Vierfüßlerstand diagonal"),
+						aliases: ["Vierfüßlerstand diagonal"],
+						equipment: "bodyweight",
+						image: false,
+						muscles: [
+							"core",
+							"glutes",
+							"back"
+						],
+						unilateral: true,
+						rep_s: 10
+					}
+				},
+				workouts: one("go", T("Iron Core", "Eisen-Rumpf"), [
+					{
+						type: "warmup",
+						duration_s: 120,
+						note: T("Cat-cow on all fours and a few easy steps.", "Katze-Kuh im Vierfüßlerstand und ein paar lockere Schritte.")
+					},
+					round(6, 1),
+					round(4, 2),
+					round(2, 3)
+				])
+			};
+		})()
+	},
+	{
+		id: "even_keel",
+		group: "tests",
+		tplGroup: "bodyweight",
+		icon: "scale",
+		safety: ["hold", "test"],
+		passRule: "balanced",
+		title: {
+			en: "Even Keel",
+			de: "Rumpf-Balance-Test"
+		},
+		gear: {
+			en: "Mat, bench",
+			de: "Matte, Bank"
+		},
+		metrics: [
+			{
+				ex: ["side_plank_left"],
+				kind: "best_time",
+				label: {
+					en: "s left",
+					de: "s links"
+				}
+			},
+			{
+				ex: ["side_plank_right"],
+				kind: "best_time",
+				label: {
+					en: "s right",
+					de: "s rechts"
+				}
+			},
+			{
+				ex: ["back_hold"],
+				kind: "best_time",
+				label: {
+					en: "s back",
+					de: "s Rücken"
+				}
+			}
+		],
+		plan: {
+			schema_version: 1,
+			name: T("Even Keel", "Rumpf-Balance-Test"),
+			goal: "general",
+			defaults: {
+				rest_s: 120,
+				progression: { type: "none" }
+			},
+			description: T("Side plank left, side plank right and a back extension hold, each for time. The goal is not a record but balance: both sides within 5 percent of each other. Inspired by Stuart McGill's trunk endurance tests.", "Seitstütz links, Seitstütz rechts und Rückenstrecker-Halten, jeweils auf Zeit. Das Ziel ist kein Rekord, sondern Gleichgewicht: beide Seiten höchstens 5 Prozent auseinander. Angelehnt an Stuart McGills Rumpfausdauertests."),
+			exercises: {
+				side_plank_left: {
+					name: T("Side Plank, Left", "Seitstütz links"),
+					aliases: ["Side Plank"],
+					equipment: "bodyweight",
+					image: "Side_Bridge",
+					muscles: ["core"],
+					kind: "strength"
+				},
+				side_plank_right: {
+					name: T("Side Plank, Right", "Seitstütz rechts"),
+					aliases: ["Side Plank"],
+					equipment: "bodyweight",
+					image: "Side_Bridge",
+					muscles: ["core"],
+					kind: "strength"
+				},
+				back_hold: {
+					name: T("Back Extension Hold", "Rückenstrecker halten"),
+					aliases: ["Superman"],
+					equipment: "bodyweight",
+					image: "Hyperextensions_Back_Extensions",
+					muscles: ["back", "glutes"],
+					kind: "strength",
+					note: T("Hips on a bench, feet held, body in a straight line. No bench: lie on your stomach and lift chest and legs slightly.", "Hüfte auf einer Bank, Füße fixiert, Körper in einer Linie. Ohne Bank: auf dem Bauch liegen, Brust und Beine leicht anheben.")
+				}
+			},
+			workouts: one("go", T("Even Keel", "Rumpf-Balance-Test"), [
+				{
+					type: "warmup",
+					note: WARM
+				},
+				{
+					type: "sets",
+					exercise: "side_plank_left",
+					sets: 1,
+					duration_s: "max",
+					note: SET_TIME
+				},
+				{
+					type: "sets",
+					exercise: "side_plank_right",
+					sets: 1,
+					duration_s: "max"
+				},
+				{
+					type: "sets",
+					exercise: "back_hold",
+					sets: 1,
+					duration_s: "max"
+				}
+			])
+		}
+	},
+	{
+		id: "dumbbell_chain",
+		group: "weights",
+		tplGroup: "kraft",
+		icon: "dumbbell",
+		safety: [],
+		title: {
+			en: "Dumbbell Chain",
+			de: "Kurzhantel-Kette"
+		},
+		gear: {
+			en: "2 dumbbells",
+			de: "2 Kurzhanteln"
+		},
+		metrics: [{
+			ex: ["db_upright_row"],
+			kind: "weight",
+			label: {
+				en: "kg per hand",
+				de: "kg pro Hand"
+			}
+		}, {
+			ex: [
+				"db_upright_row",
+				"db_high_pull",
+				"db_shoulder_press",
+				"db_rear_lunge",
+				"db_bent_row"
+			],
+			kind: "rounds",
+			per: 5,
+			label: {
+				en: "rounds",
+				de: "Runden"
+			},
+			pass: 3
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("Dumbbell Chain", "Kurzhantel-Kette"),
+			goal: "strength",
+			defaults: {
+				rest_s: 0,
+				progression: { type: "none" }
+			},
+			description: T("Five moves in a chain without putting the dumbbells down: upright row, high pull, shoulder press, rear lunge, bent-over row – 6 reps each, three rounds. Choose the weight by the hardest part, the upright row. Inspired by Istvan Javorek's dumbbell complex.", "Fünf Übungen als Kette, ohne die Hanteln abzulegen: aufrechtes Rudern, hoher Zug, Schulterdrücken, Ausfallschritt rückwärts, vorgebeugtes Rudern – je 6 Wiederholungen, drei Runden. Wähl das Gewicht nach dem schwersten Teil, dem aufrechten Rudern. Angelehnt an Istvan Javoreks Kurzhantel-Komplex."),
+			exercises: {
+				db_upright_row: {
+					name: T("Dumbbell Upright Row", "Aufrechtes Rudern mit Kurzhanteln"),
+					equipment: "dumbbell",
+					image: "Standing_Dumbbell_Upright_Row"
+				},
+				db_high_pull: {
+					name: T("Dumbbell High Pull", "Hoher Zug mit Kurzhanteln"),
+					equipment: "dumbbell",
+					image: "Dumbbell_Clean",
+					muscles: [
+						"back",
+						"shoulders",
+						"glutes"
+					]
+				},
+				db_shoulder_press: {
+					name: tx("Dumbbell Shoulder Press", "Schulterdrücken mit Kurzhanteln"),
+					equipment: "dumbbell",
+					image: "Dumbbell_Shoulder_Press"
+				},
+				db_rear_lunge: {
+					name: T("Dumbbell Rear Lunge", "Ausfallschritt rückwärts mit Kurzhanteln"),
+					equipment: "dumbbell",
+					image: "Dumbbell_Rear_Lunge",
+					muscles: ["quads", "glutes"],
+					note: T("Alternate legs, six steps in total.", "Beine abwechseln, sechs Schritte insgesamt.")
+				},
+				db_bent_row: {
+					name: T("Bent-Over Dumbbell Row", "Vorgebeugtes Rudern mit Kurzhanteln"),
+					equipment: "dumbbell",
+					image: "Bent_Over_Two-Dumbbell_Row"
+				}
+			},
+			workouts: one("go", T("Dumbbell Chain", "Kurzhantel-Kette"), [{
+				type: "warmup",
+				note: T("A few minutes easy, then one round with very light dumbbells.", "Ein paar Minuten locker, dann eine Runde mit sehr leichten Hanteln.")
+			}, {
+				type: "circuit",
+				name: T("Chain", "Kette"),
+				rounds: 3,
+				rest_after_exercise_s: 0,
+				rest_after_round_s: 90,
+				exercises: [
+					"db_upright_row",
+					"db_high_pull",
+					"db_shoulder_press",
+					"db_rear_lunge",
+					"db_bent_row"
+				].map((exercise) => ({
+					exercise,
+					reps: 6,
+					weight_kg: 8
+				}))
+			}])
+		}
+	},
+	{
+		id: "heavy_carry",
+		group: "weights",
+		tplGroup: "kraft",
+		icon: "dumbbell",
+		safety: ["test"],
+		title: {
+			en: "Heavy Carry",
+			de: "Schwer tragen"
+		},
+		gear: {
+			en: "2 dumbbells or kettlebells",
+			de: "2 Kurzhanteln oder Kettlebells"
+		},
+		metrics: [{
+			ex: ["farmers_carry"],
+			kind: "load",
+			label: {
+				en: "kg × s",
+				de: "kg × s"
+			}
+		}, {
+			ex: ["farmers_carry"],
+			kind: "weight",
+			label: {
+				en: "kg per hand",
+				de: "kg pro Hand"
+			}
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("Heavy Carry", "Schwer tragen"),
+			goal: "strength",
+			defaults: {
+				rest_s: 120,
+				progression: { type: "none" }
+			},
+			description: T("Carry two heavy weights for as long as you can, three attempts. Upright, shoulders back, small steps. Your result is the best attempt: weight per hand times seconds. Inspired by Dan John's loaded carries.", "Trag zwei schwere Gewichte so lange du kannst, drei Versuche. Aufrecht, Schultern zurück, kleine Schritte. Dein Ergebnis ist der beste Versuch: Gewicht pro Hand mal Sekunden. Angelehnt an Dan Johns „Loaded Carries“."),
+			exercises: { farmers_carry: {
+				name: T("Farmer's Carry", "Farmer's Walk"),
+				aliases: ["One-Arm Farmer's Walk"],
+				equipment: "dumbbell",
+				image: "Farmers_Walk",
+				kind: "strength"
+			} },
+			workouts: one("go", T("Heavy Carry", "Schwer tragen"), [{
+				type: "warmup",
+				note: WARM
+			}, {
+				type: "sets",
+				exercise: "farmers_carry",
+				sets: 3,
+				duration_s: 30,
+				weight_kg: 16,
+				progression: { type: "none" },
+				note: T("Set weight and time before the start. Put the weights down in a controlled way.", "Gewicht und Zeit vor dem Start einstellen. Die Gewichte kontrolliert abstellen.")
+			}])
+		}
+	},
+	{
+		id: "l_sit_test",
+		group: "skills",
+		tplGroup: "calisthenics",
+		icon: "body",
+		safety: ["hold"],
+		title: {
+			en: "L-Sit Test",
+			de: "L-Sitz-Test"
+		},
+		gear: {
+			en: "Floor or parallettes",
+			de: "Boden oder Griffe"
+		},
+		stages: [
+			10,
+			20,
+			30
+		],
+		metrics: [{
+			ex: ["l_sit"],
+			kind: "best_time",
+			label: {
+				en: "seconds",
+				de: "Sekunden"
+			},
+			pass: 30
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("L-Sit Test", "L-Sitz-Test"),
+			goal: "strength",
+			defaults: REST,
+			description: T("Hold your legs straight out in front of you, hands on the floor or on parallettes. Levels: knees tucked, one leg straight, both legs straight. The mark is 30 seconds.", "Halt die Beine gestreckt vor dem Körper, Hände am Boden oder an Griffen. Stufen: Knie angezogen, ein Bein gestreckt, beide gestreckt. Die Marke sind 30 Sekunden."),
+			exercises: { l_sit: {
+				name: T("L-Sit", "L-Sit"),
+				equipment: "bodyweight",
+				muscles: ["core"],
+				kind: "strength",
+				note: T("Levels – knees tucked → one leg straight → both straight.", "Stufen: Knie angezogen → ein Bein gestreckt → beide gestreckt.")
+			} },
+			workouts: one("go", T("L-Sit Test", "L-Sitz-Test"), [{
+				type: "warmup",
+				note: T("Warm up wrists and shoulders.", "Handgelenke und Schultern aufwärmen.")
+			}, {
+				type: "sets",
+				exercise: "l_sit",
+				sets: 1,
+				duration_s: "max",
+				note: SET_TIME
+			}])
+		}
+	},
+	{
+		id: "one_arm_one_leg",
+		group: "skills",
+		tplGroup: "calisthenics",
+		icon: "star",
+		safety: [],
+		title: {
+			en: "One Arm, One Leg",
+			de: "Ein Arm, ein Bein"
+		},
+		gear: {
+			en: "No equipment",
+			de: "Ohne Gerät"
+		},
+		metrics: [{
+			ex: ["pistol_squat"],
+			kind: "reps",
+			label: {
+				en: "pistol squats",
+				de: "Pistol-Kniebeugen"
+			},
+			pass: 1
+		}, {
+			ex: ["one_arm_push_up"],
+			kind: "reps",
+			label: {
+				en: "one-arm push-ups",
+				de: "einarmige Liegestütze"
+			},
+			pass: 1
+		}],
+		plan: {
+			schema_version: 1,
+			name: T("One Arm, One Leg", "Ein Arm, ein Bein"),
+			goal: "strength",
+			defaults: {
+				rest_s: 120,
+				progression: { type: "none" }
+			},
+			description: T("Two classics of bodyweight strength: a clean pistol squat and a one-arm push-up, on each side. Not there yet? Practice the easier steps (to a chair, hand raised on a bench) and enter 0. Inspired by Pavel Tsatsouline's “The Naked Warrior”.", "Zwei Klassiker der Kraft ohne Gerät: eine saubere Pistol-Kniebeuge und ein einarmiger Liegestütz, auf jeder Seite. Noch nicht so weit? Üb die Vorstufen (auf einen Stuhl, Hand erhöht auf einer Bank) und trag 0 ein. Angelehnt an Pavel Tsatsoulines „The Naked Warrior“."),
+			exercises: {
+				pistol_squat: {
+					name: T("Pistol Squat", "Pistol-Kniebeuge"),
+					equipment: "bodyweight",
+					image: "Kettlebell_Pistol_Squat",
+					unilateral: true,
+					kind: "strength"
+				},
+				one_arm_push_up: {
+					name: T("One-Arm Push-up", "Einarmiger Liegestütz"),
+					equipment: "bodyweight",
+					image: "Pushups",
+					unilateral: true,
+					kind: "strength"
+				}
+			},
+			workouts: one("go", T("One Arm, One Leg", "Ein Arm, ein Bein"), [
+				{
+					type: "warmup",
+					note: WARM
+				},
+				{
+					type: "sets",
+					exercise: "pistol_squat",
+					sets: 1,
+					reps: "max",
+					per_side: true,
+					note: T("Clean reps per side – enter the number of the weaker side.", "Saubere Wiederholungen pro Seite – trag die Zahl der schwächeren Seite ein.")
+				},
+				{
+					type: "sets",
+					exercise: "one_arm_push_up",
+					sets: 1,
+					reps: "max",
+					per_side: true
+				}
+			])
+		}
+	}
+];
+// src/core/hero/challenges.ts
+var CHALLENGE_BY_ID = new Map(CHALLENGES.map((c) => [c.id, c]));
+var CHALLENGE_GROUPS = [
+	"tests",
+	"conditioning",
+	"weights",
+	"skills",
+	"mobility"
+];
+var challengeTemplateId = (id) => `challenge-${id.replace(/_/g, "-")}`;
+CHALLENGES.map((c) => ({
+	id: challengeTemplateId(c.id),
+	group: c.tplGroup,
+	plan: c.plan,
+	challenge: c.id
+}));
+// src/core/hero/badges.ts
+var BADGE_GROUPS = [
+	{
+		id: "first",
+		en: "First steps",
+		de: "Erste Schritte",
+		hue: 118,
+		shape: "circle"
+	},
+	{
+		id: "workouts",
+		en: "Workouts",
+		de: "Trainings",
+		hue: 205,
+		shape: "hex"
+	},
+	{
+		id: "streak",
+		en: "Streak",
+		de: "Serie",
+		hue: 28,
+		shape: "pennant"
+	},
+	{
+		id: "strength",
+		en: "Strength",
+		de: "Stärke",
+		hue: 2,
+		shape: "shield"
+	},
+	{
+		id: "endurance",
+		en: "Endurance",
+		de: "Ausdauer",
+		hue: 32,
+		shape: "shield"
+	},
+	{
+		id: "agility",
+		en: "Agility",
+		de: "Agilität",
+		hue: 172,
+		shape: "shield"
+	},
+	{
+		id: "willpower",
+		en: "Willpower",
+		de: "Willenskraft",
+		hue: 268,
+		shape: "shield"
+	},
+	{
+		id: "balance",
+		en: "Balance",
+		de: "Ausgewogen",
+		hue: 140,
+		shape: "shield"
+	},
+	{
+		id: "records",
+		en: "Records & volume",
+		de: "Bestwerte & Volumen",
+		hue: 45,
+		shape: "diamond"
+	},
+	{
+		id: "variety",
+		en: "Variety",
+		de: "Vielfalt",
+		hue: 190,
+		shape: "oct"
+	},
+	{
+		id: "muscles",
+		en: "Muscles & exercises",
+		de: "Muskeln & Übungen",
+		hue: 350,
+		shape: "oct"
+	},
+	{
+		id: "style",
+		en: "How you train",
+		de: "Wie du trainierst",
+		hue: 220,
+		shape: "oct"
+	},
+	{
+		id: "calendar",
+		en: "Calendar",
+		de: "Kalender",
+		hue: 245,
+		shape: "pennant"
+	},
+	{
+		id: "hero",
+		en: "Hero",
+		de: "Held",
+		hue: 300,
+		shape: "circle"
+	},
+	{
+		id: "discover",
+		en: "Discover",
+		de: "Entdecken",
+		hue: 95,
+		shape: "circle"
+	},
+	{
+		id: "stories",
+		en: "Stories",
+		de: "Stories",
+		hue: 196,
+		shape: "panel"
+	},
+	{
+		id: "challenges",
+		en: "Challenges",
+		de: "Challenges",
+		hue: 12,
+		shape: "seal"
+	},
+	{
+		id: "collection",
+		en: "Collection",
+		de: "Sammlung",
+		hue: 40,
+		shape: "circle"
+	}
+];
+var GROUP = new Map(BADGE_GROUPS.map((g) => [g.id, g]));
+var TIER_METALS = [
+	"bronze",
+	"silver",
+	"gold",
+	"platin",
+	"ruby",
+	"diamond"
+];
+var defs = [];
+/** b(id, Gruppe, Name en, Name de ("" = wie en), Bedingung en, Bedingung de, Zähler, Symbol, Optionen) */
+function b(id, group, en, de, cen, cde, key, icon, o = {}) {
+	const g = GROUP.get(group);
+	defs.push({
+		id,
+		group,
+		name: {
+			en,
+			de: de || en
+		},
+		cond: {
+			en: cen,
+			de: cde
+		},
+		key,
+		target: o.target ?? 1,
+		secret: !!o.secret,
+		unit: o.unit,
+		look: {
+			shape: o.shape ?? g.shape,
+			hue: o.hue ?? g.hue,
+			icon,
+			num: o.num ?? null,
+			metal: o.metal ?? "steel"
+		}
+	});
+}
+b("first_mission", "first", "First Mission", "Erster Einsatz", "Finish your first workout", "Erstes Training beendet", "sessions", "flag");
+b("secret_identity", "first", "Secret Identity", "Geheime Identität", "Give your hero an alias", "Alias vergeben", "mark:alias", "mask");
+b("no_coincidence", "first", "No Coincidence", "Kein Zufall", "3 workouts", "3 Trainings", "sessions", "dice", { target: 3 });
+b("goal_getter", "first", "Goal Getter", "Ziel erreicht", "Reach your weekly goal", "Wochenziel erreicht", "goal_weeks", "target");
+b("new_record", "first", "New Record", "Neuer Bestwert", "Set your first record", "Erster Bestwert", "records", "star");
+[
+	[10, "Locked In"],
+	[25, "No Cap"],
+	[50, "Built Different"],
+	[100, "Triple Digits"],
+	[250, "Main Character"],
+	[500, "Final Boss"]
+].forEach(([n, name], i) => b(`workouts_${n}`, "workouts", name, "", `${n} workouts`, `${n} Trainings`, "sessions", "layers", {
+	target: n,
+	num: n,
+	metal: TIER_METALS[i]
+}));
+[
+	[
+		4,
+		"On Patrol",
+		"Auf Streife"
+	],
+	[
+		12,
+		"Quarter Strong",
+		"Ein Quartal stark"
+	],
+	[
+		26,
+		"Half-Year Hero",
+		"Halbjahresheld"
+	],
+	[
+		52,
+		"Year-Round",
+		"Das ganze Jahr"
+	]
+].forEach(([n, en, de], i) => b(`streak_${n}`, "streak", en, de, `${n} weeks in a row`, `${n} Wochen Serie`, "streak", "calendar", {
+	target: n,
+	num: n,
+	metal: TIER_METALS[i]
+}));
+b("perfect_month", "streak", "Perfect Month", "", "Weekly goal every week of a month", "Jede Woche eines Monats das Wochenziel", "perfect_month", "calendar", { metal: "gold" });
+[
+	1,
+	2,
+	3
+].forEach((n, i) => b(`anniversary_${n}`, "streak", `Anniversary ${n}`, `Jahrestag ${n}`, n === 1 ? "One year since your first workout" : `${n} years since your first workout`, n === 1 ? "Ein Jahr seit dem ersten Training" : `${n} Jahre seit dem ersten Training`, "years", "sun", {
+	target: n,
+	num: n,
+	metal: [
+		"silver",
+		"gold",
+		"platin"
+	][i]
+}));
+var POWER_NAMES = {
+	strength: {
+		icon: "dumbbell",
+		en: "Strength",
+		de: "Stärke",
+		tiers: [
+			["Firm Grip", "Fester Griff"],
+			["Heavy Hands", "Schwere Hände"],
+			["Heavy Lifter", "Schwergewicht"],
+			["Steel Frame", "Stahlgerüst"],
+			["Mountain Mover", "Bergversetzer"]
+		]
+	},
+	endurance: {
+		icon: "lungs",
+		en: "Endurance",
+		de: "Ausdauer",
+		tiers: [
+			["Second Wind", "Zweiter Atem"],
+			["Long Haul", "Langer Atem"],
+			["Iron Lungs", "Eiserne Lunge"],
+			["Tireless", "Unermüdlich"],
+			["Perpetual Motion", "Perpetuum mobile"]
+		]
+	},
+	agility: {
+		icon: "feather",
+		en: "Agility",
+		de: "Agilität",
+		tiers: [
+			["Loosened Up", "Gelockert"],
+			["Light Feet", "Leichtfüßig"],
+			["Catlike", "Katzengleich"],
+			["Like Water", "Wie Wasser"],
+			["Weightless", "Schwerelos"]
+		]
+	},
+	willpower: {
+		icon: "mountain",
+		en: "Willpower",
+		de: "Willenskraft",
+		tiers: [
+			["Showing Up", "Da sein"],
+			["Stubborn", "Dickkopf"],
+			["Unshakable", "Unerschütterlich"],
+			["Iron Will", "Eiserner Wille"],
+			["Indomitable", "Unbeugsam"]
+		]
+	}
+};
+var POWER_ICONS = Object.fromEntries(POWERS.map((p) => [p, POWER_NAMES[p].icon]));
+for (const p of POWERS) HERO.TIERS.forEach((at, i) => b(`${p}_${at}`, p, POWER_NAMES[p].tiers[i][0], POWER_NAMES[p].tiers[i][1], `${POWER_NAMES[p].en} ${at}`, `${POWER_NAMES[p].de} ${at}`, `power:${p}`, POWER_NAMES[p].icon, {
+	target: at,
+	num: at,
+	metal: TIER_METALS[i]
+}));
+[
+	[
+		25,
+		"Well-Rounded",
+		"Vielseitig",
+		"silver"
+	],
+	[
+		50,
+		"Balanced",
+		"Im Gleichgewicht",
+		"gold"
+	],
+	[
+		75,
+		"Complete Hero",
+		"Vollendet",
+		"platin"
+	]
+].forEach(([at, en, de, metal]) => b(`balance_${at}`, "balance", en, de, `All four powers at ${at}`, `Alle vier Kräfte ${at}`, "power:all", "scale", {
+	target: at,
+	num: at,
+	metal
+}));
+b("apex", "balance", "Apex", "Am Gipfel", "All four powers at 100", "Alle vier Kräfte 100", "power:all", "mountain", {
+	target: 100,
+	num: 100,
+	metal: "diamond",
+	secret: true
+});
+[
+	[
+		10,
+		"Record Hunter",
+		"Rekordjäger",
+		"bronze"
+	],
+	[
+		25,
+		"Record Machine",
+		"Rekordmaschine",
+		"silver"
+	],
+	[
+		50,
+		"Record Breaker",
+		"Rekordbrecher",
+		"gold"
+	]
+].forEach(([n, en, de, metal]) => b(`records_${n}`, "records", en, de, `${n} records`, `${n} Bestwerte`, "records", "trophy", {
+	target: n,
+	num: n,
+	metal
+}));
+b("double_trouble", "records", "Double Trouble", "", "2 records in one workout", "2 Bestwerte in einem Training", "double_trouble", "bolt");
+b("hot_streak", "records", "Hot Streak", "Lauf", "A record in 3 workouts in a row", "3 Trainings in Folge mit Bestwert", "hot_streak", "flame", { target: 3 });
+b("plot_twist", "records", "Plot Twist", "", "A record after 3 months without one", "Bestwert nach 3 Monaten ohne", "plot_twist", "trophy", { secret: true });
+b("heavy_metal", "records", "Heavy Metal", "", "100 kg in one set", "100 kg in einem Satz", "max_weight", "dumbbell", {
+	target: 100,
+	unit: "kg"
+});
+b("thousand_sets", "records", "Thousand Sets", "Tausend Sätze", "1,000 sets", "1.000 Sätze", "sets", "layers", {
+	target: 1e3,
+	num: "1K",
+	metal: "silver"
+});
+b("ten_tons", "records", "Ten Tons", "Zehn Tonnen", "10 t moved in total", "10 t insgesamt bewegt", "volume_kg", "dumbbell", {
+	target: 1e4,
+	num: "10t",
+	metal: "bronze",
+	unit: "kg"
+});
+b("hundred_tons", "records", "Hundred Tons", "Hundert Tonnen", "100 t moved in total", "100 t insgesamt bewegt", "volume_kg", "dumbbell", {
+	target: 1e5,
+	num: "100t",
+	metal: "gold",
+	unit: "kg"
+});
+b("multiverse", "variety", "Multiverse", "", "Train in every template group", "In jeder Vorlagen-Gruppe trainiert", "groups", "grid", { target: 7 });
+b("full_body_scan", "variety", "Full Body Scan", "", "Every muscle group in one week", "Alle Muskelgruppen in einer Woche", "week_muscles", "body", { target: 10 });
+b("new_moves", "variety", "New Moves", "", "25 different exercises", "25 verschiedene Übungen", "exercises", "star", {
+	target: 25,
+	num: 25,
+	metal: "bronze"
+});
+b("move_library", "variety", "Move Library", "", "50 different exercises", "50 verschiedene Übungen", "exercises", "book", {
+	target: 50,
+	num: 50,
+	metal: "silver"
+});
+b("side_quest", "variety", "Side Quest", "", "Train something outside your story", "Neben der Story etwas anderes trainiert", "side_quest", "flag");
+b("leg_day", "muscles", "Never Skip Leg Day", "", "Legs every week for 4 weeks", "4 Wochen jede Woche Beine", "leg_weeks", "body", {
+	target: 4,
+	num: 4
+});
+b("core_memory", "muscles", "Core Memory", "", "1,000 core reps", "1.000 Rumpf-Wiederholungen", "core_reps", "target", {
+	target: 1e3,
+	num: "1K"
+});
+b("push_it", "muscles", "Push It", "", "1,000 push-ups", "1.000 Liegestütze", "pushups", "arrowup", {
+	target: 1e3,
+	num: "1K"
+});
+b("gravity_who", "muscles", "Gravity Who?", "", "Your first set of pull-ups", "Erster Satz Klimmzüge", "pullup_sets", "feather");
+b("anti_gravity", "muscles", "Anti-Gravity", "", "100 pull-ups", "100 Klimmzüge", "pullups", "arrowup", {
+	target: 100,
+	num: 100
+});
+b("time_freeze", "muscles", "Time Freeze", "", "Hold for over 2 minutes", "Halten über 2 Minuten", "max_hold_s", "clock", {
+	target: 120,
+	unit: "s"
+});
+b("mirror_mirror", "muscles", "Mirror Mirror", "", "100 one-sided sets", "100 einseitige Sätze", "one_sided", "scale", {
+	target: 100,
+	num: 100
+});
+b("swing_state", "muscles", "Swing State", "", "500 kettlebell swings", "500 Kettlebell-Swings", "swings", "kettlebell", {
+	target: 500,
+	num: 500
+});
+b("squat_goals", "muscles", "Squat Goals", "", "1,000 squats", "1.000 Kniebeugen", "squats", "arrowdown", {
+	target: 1e3,
+	num: "1K"
+});
+b("why_burpees", "muscles", "Why Burpees?", "", "100 burpees", "100 Burpees", "burpees", "bolt", {
+	target: 100,
+	num: 100
+});
+b("hang_time", "muscles", "Hang Time", "", "5 minutes hanging in total", "5 Minuten Hängen insgesamt", "hang_s", "clock", {
+	target: 300,
+	unit: "s"
+});
+b("beat_drop", "style", "Beat Drop", "", "10 HIIT workouts", "10 HIIT-Trainings", "hiit_sessions", "wave", {
+	target: 10,
+	num: 10
+});
+b("zen_mode", "style", "Zen Mode", "", "10 yoga flows", "10 Yoga-Flows", "yoga_sessions", "leaf", {
+	target: 10,
+	num: 10
+});
+b("easy_mode", "style", "Easy Mode", "", "Every set felt easy", "Jeder Satz war leicht", "easy_mode", "feather", { secret: true });
+b("hard_way", "style", "The Hard Way", "Auf die harte Tour", "10 sets pushed through as hard", "10 schwere Sätze durchgezogen", "hard_sets", "mountain", { target: 10 });
+b("no_shortcuts", "style", "No Shortcuts", "Keine Abkürzung", "A workout without skipping", "Ein Training ohne Überspringen", "no_shortcuts", "check");
+b("quick_dirty", "style", "Quick & Dirty", "Kurz und knackig", "A workout under 15 minutes", "Training unter 15 Minuten", "quick", "bolt");
+b("marathon", "style", "Marathon", "Dauerbrenner", "A workout over 90 minutes", "Training über 90 Minuten", "marathon", "clock");
+b("creature_of_habit", "style", "Creature of Habit", "Gewohnheitstier", "Same weekday 4 weeks in a row", "4 Wochen am selben Wochentag", "habit", "calendar", { target: 4 });
+b("fully_charged", "style", "Fully Charged", "Voll aufgeladen", "Train with all muscles recovered", "Training mit allen Muskeln erholt", "fully_charged", "battery");
+b("pixel_perfect", "style", "Pixel Perfect", "", "Every set exactly as planned", "Jeder Satz genau wie geplant", "pixel_perfect", "target");
+b("early_bird", "calendar", "Early Bird", "Frühaufsteher", "Train before 7 am", "Training vor 7 Uhr", "early_bird", "sun", { secret: true });
+b("night_shift", "calendar", "Night Shift", "Nachtschicht", "Train after 10 pm", "Training nach 22 Uhr", "night_shift", "moon", { secret: true });
+b("witching_hour", "calendar", "Witching Hour", "Geisterstunde", "Train past midnight", "Training über Mitternacht", "witching_hour", "moon", { secret: true });
+b("holiday_hero", "calendar", "Holiday Hero", "Feiertagsheld", "Train on a holiday", "Training an einem Feiertag", "holiday", "star", { secret: true });
+b("fearless", "calendar", "Fearless", "Furchtlos", "Train on Friday the 13th", "Training an einem Freitag, dem 13.", "friday13", null, {
+	secret: true,
+	num: 13
+});
+b("spooky_season", "calendar", "Spooky Season", "", "Train on Halloween", "Training an Halloween", "halloween", "moon", { secret: true });
+b("lunch_break", "calendar", "Lunch Break", "", "Train between 12 and 2 pm", "Training zwischen 12 und 14 Uhr", "lunch", "sun", { secret: true });
+b("resolution_kept", "calendar", "Resolution Kept", "Vorsatz gehalten", "Train in January and still in March", "Im Januar trainiert und im März noch dabei", "resolution", "check");
+b("suit_up", "hero", "Suit Up", "", "Turn on hero mode", "Heldenmodus eingeschaltet", "mark:suit_up", "mask");
+b("you_are", "hero", "You Are Who You Are", "Du bist, wer du bist", "Choose or change your figure", "Figur gewählt oder gewechselt", "mark:figure", "heart");
+b("quick_change", "hero", "Quick Change", "Kostümwechsel", "Change your style", "Stil gewechselt", "mark:quick_change", "swap");
+b("architect", "discover", "Architect", "", "Build your own plan in the editor", "Eigener Plan im Editor gebaut", "mark:architect", "pencil");
+b("remix", "discover", "Remix", "", "Copy and adjust a template", "Vorlage kopiert und angepasst", "mark:remix", "layers");
+b("upgrade_accepted", "discover", "Upgrade Accepted", "", "Accept a weight suggestion", "Steigerungsvorschlag angenommen", "upgrade_accepted", "arrowup");
+b("feedback_loop", "discover", "Feedback Loop", "", "Rate a set: how did it feel?", "Einen Satz bewertet: Wie war's?", "feedback", "star");
+b("save_point", "discover", "Save Point", "", "Save your first backup", "Erste Sicherung gespeichert", "mark:save_point", "save");
+b("home_base", "discover", "Home Base", "", "Add the app to your home screen", "Als App auf dem Home-Bildschirm", "mark:home_base", "home");
+b("off_the_grid", "discover", "Off the Grid", "", "Train offline", "Offline trainiert", "mark:offline", "wifioff", { secret: true });
+b("briefing_complete", "discover", "Briefing Complete", "", "Finish the tutorial", "Tutorial durchgespielt", "mark:briefing", "book");
+b("goal_setter", "discover", "Goal Setter", "", "Adjust your weekly goal", "Wochenziel angepasst", "mark:goal_setter", "target");
+b("squad_goals", "discover", "Squad Goals", "", "Add a second person", "Zweite Person angelegt", "mark:squad", "users");
+b("deep_dive", "discover", "Deep Dive", "", "Look at an exercise's history", "Verlauf einer Übung angesehen", "mark:deep_dive", "search");
+b("body_check", "discover", "Body Check", "", "Look at your recovery", "Erholung angesehen", "mark:body_check", "heart");
+b("into_the_unknown", "stories", "Into the Unknown", "Aufbruch", "Start your first story", "Erste Story gestartet", "stories_started", "flag");
+b("deep_in", "stories", "Deep In", "Mittendrin", "Reach 25 % of a story", "25 % einer Story erreicht", "story_pct", "search", { target: 25 });
+b("over_the_hill", "stories", "Over the Hill", "Über den Berg", "Reach the turning point of a story", "Wendepunkt einer Story erreicht", "story_pct", "mountain", { target: 50 });
+b("final_act", "stories", "Final Act", "Showdown", "Reach 75 % of a story", "75 % einer Story erreicht", "story_pct", "bolt", { target: 75 });
+b("origin_story", "stories", "Origin Story", "", "Finish your first story", "Erste Story abgeschlossen", "stories_finished", "book", { metal: "bronze" });
+b("comic_collector", "stories", "Comic Collector", "Comicsammler", "3 stories on your shelf", "3 Stories im Regal", "stories_finished", "book", {
+	target: 3,
+	num: 3,
+	metal: "silver"
+});
+b("bookshelf", "stories", "Bookshelf", "Bücherregal", "5 stories on your shelf", "5 Stories im Regal", "stories_finished", "book", {
+	target: 5,
+	num: 5,
+	metal: "gold"
+});
+if (PLAYABLE_STORIES.length >= 10) b("long_box", "stories", "Long Box", "", "10 stories on your shelf", "10 Stories im Regal", "stories_finished", "book", {
+	target: 10,
+	num: 10,
+	metal: "platin"
+});
+b("box_set", "stories", "Box Set", "", "Finish every story", "Alle Stories abgeschlossen", "stories_finished", "layers", {
+	target: PLAYABLE_STORIES.length,
+	metal: "diamond"
+});
+b("new_game_plus", "stories", "New Game+", "", "Play a finished story again", "Beendete Story noch einmal durchgespielt", "story_replay", "swap");
+b("right_on_time", "stories", "Right on Time", "Pünktlich", "Finish a story in the planned time", "Story in der geplanten Zeit beendet", "story_on_time", "clock");
+b("slow_burn", "stories", "Slow Burn", "", "Finish a story at your own, slower pace", "Story im eigenen, langsameren Tempo beendet", "story_slow", "flame");
+b("cliffhanger", "stories", "Cliffhanger", "", "Resume a paused story and finish it", "Pausierte Story fortgesetzt und beendet", "story_cliffhanger", "hourglass");
+b("genre_hopper", "stories", "Genre Hopper", "", "Finish stories from 3 groups", "Stories aus 3 Gruppen beendet", "story_groups", "grid", {
+	target: 3,
+	num: 3
+});
+for (const s of PLAYABLE_STORIES) b(`story_${s.id}`, "stories", s.text.en.title, s.text.de.title, "Finish this story", "Diese Story abgeschlossen", `story:${s.id}`, s.icon, { metal: "gold" });
+b("challenge_accepted", "challenges", "Challenge Accepted", "", "Your first challenge", "Erste Challenge", "challenges_total", "bolt");
+b("challenger", "challenges", "Challenger", "", "5 different challenges", "5 verschiedene Challenges", "challenges_distinct", "target", {
+	target: 5,
+	num: 5,
+	metal: "bronze"
+});
+b("gauntlet", "challenges", "Gauntlet", "", "10 different challenges", "10 verschiedene Challenges", "challenges_distinct", "target", {
+	target: 10,
+	num: 10,
+	metal: "silver"
+});
+b("rematch", "challenges", "Rematch", "", "Repeat a challenge and beat your result", "Challenge wiederholt und verbessert", "rematch", "swap");
+b("weekly_challenger", "challenges", "Weekly Challenger", "", "A challenge 4 weeks in a row", "4 Wochen in Folge eine Challenge", "challenge_weeks", "calendar", {
+	target: 4,
+	num: 4
+});
+for (const c of CHALLENGES) {
+	const marks = c.metrics.filter((m) => m.pass !== void 0);
+	const what = (lang) => c.passRule === "balanced" ? lang === "en" ? "both sides within 5 %" : "beide Seiten höchstens 5 % auseinander" : marks.map((m) => `${m.pass} ${m.label[lang]}`).join(" · ");
+	const cen = marks.length || c.passRule ? `${c.title.en}: ${what("en")}` : `Complete “${c.title.en}”`;
+	const cde = marks.length || c.passRule ? `${c.title.de}: ${what("de")}` : `„${c.title.de}“ absolviert`;
+	b(`ch_${c.id}`, "challenges", c.title.en, c.title.de, cen, cde, `ch:${c.id}:pass`, c.icon, { metal: "bronze" });
+	b(`ch_${c.id}_3`, "challenges", `${c.title.en} ×3`, `${c.title.de} ×3`, `${cen} – 3 times`, `${cde} – 3-mal`, `ch:${c.id}:pass`, c.icon, {
+		target: 3,
+		num: "3×",
+		metal: "silver"
+	});
+	b(`ch_${c.id}_best`, "challenges", `${c.title.en}: New Best`, `${c.title.de}: Bestwert`, `Beat your own result in “${c.title.en}”`, `Eigenes Ergebnis bei „${c.title.de}“ verbessert`, `ch:${c.id}:improved`, "trophy", { metal: "gold" });
+}
+[
+	[
+		25,
+		"Collector",
+		"Sammler",
+		"bronze"
+	],
+	[
+		50,
+		"Curator",
+		"Kurator",
+		"silver"
+	],
+	[
+		75,
+		"Archivist",
+		"Archivar",
+		"gold"
+	]
+].forEach(([pct, en, de, metal]) => b(`collector_${pct}`, "collection", en, de, `${pct} % of the catalog`, `${pct} % des Katalogs`, "collection", "award", {
+	target: pct,
+	num: `${pct}%`,
+	metal
+}));
+b("completionist", "collection", "Completionist", "Sammlung vollständig", "Every badge of the catalog", "Alle Orden des Katalogs", "collection", null, {
+	target: 100,
+	shape: "crown",
+	metal: "diamond"
+});
+var BADGES = defs;
+var BADGE_BY_ID = new Map(BADGES.map((d) => [d.id, d]));
+/** zählt für die Sammler-Stufen: nicht geheim, kein Kalender-Orden, nicht die Sammlung selbst */
+var countsForCollection = (d) => !d.secret && d.group !== "calendar" && d.group !== "collection";
+BADGES.filter(countsForCollection).length;
+// src/core/hero/aliases.ts
+var ALIASES = {
+	vigilante: { en: [
+		"Night Shift",
+		"Gray Sparrow",
+		"The Lamplighter",
+		"Backstreet",
+		"Quiet Thunder",
+		"Rooftop",
+		"Last Bus",
+		"The Understudy",
+		"Brick",
+		"Midnight Oil",
+		"Second Shadow",
+		"The Janitor",
+		"Rain Check",
+		"Low Profile",
+		"Streetlight",
+		"Fire Escape",
+		"The Night Clerk",
+		"Dusk Runner",
+		"Plain Clothes",
+		"Alley Cat",
+		"The Watchful",
+		"Cold Coffee"
+	] },
+	xclass: { en: [
+		"Outlier",
+		"Static",
+		"Prism",
+		"Halfstep",
+		"Echo Nine",
+		"Variant",
+		"Glitch",
+		"Open Hand",
+		"Wavelength",
+		"Misfit",
+		"Keystone",
+		"Afterimage",
+		"Resonance",
+		"Offbeat",
+		"Sidestep",
+		"Catalyst",
+		"Lodestar",
+		"Flux",
+		"Kindred",
+		"Fracture",
+		"Undertone",
+		"Signal"
+	] },
+	starkeeper: { en: [
+		"Comet Tail",
+		"Far Light",
+		"Orbit",
+		"Nova Jane",
+		"Stardust",
+		"Captain Dawn",
+		"Long Way Round",
+		"Skyhook",
+		"Polar Night",
+		"Lightyear",
+		"Moon Mile",
+		"Deep Field",
+		"Sunchaser",
+		"Zero Gravity",
+		"Aurora",
+		"Wayfinder",
+		"Dark Matter",
+		"First Light",
+		"Tidal",
+		"Meteor",
+		"Skylark",
+		"Horizon Line"
+	] },
+	runewarrior: { en: [
+		"Ashfall",
+		"Stormbraid",
+		"Frostmarch",
+		"Ravenhand",
+		"Ironroot",
+		"Oathkeeper",
+		"Wolfmoon",
+		"Hearthguard",
+		"Runecarver",
+		"Northwind",
+		"Stonevoice",
+		"Emberfell",
+		"Longwinter",
+		"Skyforge",
+		"Tidewatch",
+		"Oakheart",
+		"Dawnshield",
+		"Graywake",
+		"Firstfrost",
+		"Highfell",
+		"Mistwalker",
+		"Thunderoak"
+	] },
+	neonrebel: { en: [
+		"Overclock",
+		"Neon Static",
+		"Hotwire",
+		"Pixel Riot",
+		"Voltage",
+		"Afterburn",
+		"Chrome Echo",
+		"Lowlight",
+		"Bitcrush",
+		"Redline",
+		"Glowstick",
+		"Backdoor",
+		"Fuse",
+		"Nightcore",
+		"Loop",
+		"Surge",
+		"Wirehead",
+		"Blackout",
+		"Arcade",
+		"Feedback",
+		"Subwoofer",
+		"Kilowatt"
+	] }
+};
+/** Nächster Vorschlag (ohne den aktuellen Alias zu wiederholen); `seed` macht ihn in Tests vorhersagbar */
+function suggestAlias(style, current = "", seed = Math.random()) {
+	const pool = (ALIASES[style]?.en ?? ALIASES.vigilante.en).filter((a) => a !== current);
+	return pool[Math.floor(seed * pool.length) % pool.length];
+}
+// src/ui/hero.js
+function createHero(h) {
+	return new HeroUI(h);
+}
+var HeroUI = class {
+	/** h: Hilfen der App – t, esc, ws, toast, render, lang, locale, state, caps, goto(tab), date */
+	constructor(h) {
+		this.h = h;
+		this.view = null;
+		this.rev = null;
+		this.sub = "dossier";
+		this.dialog = null;
+		this.filter = "all";
+		this.groupsOpen = /* @__PURE__ */ new Set([
+			"first",
+			"workouts",
+			"streak"
+		]);
+		this.barOpen = false;
+		this.homeTab = "story";
+		this.readOpen = false;
+		this.infoOpen = null;
+		this.tplCache = {};
+		this.nextPrev = null;
+		this.plan = {
+			w: null,
+			g: null,
+			show: false
+		};
+		this.planOpen = false;
+		try {
+			this.planOpen = localStorage.getItem("hx-plan-open") === "1";
+		} catch {}
+	}
+	/** Anschluss gewechselt: Geladenes verwerfen */
+	reset() {
+		this.view = null;
+		this.rev = null;
+		this.dialog = null;
+		this.barOpen = false;
+		this.homeTab = "story";
+		this.infoOpen = null;
+		this.tplCache = {};
+		this.nextPrev = null;
+	}
+	get enabled() {
+		return !!this.h.caps().hero;
+	}
+	/** Heldenmodus für die aktive Person eingeschaltet (und Auswertung geladen) */
+	get on() {
+		const s = this.h.state();
+		const on = !!(this.enabled && s && s.hero && s.hero.on && this.view);
+		if (on) ensureHeroFont();
+		return on;
+	}
+	L(o) {
+		return o ? o[this.h.lang() === "de" ? "de" : "en"] : "";
+	}
+	/** Bei jedem neuen Zustand: Auswertung neu holen, wenn sich etwas geändert hat */
+	sync(state) {
+		if (!this.enabled || !state || !state.hero) return;
+		if (state.hero_rev !== this.rev) {
+			this.rev = state.hero_rev;
+			this.nextPrev = null;
+			this.load();
+		}
+		if (!state.hero.asked && this.h.caps().heroAsk && !state.active && !this.dialog) this.dialog = { type: "intro" };
+		else if (state.hero.on && state.hero.figure_ask && !state.active && !this.dialog) this.dialog = {
+			type: "figure",
+			figure: state.hero.figure,
+			style: state.hero.style
+		};
+	}
+	async load() {
+		if (!this.enabled) return;
+		try {
+			this.view = (await this.h.ws({ type: "hero" })).hero;
+		} catch (_) {
+			return;
+		}
+		const v = this.view, s = this.h.state();
+		if (s && s.hero && s.hero.on && !this.dialog && !s.active) {
+			if (v.comeback && !v.comeback.seen) this.dialog = { type: "comeback" };
+			else if (v.hall_of_fame && !v.hall_seen) this.dialog = { type: "hall" };
+		}
+		this.h.render();
+	}
+	/** „Level 3 · Neuling“ – überall in dieser Reihenfolge: aus dem Level ergibt sich der Rang */
+	levelRank(level, rank) {
+		return `${this.h.t("hx_level")} ${level} · ${this.rankName(rank)}`;
+	}
+	/** Info-Symbol: die Erklärung erscheint erst beim Antippen (pop) – so bleibt die Seite aufgeräumt */
+	info(key) {
+		const open = this.infoOpen === key;
+		return `<button class="hx-info ${open ? "on" : ""}" data-a="hx-info" data-k="${key}" aria-expanded="${open}" aria-label="${this.h.esc(this.h.t("hx_info"))}">${heroIcon("info")}</button>`;
+	}
+	pop(key, html = null) {
+		return this.infoOpen === key ? `<div class="hx-pop" role="note">${html ?? this.h.t(key)}</div>` : "";
+	}
+	/** Vorschau einer ganzen Vorlage (alle Workouts mit Schritten); lädt beim ersten Mal nach */
+	template(id) {
+		if (!id) return null;
+		if (this.tplCache[id] === void 0) {
+			this.tplCache[id] = null;
+			this.h.ws({
+				type: "template_preview",
+				template_id: id
+			}).then((pv) => {
+				this.tplCache[id] = pv;
+				this.h.render();
+			}).catch(() => {});
+		}
+		return this.tplCache[id];
+	}
+	/** Schritte des nächsten Story-Trainings, mit den Vorschlägen aus dem Verlauf (wie die Vorschau des Programms) */
+	nextSteps(planId, workoutId) {
+		const key = `${planId}/${workoutId}`;
+		if (!this.nextPrev || this.nextPrev.key !== key) {
+			this.nextPrev = {
+				key,
+				steps: null
+			};
+			this.h.ws({
+				type: "preview",
+				plan_id: planId,
+				workout_id: workoutId
+			}).then((r) => {
+				if (this.nextPrev && this.nextPrev.key === key) {
+					this.nextPrev.steps = r.steps;
+					this.h.render();
+				}
+			}).catch(() => {});
+		}
+		return this.nextPrev.steps;
+	}
+	rankName(i) {
+		return this.h.t(`hx_rank_${RANK_KEYS[i] || RANK_KEYS[0]}`);
+	}
+	/** Name des Helden: Alias, sonst der Name der Person, sonst „Anonym“ (nie „dein Held“ – es kann eine Heldin sein) */
+	heroName() {
+		const v = this.view;
+		return v && (v.alias || v.name) || this.h.t("hx_anon");
+	}
+	art(kind, p) {
+		return heroImage(kind, p);
+	}
+	styleName(s) {
+		return `<b class="hx-stylename">${this.h.esc(this.h.t(`hx_style_${s}`))}</b>`;
+	}
+	heroArt(extra = {}) {
+		const v = this.view;
+		return this.art("rank", {
+			rank: v.rank,
+			figure: v.figure,
+			style: v.style,
+			...extra
+		});
+	}
+	/** nur der Held, ohne Hintergrund: Kopf und Schultern auf der Farbe des Stils (klein, in der Heldenleiste) */
+	heroBust() {
+		const v = this.view, pal = STYLE_ART[v.style] || STYLE_ART.vigilante;
+		return `<span class="hx-bar-fig" style="background:linear-gradient(${pal.bg[0]}, ${pal.bg[1]})">${this.art("hero", {
+			rank: v.rank,
+			figure: v.figure,
+			style: v.style,
+			bust: true
+		})}</span>`;
+	}
+	/** stärkste Kraft als kleines farbiges Symbol (Heldenleiste) – das Heldenbild selbst zeigt keine Kraftfarbe */
+	topPower() {
+		const { t, esc } = this.h, p = this.view.top;
+		if (!p) return "";
+		const label = esc(t("hx_top_power", { power: t(`hx_p_${p}`) }));
+		return `<span class="hx-top" style="--pc:${POWER_COLORS[p]}" title="${label}" role="img" aria-label="${label}">${heroIcon(POWER_ICONS[p])}</span>`;
+	}
+	/** plain: echtes Cover ohne Titel darauf (wenn der Titel direkt daneben steht); der Platzhalter behält seinen Text */
+	storyArt(id, variant = "thumb", plain = false) {
+		const s = STORY_BY_ID.get(id);
+		if (!s) return "";
+		return this.art("story", {
+			id,
+			hue: s.hue,
+			icon: s.icon,
+			title: this.L(s.text).title,
+			alias: variant.endsWith("thumb") ? "" : this.heroName(),
+			variant,
+			plain
+		});
+	}
+	medalOf(id, size, state) {
+		const def = BADGE_BY_ID.get(id);
+		return def ? medal(def.look, {
+			size,
+			state
+		}) : "";
+	}
+	/** Story- oder Challenge-Name eines Plans (Etikett im Verlauf) */
+	planLabel(planId, plan) {
+		if (!plan) plan = (this.h.state().plans || []).find((p) => p.id === planId);
+		if (plan && plan.story && STORY_BY_ID.has(plan.story)) return this.L(STORY_BY_ID.get(plan.story).text).title;
+		if (plan && plan.challenge && CHALLENGE_BY_ID.has(plan.challenge)) return this.L(CHALLENGE_BY_ID.get(plan.challenge).title);
+		return "";
+	}
+	markIcon() {
+		return heroIcon("award");
+	}
+	fmtDate(iso) {
+		return iso ? new Date(iso).toLocaleDateString(this.h.locale(), {
+			day: "2-digit",
+			month: "2-digit",
+			year: "numeric"
+		}) : "";
+	}
+	fmtNum(n) {
+		return Number(n).toLocaleString(this.h.locale());
+	}
+	/** Messwert einer Challenge mit Einheit */
+	fmtMetric(metric, value) {
+		const { t } = this.h;
+		if (metric.kind === "time" || metric.kind === "best_time") {
+			const v = Math.round(value);
+			const label = this.L(metric.label).replace(/^(seconds|Sekunden)\s*/, "").replace(/^s\s+/, "");
+			return `${v >= 60 ? `${Math.floor(v / 60)}:${String(v % 60).padStart(2, "0")} min` : `${v} s`}${label ? ` ${label}` : ""}`;
+		}
+		if (metric.kind === "weight") return `${this.fmtNum(value)} ${this.L(metric.label)}`;
+		if (metric.kind === "load") return `${this.fmtNum(Math.round(value))} ${this.L(metric.label)}`;
+		return `${this.fmtNum(value)} ${this.L(metric.label)}`.trim() || t("hx_none");
+	}
+	/** Messwert getrennt in [Zahl, Beschriftung] – für Kacheln (große Zahl, kleine Beschriftung) */
+	metricParts(metric, value) {
+		const label = this.L(metric.label);
+		if (metric.kind === "time" || metric.kind === "best_time") return [this.fmtStage(metric, Math.round(value)), label.replace(/^(seconds|Sekunden)\s*/, "").replace(/^s\s+/, "") || this.h.t("hx_time")];
+		return [this.fmtNum(metric.kind === "load" ? Math.round(value) : value), label];
+	}
+	/** Stufe ohne Beschriftung: „30 s“, „2:00 min“ oder die reine Zahl */
+	fmtStage(metric, x) {
+		if (metric.kind !== "time" && metric.kind !== "best_time") return this.fmtNum(x);
+		return x >= 60 ? `${Math.floor(x / 60)}:${String(x % 60).padStart(2, "0")} min` : `${x} s`;
+	}
+	fmtResult(def, values) {
+		return def.metrics.map((m, i) => values[i] > 0 ? this.fmtMetric(m, values[i]) : null).filter(Boolean).join(" · ");
+	}
+	gain(n) {
+		const v = Math.abs(n) >= 1 ? Math.round(n) : Math.round(n * 10) / 10;
+		return `${n >= 0 ? "+" : "−"}${String(Math.abs(v)).replace(".", this.h.lang() === "de" ? "," : ".")}`;
+	}
+	/** Auskünfte für das Teilen-Bild (share.js): Namen von Story und Orden, Bild-Adressen, Schreibweise des Zuwachses */
+	shareInputs() {
+		return {
+			ranks: RANK_KEYS,
+			powers: POWERS,
+			gain: (n) => this.gain(n),
+			art: heroArtUrl,
+			story: (id) => {
+				const def = STORY_BY_ID.get(id);
+				return def ? {
+					title: this.L(def.text).title,
+					per_week: def.per_week
+				} : null;
+			},
+			badge: (id) => {
+				const def = BADGE_BY_ID.get(id);
+				return def ? this.L(def.name) : null;
+			}
+		};
+	}
+	/** Zeitstrahl einer Story mit den fünf Wegmarken */
+	timeline(pct, milestone, labels = true) {
+		const { t } = this.h;
+		const nodes = HERO.MILESTONES.map((share, i) => `<span class="hx-tl-n ${i <= milestone ? "on" : ""}" style="left:${share * 100}%"><i></i>${labels ? `<em>${t(`hx_ms_${i}`)}</em>` : ""}</span>`).join("");
+		return `<div class="hx-tl ${labels ? "" : "plain"}" role="img" aria-label="${Math.round(pct * 100)} %"><div class="hx-tl-bar"><div style="width:${Math.min(100, pct * 100)}%"></div></div>${nodes}</div>`;
+	}
+	/**
+	* Schmale Heldenleiste; nach unten ziehen klappt den Helden groß auf. Links: wer (Alias, Level · Rang).
+	* Rechts, abgesetzt: das nächste Upgrade mit Kraft-Symbol und eigenem Balken – er misst die Kraft, nicht das Level.
+	*/
+	renderBar() {
+		if (!this.on) return "";
+		const { t, esc } = this.h, v = this.view, nu = v.next_upgrade;
+		const chips = POWERS.map((p) => `<span class="hx-pchip" style="--pc:${POWER_COLORS[p]}" title="${esc(t(`hx_p_${p}`))}">${heroIcon(POWER_ICONS[p])}<span class="hx-pchip-n">${esc(t(`hx_p_${p}`))}</span><b>${v.powers[p].value}</b></span>`).join("");
+		const up = nu ? `<span class="hx-up" style="--pc:${POWER_COLORS[nu.power]}"><span class="hx-up-h">${heroIcon(POWER_ICONS[nu.power])}<span>${t(`hx_p_${nu.power}`)}</span><b>${v.powers[nu.power].value}</b><i>/ ${nu.at}</i></span>
+          <span class="hx-prog"><i style="width:${Math.round(nu.progress * 100)}%"></i></span><span class="hx-fact">${t("hx_next_upgrade_short")}</span></span>` : `<span class="hx-up"><span class="hx-fact">${t("hx_all_upgrades")}</span></span>`;
+		return `<div class="hx-barwrap ${this.barOpen ? "open" : ""}" data-hx-bar>
+      <button class="hx-bar" data-a="hx-go" data-sub="dossier" aria-label="${esc(t("hx_open_hero"))}">
+        ${this.heroBust()}
+        <span class="hx-bar-main"><b class="hx-name">${esc(this.heroName())}</b><span class="hx-lrrow">${this.topPower()}<span class="hx-lr">${esc(this.levelRank(v.level, v.rank))}</span></span></span>
+        ${up}
+      </button>
+      <div class="hx-peek" data-a="hx-go" data-sub="dossier"><div class="hx-peek-in">
+        <div class="hx-peek-art">${this.heroArt()}</div>
+        <div class="hx-peek-txt"><div class="hx-pchips">${chips}</div>
+          <div class="hx-fact">${this.styleName(v.style)} · ${esc(t(`hx_style_${v.style}_sub`))}</div></div></div></div>
+      <button class="hx-handle" data-a="hx-bar-toggle" aria-expanded="${this.barOpen}" aria-label="${esc(t(this.barOpen ? "hx_bar_close" : "hx_bar_open"))}"><i></i></button>
+    </div>`;
+	}
+	/**
+	* Text der Rückkehr: away = der Held ist gefallen (noch nicht wieder trainiert), pending = das erste Training ist
+	* geschafft – mit Fortschritt: so viele Trainings fehlen diese Woche noch zum Wochenziel (`left`, sonst aus der Woche).
+	*/
+	returnText(c, level, left) {
+		const { t } = this.h, v = this.view;
+		const name = this.heroName();
+		if (c.state === "away") return t("hx_return_away", {
+			name,
+			low: level,
+			pre: c.pre_level
+		});
+		const n = Math.max(1, left ?? v.week.goal - v.week.sessions);
+		return t(n === 1 ? "hx_return_pending1" : "hx_return_pending", {
+			n,
+			name,
+			pre: c.pre_level
+		});
+	}
+	/** Karte „The Return“ (löst den Pausen-Hinweis ab, sobald die Rückkehr begonnen hat) */
+	comebackCard(c, level, left) {
+		const { t, esc } = this.h;
+		return `<div class="hx-hint comeback"><span class="hx-hint-ico">${heroIcon("sparkles")}</span>
+      <div class="hx-hint-body"><b>${t("hx_return_title")}</b>
+        <div class="small">${esc(this.returnText(c, level, left))}</div>
+        <div class="row"><button class="btn small" data-a="hx-dialog" data-type="comeback">${t("hx_return_show")}</button></div></div></div>`;
+	}
+	/** Eine Hinweis-Karte: Wochenziel (goal), Kraft liegt brach (idle), gar kein Training seit über zwei Wochen (break) */
+	hintCard(hint) {
+		const { t, esc } = this.h;
+		const x = `<button class="hx-x" data-a="hx-hint-x" data-key="${hint.key}" aria-label="${esc(t("hx_dismiss"))}">×</button>`;
+		if (hint.type === "goal") return `<div class="hx-hint"><span class="hx-hint-ico" style="color:${POWER_COLORS.willpower}">${heroIcon("mountain")}</span>
+        <div class="hx-hint-body"><b>${esc(t(hint.left === 1 ? "hx_goal_left1" : "hx_goal_left", { n: hint.left }))}</b>
+          <div class="small muted">${t("hx_goal_left_sub")}</div></div>${x}</div>`;
+		const story = hint.story ? STORY_BY_ID.get(hint.story) : null, ch = CHALLENGE_BY_ID.get(hint.challenge);
+		const offers = `${story ? `<button class="btn small" data-a="hx-story" data-id="${story.id}">${heroIcon("book")} ${esc(this.L(story.text).title)}</button>` : ""}
+      ${ch ? `<button class="btn small" data-a="hx-challenge" data-id="${ch.id}">${heroIcon("bolt")} ${esc(this.L(ch.title))}</button>` : ""}
+      <button class="btn small" data-a="hx-templates">${t("hx_idle_templates")}</button>`;
+		if (hint.type === "break") return `<div class="hx-hint"><span class="hx-hint-ico">${heroIcon("flame")}</span>
+        <div class="hx-hint-body"><b>${esc(t("hx_break_title", { days: hint.days }))}</b>
+          <div class="small">${t(hint.sinking ? "hx_break_text" : "hx_break_soon")}</div><div class="row">${offers}</div></div>${x}</div>`;
+		const power = t(`hx_p_${hint.power}`);
+		return `<div class="hx-hint"><span class="hx-hint-ico" style="color:${POWER_COLORS[hint.power]}">${heroIcon(POWER_ICONS[hint.power])}</span>
+      <div class="hx-hint-body"><b>${esc(t("hx_idle_title", {
+			power,
+			days: hint.days
+		}))}</b>
+        <div class="small">${esc(hint.sinking ? t(hint.level_then < hint.level_now ? "hx_idle_sinking" : "hx_idle_sinking0", {
+			now: hint.level_now,
+			then: hint.level_then
+		}) : t("hx_idle_soon", { power }))}</div>
+        <div class="row">${offers}
+          <button class="btn small" data-a="hx-go" data-sub="dossier">${t("hx_idle_pause")}</button></div></div>${x}</div>`;
+	}
+	/** Hinweise: Rückkehr, Pause, Kraft liegt brach, Wochenziel – jeweils wegklickbar */
+	renderHints() {
+		if (!this.on) return "";
+		const v = this.view;
+		return `${v.comeback ? this.comebackCard(v.comeback, v.level) : ""}${v.hints.map((hint) => this.hintCard(hint)).join("")}`;
+	}
+	/** Eine Wegmarke als Comic-Kasten: die Comicseite im Querformat (eigener Stil groß), darunter Name und Text */
+	markPanel(text, i, style) {
+		const { t, esc } = this.h;
+		return `<div class="hx-panel"><div class="hx-panel-art">${this.art("milestone", {
+			index: i,
+			style,
+			page: true,
+			wide: true
+		})}</div>
+      <div class="hx-caption"><span class="hx-cap-l">${t(`hx_ms_${i}`)}</span>${esc(text.marks[i])}</div></div>`;
+	}
+	/**
+	* Vor dem ersten Training einer Story: das Fenster „Aufbruch“ zeigen, das Training startet erst mit dessen Knopf.
+	* Antwort true = das Fenster ist offen, der Aufrufer (Start in app.js) wartet. Im Rundgang nicht (caps.moments).
+	*/
+	depart(plan, workout) {
+		const st = this.on && this.view && this.view.story, state = this.h.state();
+		if (!st || st.done !== 0 || this.h.caps().moments === false) return false;
+		const next = state && state.next || {};
+		if ((plan || next.plan_id) !== st.plan_id) return false;
+		this.dialog = {
+			type: "depart",
+			id: st.id,
+			plan: st.plan_id,
+			workout: workout || st.next_workout
+		};
+		this.h.render();
+		return true;
+	}
+	/**
+	* Aktive Story als große Karte: „Weiter in ‚Der Turm‘ – Training 13 von 25“. Die drei Punkte führen zur Story-Seite
+	* (pausieren, abbrechen, Trainingsplan). Darunter die Vorschau des nächsten Trainings – wie beim normalen Programm.
+	*/
+	renderStoryCard() {
+		if (!this.on) return "";
+		const { t, esc } = this.h, st = this.view.story, state = this.h.state();
+		if (!st) return `<div class="hx-nostory"><span>${heroIcon("book")} ${t("hx_no_story")}</span>
+        <button class="btn small" data-a="hx-go" data-sub="stories">${t("hx_pick_story")}</button></div>`;
+		const def = STORY_BY_ID.get(st.id), text = this.L(def.text);
+		const ro = state && state.multi && state.can_control === false;
+		const plan = (state && state.plans || []).find((p) => p.id === st.plan_id);
+		const wo = plan && plan.workouts.find((w) => w.id === st.next_workout);
+		const steps = this.nextSteps(st.plan_id, st.next_workout);
+		return `<div class="hx-storycard">
+      <div class="hx-sc-top">
+        <button class="hx-cover sm" data-a="hx-go" data-sub="stories" aria-label="${esc(text.title)}">${this.storyArt(st.id)}</button>
+        <div class="hx-sc-body">
+          <div class="hx-fact">${t("hx_continue_pre")}</div>
+          <div class="hx-sc-title">${esc(text.title)}</div>
+          <div class="hx-fact">${esc(t("hx_training_of", {
+			n: Math.min(st.done + 1, st.total),
+			total: st.total
+		}))}${wo ? ` · ${esc(wo.name)}` : ""}</div>
+        </div>
+        <button class="hx-dots" data-a="hx-go" data-sub="stories" aria-label="${esc(t("hx_story_manage"))}" title="${esc(t("hx_story_manage"))}">${heroIcon("dots")}</button>
+      </div>
+      ${this.timeline(st.pct, st.milestone, false)}
+      <div class="row hx-sc-btns"><button class="btn primary" data-a="start" data-plan="${esc(st.plan_id)}" data-workout="${esc(st.next_workout)}" ${ro ? "disabled" : ""}>⟦play⟧ ${t("hx_continue")}</button></div>
+      ${this.markPanel(text, st.milestone, this.view.style)}
+    </div>${steps ? `<div class="hx-nextprev"><div class="lbl">${t("hx_next_training")}</div>${this.h.preview(steps)}</div>` : ""}`;
+	}
+	/** Startseite: zwei Reiter – die Story mit ihrem nächsten Training oder das freie Training (übliche Auswahl) */
+	renderHomeTabs() {
+		const { t } = this.h;
+		const tab = (id, ico, label) => `<button class="subtab ${this.homeTab === id ? "on" : ""}" data-a="hx-home" data-tab="${id}" aria-pressed="${this.homeTab === id}">
+      <span class="ico">${heroIcon(ico)}</span> <span class="l-long">${label}</span><span class="l-short">${label}</span></button>`;
+		return `<div class="subtabs hx-subtabs hx-hometabs">${tab("story", "book", t("hx_tab_story"))}${tab("free", "dumbbell", t("hx_tab_free"))}</div>`;
+	}
+	toggled(set, id) {
+		const s = new Set(set);
+		if (!s.delete(id)) s.add(id);
+		return s;
+	}
+	/**
+	* „Das Training“: was man in dieser Story trainiert – ungekürzt und über die volle Breite. Die Beschreibung
+	* (was · Inhalt · Umfang) steht in Zeilen, darunter alle Übungen des Programms mit Bild.
+	*/
+	training(def, total = 0) {
+		const { t, esc } = this.h, parts = this.L(def.text).sub.split(" · ");
+		const scope = parts.length > 2 ? parts.pop() : "", what = parts.shift(), more = parts.join(" · ");
+		const pv = this.template(def.template), ex = pv ? this.h.exercises(pv.workouts) : null;
+		return `<div class="hx-train"><div class="lbl">${t("hx_train_h")}</div>
+      <b class="hx-train-what">${esc(what)}</b>${more ? `<div>${esc(more)}</div>` : ""}
+      ${scope || total ? `<div class="hx-fact">${esc([total ? t("hx_train_n", { n: total }) : "", scope].filter(Boolean).join(" · "))}</div>` : ""}
+      ${ex && ex.count ? `<div class="hx-train-exh">${esc(t("hx_train_ex", { n: ex.count }))}</div><div class="hx-train-ex">${ex.html}</div>` : ""}</div>`;
+	}
+	/** Trainingsplan einer Story: alle Trainings, erledigte abgehakt, das nächste aufgeklappt; lange Pläne nach Wochen gruppiert */
+	renderPlan(storyId, st = null) {
+		const { t, esc } = this.h, def = STORY_BY_ID.get(storyId);
+		const pv = this.template(def && def.template);
+		if (!pv) return `<div class="hx-fact">${t("loading")}</div>`;
+		const done = new Set(st ? st.done_ids : []), next = st ? st.next_workout : null;
+		const openW = this.plan.w ?? new Set(next ? [next] : []);
+		const split = (name) => {
+			const i = name.indexOf(" · ");
+			return pv.workouts.length > 8 && i > 0 ? [name.slice(0, i), name.slice(i + 3)] : ["", name];
+		};
+		const groups = [];
+		for (const w of pv.workouts) {
+			const [g, label] = split(w.name);
+			let grp = groups[groups.length - 1];
+			if (!grp || grp.name !== g) groups.push(grp = {
+				name: g,
+				items: []
+			});
+			grp.items.push({
+				...w,
+				label
+			});
+		}
+		const nextGroup = (groups.find((g) => g.items.some((w) => w.id === (next || pv.workouts[0].id))) || groups[0]).name;
+		const openG = this.plan.g ?? /* @__PURE__ */ new Set([nextGroup]);
+		this.planNow = {
+			w: openW,
+			g: openG
+		};
+		const row = (w) => {
+			const isOpen = openW.has(w.id);
+			return `<div class="hx-pw ${done.has(w.id) ? "done" : w.id === next ? "next" : ""} ${isOpen ? "open" : ""}"><button class="hx-pw-h" data-a="hx-plan-w" data-w="${esc(w.id)}" aria-expanded="${isOpen}">
+          <span class="hx-pw-s">${done.has(w.id) ? heroIcon("check") : ""}</span><span class="hx-pw-n">${esc(w.label)}</span>
+          ${w.id === next ? `<span class="badge ok">${t("hx_plan_next")}</span>` : ""}<span class="hx-chev">${isOpen ? "▴" : "▾"}</span></button>
+        ${isOpen ? `<div class="hx-pw-b">${this.h.preview(w.steps)}</div>` : ""}</div>`;
+		};
+		return `<div class="hx-plan">${groups.map((g) => {
+			if (!g.name) return g.items.map(row).join("");
+			const open = openG.has(g.name), n = g.items.filter((w) => done.has(w.id)).length;
+			return `<div class="hx-pg ${open ? "open" : ""}"><button class="hx-pg-h" data-a="hx-plan-g" data-g="${esc(g.name)}" aria-expanded="${open}">
+        <b>${esc(g.name)}</b><span class="hx-fact">${st ? `${n}/${g.items.length}` : g.items.length}</span><span class="hx-chev">${open ? "▴" : "▾"}</span></button>
+        ${open ? g.items.map(row).join("") : ""}</div>`;
+		}).join("")}</div>`;
+	}
+	renderTab() {
+		const { t } = this.h;
+		if (!this.view) return `<div class="pad muted">${t("loading")}</div>`;
+		const v = this.view;
+		const tab = (id, ico, label, count = null) => `<button class="subtab ${this.sub === id ? "on" : ""}" data-a="hx-sub" data-sub="${id}">
+      <span class="ico">${heroIcon(ico)}</span> <span class="l-long">${label}</span><span class="l-short">${label}</span>${count !== null ? ` <span class="cnt">${count}</span>` : ""}</button>`;
+		const body = this.sub === "stories" ? this.renderStories() : this.sub === "challenges" ? this.renderChallenges() : this.sub === "badges" ? this.renderBadges() : this.renderDossier();
+		return `<div class="pad hx">
+      <div class="subtabs hx-subtabs">${tab("dossier", "mask", t("hx_tab_dossier"))}${tab("stories", "book", t("hx_tab_stories"))}
+        ${tab("challenges", "bolt", t("hx_tab_challenges"))}${tab("badges", "award", t("hx_tab_badges"), `${v.badges.earned}/${v.badges.total}`)}</div>
+      ${body}</div>`;
+	}
+	radar() {
+		const v = this.view, { t } = this.h, R = 78, c = 110;
+		const hi = Math.max(...POWERS.map((p) => v.powers[p].value));
+		const max = HERO.TIERS.find((at) => at > hi) ?? HERO.MAX;
+		const axes = [
+			[
+				"strength",
+				0,
+				-1
+			],
+			[
+				"endurance",
+				1,
+				0
+			],
+			[
+				"agility",
+				0,
+				1
+			],
+			[
+				"willpower",
+				-1,
+				0
+			]
+		];
+		const ring = (k) => `<path d="M${c} ${c - R * k}L${c + R * k} ${c}L${c} ${c + R * k}L${c - R * k} ${c}Z" class="hx-radar-ring"/>`;
+		const pts = axes.map(([p, x, y]) => {
+			const k = Math.max(.03, Math.min(1, v.powers[p].value / max));
+			return `${c + x * R * k} ${c + y * R * k}`;
+		}).join("L");
+		const labels = axes.map(([p, x, y]) => {
+			return `<text x="${c + x * 86}" y="${c + y * 94 + (y === 0 ? 4 : y < 0 ? 2 : 8)}" text-anchor="${x > 0 ? "start" : x < 0 ? "end" : "middle"}" class="hx-radar-l" fill="${POWER_COLORS[p]}">${v.powers[p].value}</text>`;
+		}).join("");
+		return `<svg class="hx-radar" viewBox="-14 -14 248 248" role="img" aria-label="${this.h.esc(POWERS.map((p) => `${t(`hx_p_${p}`)} ${v.powers[p].value}`).join(", "))}">
+      ${[
+			.25,
+			.5,
+			.75,
+			1
+		].map(ring).join("")}<path d="M${c} 32V188M32 ${c}H188" class="hx-radar-ring"/>
+      <text x="156" y="${c - R / 2 - 5}" class="hx-radar-s">${max}</text>
+      <path d="M${pts}Z" class="hx-radar-area"/>${axes.map(([p, x, y]) => {
+			const k = Math.max(.03, Math.min(1, v.powers[p].value / max));
+			return `<circle cx="${c + x * R * k}" cy="${c + y * R * k}" r="4" fill="${POWER_COLORS[p]}"/>`;
+		}).join("")}${labels}</svg>`;
+	}
+	renderDossier() {
+		const { t, esc } = this.h, v = this.view;
+		const lvlNext = HERO.RANKS[v.rank + 1];
+		const card = `<div class="hx-herocard">
+      <div class="hx-alias big">${esc(this.heroName())}</div>
+      <button class="hx-portrait" data-a="hx-portrait" aria-label="${esc(t("hx_portrait_open"))}">${this.heroArt()}</button>
+      <div class="hx-id">
+        ${v.alias ? `<div class="hx-realname">${esc(v.name)}</div>` : ""}
+        <div class="hx-rankbox"><b class="hx-lr big">${esc(this.levelRank(v.level, v.rank))}</b>
+          ${lvlNext ? `<div class="hx-prog"><i style="width:${Math.round(Math.max(.04, Math.min(1, (v.level - HERO.RANKS[v.rank]) / (lvlNext - HERO.RANKS[v.rank]))) * 100)}%"></i></div>` : ""}
+          <div class="hx-fact">${lvlNext ? esc(t("hx_rank_next", {
+			rank: this.rankName(v.rank + 1),
+			level: lvlNext
+		})) : esc(t("hx_rank_top"))}</div></div>
+        <div class="hx-fact">${this.styleName(v.style)} · ${esc(t(`hx_style_${v.style}_sub`))}</div>
+        <button class="btn small" data-a="hx-edit">⟦editor⟧ ${t("hx_edit")}</button>
+      </div></div>`;
+		const c = v.comeback;
+		const back = c ? `<div class="hx-note">${heroIcon("sparkles")} <span><b>${t("hx_return_title")}</b> ${esc(this.returnText(c, v.level))}</span></div>` : "";
+		const powers = POWERS.map((p) => {
+			const s = v.powers[p];
+			const pips = HERO.TIERS.map((at, i) => `<i class="${i < s.tier ? "on" : ""}" title="${at}"></i>`).join("");
+			const sub = s.paused ? t("hx_paused_since") : s.memory ? t("hx_memory", {
+				power: t(`hx_p_${p}`),
+				v: s.memory
+			}) : s.next !== null ? t("hx_upgrade_at", {
+				at: s.next,
+				left: Math.max(1, s.next - s.value)
+			}) : t("hx_upgrade_all");
+			return `<div class="hx-power ${s.paused ? "paused" : ""}" style="--pc:${POWER_COLORS[p]}">
+        <span class="hx-power-ico">${heroIcon(POWER_ICONS[p])}</span>
+        <div class="hx-power-main"><div class="hx-power-head"><b>${t(`hx_p_${p}`)}</b><span class="hx-pips" aria-label="${esc(t("hx_tier_n", { n: s.tier }))}">${pips}</span><span class="hx-power-val">${s.value}</span></div>
+          <div class="hx-prog"><i style="width:${Math.round(s.progress * 100)}%"></i></div>
+          <div class="hx-fact">${esc(sub)}</div></div>
+        <button class="chip-btn ${s.paused ? "on" : ""}" data-a="hx-pause" data-power="${p}" data-on="${s.paused ? "0" : "1"}" aria-pressed="${s.paused}">⟦pause⟧ ${t(s.paused ? "hx_resume_power" : "hx_pause_power")}</button>
+      </div>`;
+		}).join("");
+		const w = v.week;
+		const deltas = POWERS.filter((p) => Math.abs(w.delta[p]) >= .05).map((p) => `<span class="hx-delta" style="--pc:${POWER_COLORS[p]}">${heroIcon(POWER_ICONS[p])} ${t(`hx_p_${p}`)} <b>${this.gain(w.delta[p])}</b></span>`).join("");
+		const week = `<div class="hx-week"><div class="hx-week-top"><b>${esc(t("hx_week_count", {
+			n: w.sessions,
+			g: w.goal
+		}))}</b>
+        <span class="hx-fact">${esc(t(w.reached ? "hx_week_reached" : "hx_week_left", { n: Math.max(0, w.goal - w.sessions) }))}</span></div>
+      ${deltas ? `<div class="hx-week-d"><span class="hx-eyebrow">${t("hx_week_change")}</span><div class="hx-deltas">${deltas}</div></div>` : ""}</div>`;
+		return `${card}${back}
+      <div class="lbl">${t("hx_powers")} ${this.info("powers")}</div>${this.pop("powers", this.powersHelp())}
+      <div class="hx-powers"><div class="hx-radarbox">${this.radar()}</div><div class="hx-powerlist">${powers}</div></div>
+      <div class="lbl">${t("hx_week_report")}</div>${week}
+      ${this.h.caps().preview ? `<button class="btn small hx-pv-open" data-a="hx-dialog" data-type="preview">${heroIcon("sparkles")} ${t("hx_pv_open")}</button>` : ""}`;
+	}
+	/** Info zu den Kräften: je Kraft eine Zeile (Symbol, Name, womit sie wächst), darunter Level, Grafik, Pause */
+	powersHelp() {
+		const { t, esc } = this.h;
+		const rows = POWERS.map((p) => `<li style="--pc:${POWER_COLORS[p]}"><span class="hx-power-ico">${heroIcon(POWER_ICONS[p])}</span>
+      <span><b>${esc(t(`hx_p_${p}`))}</b><span class="hx-fact">${esc(t(`hx_how_${p}`))}</span></span></li>`).join("");
+		const notes = [
+			"level",
+			"scale",
+			"pause"
+		].map((k) => `<dt>${esc(t(`hx_how_${k}_h`))}</dt><dd>${esc(t(`hx_how_${k}`))}</dd>`).join("");
+		return `<b class="hx-how-h">${esc(t("hx_how_h"))}</b><ul class="hx-how">${rows}</ul><dl class="hx-how-notes">${notes}</dl>`;
+	}
+	storyState(s) {
+		const { t } = this.h;
+		if (s.state === "soon") return `<span class="badge muted">${t("hx_soon")}</span>`;
+		if (s.state === "active") return `<span class="badge ok">${t("hx_active")} · ${Math.round(s.pct * 100)} %</span>`;
+		if (s.state === "paused") return `<span class="badge warn">${t("hx_paused_at", { n: Math.round(s.pct * 100) })}</span>`;
+		if (s.state === "finished") return `<span class="badge info">${heroIcon("check")} ${s.finished > 1 ? `${s.finished}×` : t("hx_done")}</span>`;
+		return "";
+	}
+	renderStories() {
+		const { t, esc } = this.h, v = this.view, st = v.story;
+		let active = `<div class="hx-nostory"><span>${heroIcon("book")} ${t("hx_no_story")}</span><span class="hx-fact">${t("hx_no_story_sub")}</span></div>`;
+		if (st) {
+			const def = STORY_BY_ID.get(st.id), text = this.L(def.text);
+			const read = text.marks.slice(0, st.milestone + 1);
+			const panels = (this.readOpen ? read.map((m, i) => [m, i]) : [[read[read.length - 1], read.length - 1]]).map(([, i]) => this.markPanel(text, i, v.style)).join("");
+			const honest = st.goal < st.per_week ? t("hx_honest", {
+				g: st.goal,
+				n: st.weeks_at_goal,
+				w: def.weeks
+			}) : t("hx_per_week", {
+				n: st.per_week,
+				w: def.weeks
+			});
+			active = `<div class="hx-active">
+        <div class="hx-cover hx-active-cover">${this.storyArt(st.id, "cover", true)}</div>
+        <div class="hx-active-main">
+        <div class="hx-active-title"><div class="hx-eyebrow">${t(`hx_sg_${def.group}`)}</div><h3>${esc(text.title)}</h3></div>
+        <p class="hx-teaser">${esc(text.teaser)}</p>
+        ${this.training(def, st.total)}
+        <div><b>${esc(t("hx_training_of_done", {
+				n: st.done,
+				total: st.total
+			}))}</b> <span class="hx-fact">· ${esc(honest)}</span></div>
+        ${this.timeline(st.pct, st.milestone)}
+        <button class="btn primary hx-wide" data-a="start" data-plan="${esc(st.plan_id)}" data-workout="${esc(st.next_workout)}">⟦play⟧ ${t("hx_continue")}</button>
+        <div class="hx-active-sec"><button class="btn small" data-a="hx-story-stop" data-ck="hx-stop" data-confirm="${esc(t("hx_story_pause_c"))}">⟦pause⟧ ${t("hx_story_pause")}</button>
+          <button class="btn small danger" data-a="hx-story-abort" data-id="${st.id}" data-ck="hx-abort" data-confirm="${esc(t("hx_story_abort_c"))}">${t("hx_story_abort")}</button></div>
+        </div></div>
+        <div class="hx-read">${panels}${read.length > 1 ? `<button class="btn small" data-a="hx-read">${t(this.readOpen ? "hx_read_less" : "hx_read_all", { n: read.length })}</button>` : ""}</div>
+        <div class="hx-fold ${this.planOpen ? "open" : ""}"><button class="hx-fold-h" data-a="hx-plan-all" aria-expanded="${this.planOpen}">
+          <span class="lbl">${t("hx_plan")}</span><span class="hx-fact">${esc(t("hx_n_of", {
+				n: st.done,
+				total: st.total
+			}))}</span><span class="hx-chev">${this.planOpen ? "▴" : "▾"}</span></button>
+          ${this.planOpen ? this.renderPlan(st.id, st) : ""}</div>`;
+		}
+		const byId = new Map(v.stories.map((s) => [s.id, s]));
+		const groups = STORY_GROUPS.map((g) => {
+			const all = storiesOfGroup(g);
+			const list = [...all.filter((s) => s.template), ...all.filter((s) => !s.template)];
+			const playable = list.filter((s) => s.template).length;
+			return `<div class="hx-group"><div class="hx-group-h"><b>${t(`hx_sg_${g}`)}</b>${playable < list.length ? `<span class="hx-fact">${t("hx_playable", {
+				n: playable,
+				total: list.length
+			})}</span>` : ""}</div>
+        <div class="hx-shelf-row">${list.map((s) => {
+				const state = byId.get(s.id) || { state: "soon" };
+				return `<button class="hx-tile ${state.state}" data-a="hx-story" data-id="${s.id}">
+            <span class="hx-cover xs">${this.storyArt(s.id)}</span><b>${esc(this.L(s.text).title)}</b>${this.storyState(state)}</button>`;
+			}).join("")}</div></div>`;
+		}).join("");
+		const shelf = v.shelf.length ? `<div class="hx-shelf">${v.shelf.map((x) => {
+			const def = STORY_BY_ID.get(x.id);
+			if (!def) return "";
+			const fin = x.state === "finished";
+			return `<button class="hx-comic ${x.state}" data-a="hx-story" data-id="${x.id}">
+            <span class="hx-cover xs">${this.storyArt(x.id, fin ? "victory-thumb" : "thumb")}</span>
+            <span class="hx-comic-t"><b>${esc(this.L(def.text).title)}</b>
+              <span class="muted small">${fin ? esc(t("hx_shelf_done", {
+				d: this.fmtDate(x.finished_at),
+				n: x.sessions
+			})) + (x.count > 1 ? ` · ${x.count}×` : "") : esc(t("hx_paused_at", { n: Math.round(x.pct * 100) }))}</span></span></button>`;
+		}).join("")}</div>` : `<div class="hx-fact">${t("hx_shelf_empty")}</div>`;
+		return `<div class="lbl">${t("hx_story_active")}</div>${active}<div class="lbl">${t("hx_all_stories")}</div>${groups}<div class="lbl">${t("hx_shelf")}</div>${shelf}`;
+	}
+	renderChallenges() {
+		const { t, esc } = this.h, v = this.view;
+		const stats = new Map(v.challenges.map((c) => [c.id, c]));
+		const groups = CHALLENGE_GROUPS.map((g) => {
+			const rows = CHALLENGES.filter((c) => c.group === g).map((c) => {
+				const s = stats.get(c.id);
+				const best = s.best ? this.fmtResult(c, s.best.values) : "";
+				return `<button class="hx-ch" data-a="hx-challenge" data-id="${c.id}">
+          <span class="hx-ch-m ${s.passes ? "got" : "open"}">${this.medalOf(`ch_${c.id}`, 46)}</span>
+          <span class="hx-ch-t"><b>${esc(this.L(c.title))}</b><span class="muted small">${esc(this.L(c.gear))}</span></span>
+          <span class="hx-ch-r">${best ? `<b>${esc(best)}</b><span class="muted small">${esc(t(s.count === 1 ? "hx_ch_count1" : "hx_ch_count", { n: s.count }))}</span>` : `<span class="muted small">${t("hx_ch_new")}</span>`}</span></button>`;
+			}).join("");
+			return `<div class="hx-group"><div class="hx-group-h"><b>${t(`hx_cg_${g}`)}</b></div><div class="hx-chlist">${rows}</div></div>`;
+		}).join("");
+		return `<div class="lbl">${t("hx_all_challenges")} ${this.info("hx_ch_intro")}</div>${this.pop("hx_ch_intro")}${groups}`;
+	}
+	renderBadges() {
+		const { t, esc } = this.h, v = this.view;
+		const st = new Map(v.badges.list.map((b) => [b.id, b]));
+		const col = v.badges.collection;
+		const f = (id, label) => `<button class="chip-btn ${this.filter === id ? "on" : ""}" data-a="hx-bfilter" data-f="${id}">${label}</button>`;
+		const groups = BADGE_GROUPS.map((g) => {
+			const all = BADGES.filter((b) => b.group === g.id);
+			const got = all.filter((b) => st.get(b.id) && st.get(b.id).earned).length;
+			const items = all.filter((b) => {
+				const e = !!(st.get(b.id) && st.get(b.id).earned);
+				return this.filter === "all" || this.filter === "got" === e;
+			});
+			if (!items.length) return "";
+			const open = this.groupsOpen.has(g.id);
+			const grid = open ? `<div class="hx-bgrid">${items.map((b) => {
+				const s = st.get(b.id) || {}, earned = !!s.earned;
+				const state = earned ? "got" : b.secret ? "secret" : "open";
+				const bar = !earned && s.progress ? `<span class="hx-mini"><i style="width:${Math.min(100, s.progress[0] / s.progress[1] * 100)}%"></i></span>` : "";
+				return `<button class="hx-badge ${state}" data-a="hx-badge" data-id="${b.id}">${medal(b.look, {
+					size: 64,
+					state
+				})}
+          <span class="hx-badge-n">${state === "secret" ? "???" : esc(this.L(b.name))}</span>${bar}</button>`;
+			}).join("")}</div>` : "";
+			return `<div class="hx-bgroup ${open ? "open" : ""}"><button class="hx-bgroup-h" data-a="hx-bgroup" data-g="${g.id}" aria-expanded="${open}">
+        <span class="hx-dot" style="background:hsl(${g.hue} 70% 48%)"></span><b>${esc(this.L(g))}</b><span class="muted small">${got}/${all.length}</span><span class="hx-chev">${open ? "▴" : "▾"}</span></button>${grid}</div>`;
+		}).join("");
+		return `<div class="lbl">${t("hx_collection_h")} ${this.info("collection")}</div>${this.pop("collection", esc(t("hx_collection", {
+			have: col.have,
+			of: col.of,
+			pct: col.pct
+		})))}
+      <div class="hx-bhead"><div class="hx-bcount"><b>${v.badges.earned}</b><span class="hx-fact"> ${t("hx_of")} ${v.badges.total}</span></div>
+        <div class="hx-prog"><i style="width:${v.badges.earned / v.badges.total * 100}%"></i></div></div>
+      <div class="row seg">${f("all", t("hx_f_all"))}${f("got", t("hx_f_got"))}${f("open", t("hx_f_open"))}</div>
+      ${groups}
+      <div class="hx-legend muted small"><span class="hx-badge got">${medal({
+			shape: "circle",
+			hue: 118,
+			metal: "steel"
+		}, { size: 18 })} ${t("hx_l_got")}</span>
+        <span class="hx-badge open">${medal({
+			shape: "circle",
+			hue: 118,
+			metal: "steel"
+		}, { size: 18 })} ${t("hx_l_open")}</span>
+        <span>${medal({
+			shape: "circle",
+			hue: 118,
+			metal: "steel"
+		}, {
+			size: 18,
+			state: "secret"
+		})} ${t("hx_l_secret")}</span></div>`;
+	}
+	/** Welche Fenster gibt es nach diesem Training? Feste Reihenfolge, je Typ eines, nur wenn es dazu etwas gibt */
+	momentSteps(m) {
+		const steps = [];
+		if (m.story && (m.story.finished || m.story.milestone !== null)) steps.push("story");
+		if (m.new_rank !== null) steps.push("rank");
+		if (m.upgrades.length || m.returned) steps.push("powers");
+		if (m.badges.some((id) => BADGE_BY_ID.has(id))) steps.push("badges");
+		return steps;
+	}
+	/** Nach dem Training: die Fenster nacheinander zeigen (Story → Rang → Kräfte → Orden) */
+	celebrate(m) {
+		if (!m || !this.enabled || this.h.caps().moments === false) return;
+		const steps = this.momentSteps(m);
+		if (!steps.length) return;
+		this.dialog = {
+			type: "moments",
+			steps,
+			i: 0,
+			m
+		};
+		this.h.render();
+	}
+	/** Aussehen für die Vorschau: gewählt oder vom eigenen Profil */
+	pvLook() {
+		const v = this.view;
+		return this.pv || {
+			style: v.style,
+			figure: v.figure,
+			rank: v.rank
+		};
+	}
+	previewBody() {
+		const { t, esc } = this.h, p = this.pvLook();
+		const chips = (k, list, label) => `<div class="hx-pv-set">${list.map((x) => `<button class="chip-btn ${p[k] === x ? "on" : ""}" data-a="hx-pv-set" data-k="${k}" data-v="${x}" aria-pressed="${p[k] === x}">${esc(label(x))}</button>`).join("")}</div>`;
+		const btn = (w, label) => `<button class="btn small" data-a="hx-pv" data-w="${w}">${esc(label)}</button>`;
+		return `<div class="hx-eyebrow">${t("hx_pv_tag")}</div><h3>${t("hx_pv_title")}</h3><p class="muted small">${t("hx_pv_text")}</p>
+      <div class="lbl">${t("hx_pv_look")}</div>
+      ${chips("style", STYLES, (x) => t(`hx_style_${x}`))}${chips("figure", FIGURES, (x) => t(`hx_fig_${x}`))}${chips("rank", RANK_KEYS.map((_, i) => i), (i) => this.rankName(i))}
+      <div class="lbl">${t("hx_pv_cb")}</div>
+      <div class="hx-pv-btns">${btn("cb-away", t("hx_pv_cb_away"))}${btn("cb-hints", t("hx_pv_cb_hints"))}${btn("cb-moment", t("hx_pv_cb_moment"))}</div>
+      <div class="lbl">${t("hx_pv_fin")}</div>
+      <div class="hx-pv-btns">${btn("depart", t("hx_pv_depart"))}${[
+			1,
+			2,
+			3
+		].map((i) => btn(`ms-${i}`, t("hx_pv_ms", { p: i * 25 }))).join("")}${btn("end", t("hx_pv_end"))}
+        ${btn("rank", t("hx_m_rank"))}${btn("powers", t("hx_mw_powers"))}${btn("badges", t("hx_m_badges"))}${btn("all", t("hx_pv_all"))}</div>
+      <div class="lbl">${t("hx_pv_more")}</div><div class="hx-pv-btns">${btn("hall", "Hall of Fame")}</div>
+      <div class="row hx-dlg-btns"><button class="btn" data-a="hx-close">${t("hx_close")}</button></div>`;
+	}
+	/** Das Fenster zu einem Knopf der Vorschau, gefüllt mit Beispieldaten */
+	previewDialog(which) {
+		const v = this.view, p = this.pvLook();
+		const level = HERO.RANKS[p.rank] + 1;
+		const drop = HERO.COMEBACK_LEVEL_DROP + 1;
+		const look = {
+			...p,
+			level,
+			pre_level: level + drop
+		};
+		const sid = STORY_BY_ID.has("seven_minutes") ? "seven_minutes" : STORIES[0].id, def = STORY_BY_ID.get(sid);
+		const total = def.per_week * def.weeks;
+		const base = {
+			...p,
+			alias: v.alias,
+			level,
+			gains: {
+				strength: 1.4,
+				endurance: 0,
+				agility: .6,
+				willpower: .3
+			},
+			goal_reached: false,
+			upgrades: [],
+			new_rank: null,
+			returned: null,
+			badges: [],
+			story: null,
+			challenge: null,
+			main: null
+		};
+		const story = (i) => ({
+			id: sid,
+			done: i === 4 ? total : Math.ceil(total * i / 4),
+			total,
+			milestone: i,
+			finished: i === 4,
+			next: i === 4 ? def.next : []
+		});
+		const ups = [{
+			power: "strength",
+			tier: 2
+		}, {
+			power: "willpower",
+			tier: 1
+		}];
+		const badges = [`story_${sid}`, ...BADGES.map((b) => b.id).filter((id) => !id.startsWith("story_")).slice(0, 4)];
+		const returned = {
+			from: level,
+			to: level + drop
+		};
+		const show = (m) => ({
+			type: "moments",
+			steps: this.momentSteps(m),
+			i: 0,
+			m,
+			pv: true
+		});
+		if (which === "cb-away") return {
+			type: "comeback",
+			pv: {
+				...look,
+				state: "away"
+			}
+		};
+		if (which === "cb-hints") return {
+			type: "pvnote",
+			pv: look
+		};
+		if (which === "hall") return {
+			type: "hall",
+			pv: look
+		};
+		if (which === "cb-moment") return show({
+			...base,
+			returned
+		});
+		if (which === "depart") return {
+			type: "depart",
+			id: sid,
+			pv: look
+		};
+		if (which.startsWith("ms-")) return show({
+			...base,
+			story: story(+which.slice(3))
+		});
+		if (which === "end") return show({
+			...base,
+			story: story(4)
+		});
+		if (which === "rank") return show({
+			...base,
+			new_rank: p.rank
+		});
+		if (which === "powers") return show({
+			...base,
+			upgrades: ups
+		});
+		if (which === "badges") return show({
+			...base,
+			badges
+		});
+		return show({
+			...base,
+			story: story(4),
+			new_rank: p.rank,
+			upgrades: ups,
+			returned,
+			badges
+		});
+	}
+	/** Inhalt eines Abschluss-Fensters */
+	momentBody(kind, m) {
+		const { t, esc } = this.h;
+		const hero = {
+			rank: m.rank,
+			figure: m.figure,
+			style: m.style
+		};
+		const name = m.alias || this.heroName();
+		if (kind === "story") {
+			const def = STORY_BY_ID.get(m.story.id), text = this.L(def.text);
+			if (m.story.finished) {
+				const next = m.story.next.map((id) => STORY_BY_ID.get(id)).filter(Boolean).map((s, i) => `<div class="hx-nextcard"><span class="hx-cover xs">${this.storyArt(s.id)}</span>
+            <span><span class="hx-eyebrow">${t(i === 0 ? "hx_sequel" : "hx_spinoff")}</span><b>${esc(this.L(s.text).title)}</b>
+            <span class="muted small">${esc(this.L(s.text).sub)}</span></span></div>`).join("");
+				const victory = `<div class="hx-mw-art cover"><div class="hx-cover">${this.storyArt(def.id, "victory")}</div></div>`;
+				return `<div class="hx-eyebrow">${t("hx_m_story_end")}</div><h3>${esc(text.title)}</h3>
+          ${this.art("milestone", {
+					index: 4,
+					style: m.style,
+					page: true
+				})}${victory}
+          <div class="hx-caption"><span class="hx-cap-l">${t("hx_ms_4")}</span>${esc(text.marks[4])}</div>
+          <div class="hx-big-badge">${this.medalOf(`story_${def.id}`, 56)}<span>${esc(t("hx_m_story_badge"))}</span></div>
+          ${next ? `<div class="lbl">${t("hx_next_title")}</div><div class="hx-nextcards">${next}</div>` : ""}`;
+			}
+			const i = m.story.milestone;
+			return `<div class="hx-eyebrow">${esc(text.title)}</div><h3>${t(`hx_ms_${i}`)}</h3>
+        ${this.art("milestone", {
+				index: i,
+				style: m.style,
+				page: true
+			})}
+        <div class="hx-caption">${esc(text.marks[i])}</div>
+        <div class="hx-storyline"><span>${esc(t("hx_training_of_done", {
+				n: m.story.done,
+				total: m.story.total
+			}))}</span>${this.timeline(m.story.done / m.story.total, i, false)}</div>`;
+		}
+		if (kind === "rank") return `<div class="hx-mw-art"><div class="hx-cover portrait">${this.art("rank", {
+			...hero,
+			rank: m.new_rank
+		})}</div></div>
+        <div class="hx-eyebrow">${t("hx_m_rank")}</div><h3>${esc(this.levelRank(m.level, m.new_rank))}</h3>
+        <p>${esc(t(`hx_rank_${RANK_KEYS[m.new_rank]}_line`))}</p>`;
+		if (kind === "powers") {
+			const ret = m.returned ? `<div class="hx-mw-row"><div class="hx-cover c34">${this.art("comeback", {
+				...hero,
+				title: t("hx_return_title"),
+				alias: name
+			})}</div>
+        <div>${m.upgrades.length ? `<b>${esc(t("hx_return_done_h", { name }))}</b>` : ""}
+          <span>${esc(t("hx_return_done", {
+				from: m.returned.from,
+				to: m.returned.to
+			}))}</span></div></div>` : "";
+			const ups = m.upgrades.map((u) => {
+				const id = `${u.power}_${HERO.TIERS[u.tier - 1]}`;
+				return `<div class="hx-mw-row" style="--pc:${POWER_COLORS[u.power]}"><div class="hx-big-medal">${this.medalOf(id, 96)}</div>
+          <div><div class="hx-eyebrow">${t("hx_m_upgrade")}</div><b>${esc(t("hx_upgrade_line", {
+					power: t(`hx_p_${u.power}`),
+					at: HERO.TIERS[u.tier - 1]
+				}))}</b>
+            <span>${esc(t("hx_upgrade_text", {
+					name: this.L(BADGE_BY_ID.get(id).name),
+					n: u.tier
+				}))}</span></div></div>`;
+			}).join("");
+			const gains = POWERS.filter((p) => m.gains[p] > 0).map((p) => `<span class="hx-delta" style="--pc:${POWER_COLORS[p]}">${heroIcon(POWER_ICONS[p])} ${t(`hx_p_${p}`)} <b>${this.gain(m.gains[p])}</b></span>`).join("");
+			return `<div class="hx-eyebrow">${t("hx_mw_powers")}</div><h3>${esc(m.upgrades.length ? t(m.upgrades.length === 1 ? "hx_mw_up1" : "hx_mw_ups", { n: m.upgrades.length }) : t("hx_return_done_h", { name }))}</h3>
+        ${ret}${ups}${gains ? `<div class="hx-deltas">${gains}</div>` : ""}`;
+		}
+		const list = m.badges.filter((id) => BADGE_BY_ID.has(id)).map((id) => BADGE_BY_ID.get(id));
+		return `<div class="hx-eyebrow">${t("hx_m_badges")}</div><h3>${esc(t(list.length === 1 ? "hx_mw_badge1" : "hx_mw_badges", { n: list.length }))}</h3>
+      <div class="hx-mw-badges">${list.map((d) => `<div class="hx-mw-badge"><div class="hx-big-medal">${medal(d.look, { size: 84 })}</div>
+        <b>${esc(this.L(d.name))}</b><span class="muted small">${esc(this.L(d.cond))}</span></div>`).join("")}</div>`;
+	}
+	/** Heldenteil nach den Zahlen des Trainings: der Zuwachs und alle Momente als kleine Karten (groß gefeiert werden sie in den Fenstern) */
+	renderSummary(m) {
+		if (!m || !this.enabled) return "";
+		const { t, esc } = this.h;
+		const gains = POWERS.filter((p) => m.gains[p] > 0).map((p) => `<span class="hx-delta" style="--pc:${POWER_COLORS[p]}">${heroIcon(POWER_ICONS[p])} ${t(`hx_p_${p}`)} <b>${this.gain(m.gains[p])}</b></span>`).join("");
+		const story = m.story ? STORY_BY_ID.get(m.story.id) : null;
+		const stText = story ? this.L(story.text) : null;
+		const tierBadges = new Set(m.upgrades.map((u) => `${u.power}_${HERO.TIERS[u.tier - 1]}`));
+		const storyBadge = m.story && m.story.finished ? `story_${m.story.id}` : null;
+		const badges = m.badges.filter((id) => BADGE_BY_ID.has(id));
+		const small = [];
+		const badgeCard = (id) => {
+			const d = BADGE_BY_ID.get(id);
+			return `<button class="hx-mom" data-a="hx-badge" data-id="${id}"><span class="hx-mom-i">${medal(d.look, { size: 44 })}</span>
+      <span><span class="hx-eyebrow">${t("hx_m_badge")}</span><b>${esc(this.L(d.name))}</b><span class="muted small">${esc(this.L(d.cond))}</span></span></button>`;
+		};
+		const upCard = (u) => `<div class="hx-mom" style="--pc:${POWER_COLORS[u.power]}"><span class="hx-mom-i">${this.medalOf(`${u.power}_${HERO.TIERS[u.tier - 1]}`, 44)}</span>
+      <span><span class="hx-eyebrow">${t("hx_m_upgrade")}</span><b>${esc(t("hx_upgrade_line", {
+			power: t(`hx_p_${u.power}`),
+			at: HERO.TIERS[u.tier - 1]
+		}))}</b>
+      <span class="muted small">${esc(this.L(BADGE_BY_ID.get(`${u.power}_${HERO.TIERS[u.tier - 1]}`).name))}</span></span></div>`;
+		const msCard = (i) => `<div class="hx-mom wide"><span class="hx-mom-i art">${this.art("milestone", {
+			index: i,
+			style: m.style
+		})}</span>
+      <span><span class="hx-eyebrow">${esc(stText.title)} · ${t(m.story.finished ? "hx_m_story_end" : `hx_ms_${i}`)}</span><span class="hx-caption sm">${esc(stText.marks[i])}</span></span></div>`;
+		const rankCard = () => `<div class="hx-mom"><span class="hx-mom-i art tall">${this.art("rank", {
+			rank: m.new_rank,
+			figure: m.figure,
+			style: m.style
+		})}</span>
+      <span><span class="hx-eyebrow">${t("hx_m_rank")}</span><b>${esc(this.levelRank(m.level, m.new_rank))}</b></span></div>`;
+		const retCard = () => `<div class="hx-mom"><span class="hx-mom-i">${heroIcon("flame")}</span>
+      <span><span class="hx-eyebrow">${t("hx_m_return")}</span><b>${esc(t("hx_return_done", {
+			from: m.returned.from,
+			to: m.returned.to
+		}))}</b></span></div>`;
+		if (m.story && (m.story.finished || m.story.milestone !== null)) small.push(msCard(m.story.finished ? 4 : m.story.milestone));
+		if (m.new_rank !== null) small.push(rankCard());
+		if (m.returned) small.push(retCard());
+		m.upgrades.forEach((u) => small.push(upCard(u)));
+		badges.forEach((id) => {
+			if (!tierBadges.has(id) && id !== storyBadge) small.push(badgeCard(id));
+		});
+		const next = m.story && m.story.finished ? m.story.next.map((id) => STORY_BY_ID.get(id)).filter(Boolean).map((s, i) => `<button class="hx-nextcard" data-a="hx-story" data-id="${s.id}"><span class="hx-cover xs">${this.storyArt(s.id)}</span>
+        <span><span class="hx-eyebrow">${t(i === 0 ? "hx_sequel" : "hx_spinoff")}</span><b>${esc(this.L(s.text).title)}</b>
+        <span class="muted small">${esc(this.L(s.text).sub)}</span></span></button>`).join("") : "";
+		const big = next ? `<div class="lbl">${t("hx_next_title")}</div><div class="muted small">${t("hx_next_sub")}</div><div class="hx-nextcards">${next}</div>` : "";
+		this.lastMoments = m;
+		const again = this.momentSteps(m).length ? `<button class="btn small hx-again" data-a="hx-moments-again">${t("hx_mw_again")}</button>` : "";
+		let challenge = "";
+		if (m.challenge) {
+			const def = CHALLENGE_BY_ID.get(m.challenge.id);
+			challenge = `<div class="hx-chres ${m.challenge.pass ? "pass" : ""}"><span class="hx-eyebrow">${esc(this.L(def.title))}</span>
+        <b class="hx-chres-v">${esc(this.fmtResult(def, m.challenge.values) || t("hx_none"))}</b>
+        <span class="small">${esc(t(m.challenge.improved ? "hx_ch_improved" : m.challenge.count === 1 ? "hx_ch_first" : m.challenge.pass ? "hx_ch_passed" : "hx_ch_again"))}</span></div>`;
+		}
+		const storyLine = m.story && !m.story.finished ? `<div class="hx-storyline"><span>${heroIcon("book")} ${esc(stText.title)} · ${esc(t("hx_training_of_done", {
+			n: m.story.done,
+			total: m.story.total
+		}))}</span>${this.timeline(m.story.done / m.story.total, Math.floor(m.story.done / m.story.total * 4 + 1e-6), false)}</div>` : "";
+		const nu = m.next_upgrade;
+		const nextUp = nu ? `<div class="hx-nextup"><span class="small muted">${esc(t("hx_next_upgrade", {
+			power: t(`hx_p_${nu.power}`),
+			at: nu.at
+		}))}</span>
+      <span class="hx-prog"><i style="width:${Math.round(nu.progress * 100)}%;background:${POWER_COLORS[nu.power]}"></i></span></div>` : "";
+		return `<div class="fin-sec hx hx-fin">
+      <div class="lbl">${t("hx_fin_title")}</div>
+      <div class="hx-deltas">${gains || `<span class="muted small">${t("hx_fin_nogain")}</span>`}</div>
+      ${challenge}${small.length ? `<div class="hx-moms">${small.join("")}</div>` : ""}${again}${big}${storyLine}${nextUp}</div>`;
+	}
+	renderSettings() {
+		if (!this.enabled) return "";
+		const { t } = this.h, s = this.h.state();
+		const on = !!(s && s.hero && s.hero.on);
+		return `<div class="lbl hx">${t("hx_mode")} ${this.info("hx_mode_hint")}</div>${this.pop("hx_mode_hint")}
+      <div class="row"><button class="chip-btn ${on ? "on" : ""}" data-a="hx-mode" data-on="1">${t("d_sound_on")}</button>
+        <button class="chip-btn ${on ? "" : "on"}" data-a="hx-mode" data-on="0">${t("d_sound_off")}</button>
+        ${this.h.caps().tour ? `<button class="btn small" data-a="hx-tour">⟦help⟧ ${t("hx_tour_again")}</button>` : ""}</div>`;
+	}
+	renderDialog() {
+		const d = this.dialog;
+		if (!d || !this.enabled) {
+			this.shownDialog = null;
+			return "";
+		}
+		const { t, esc } = this.h, v = this.view, state = this.h.state();
+		let body = "", cls = "";
+		const close = `<button class="btn" data-a="hx-close">${t("hx_close")}</button>`;
+		if (d.type === "intro") {
+			cls = "wide";
+			body = `<div class="hx-dlg-art">${heroImage("rank", {
+				rank: 4,
+				figure: "m",
+				style: "vigilante"
+			})}</div>
+        <div class="hx-eyebrow">${t("hx_intro_eyebrow")}</div><h3>${t("hx_intro_title")}</h3>
+        <p>${t("hx_intro_1")}</p><p>${t("hx_intro_2")}</p>
+        <p class="muted small">${t("hx_intro_3")}</p>
+        <div class="row hx-dlg-btns"><button class="btn primary" data-a="hx-intro" data-on="1">${t("hx_intro_yes")}</button>
+          <button class="btn" data-a="hx-intro" data-on="0">${t("hx_intro_no")}</button></div>`;
+		} else if (d.type === "figure") {
+			const rank = v ? v.rank : 4;
+			const fig = FIGURES.map((f) => `<button class="hx-pick ${d.figure === f ? "on" : ""}" data-a="hx-fig" data-v="${f}" aria-pressed="${d.figure === f}">
+        <span class="hx-pick-art">${heroImage("rank", {
+				rank,
+				figure: f,
+				style: d.style
+			})}</span><span>${t(`hx_fig_${f}`)}</span></button>`).join("");
+			body = `<div class="hx-eyebrow">${t("hx_figure")}</div><h3>${t("hx_figask_title")}</h3><p>${t("hx_figask_text")}</p>
+        <div class="hx-picks">${fig}</div>
+        <div class="hx-dlg-foot"><div class="row hx-dlg-btns"><button class="btn primary" data-a="hx-figsave">${t("hx_figask_go")}</button></div></div>`;
+		} else if (d.type === "edit") {
+			cls = "wide";
+			const fig = FIGURES.map((f) => `<button class="hx-pick ${d.figure === f ? "on" : ""}" data-a="hx-fig" data-v="${f}" aria-pressed="${d.figure === f}">
+        <span class="hx-pick-art">${heroImage("rank", {
+				rank: 4,
+				figure: f,
+				style: d.style
+			})}</span><span>${t(`hx_fig_${f}`)}</span></button>`).join("");
+			const styles = STYLES.map((s) => `<button class="hx-stylepick ${d.style === s ? "on" : ""}" data-a="hx-style" data-v="${s}" aria-pressed="${d.style === s}">
+        <span class="hx-pick-art">${heroImage("rank", {
+				rank: 4,
+				figure: d.figure,
+				style: s
+			})}</span>
+        <span>${this.styleName(s)}<span class="hx-fact">${t(`hx_style_${s}_sub`)}</span></span></button>`).join("");
+			body = `<div class="hx-eyebrow">${t(d.setup ? "hx_setup_eyebrow" : "hx_edit")}</div><h3>${t(d.setup ? "hx_setup_title" : "hx_edit_title")}</h3>
+        <div class="lbl">${t("hx_figure")}</div><div class="hx-picks">${fig}</div>
+        <div class="lbl">${t("hx_style")} ${this.info("hx_style_hint")}</div>${this.pop("hx_style_hint")}<div class="hx-stylepicks">${styles}</div>
+        <div class="lbl">${t("hx_alias")} ${this.info("hx_alias_hint")}</div>${this.pop("hx_alias_hint")}
+        <div class="row hx-aliasrow"><input type="text" maxlength="30" data-field="hx-alias" value="${esc(d.alias)}" placeholder="${esc(t("hx_alias_ph"))}" aria-label="${esc(t("hx_alias"))}">
+          <button class="btn" data-a="hx-dice" aria-label="${esc(t("hx_dice"))}">${heroIcon("dice")} ${t("hx_dice")}</button></div>
+        <div class="hx-dlg-foot"><div class="row hx-dlg-btns"><button class="btn primary" data-a="hx-save">${t(d.setup ? "hx_setup_go" : "hx_save")}</button>${d.setup ? "" : `<button class="btn" data-a="hx-close">${t("hx_cancel")}</button>`}</div></div>`;
+		} else if (d.type === "badge" && v) {
+			const def = BADGE_BY_ID.get(d.id), s = v.badges.list.find((b) => b.id === d.id) || {};
+			const earned = !!s.earned, state2 = earned ? "got" : def.secret ? "secret" : "open";
+			const group = BADGE_GROUPS.find((g) => g.id === def.group);
+			const unit = (n) => def.unit === "s" ? `${n >= 60 ? `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")} min` : `${n} s`}` : def.unit === "kg" ? `${this.fmtNum(n)} kg` : this.fmtNum(n);
+			const extra = earned ? `<div class="hx-state">${esc(t("hx_earned_on", { d: this.fmtDate(s.earned) }))}${def.secret ? ` · ${t("hx_secret_badge")}` : ""}</div>` : s.progress ? `<span class="hx-mini lg"><i style="width:${Math.min(100, s.progress[0] / s.progress[1] * 100)}%"></i></span><div class="muted small">${unit(s.progress[0])} / ${unit(s.progress[1])}</div>` : `<div class="muted small">${t("hx_not_yet")}</div>`;
+			body = `<div class="hx-eyebrow">${esc(this.L(group))}</div><div class="hx-badge ${state2} big">${medal(def.look, {
+				size: 140,
+				state: state2
+			})}</div>
+        ${state2 === "secret" ? `<h3>${t("hx_secret")}</h3><p>${t("hx_secret_text")}</p>` : `<h3>${esc(this.L(def.name))}</h3><p>${esc(this.L(def.cond))}</p>${extra}`}
+        <div class="row hx-dlg-btns">${close}</div>`;
+			cls = "center";
+		} else if (d.type === "story" && v) {
+			const def = STORY_BY_ID.get(d.id), text = this.L(def.text), s = v.stories.find((x) => x.id === d.id) || { state: "soon" };
+			const shelf = v.shelf.find((x) => x.id === d.id && x.state === "finished");
+			const prequel = STORIES.find((x) => x.next[0] === def.id), spinFrom = STORIES.find((x) => x.next[1] === def.id);
+			const rel = [
+				prequel ? t("hx_sequel_of", { title: this.L(prequel.text).title }) : "",
+				!prequel && spinFrom ? t("hx_spinoff_of", { title: this.L(spinFrom.text).title }) : "",
+				def.next.length ? t("hx_continues_in", { title: def.next.map((id) => this.L(STORY_BY_ID.get(id).text).title).join(" · ") }) : ""
+			].filter(Boolean);
+			const goal = state ? state.weekly_goal : 3;
+			let action = "";
+			if (s.state === "soon") action = `<div class="hx-note">${heroIcon("hourglass")} <span>${t("hx_soon_text")}</span></div>`;
+			else if (s.state === "active") action = `<div class="row hx-dlg-btns"><button class="btn primary" data-a="hx-close">${t("hx_story_is_active")}</button></div>`;
+			else {
+				const other = v.story ? `<div class="muted small">${esc(t("hx_switch_note", {
+					title: this.L(STORY_BY_ID.get(v.story.id).text).title,
+					n: Math.round(v.story.pct * 100)
+				}))}</div>` : "";
+				if (s.state !== "paused" && s.total && def.per_week !== goal) {
+					const keep = Math.min(goal, def.per_week);
+					action = `<div class="hx-ask"><b>${esc(t("hx_goal_q", {
+						n: def.per_week,
+						g: goal
+					}))}</b>
+            <div class="muted small">${esc(goal < def.per_week ? t("hx_goal_keep_longer", {
+						g: goal,
+						n: weeksAt(s.total, keep),
+						w: def.weeks
+					}) : t("hx_goal_keep_more", {
+						g: goal,
+						n: def.per_week
+					}))}</div>
+            <div class="row hx-dlg-btns"><button class="btn primary" data-a="hx-story-go" data-id="${def.id}" data-adapt="1">${esc(t("hx_goal_yes", { n: def.per_week }))}</button>
+              <button class="btn" data-a="hx-story-go" data-id="${def.id}" data-adapt="0">${esc(t("hx_goal_no", { g: goal }))}</button></div>
+            <div class="muted small">${t("hx_goal_after")}</div></div>${other}`;
+				} else action = `${other}<div class="row hx-dlg-btns"><button class="btn primary" data-a="hx-story-go" data-id="${def.id}" data-adapt="0">⟦play⟧ ${t(s.state === "paused" ? "hx_story_resume" : s.state === "finished" ? "hx_story_again" : "hx_story_start")}</button>${close}</div>
+            ${s.state === "paused" ? `<div class="row"><button class="btn small danger" data-a="hx-story-abort" data-id="${def.id}" data-ck="hx-abort-${def.id}" data-confirm="${esc(t("hx_story_abort_c"))}">${t("hx_story_abort")}</button></div>` : ""}`;
+			}
+			cls = "wide top";
+			body = `<div class="hx-dlg-story"><div class="hx-cover">${this.storyArt(def.id, shelf ? "victory" : "cover", true)}</div>
+        <div><div class="hx-eyebrow">${t(`hx_sg_${def.group}`)} ${this.storyState(s)}</div><h3>${esc(text.title)}</h3></div></div>
+        <p class="hx-teaser">${esc(text.teaser)}</p>
+        ${this.training(def, s.total)}
+        ${shelf ? `<div class="small muted">${esc(t("hx_shelf_done", {
+				d: this.fmtDate(shelf.finished_at),
+				n: shelf.sessions
+			}))}${shelf.minutes ? ` · ${esc(t("hx_shelf_min", { n: this.fmtNum(shelf.minutes) }))}` : ""}</div>` : ""}
+        ${shelf ? `<div class="hx-caption">${esc(text.marks[4])}</div>` : `<div class="hx-caption"><span class="hx-cap-l">${t("hx_ms_0")}</span>${esc(text.marks[0])}</div>`}
+        ${def.template ? `<button class="btn small hx-planbtn" data-a="hx-plan-show" aria-expanded="${this.plan.show}">${heroIcon("layers")} ${t(this.plan.show ? "hx_plan_hide" : "hx_plan_show")}</button>
+          ${this.plan.show ? this.renderPlan(def.id, v.story && v.story.id === def.id ? v.story : null) : ""}` : ""}
+        ${rel.map((r) => `<div class="small muted">${esc(r)}</div>`).join("")}
+        <div class="hx-dlg-foot">${action}${s.state === "soon" ? `<div class="row hx-dlg-btns">${close}</div>` : ""}</div>`;
+		} else if (d.type === "challenge" && v) {
+			const def = CHALLENGE_BY_ID.get(d.id), s = v.challenges.find((x) => x.id === d.id);
+			const full = this.h.lang() === "de" ? HERO_PLAN_DE[def.plan.description] || def.plan.description : def.plan.description;
+			const cut = /^(.+?[.!?])\s+(.+)$/s.exec(full);
+			const lead = cut ? cut[1] : full, more = cut ? cut[2] : "";
+			const tile = (m, value, extra = "") => {
+				const [val, label] = this.metricParts(m, value);
+				return `<div class="hx-mark-t"><b>${esc(val)}</b><span>${esc(label)}</span>${extra}</div>`;
+			};
+			const marks = def.passRule === "balanced" ? `<div class="hx-mark-t wide"><b>±5 %</b><span>${t("hx_ch_balanced")}</span></div>` : def.metrics.filter((m) => m.pass !== void 0).map((m) => tile(m, m.pass, m.goal ? `<em>${esc(t("hx_ch_goal", { v: this.metricParts(m, m.goal)[0] }))}</em>` : "")).join("");
+			const stages = def.stages ? `<div class="hx-stages">${def.stages.map((x) => `<span class="${s.best && s.best.values[0] >= x ? "on" : ""}">${esc(this.fmtStage(def.metrics[0], x))}</span>`).join("")}</div>` : "";
+			const pv = this.template(challengeTemplateId(def.id));
+			const flow = pv ? this.h.preview(pv.workouts[0].steps) : `<div class="hx-fact">${t("loading")}</div>`;
+			const hist = s.count ? `<div class="lbl">${t("hx_ch_results")}</div><div class="hx-marks">
+          <div class="hx-mark-t"><b>${esc(this.fmtResult(def, s.best.values))}</b><span>${t("hx_ch_best")} · ${this.fmtDate(s.best.at)}</span></div>
+          <div class="hx-mark-t"><b>${esc(this.fmtResult(def, s.last.values))}</b><span>${t("hx_ch_last")} · ${this.fmtDate(s.last.at)}</span></div>
+          <div class="hx-mark-t"><b>${s.count}</b><span>${t("hx_ch_done_n")} · ${esc(t("hx_ch_passed_n", { n: s.passes }))}</span></div></div>` : "";
+			const safety = def.safety.length ? `<div class="hx-safety">${def.safety.map((k) => `<div>${heroIcon(k === "hold" ? "lungs" : "battery")}<span>${t(`hx_safe_${k}`)}</span></div>`).join("")}</div>` : "";
+			cls = "wide";
+			body = `<div class="hx-dlg-head"><span class="hx-ch-m ${s.passes ? "got" : "open"}">${this.medalOf(`ch_${def.id}`, 64)}</span>
+          <div><h3>${esc(this.L(def.title))}</h3><div class="hx-fact">${t(`hx_cg_${def.group}`)} · ${esc(this.L(def.gear))}</div></div></div>
+        <p>${esc(lead)} ${more ? this.info("ch_more") : ""}</p>${this.pop("ch_more", esc(more))}
+        ${marks ? `<div class="lbl">${t("hx_ch_mark")}</div><div class="hx-marks">${marks}</div>` : ""}${stages}
+        <div class="lbl">${t("hx_ch_flow")}</div>${flow}
+        ${hist}${safety}
+        <div class="hx-dlg-foot"><div class="row hx-dlg-btns"><button class="btn primary" data-a="hx-challenge-go" data-id="${def.id}" ${state && state.active ? "disabled" : ""}>⟦play⟧ ${t("hx_ch_start")}</button>${close}</div></div>`;
+		} else if (d.type === "comeback" && v && (d.pv || v.comeback)) {
+			const c = d.pv || v.comeback, w = d.pv || v;
+			cls = "center";
+			body = `<div class="hx-cover poster">${this.art("comeback", {
+				rank: w.rank,
+				figure: w.figure,
+				style: w.style,
+				title: t("hx_return_title"),
+				alias: this.heroName(),
+				away: true
+			})}</div>
+        <p>${esc(this.returnText(c, w.level))}</p>
+        <p class="muted small">${t("hx_return_kind")}</p><div class="row hx-dlg-btns"><button class="btn primary" data-a="hx-close">${t("hx_return_ok")}</button></div>`;
+		} else if (d.type === "portrait" && v) {
+			cls = "full";
+			body = `<button class="hx-full-art" data-a="hx-close" aria-label="${esc(t("hx_close"))}">${this.heroArt()}</button>
+        <div class="hx-full-cap"><b>${esc(this.heroName())}</b><span class="hx-fact">${esc(this.levelRank(v.level, v.rank))} · ${esc(t(`hx_style_${v.style}`))}</span></div>`;
+		} else if (d.type === "hall" && v) {
+			const w = d.pv || v;
+			const lines = [
+				this.levelRank(w.level, w.rank),
+				t("hx_hall_line", {
+					n: this.fmtNum(v.totals.sessions),
+					h: this.fmtNum(Math.round(v.totals.minutes / 60))
+				}),
+				t("hx_hall_badges", { n: v.badges.earned })
+			];
+			cls = "center";
+			body = `<div class="hx-cover poster">${this.art("hall", {
+				rank: w.rank,
+				figure: w.figure,
+				style: w.style,
+				title: "Hall of Fame",
+				alias: this.heroName(),
+				lines
+			})}</div>
+        <h3>Hall of Fame</h3><p>${t("hx_hall_text")}</p><div class="row hx-dlg-btns"><button class="btn primary" data-a="hx-close">${t("hx_close")}</button></div>`;
+		} else if (d.type === "depart" && v && STORY_BY_ID.has(d.id)) {
+			const def = STORY_BY_ID.get(d.id), text = this.L(def.text), w = d.pv || v;
+			cls = "center moments story fit";
+			body = `<div class="hx-mw" data-step="story"><div class="hx-eyebrow">${esc(text.title)}</div><h3>${t("hx_ms_0")}</h3>
+          ${this.art("milestone", {
+				index: 0,
+				style: w.style,
+				page: true
+			})}
+          <div class="hx-caption">${esc(text.marks[0])}</div></div>
+        <div class="hx-dlg-foot"><div class="row hx-dlg-btns">${d.pv ? `<button class="btn primary hx-wide" data-a="hx-close">${t("hx_depart_go")}</button>` : `<button class="btn primary hx-wide" data-a="start" data-plan="${esc(d.plan)}" data-workout="${esc(d.workout)}" data-departed="1">⟦play⟧ ${t("hx_depart_go")}</button>`}</div></div>`;
+		} else if (d.type === "preview" && v && this.h.caps().preview) body = this.previewBody();
+		else if (d.type === "pvnote" && v) {
+			const p = d.pv;
+			const inert = (html) => html.replace(/ data-a="[^"]*"/g, "");
+			const offer = {
+				story: STORY_BY_ID.has("iron_origins") ? "iron_origins" : null,
+				challenge: "push_up_test"
+			};
+			const idle = (days, sinking) => inert(this.hintCard({
+				type: "idle",
+				key: "strength",
+				power: "strength",
+				days,
+				sinking,
+				level_now: p.level,
+				level_then: Math.max(1, p.level - 1),
+				...offer
+			}));
+			const back = (state) => inert(this.comebackCard({
+				state,
+				pre_level: p.pre_level
+			}, p.level, 2));
+			body = `<div class="hx-eyebrow">${t("hx_pv_tag")}</div><h3>${t("hx_pv_cb_hints")}</h3><p class="muted small">${t("hx_pv_n_where")}</p>
+        <div class="lbl">${t("hx_pv_n_idle")}</div>${idle(HERO.IDLE_HINT_DAYS + 2, false)}
+        <div class="lbl">${t("hx_pv_n_idle2")}</div>${idle(HERO.IDLE_SLOW_FROM + 3, true)}
+        <div class="lbl">${t("hx_pv_n_break")}</div>${inert(this.hintCard({
+				type: "break",
+				key: "break",
+				days: HERO.BREAK_PAUSE_DAYS + 2,
+				sinking: false,
+				...offer
+			}))}
+        <div class="lbl">${t("hx_pv_n_break2")}</div>${inert(this.hintCard({
+				type: "break",
+				key: "break",
+				days: HERO.BREAK_GRACE_DAYS + 3,
+				sinking: true,
+				...offer
+			}))}
+        <div class="lbl">${t("hx_pv_n_away")}</div>${back("away")}<div class="lbl">${t("hx_pv_n_pending")}</div>${back("pending")}
+        <div class="row hx-dlg-btns">${close}</div>`;
+		} else if (d.type === "moments") {
+			const last = d.i >= d.steps.length - 1;
+			cls = `center moments${d.steps[d.i] === "story" ? ` story${d.m.story && !d.m.story.finished ? " fit" : ""}` : ""}`;
+			body = `${d.steps.length > 1 ? `<div class="hx-mw-dots" aria-label="${esc(t("hx_mw_step", {
+				i: d.i + 1,
+				n: d.steps.length
+			}))}">${d.steps.map((_, i) => `<i class="${i === d.i ? "on" : ""}"></i>`).join("")}</div>` : ""}
+        <div class="hx-mw" data-step="${d.steps[d.i]}">${this.momentBody(d.steps[d.i], d.m)}</div>
+        <div class="hx-dlg-foot"><div class="row hx-dlg-btns"><button class="btn primary hx-wide" data-a="hx-moments-next">${t(last ? "hx_mw_done" : "hx_mw_next")}</button></div></div>`;
+		} else return "";
+		const x = d.type === "intro" || d.type === "figure" || d.type === "edit" && d.setup ? "" : `<button class="hx-x hx-dlg-x" data-a="hx-close" aria-label="${esc(t("hx_close"))}">×</button>`;
+		const still = this.shownDialog === d;
+		this.shownDialog = d;
+		return `<div class="hx-modal${still ? " still" : ""}${cls.includes("top") ? " top" : ""}" data-a="hx-backdrop"><div class="hx-dlg hx ${cls}" role="dialog" aria-modal="true">${x}${body}</div></div>`;
+	}
+	openEdit(setup = false) {
+		const s = this.h.state().hero;
+		this.dialog = {
+			type: "edit",
+			setup,
+			figure: s.figure,
+			style: s.style,
+			alias: s.alias
+		};
+		this.h.render();
+	}
+	input(el) {
+		if (el.dataset.field === "hx-alias" && this.dialog && this.dialog.type === "edit") {
+			this.dialog.alias = el.value;
+			return true;
+		}
+		return false;
+	}
+	/** Klick auf ein Element mit data-a="hx-…". */
+	async click(a, d, el, ev) {
+		const { ws, t } = this.h;
+		const done = () => {
+			this.h.render();
+		};
+		switch (a) {
+			case "hx-go":
+				if (this.dragged) {
+					this.dragged = false;
+					return;
+				}
+				this.sub = d.sub || "dossier";
+				this.infoOpen = null;
+				this.plan = {
+					w: null,
+					g: null,
+					show: false
+				};
+				this.h.goto("hero");
+				break;
+			case "hx-sub":
+				this.sub = d.sub;
+				this.infoOpen = null;
+				this.plan = {
+					w: null,
+					g: null,
+					show: false
+				};
+				done();
+				break;
+			case "hx-bar-toggle":
+				this.barOpen = !this.barOpen;
+				done();
+				break;
+			case "hx-home":
+				this.homeTab = d.tab === "free" ? "free" : "story";
+				done();
+				break;
+			case "hx-read":
+				this.readOpen = !this.readOpen;
+				done();
+				break;
+			case "hx-templates":
+				this.h.goto("plans", "templates");
+				break;
+			case "hx-hint-x":
+				await ws({
+					type: "hero_dismiss",
+					key: d.key
+				}).catch(() => {});
+				break;
+			case "hx-dialog":
+				this.dialog = {
+					type: d.type,
+					id: d.id
+				};
+				done();
+				break;
+			case "hx-badge":
+				this.dialog = {
+					type: "badge",
+					id: d.id
+				};
+				done();
+				break;
+			case "hx-story":
+				this.dialog = {
+					type: "story",
+					id: d.id
+				};
+				this.plan = {
+					w: /* @__PURE__ */ new Set(),
+					g: null,
+					show: false
+				};
+				this.infoOpen = null;
+				done();
+				break;
+			case "hx-info":
+				this.infoOpen = this.infoOpen === d.k ? null : d.k;
+				done();
+				break;
+			case "hx-plan-w":
+				this.plan.w = this.toggled(this.planNow.w, d.w);
+				done();
+				break;
+			case "hx-plan-g":
+				this.plan.g = this.toggled(this.planNow.g, d.g);
+				done();
+				break;
+			case "hx-plan-all":
+				this.planOpen = !this.planOpen;
+				this.plan = {
+					w: null,
+					g: null,
+					show: false
+				};
+				try {
+					localStorage.setItem("hx-plan-open", this.planOpen ? "1" : "0");
+				} catch {}
+				done();
+				break;
+			case "hx-plan-show":
+				this.plan.show = !this.plan.show;
+				done();
+				break;
+			case "hx-story-abort":
+				if (this.dialog) this.dialog = null;
+				await ws({
+					type: "story_abort",
+					story: d.id || null
+				}).catch(() => {});
+				done();
+				break;
+			case "hx-challenge":
+				this.dialog = {
+					type: "challenge",
+					id: d.id
+				};
+				this.infoOpen = null;
+				done();
+				break;
+			case "hx-bfilter":
+				this.filter = d.f;
+				done();
+				break;
+			case "hx-bgroup":
+				this.groupsOpen.has(d.g) ? this.groupsOpen.delete(d.g) : this.groupsOpen.add(d.g);
+				done();
+				break;
+			case "hx-moments-next": {
+				const m = this.dialog;
+				this.dialog = m && m.type === "moments" && m.i < m.steps.length - 1 ? {
+					...m,
+					i: m.i + 1
+				} : m && m.pv ? { type: "preview" } : null;
+				done();
+				break;
+			}
+			case "hx-moments-again":
+				if (this.lastMoments) {
+					this.dialog = null;
+					this.celebrate(this.lastMoments);
+				}
+				break;
+			case "hx-backdrop":
+				if (ev && ev.target === el && this.dialog && ![
+					"intro",
+					"edit",
+					"figure",
+					"moments",
+					"depart"
+				].includes(this.dialog.type)) return this.click("hx-close", d, el);
+				break;
+			case "hx-close": {
+				const type = this.dialog && this.dialog.type;
+				if (this.dialog && this.dialog.pv) {
+					this.dialog = { type: "preview" };
+					done();
+					break;
+				}
+				this.dialog = null;
+				if (type === "comeback") await ws({
+					type: "hero_dismiss",
+					key: "comeback"
+				}).catch(() => {});
+				else if (type === "hall") await ws({
+					type: "hero_dismiss",
+					key: "hall_of_fame"
+				}).catch(() => {});
+				done();
+				break;
+			}
+			case "hx-pv-set":
+				this.pv = {
+					...this.pvLook(),
+					[d.k]: d.k === "rank" ? +d.v : d.v
+				};
+				done();
+				break;
+			case "hx-pv":
+				this.dialog = this.previewDialog(d.w);
+				done();
+				break;
+			case "hx-edit":
+				this.openEdit(false);
+				break;
+			case "hx-portrait":
+				this.dialog = { type: "portrait" };
+				this.infoOpen = null;
+				done();
+				break;
+			case "hx-fig":
+				this.dialog.figure = d.v;
+				done();
+				break;
+			case "hx-style":
+				this.dialog.style = d.v;
+				done();
+				break;
+			case "hx-dice":
+				this.dialog.alias = suggestAlias(this.dialog.style, this.dialog.alias);
+				done();
+				break;
+			case "hx-figsave": {
+				const e = this.dialog;
+				this.dialog = null;
+				await ws({
+					type: "hero_set",
+					figure: e.figure
+				}).catch(() => {});
+				done();
+				break;
+			}
+			case "hx-save": {
+				const e = this.dialog;
+				this.dialog = null;
+				await ws({
+					type: "hero_set",
+					figure: e.figure,
+					style: e.style,
+					alias: e.alias
+				}).catch(() => {});
+				if (e.setup) {
+					this.sub = "dossier";
+					this.h.goto("hero");
+				}
+				done();
+				break;
+			}
+			case "hx-intro": {
+				const on = d.on === "1";
+				this.dialog = null;
+				await ws({
+					type: "hero_set",
+					on
+				}).catch(() => {});
+				if (on) this.openEdit(true);
+				else {
+					this.h.toast(t("hx_intro_later"));
+					done();
+				}
+				break;
+			}
+			case "hx-mode": {
+				const on = d.on === "1";
+				const first = on && !this.h.state().hero.asked;
+				await ws({
+					type: "hero_set",
+					on
+				}).catch(() => {});
+				if (first) this.openEdit(true);
+				break;
+			}
+			case "hx-tour":
+				this.h.emit("hero-tour", {});
+				break;
+			case "hx-pause":
+				await ws({
+					type: "hero_power_pause",
+					power: d.power,
+					paused: d.on === "1"
+				}).catch(() => {});
+				break;
+			case "hx-story-go":
+				this.dialog = null;
+				try {
+					await ws({
+						type: "story_start",
+						story: d.id,
+						adapt_goal: d.adapt === "1"
+					});
+					this.homeTab = "story";
+					this.h.goto("training");
+				} catch (_) {
+					done();
+				}
+				break;
+			case "hx-story-stop":
+				await ws({ type: "story_stop" }).catch(() => {});
+				break;
+			case "hx-challenge-go":
+				this.dialog = null;
+				try {
+					await ws({
+						type: "challenge_start",
+						challenge: d.id
+					});
+					this.h.goto("training");
+				} catch (_) {
+					done();
+				}
+				break;
+			default: return false;
+		}
+		return true;
+	}
+	/** Heldenleiste herunterziehen (öffnet) bzw. hochschieben (schließt) – einmal am Shadow Root anmelden */
+	attach(root) {
+		let start = null;
+		root.addEventListener("pointerdown", (e) => {
+			const wrap = e.target.closest && e.target.closest("[data-hx-bar]");
+			start = wrap ? {
+				y: e.clientY,
+				wrap
+			} : null;
+			this.dragged = false;
+		});
+		root.addEventListener("pointermove", (e) => {
+			if (!start) return;
+			const dy = e.clientY - start.y;
+			if (Math.abs(dy) > 8) this.dragged = true;
+			const peek = start.wrap.querySelector(".hx-peek");
+			if (peek && !this.barOpen && dy > 0) peek.style.maxHeight = `${Math.min(360, dy * 1.6)}px`;
+		});
+		const end = (e) => {
+			if (!start) return;
+			const dy = e.clientY - start.y, wrap = start.wrap;
+			start = null;
+			const peek = wrap.querySelector(".hx-peek");
+			if (peek) peek.style.maxHeight = "";
+			if (!this.barOpen && dy > 44) this.barOpen = true;
+			else if (this.barOpen && dy < -36) this.barOpen = false;
+			else return;
+			wrap.classList.toggle("open", this.barOpen);
+			const handle = wrap.querySelector(".hx-handle");
+			if (handle) handle.setAttribute("aria-expanded", String(this.barOpen));
+		};
+		root.addEventListener("pointerup", end);
+		root.addEventListener("pointercancel", () => {
+			if (start) {
+				const p = start.wrap.querySelector(".hx-peek");
+				if (p) p.style.maxHeight = "";
+				start = null;
+			}
+		});
+	}
+};
+/** Aussehen des Heldenmodus (an STYLE der App angehängt). Farben der App über deren Variablen. */
+var HERO_STYLE = `
+  /* Comic-Schrift nur für Titel im Heldenmodus (Stil, Rang, Alias, Story-Titel, Wegmarke, Orden, großer Moment).
+     Fließtext, Zahlen und Bedienelemente bleiben in der Schrift der App. */
+  .hx h3, .hx-alias, .hx-name, .hx-lr.big, .hx-sc-title, .hx-stylename, .hx-group-h > b, .hx-cap-l, .hx-tile > b, .hx-comic-t > b, .hx-ch-t > b {
+    font-family: ${HERO_FONT}; font-weight: 400 !important; letter-spacing: .04em !important; text-transform: uppercase; }
+  .hx-stylename { font-size: 1.2em; }
+  .hx-group-h > b, .hx-tile > b, .hx-comic-t > b, .hx-ch-t > b { font-size: 1.12em; line-height: 1.15; }
+  .hx-name { font-size: 1.15em; padding-right: .1em; }
+  .hx h3 { margin: 0; font-size: 1.6em; line-height: 1.15; font-weight: 800; letter-spacing: -.01em; text-wrap: balance; }
+  .hx p { margin: 0; }
+  /* Textrollen – überall gleich: Titel (h3/b, fett) · Sachangabe (.hx-fact, klein, grau) · Geschichte (.hx-teaser/.hx-caption)
+     · Abschnitt (.lbl bzw. .hx-eyebrow, klein, grau, Großbuchstaben). Grün ist für Bedienbares und Fortschritt da,
+     die vier Kraftfarben nur für die Kräfte. */
+  .hx-eyebrow { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: .72em; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--secondary-text-color); }
+  .hx-fact { font-size: .85em; color: var(--secondary-text-color); }
+  .hx-fact b { color: var(--primary-text-color); font-weight: 600; }
+  /* langer Alias: auf höchstens zwei Zeilen umbrechen statt abschneiden */
+  .hx-name { font-weight: 800; line-height: 1.15; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .hx-lrrow { display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .hx-top { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; color: #fff; background: var(--pc); }
+  .hx-top svg { width: 13px; height: 13px; }
+  .hx-lr { font-size: .88em; color: var(--secondary-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lbl .hx-info, p .hx-info { vertical-align: -0.28em; }
+  .hx-info { display: inline-grid; place-items: center; width: 1.9em; height: 1.9em; margin: -0.4em 0; padding: 0; border: 0; border-radius: 50%; background: none;
+    color: var(--secondary-text-color); cursor: pointer; font: inherit; }
+  .hx-info .pi { width: 1.35em; height: 1.35em; }
+  .hx-info:hover, .hx-info.on { color: var(--primary-color); background: color-mix(in srgb, var(--primary-color) 12%, transparent); }
+  .hx-pop { padding: 10px 12px; border-radius: 12px; font-size: .88em; line-height: 1.4; background: var(--secondary-background-color);
+    border: 1px solid var(--divider-color); display: flex; flex-direction: column; gap: 6px; text-transform: none; letter-spacing: 0; color: var(--primary-text-color); }
+  .hx-how-h { font-size: 1.05em; }
+  .hx-how { list-style: none; margin: 2px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px 16px; }
+  .hx-how li { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .hx-how li > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+  .hx-how .hx-power-ico { width: 30px; height: 30px; border-radius: 9px; }
+  .hx-how .hx-power-ico .pi { width: 18px; height: 18px; }
+  .hx-how .hx-fact { font-size: .95em; }
+  .hx-how-notes { margin: 6px 0 0; padding-top: 10px; border-top: 1px solid var(--divider-color); display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; }
+  .hx-how-notes dt { font-weight: 700; }
+  .hx-how-notes dd { margin: 0; color: var(--secondary-text-color); }
+  .hx-dots { align-self: flex-start; flex: none; display: grid; place-items: center; width: 36px; height: 36px; margin: -4px -4px 0 0; border: 0; border-radius: 50%;
+    background: none; color: var(--secondary-text-color); cursor: pointer; }
+  .hx-dots:hover { background: var(--divider-color); color: var(--primary-text-color); }
+  .hx-dots .pi { width: 22px; height: 22px; }
+  .hx-nextprev { display: flex; flex-direction: column; gap: 8px; }
+  .hx-nextprev .lbl { margin-top: 0; }
+  .hx-outside { display: flex; flex-direction: column; gap: 10px; container-type: inline-size; }
+  .hx-outside .wo-auto { display: none; }
+  .hx-sc-btns .btn.primary { padding: 11px; font-size: 1.1em; }
+  /* nächstes Upgrade in der Heldenleiste: eigener, abgesetzter Teil */
+  .hx-up { flex: none; width: min(42%, 220px); display: flex; flex-direction: column; gap: 4px; padding-left: 12px; border-left: 1px solid var(--divider-color); }
+  .hx-up-h { display: flex; align-items: baseline; gap: 5px; font-size: .9em; white-space: nowrap; }
+  .hx-up-h .pi { color: var(--pc); width: 1.15em; height: 1.15em; align-self: center; }
+  .hx-up-h span { overflow: hidden; text-overflow: ellipsis; }
+  .hx-up-h b { font-weight: 800; margin-left: auto; font-variant-numeric: tabular-nums; }
+  .hx-up-h i { font-style: normal; color: var(--secondary-text-color); font-variant-numeric: tabular-nums; }
+  .hx-up .hx-fact { font-size: .72em; }
+  .hx-rank { display: flex; flex-direction: column; }
+  .hx-rank b { font-size: 1.15em; }
+  /* Trainingsplan einer Story */
+  .hx-plan { display: flex; flex-direction: column; border: 1px solid var(--divider-color); border-radius: 14px; overflow: hidden; }
+  .hx-pg-h, .hx-pw-h { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .hx-pg + .hx-pg, .hx-pw + .hx-pw, .hx-pg-h + .hx-pw { border-top: 1px solid var(--divider-color); }
+  .hx-pg-h b { flex: 1; }
+  .hx-pg.open > .hx-pg-h { background: var(--secondary-background-color); }
+  .hx-pw-n { flex: 1; min-width: 0; }
+  .hx-pw-s { flex: none; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--divider-color); display: grid; place-items: center; box-sizing: border-box; }
+  .hx-pw-s .pi { width: 13px; height: 13px; }
+  .hx-pw.done .hx-pw-s { background: var(--primary-color); border-color: var(--primary-color); color: var(--text-primary-color, #fff); }
+  .hx-pw.done .hx-pw-n { color: var(--secondary-text-color); }
+  .hx-pw.next .hx-pw-s { border-color: var(--primary-color); }
+  .hx-pw.next .hx-pw-n { font-weight: 700; }
+  .hx-pw-b { padding: 0 10px 10px; }
+  .hx-planbtn { align-self: flex-start; }
+  /* „Das Training“: Beschreibung in Zeilen und alle Übungen mit Bild */
+  .hx-train { display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 14px; background: var(--secondary-background-color); }
+  .hx-train > .lbl { margin: 0 0 2px; }
+  .hx-train-what { font-size: 1.05em; }
+  .hx-train-exh { margin-top: 8px; font-size: .72em; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--secondary-text-color); }
+  .hx-train-ex { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 8px 10px; }
+  .hx-train-ex .exn { font-size: .85em; line-height: 1.2; gap: 8px; }
+  .hx-train-ex .thumb { width: 36px; height: 36px; }
+  .hx-train-ex .exn > span:last-child { min-width: 0; overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; }
+  .hx-planbtn .pi { width: 1em; height: 1em; }
+  /* Kacheln: Marke und Ergebnisse einer Challenge */
+  .hx-marks { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; }
+  .hx-mark-t { display: flex; flex-direction: column; gap: 1px; padding: 10px 12px; border-radius: 12px; background: var(--secondary-background-color); min-width: 0; }
+  .hx-mark-t b { font-size: 1.35em; font-weight: 800; line-height: 1.15; overflow-wrap: anywhere; }
+  .hx-mark-t span, .hx-mark-t em { font-size: .78em; color: var(--secondary-text-color); font-style: normal; }
+  .hx-safety { display: flex; flex-direction: column; gap: 4px; font-size: .8em; color: var(--secondary-text-color); }
+  .hx-safety div { display: flex; gap: 6px; align-items: flex-start; }
+  .hx-safety .pi { flex: none; width: 1.2em; height: 1.2em; color: var(--warning-color, #f2a600); }
+  .hx-art { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .hx-medal { display: block; overflow: visible; }
+  .got > .hx-medal, .hx-big-medal .hx-medal, .hx-mom .hx-medal, .hx-big-badge .hx-medal { filter: drop-shadow(0 2px 3px rgb(0 0 0 / .28)); }
+  .open > .hx-medal { filter: grayscale(1); opacity: .32; }
+  .hx-prog { display: block; height: 6px; border-radius: 3px; background: var(--divider-color); overflow: hidden; }
+  .hx-prog > i { display: block; height: 100%; border-radius: 3px; background: var(--pc, var(--primary-color)); transition: width .5s ease-out; }
+  .hx-lvl { display: flex; flex-direction: column; align-items: center; line-height: 1; flex: none; }
+  .hx-lvl b { font-size: 1.7em; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .hx-lvl span { font-size: .62em; text-transform: uppercase; letter-spacing: .1em; color: var(--secondary-text-color); margin-top: 2px; }
+  .hx-lvl.big b { font-size: 2.6em; }
+  .hx-alias { font-weight: 800; font-size: 1.2em; line-height: 1.1; overflow-wrap: anywhere; }
+  .hx-alias.big { font-size: 1.9em; letter-spacing: -.02em; }
+  .hx-x { flex: none; border: 0; background: none; color: var(--secondary-text-color); font-size: 1.5em; line-height: 1; padding: 2px 6px; cursor: pointer; border-radius: 8px; }
+  .hx-x:hover { background: var(--divider-color); }
+  .hx-note { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; font-size: .9em;
+    background: color-mix(in srgb, var(--primary-color) 10%, transparent); }
+  .hx-note .pi { color: var(--primary-color); margin-top: 1px; }
+  .hx-note.warn { background: rgba(255,152,0,.12); }
+  .hx-note.warn .pi { color: var(--warning-color, #f2a600); }
+  .hx-caption { position: relative; background: #ffe98a; color: #17130a; border: 2px solid #17130a; border-radius: 4px; padding: 9px 12px;
+    font-weight: 600; line-height: 1.35; box-shadow: 3px 3px 0 rgb(0 0 0 / .35); }
+  .hx-caption.sm { display: block; padding: 6px 9px; font-size: .9em; box-shadow: 2px 2px 0 rgb(0 0 0 / .3); }
+  .hx-cap-l { display: block; font-size: .9em; opacity: .75; margin-bottom: 2px; }
+  .hx-teaser { font-style: italic; }
+  .hx-cover { display: block; aspect-ratio: 2 / 3; border-radius: 8px; overflow: hidden; background: var(--secondary-background-color); border: 0; padding: 0;
+    box-shadow: 0 4px 14px rgb(0 0 0 / .22); flex: none; }
+  .hx-cover.sm { width: 84px; cursor: pointer; }
+  .hx-cover.xs { width: 100%; box-shadow: 0 2px 6px rgb(0 0 0 / .2); border-radius: 6px; }
+  .hx-cover.portrait { aspect-ratio: 4 / 5; }
+  .hx-cover.poster { width: min(240px, 70%); margin: 0 auto; }
+
+  /* Heldenleiste */
+  .hx-barwrap { border-radius: 16px; background: var(--secondary-background-color); overflow: hidden; touch-action: pan-x; user-select: none; -webkit-user-select: none; }
+  .hx-bar { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 14px 4px 8px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .hx-bar-fig { width: 44px; height: 44px; border-radius: 50%; overflow: hidden; flex: none; border: 2px solid var(--primary-color); }
+  .hx-bar-fig .hx-fig { width: 100%; height: 100%; }
+  .hx-fig { display: block; }
+  .hx-bar-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .hx-handle { display: flex; justify-content: center; width: 100%; padding: 4px 0 7px; background: none; border: 0; cursor: grab; }
+  .hx-handle i { width: 38px; height: 4px; border-radius: 2px; background: var(--divider-color); }
+  .hx-handle:hover i, .hx-barwrap.open .hx-handle i { background: var(--primary-color); }
+  .hx-peek { max-height: 0; overflow: hidden; transition: max-height .35s cubic-bezier(.2,.8,.2,1); cursor: pointer; }
+  .hx-barwrap.open .hx-peek { max-height: 380px; }
+  .hx-peek-in { display: flex; gap: 16px; align-items: center; padding: 8px 14px 10px; }
+  .hx-peek-art { width: min(44%, 200px); aspect-ratio: 4 / 5; border-radius: 12px; overflow: hidden; flex: none; box-shadow: 0 6px 18px rgb(0 0 0 / .25); }
+  .hx-peek-txt { display: flex; flex-direction: column; gap: 10px; min-width: 0; flex: 1; }
+  .hx-pchips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } /* 2×2 über die ganze Breite */
+  .hx-pchip { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 7px 12px; border-radius: 12px; font-size: 1em; min-width: 0;
+    background: color-mix(in srgb, var(--pc) 16%, transparent); }
+  .hx-pchip .pi { color: var(--pc); width: 1.05em; height: 1.05em; }
+  /* schmal: nur Symbol und Wert · breit: der Name der Kraft füllt die Kachel */
+  .hx-pchip-n { display: none; flex: 1; min-width: 0; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hx-pchip > b { margin-left: auto; }
+  @media (min-width: 640px) { .hx-pchip { justify-content: flex-start; gap: 10px; } .hx-pchip-n { display: block; } }
+
+  /* Hinweise und Story-Karte auf der Startseite */
+  .hx-hint { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--divider-color); }
+  .hx-hint.comeback { border-color: var(--primary-color); background: color-mix(in srgb, var(--primary-color) 8%, transparent); }
+  .hx-hint-ico { flex: none; display: inline-flex; color: var(--primary-color); margin-top: 2px; }
+  .hx-hint-ico .pi { width: 1.6em; height: 1.6em; }
+  .hx-hint-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .hx-hint .btn .pi { width: 1em; height: 1em; }
+  .hx-nostory { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 14px;
+    border: 1px dashed var(--divider-color); color: var(--secondary-text-color); }
+  .hx-sc-body > .lbl { margin-top: 0; }
+  .hx-sc-top { display: flex; gap: 12px; align-items: center; }
+  .hx-sc-top .hx-cover.sm { width: 56px; }
+  .hx-storycard .hx-tl.plain { margin: 2px 8px; }
+  .hx-storycard { display: flex; flex-direction: column; gap: 10px; padding: 12px; border-radius: 16px; border: 1px solid var(--divider-color);
+    background: var(--card-background-color); }
+  .hx-sc-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; justify-content: center; }
+  .hx-sc-title { font-size: 1.5em; font-weight: 800; line-height: 1.15; text-wrap: balance; }
+  .hx-sc-btns .btn.primary { flex: 1; font-weight: 700; }
+  .hx-other { display: flex; flex-direction: column; gap: 10px; }
+
+  /* Zeitstrahl */
+  .hx-tl { position: relative; margin: 8px 8px 30px; height: 14px; }
+  .hx-tl.plain { margin: 6px 8px; }
+  .hx-tl-bar { position: absolute; left: 0; right: 0; top: 5px; height: 4px; border-radius: 2px; background: var(--divider-color); overflow: hidden; }
+  .hx-tl-bar > div { height: 100%; background: var(--primary-color); transition: width .6s ease-out; }
+  .hx-tl-n { position: absolute; top: 0; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .hx-tl-n i { width: 14px; height: 14px; border-radius: 50%; background: var(--card-background-color); border: 3px solid var(--divider-color); box-sizing: border-box; }
+  .hx-tl-n.on i { border-color: var(--primary-color); background: var(--primary-color); }
+  .hx-tl-n em { font-style: normal; font-size: .68em; color: var(--secondary-text-color); white-space: nowrap; }
+  .hx-tl-n.on em { color: var(--primary-text-color); font-weight: 600; }
+  .hx-tl-n:nth-child(2) { transform: translateX(-7px); align-items: flex-start; }
+  .hx-tl-n:last-child { transform: translateX(calc(-100% + 7px)); align-items: flex-end; }
+
+  /* Profil (intern „dossier“) */
+  .hx-subtabs { align-self: stretch; }
+  .hx-herocard { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px 14px; border-radius: 18px;
+    background: var(--secondary-background-color); text-align: center; }
+  .hx-herocard > .hx-alias { max-width: 100%; }
+  .hx-herocard .hx-id { align-items: center; width: 100%; max-width: 400px; }
+  .hx-realname { font-size: 1.05em; font-weight: 600; }
+  .hx-portrait { display: block; width: 100%; max-width: 400px; padding: 0; border: 0; background: none; cursor: zoom-in; aspect-ratio: 4 / 5; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 22px rgb(0 0 0 / .28); }
+  .hx-id { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; min-width: 0; }
+  .hx-style { display: flex; flex-direction: column; }
+  /* Level · Rang in einer Zeile (wie in der Heldenleiste), darunter der Weg zum nächsten Rang */
+  .hx-rankbox { display: flex; flex-direction: column; gap: 5px; align-self: stretch; margin: 6px 0 4px; }
+  .hx-lr.big { font-size: 1.4em; font-weight: 800; color: var(--primary-text-color); white-space: normal; }
+  .hx-powers { display: grid; grid-template-columns: minmax(180px, 260px) 1fr; gap: 12px 20px; align-items: center; }
+  .hx-radarbox { max-width: 260px; width: 100%; justify-self: center; }
+  .hx-radar { display: block; width: 100%; height: auto; }
+  .hx-radar-ring { fill: none; stroke: var(--divider-color); stroke-width: 1; }
+  .hx-radar-area { fill: color-mix(in srgb, var(--primary-color) 28%, transparent); stroke: var(--primary-color); stroke-width: 2.5; stroke-linejoin: round; }
+  .hx-radar-l { font: 800 15px system-ui, sans-serif; }
+  .hx-radar-s { font: 600 11px system-ui, sans-serif; fill: var(--secondary-text-color); }
+  .hx-powerlist { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .hx-power { display: flex; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--divider-color); }
+  .hx-power.paused { opacity: .75; border-style: dashed; }
+  .hx-power-ico { flex: none; width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; color: #fff; background: var(--pc); }
+  .hx-power-ico .pi { width: 22px; height: 22px; }
+  .hx-power-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .hx-power-head { display: flex; align-items: center; gap: 8px; }
+  .hx-power-val { margin-left: auto; font-weight: 800; font-size: 1.2em; font-variant-numeric: tabular-nums; }
+  .hx-pips { display: inline-flex; gap: 3px; }
+  .hx-pips i { width: 9px; height: 9px; transform: rotate(45deg); border-radius: 2px; background: var(--divider-color); }
+  .hx-pips i.on { background: var(--pc); }
+  .hx-power .chip-btn { flex: none; font-size: .78em; padding: 5px 9px; }
+  .hx-power .chip-btn .pi { width: 1em; height: 1em; }
+  .hx-week { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; border-radius: 14px; background: var(--secondary-background-color); }
+  .hx-week-top { display: flex; gap: 4px 12px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+  .hx-week-top b { font-size: 1.15em; font-weight: 800; }
+  .hx-week-d { display: flex; flex-direction: column; gap: 6px; }
+  .hx-deltas { display: flex; flex-wrap: wrap; gap: 6px; }
+  .hx-delta { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: .9em;
+    background: color-mix(in srgb, var(--pc) 15%, transparent); }
+  .hx-delta .pi { color: var(--pc); width: 1.1em; height: 1.1em; }
+
+  /* Stories */
+  /* aktive Story: Kopf (kleines Cover, Titel), alles Weitere über die ganze Breite */
+  .hx-active { display: grid; grid-template-columns: 84px 1fr; gap: 10px 12px; min-width: 0; }
+  .hx-active-main { display: contents; }
+  .hx-active-main > * { grid-column: 1 / -1; min-width: 0; }
+  .hx-active-main > .hx-active-title { grid-column: 2; grid-row: 1; align-self: center; display: flex; flex-direction: column; gap: 4px; }
+  .hx-active-cover { grid-column: 1; grid-row: 1; }
+  /* breite Bildschirme: das Cover bekommt Platz */
+  @media (min-width: 760px) {
+    .hx-active { grid-template-columns: minmax(220px, 300px) 1fr; column-gap: 22px; align-items: start; }
+    .hx-active-main { display: flex; flex-direction: column; gap: 10px; grid-column: 2; min-width: 0; }
+    .hx-active-cover { border-radius: 12px; box-shadow: 0 8px 22px rgb(0 0 0 / .3); }
+    .hx-active-main > .hx-active-title { align-self: stretch; }
+    .hx-active h3 { font-size: 2em; }
+    .hx-train-ex { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+  }
+  .hx-active .hx-teaser { margin: 0; }
+  .btn.hx-wide { width: 100%; justify-content: center; }
+  .hx-active-sec { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .hx-active-sec .btn { justify-content: center; min-width: 0; }
+  .hx-read { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+  /* Wegmarke: ein Block – Bildstreifen oben, gelber Text direkt darunter */
+  .hx-panel { display: flex; flex-direction: column; width: 100%; border: 2px solid #17130a; border-radius: 6px; overflow: hidden; box-shadow: 3px 3px 0 rgb(0 0 0 / .35); }
+  .hx-panel-art { aspect-ratio: 8 / 3; overflow: hidden; border-bottom: 2px solid #17130a; }
+  .hx-panel-art > * { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* Wegmarke als Comicseite: eigener Stil groß (e), die vier anderen klein (a–d); Raster aus layout.json des Bild-Exports */
+  .hx-page { display: grid; box-sizing: border-box; width: 100%; aspect-ratio: 9 / 16; gap: 5px; padding: 5px; background: #f3ecda;
+    grid-template-columns: 1fr 1fr; grid-template-rows: 2.6fr 1fr 1fr; grid-template-areas: "e e" "a b" "c d"; }
+  .hx-page > span { display: block; min-width: 0; min-height: 0; overflow: hidden; border: 3px solid #17130a; background: #17130a; }
+  .hx-page > span > * { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .hx-page.wide { aspect-ratio: 8 / 3; grid-template-columns: 1fr 1.2fr 1fr; grid-template-rows: 1fr 1fr; grid-template-areas: "a e c" "b e d"; }
+  .hx-panel-art > .hx-page { gap: 3px; padding: 3px; }
+  .hx-panel-art > .hx-page > span { border-width: 2px; }
+  .hx-panel .hx-caption { border: 0; border-radius: 0; box-shadow: none; }
+  /* einklappbarer Abschnitt (Trainingsplan der aktiven Story) */
+  .hx-fold { display: flex; flex-direction: column; gap: 8px; }
+  .hx-fold-h { display: flex; align-items: center; gap: 10px; width: 100%; padding: 6px 0; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .hx-fold-h .lbl { flex: 1; margin: 0; }
+  .hx-group { display: flex; flex-direction: column; gap: 8px; }
+  .hx-group-h { display: flex; gap: 8px; align-items: baseline; justify-content: space-between; margin-top: 6px; }
+  .hx-shelf-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 12px 10px; }
+  .hx-tile { display: flex; flex-direction: column; gap: 5px; align-items: flex-start; text-align: left; background: none; border: 0; padding: 0; color: inherit; font: inherit;
+    cursor: pointer; min-width: 0; }
+  .hx-tile b { font-size: .86em; line-height: 1.2; overflow-wrap: anywhere; }
+  .hx-tile.soon .hx-cover { filter: grayscale(.85) brightness(.8); opacity: .6; }
+  .hx-tile .badge .pi, .hx-eyebrow .badge .pi { width: 1em; height: 1em; }
+  .hx-tile:hover .hx-cover, .hx-comic:hover .hx-cover { transform: translateY(-2px); }
+  .hx-tile .hx-cover, .hx-comic .hx-cover { transition: transform .15s; }
+  .hx-shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; padding: 12px; border-radius: 14px;
+    background: var(--secondary-background-color); border-bottom: 6px solid color-mix(in srgb, var(--primary-text-color) 22%, transparent); }
+  .hx-comic { display: grid; grid-template-columns: 56px 1fr; gap: 10px; align-items: center; text-align: left; background: none; border: 0; padding: 0; color: inherit;
+    font: inherit; cursor: pointer; }
+  .hx-comic-t { display: flex; flex-direction: column; min-width: 0; }
+  .hx-comic.paused .hx-cover { filter: grayscale(.6); }
+
+  /* Challenges */
+  .hx-chlist { display: flex; flex-direction: column; border: 1px solid var(--divider-color); border-radius: 14px; overflow: hidden; }
+  .hx-ch { display: grid; grid-template-columns: 46px 1fr auto; gap: 12px; align-items: center; padding: 8px 12px; background: none; border: 0;
+    border-bottom: 1px solid var(--divider-color); color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .hx-ch:last-child { border-bottom: 0; }
+  .hx-ch:hover { background: var(--secondary-background-color); }
+  .hx-ch-t, .hx-ch-r { display: flex; flex-direction: column; min-width: 0; }
+  .hx-ch-r { align-items: flex-end; text-align: right; }
+  .hx-stages { display: flex; gap: 6px; flex-wrap: wrap; }
+  .hx-stages span { padding: 3px 10px; border-radius: 999px; border: 1px solid var(--divider-color); font-size: .85em; color: var(--secondary-text-color); }
+  .hx-stages span.on { background: var(--primary-color); border-color: var(--primary-color); color: var(--text-primary-color, #fff); font-weight: 600; }
+  .hx-chres { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--divider-color); }
+  .hx-chres.pass { border-color: var(--primary-color); background: color-mix(in srgb, var(--primary-color) 9%, transparent); }
+  .hx-chres-v { font-size: 1.5em; font-weight: 800; }
+
+  /* Orden */
+  .hx-bhead { display: flex; flex-direction: column; gap: 6px; }
+  .hx-bcount b { font-size: 2em; font-weight: 800; }
+  .hx-bgroup { border: 1px solid var(--divider-color); border-radius: 14px; overflow: hidden; }
+  .hx-bgroup-h { display: flex; gap: 10px; align-items: center; width: 100%; padding: 12px 14px; background: none; border: 0; color: inherit; font: inherit;
+    text-align: left; cursor: pointer; }
+  .hx-bgroup-h b { flex: 1; }
+  .hx-dot { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+  .hx-bgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 14px 6px; padding: 4px 10px 14px; }
+  .hx-badge { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; background: none; border: 0; padding: 6px 2px; border-radius: 10px;
+    color: inherit; font: inherit; cursor: pointer; min-width: 0; }
+  .hx-badge:hover { background: color-mix(in srgb, var(--primary-color) 8%, transparent); }
+  .hx-badge.big { cursor: default; padding: 0; }
+  .hx-badge.big:hover { background: none; }
+  .hx-badge-n { font-size: .78em; line-height: 1.2; hyphens: auto; -webkit-hyphens: auto; overflow-wrap: anywhere; }
+  .hx-badge.open .hx-badge-n, .hx-badge.secret .hx-badge-n { color: var(--secondary-text-color); }
+  .hx-mini { display: block; width: 44px; height: 3px; border-radius: 2px; background: var(--divider-color); overflow: hidden; }
+  .hx-mini.lg { width: 160px; height: 6px; border-radius: 3px; }
+  .hx-mini i { display: block; height: 100%; background: var(--primary-color); }
+  .hx-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .hx-legend > span { display: inline-flex; flex-direction: row; gap: 5px; align-items: center; padding: 0; cursor: default; }
+  .hx-legend .hx-badge:hover { background: none; }
+  .hx-state { font-weight: 600; color: var(--primary-color); }
+
+  /* Abschluss */
+  .hx-fin { display: flex; flex-direction: column; gap: 12px; }
+  .hx-big { display: grid; grid-template-columns: minmax(110px, 200px) 1fr; gap: 16px; align-items: center; padding: 14px; border-radius: 18px; text-align: left;
+    border: 2px solid var(--pc, var(--primary-color)); background: color-mix(in srgb, var(--pc, var(--primary-color)) 9%, transparent); color: inherit; font: inherit;
+    animation: hx-in .55s cubic-bezier(.2,.9,.3,1.2) both; }
+  button.hx-big { cursor: pointer; width: 100%; }
+  .hx-big.ms { display: block; }
+  .hx-big-medal { display: grid; place-items: center; animation: hx-pop .7s .15s cubic-bezier(.2,1.2,.3,1) both; }
+  .hx-big-medal .hx-medal { width: min(128px, 100%); height: auto; }
+  .hx-big-t { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .hx-big-t h3 { font-size: 1.7em; }
+  .hx-big-badge { display: flex; gap: 10px; align-items: center; font-weight: 600; }
+  /* Abschluss-Fenster nach Typ (Story, Rang, Kräfte, Orden) */
+  .hx-dlg.moments { width: min(460px, 100%); }
+  .hx-mw { display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center; }
+  .hx-mw h3 { font-size: 1.8em; margin: 0; overflow-wrap: anywhere; }
+  .hx-mw p { margin: 0; }
+  .hx-mw > .hx-panel, .hx-mw > .hx-caption, .hx-mw > .hx-storyline, .hx-mw > .hx-nextcards, .hx-mw > .hx-mw-row { align-self: stretch; text-align: left; }
+  /* Comicseite im Fenster: auf dem Handy hochkant und so hoch, dass Text und Knopf noch daneben passen */
+  .hx-mw > .hx-page { width: min(100%, calc(58vh * 9 / 16)); border-radius: 4px; box-shadow: 0 8px 22px rgb(0 0 0 / .35); animation: hx-pop .7s .1s cubic-bezier(.2,1.2,.3,1) both; }
+  .hx-mw-art { width: min(240px, 70%); animation: hx-pop .7s .1s cubic-bezier(.2,1.2,.3,1) both; }
+  .hx-mw-art .hx-cover { width: 100%; box-shadow: 0 8px 22px rgb(0 0 0 / .35); }
+  .hx-mw-row { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: center; padding: 10px; border-radius: 14px; background: var(--secondary-background-color); }
+  .hx-mw-row > div:last-child { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .hx-mw-row b { font-size: 1.15em; overflow-wrap: anywhere; }
+  .hx-mw-row .hx-medal { width: 100%; height: auto; }
+  .hx-mw-badges { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 10px; align-self: stretch; }
+  .hx-mw-badges > :only-child { grid-column: 1 / -1; }
+  .hx-mw-badge { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+  .hx-mw-badge .hx-medal { width: 84px; height: auto; }
+  .hx-mw .hx-nextcard { cursor: default; text-align: left; }
+  .hx-pv-open { align-self: flex-start; opacity: .75; }
+  .hx-pv-set, .hx-pv-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .hx-pv-set + .hx-pv-set { margin-top: -4px; }
+  .hx-mw-dots { display: flex; gap: 6px; justify-content: center; }
+  .hx-mw-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--divider-color); }
+  .hx-mw-dots i.on { background: var(--primary-color); }
+  .hx-again { align-self: flex-start; }
+  /* Wegmarken-Fenster auf dem Handy ohne Scrollen: Titel, Text und Knopf behalten ihre Größe, die Comicseite nimmt die
+     Höhe, die übrig bleibt (ihre Breite folgt dem Seitenverhältnis). Nur auf sehr niedrigen Bildschirmen wird gescrollt. */
+  @media (max-width: 759.98px) {
+    .hx-dlg.moments.fit > * { flex-shrink: 0; }
+    .hx-dlg.moments.fit > .hx-mw { flex: 0 1 auto; min-height: 0; container-type: inline-size; }
+    .hx-dlg.moments.fit > .hx-mw > * { flex-shrink: 0; }
+    .hx-dlg.moments.fit > .hx-mw > .hx-page { flex: 0 1 auto; width: auto; max-width: 100%; height: 100vh; min-height: 150px; }
+    @supports (height: 1cqw) { .hx-dlg.moments.fit > .hx-mw > .hx-page { max-height: calc(100cqw * 16 / 9); } }
+  }
+  @media (min-width: 760px) { .hx-dlg.moments { width: min(560px, 100%); } .hx-dlg.moments.story { width: min(940px, 100%); } .hx-mw-badges { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .hx-mw > .hx-page { width: 100%; aspect-ratio: 8 / 3; grid-template-columns: 1fr 1.2fr 1fr; grid-template-rows: 1fr 1fr; grid-template-areas: "a e c" "b e d"; } }
+  .hx-moms { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+  .hx-mom { display: grid; grid-template-columns: 44px 1fr; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 12px; border: 1px solid var(--divider-color);
+    background: none; color: inherit; font: inherit; text-align: left; }
+  button.hx-mom { cursor: pointer; }
+  .hx-mom > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+  .hx-mom-i.art { width: 44px; aspect-ratio: 1; border-radius: 4px; overflow: hidden; }
+  .hx-mom-i.art.tall { aspect-ratio: 4 / 5; }
+  .hx-mom.wide { grid-column: 1 / -1; grid-template-columns: 72px 1fr; }
+  .hx-mom.wide .hx-mom-i.art { width: 72px; }
+  .hx-nextcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .hx-nextcard { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: center; padding: 10px; border-radius: 14px; border: 1px solid var(--divider-color);
+    background: var(--card-background-color); color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .hx-nextcard > span:last-child { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .hx-storyline { display: flex; flex-direction: column; gap: 2px; font-size: .9em; }
+  .hx-storyline .pi { width: 1.1em; height: 1.1em; color: var(--primary-color); }
+  .hx-nextup { display: flex; flex-direction: column; gap: 4px; }
+  @keyframes hx-in { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes hx-pop { 0% { transform: scale(.3) rotate(-18deg); opacity: 0; } 70% { transform: scale(1.1) rotate(4deg); opacity: 1; } 100% { transform: none; } }
+
+  /* Fenster */
+  /* Das Fenster bleibt immer ganz im sichtbaren Bereich (auch unter Statusleiste und Home-Balken des Handys) und scrollt
+     selbst; die Seite dahinter scrollt nicht mit. */
+  .hx-modal { position: fixed; inset: 0; z-index: 2147482000; display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+    padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 0px)); background: rgb(0 0 0 / .55);
+    overflow: hidden; overscroll-behavior: contain; animation: hx-fade .15s ease-out; }
+  .hx-dlg { --dp: 20px; box-sizing: border-box; width: min(400px, 100%); max-height: 100%; overflow-y: auto; overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 10px; padding: var(--dp); border-radius: 18px;
+    background: var(--card-background-color); color: var(--primary-text-color); border: 1px solid var(--divider-color); box-shadow: 0 18px 50px rgb(0 0 0 / .4);
+    animation: hx-in .25s ease-out both; }
+  .hx-dlg > * { flex-shrink: 0; }
+  .hx-modal.still, .hx-modal.still .hx-dlg { animation: none; }
+  /* Fenster mit aufklappbarem Inhalt hängt oben: wächst nach unten, die Überschrift bleibt stehen */
+  .hx-modal.top { align-items: flex-start; }
+  /* Kreuz bleibt beim Scrollen oben rechts stehen und nimmt keinen Platz weg */
+  .hx-dlg-x { position: sticky; top: 0; z-index: 2; align-self: flex-end; width: 34px; height: 34px; margin: -8px -8px -36px 0; border-radius: 50%;
+    background: var(--secondary-background-color); display: grid; place-items: center; padding: 0 0 2px; }
+  .hx-dlg:not(.center) .hx-dlg-x + * { padding-right: 30px; } /* Titel läuft nicht unter das Kreuz */ /* Inhalt nicht stauchen: das Fenster scrollt */
+  .hx-dlg.wide { width: min(600px, 100%); }
+  /* Knöpfe bleiben unten stehen, der Inhalt scrollt darüber */
+  .hx-dlg-foot { position: sticky; bottom: calc(-1 * var(--dp)); z-index: 1; display: flex; flex-direction: column; gap: 8px; margin: 0 calc(-1 * var(--dp)) calc(-1 * var(--dp));
+    padding: 10px var(--dp) var(--dp); background: var(--card-background-color); border-top: 1px solid var(--divider-color); }
+  .hx-dlg-foot .hx-dlg-btns { margin-top: 0; }
+  .hx-dlg-story .hx-teaser, .hx-dlg .hx-teaser { margin: 0; }
+  .hx-dlg.center { align-items: center; text-align: center; }
+  .hx-dlg.moments > .hx-mw, .hx-dlg.moments > .hx-dlg-foot { align-self: stretch; }
+  /* Heldenbild im Vollbild: so groß, wie Breite und Höhe des Bildschirms es zulassen (Bild 4:5) */
+  .hx-dlg.full { width: auto; max-width: 100%; padding: 0; gap: 10px; background: none; border: 0; box-shadow: none; overflow: visible; align-items: center; }
+  .hx-full-art { display: block; width: min(calc(100vw - 32px), calc((100dvh - 150px) * .8), 640px); aspect-ratio: 4 / 5; padding: 0; border: 0; border-radius: 20px;
+    overflow: hidden; background: var(--secondary-background-color); cursor: pointer; box-shadow: 0 18px 50px rgb(0 0 0 / .5); }
+  .hx-full-art > * { display: block; width: 100%; height: 100%; }
+  .hx-full-cap { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; color: #fff; }
+  .hx-full-cap b { font-size: 1.3em; font-weight: 800; }
+  .hx-full-cap .hx-fact { color: rgb(255 255 255 / .75); }
+  .hx-dlg.full .hx-dlg-x { position: absolute; top: 8px; right: 8px; margin: 0; background: rgb(0 0 0 / .5); color: #fff; }
+  .hx-dlg.full { position: relative; }
+  .hx-modal:has(.hx-dlg.full) { background: rgb(0 0 0 / .88); }
+  .hx-dlg.full .hx-dlg-x + * { padding-right: 0; }
+  .hx-dlg-btns { margin-top: 6px; }
+  .hx-dlg-btns .btn { flex: 1; }
+  .hx-dlg-art { width: 132px; aspect-ratio: 4 / 5; border-radius: 12px; overflow: hidden; align-self: center; box-shadow: 0 6px 18px rgb(0 0 0 / .3); }
+  .hx-dlg-story { display: grid; grid-template-columns: 84px 1fr; gap: 12px; align-items: center; }
+  @media (min-width: 760px) { .hx-dlg-story { grid-template-columns: 150px 1fr; gap: 16px; } }
+  .hx-dlg-story > div:last-child { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .hx-dlg-head { display: flex; gap: 12px; align-items: center; }
+  .hx-ask { display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: 14px; background: var(--secondary-background-color); }
+  .hx-picks { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .hx-pick, .hx-stylepick { display: flex; gap: 8px; align-items: center; padding: 6px; border-radius: 12px; border: 2px solid var(--divider-color); background: none; color: inherit;
+    font: inherit; cursor: pointer; text-align: left; min-width: 0; }
+  .hx-pick { flex-direction: column; text-align: center; font-size: .9em; }
+  .hx-pick.on, .hx-stylepick.on { border-color: var(--primary-color); background: color-mix(in srgb, var(--primary-color) 10%, transparent); }
+  .hx-pick-art { display: block; width: 100%; aspect-ratio: 4 / 5; border-radius: 8px; overflow: hidden; }
+  .hx-stylepicks { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+  .hx-stylepick .hx-pick-art { width: 44px; flex: none; }
+  .hx-stylepick > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+  .hx-aliasrow input { flex: 1; width: auto; min-width: 0; }
+  .hx-aliasrow .btn { flex: none; }
+  .hx-chhist li { border-bottom: 1px solid var(--divider-color); }
+  @keyframes hx-fade { from { opacity: 0; } to { opacity: 1; } }
+
+  @media (max-width: 560px) {
+    .hx-herocard { padding: 14px 12px; }
+    .hx-alias.big { font-size: 1.7em; }
+    .hx-lvl.big b { font-size: 2em; }
+    .hx-powers { grid-template-columns: 1fr; }
+    .hx-radarbox { max-width: 220px; }
+    .hx-power { flex-wrap: wrap; }
+    .hx-power-main { flex: 1 1 calc(100% - 50px); }
+    .hx-power .chip-btn { margin-left: 46px; }
+    .hx-active h3 { font-size: 1.15em; }
+    .hx-big { grid-template-columns: 96px 1fr; gap: 12px; padding: 10px; }
+    .hx-big-t h3 { font-size: 1.3em; }
+    .hx-tl-n em { display: none; }
+    .hx-tl-n.on:not(:has(~ .on)) em, .hx-tl-n:nth-child(2) em, .hx-tl-n:last-child em { display: block; }
+    .hx-tl { margin-bottom: 26px; }
+    .hx-tl.plain { margin-bottom: 6px; }
+    .hx-shelf-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .hx-bgrid { grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); }
+    .hx-dlg { --dp: 16px; }
+    .hx-stylepicks { grid-template-columns: 1fr; }
+    .hx-ch { grid-template-columns: 40px 1fr auto; gap: 8px; padding: 8px; }
+    .hx-ch-r { max-width: 34vw; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hx-big, .hx-big-medal, .hx-dlg, .hx-modal { animation: none; }
+    .hx-peek, .hx-prog > i, .hx-tl-bar > div { transition: none; }
+  }
+`;
+// src/ui/hero-texts.js
+var HERO_I18N = {
+	en: {
+		hx_level: "Level",
+		hx_none: "–",
+		hx_of: "of",
+		hx_close: "Close",
+		hx_cancel: "Cancel",
+		hx_save: "Save",
+		hx_dismiss: "Dismiss",
+		hx_done: "finished",
+		hx_active: "active",
+		hx_soon: "Coming soon",
+		hx_tab_story: "Story",
+		hx_tab_free: "Free training",
+		hx_info: "Explanation",
+		hx_time: "time",
+		hx_next_upgrade_short: "next upgrade",
+		hx_story_manage: "Story: pause, abort, training plan",
+		hx_next_training: "Next workout",
+		hx_outside: "Training outside the story",
+		hx_training: "Training",
+		hx_story_abort: "Abort story",
+		hx_story_abort_c: "Abort and discard progress?",
+		hx_train_h: "The training",
+		hx_train_n: "{n} workouts",
+		hx_train_ex: "Exercises ({n})",
+		hx_plan: "Training plan",
+		hx_plan_show: "View training plan",
+		hx_plan_hide: "Hide training plan",
+		hx_plan_next: "next",
+		hx_ch_flow: "How it goes",
+		hx_all_challenges: "All challenges",
+		hx_collection_h: "Collection",
+		hx_tab_dossier: "Profile",
+		hx_portrait_open: "Show hero full screen",
+		hx_tab_stories: "Stories",
+		hx_tab_challenges: "Challenges",
+		hx_tab_badges: "Badges",
+		hx_how_scale_h: "Chart",
+		hx_how_scale: "The number on the outer ring is the scale: the next upgrade of your strongest power.",
+		hx_p_strength: "Strength",
+		hx_p_endurance: "Endurance",
+		hx_p_agility: "Agility",
+		hx_p_willpower: "Willpower",
+		hx_powers: "Powers",
+		hx_tier_n: "Upgrade {n} of 5",
+		hx_upgrade_at: "Next upgrade at {at} – {left} to go",
+		hx_upgrade_all: "All five upgrades reached",
+		hx_all_upgrades: "All upgrades reached",
+		hx_next_upgrade: "Next upgrade: {power} {at}",
+		hx_memory: "{power} is coming back – twice as fast up to {v}",
+		hx_pause_power: "Pause",
+		hx_resume_power: "Paused",
+		hx_paused_since: "Paused – it neither sinks nor grows",
+		hx_how_pause_h: "Pause",
+		hx_how_pause: "Injured or on holiday? Pause a power you can't train right now – that is part of every hero's journey.",
+		hx_how_h: "How your powers grow",
+		hx_how_strength: "Strength sets",
+		hx_how_endurance: "Intervals, cardio, holds and long sets (over 15 reps)",
+		hx_how_agility: "Yoga, mobility and one-sided exercises",
+		hx_how_willpower: "Every weekly goal you reach",
+		hx_how_level_h: "Level",
+		hx_how_level: "The average of all four powers.",
+		hx_rank_civilian: "Civilian",
+		hx_rank_rookie: "Rookie",
+		hx_rank_rumor: "Rumor",
+		hx_rank_headline: "Headline",
+		hx_rank_hero: "Hero",
+		hx_rank_superhero: "Superhero",
+		hx_rank_icon: "Icon",
+		hx_rank_legend: "Legend",
+		hx_rank_civilian_line: "Nobody knows a thing.",
+		hx_rank_rookie_line: "Your first steps. A little unsteady – but they are yours.",
+		hx_rank_rumor_line: "Someone claims to have seen you …",
+		hx_rank_headline_line: "You made the papers.",
+		hx_rank_hero_line: "The city knows your name.",
+		hx_rank_superhero_line: "They know you far beyond the city.",
+		hx_rank_icon_line: "The world knows you.",
+		hx_rank_legend_line: "They will be telling your story for a long time.",
+		hx_rank_next: "Next rank: {rank} at level {level}",
+		hx_rank_top: "Highest rank reached",
+		hx_style_vigilante: "Vigilante",
+		hx_style_vigilante_sub: "No powers. No permission. No excuses.",
+		hx_style_xclass: "X-Class",
+		hx_style_xclass_sub: "Different is your strength.",
+		hx_style_starkeeper: "Star Keeper",
+		hx_style_starkeeper_sub: "The galaxy is your training ground.",
+		hx_style_runewarrior: "Rune Warrior",
+		hx_style_runewarrior_sub: "Forged in legend.",
+		hx_style_neonrebel: "Neon Rebel",
+		hx_style_neonrebel_sub: "Always in overdrive.",
+		hx_fig_m: "Male",
+		hx_fig_w: "Female",
+		hx_figask_title: "Which figure would you like?",
+		hx_figask_text: "The neutral figure is gone. Your hero is now male or female. Pick one. You can change it any time in your profile.",
+		hx_figask_go: "Use this figure",
+		hx_edit: "Edit hero",
+		hx_edit_title: "Your hero",
+		hx_figure: "Figure",
+		hx_style: "Style",
+		hx_style_hint: "The style is only a look. Change it whenever you like – nothing is lost.",
+		hx_alias: "Alias",
+		hx_alias_ph: "Optional – your hero name",
+		hx_alias_hint: "Just for fun. Without an alias your hero carries your name.",
+		hx_dice: "Roll",
+		hx_setup_eyebrow: "Hero mode",
+		hx_setup_title: "Who is your hero?",
+		hx_setup_go: "Let's go",
+		hx_open_hero: "Open your hero",
+		hx_top_power: "Strongest power: {power}",
+		hx_bar_open: "Show hero",
+		hx_bar_close: "Hide hero",
+		hx_peek_hint: "Tap to open your profile.",
+		hx_story_active: "Your story",
+		hx_continue_pre: "Continue in",
+		hx_continue: "Continue",
+		hx_other: "Train something else",
+		hx_training_of: "Workout {n} of {total}",
+		hx_training_of_done: "{n} of {total} workouts",
+		hx_weeks_left: "about {n} more weeks at {g} per week",
+		hx_weeks_left1: "about 1 more week at {g} per week",
+		hx_no_story: "No active story.",
+		hx_no_story_sub: "Pick one below – your training becomes a comic.",
+		hx_pick_story: "Choose a story",
+		hx_idle_title: "{power}: not trained for {days} days",
+		hx_idle_soon: "From three weeks on, {power} slowly sinks. One fitting workout is enough to keep it.",
+		hx_idle_sinking: "It is sinking. If it stays like this: level {now} → {then} in 2 weeks.",
+		hx_idle_sinking0: "It is sinking. One fitting workout is enough to stop it.",
+		hx_idle_templates: "Templates",
+		hx_idle_pause: "Pause the power",
+		hx_goal_left1: "1 more workout and this week's goal is yours.",
+		hx_goal_left: "{n} more workouts and this week's goal is yours.",
+		hx_goal_left_sub: "Every weekly goal you reach makes your willpower grow.",
+		hx_pv_open: "Preview: windows",
+		hx_pv_tag: "Test version only",
+		hx_pv_title: "Preview of the windows",
+		hx_pv_text: "Opens the real windows with sample data. Nothing is saved, your hero stays unchanged.",
+		hx_pv_look: "Shown with",
+		hx_pv_cb: "The Return",
+		hx_pv_cb_away: "Cover: hero has dropped",
+		hx_pv_cb_hints: "Hints",
+		hx_pv_cb_moment: "Moment: goal reached",
+		hx_pv_fin: "After the workout",
+		hx_pv_ms: "Milestone {p} %",
+		hx_pv_end: "End of the story",
+		hx_pv_all: "All in a row",
+		hx_pv_more: "More",
+		hx_pv_n_where: "These cards appear on the start page, below the hero bar. Here the buttons do nothing.",
+		hx_pv_n_idle: "One power left idle (from 2 weeks)",
+		hx_pv_n_idle2: "… and sinking (from 3 weeks)",
+		hx_pv_n_break: "No workout at all (from 2 weeks)",
+		hx_pv_n_break2: "… and the powers are sinking (from 3 weeks, until The Return begins)",
+		hx_pv_n_away: "The Return: after 4 weeks or 3 levels lost",
+		hx_pv_n_pending: "The Return: first workout after that",
+		hx_break_title: "No workout for {days} days",
+		hx_break_soon: "From three weeks on, your powers slowly sink. One workout is enough to keep them.",
+		hx_break_text: "Your powers are slowly sinking now. One workout stops the decline.",
+		hx_return_title: "The Return",
+		hx_return_show: "Show cover",
+		hx_return_away: "{name} has dropped from level {pre} to {low}. Reach one weekly goal, and level {pre} is back.",
+		hx_return_pending: "First workout done! {n} more workouts this week and {name} is back at level {pre}.",
+		hx_return_pending1: "First workout done! One more workout this week and {name} is back at level {pre}.",
+		hx_anon: "Anonymous",
+		hx_return_kind: "Nothing is lost. Every hero takes a break – what counts is that you start again.",
+		hx_return_ok: "I'm back",
+		hx_return_done_h: "{name} is back",
+		hx_return_done: "Level {from} → {to}. Powers and level are back where they were before the break.",
+		hx_all_stories: "All stories",
+		hx_shelf: "Your shelf",
+		hx_shelf_empty: "Finished and paused stories are kept here as comics.",
+		hx_shelf_done: "finished {d} · {n} workouts",
+		hx_shelf_min: "{n} minutes",
+		hx_paused_at: "paused at {n} %",
+		hx_playable: "{n} of {total} playable",
+		hx_sg_strength: "Strength",
+		hx_sg_bodyweight: "Bodyweight",
+		hx_sg_calisthenics: "Calisthenics",
+		hx_sg_skills: "Skills",
+		hx_sg_rings: "Rings",
+		hx_sg_kettlebell: "Kettlebell",
+		hx_sg_cardio: "HIIT & endurance",
+		hx_sg_everyday: "Everyday & health",
+		hx_sg_yoga: "Yoga & mobility",
+		hx_depart_go: "Start the workout",
+		hx_pv_depart: "Setting out (before the first workout)",
+		hx_ms_0: "Setting out",
+		hx_ms_1: "Exploring",
+		hx_ms_2: "Turning point",
+		hx_ms_3: "Showdown",
+		hx_ms_4: "Homecoming",
+		hx_story_start: "Start story",
+		hx_story_resume: "Resume story",
+		hx_story_again: "Play again",
+		hx_story_is_active: "This is your story",
+		hx_story_pause: "Pause story",
+		hx_story_pause_c: "Pause this story?",
+		hx_story_facts: "{n} workouts · {w} per week · about {k} weeks",
+		hx_per_week: "{n} per week, about {w} weeks",
+		hx_honest: "at {g} per week about {n} instead of {w} weeks",
+		hx_read_all: "Read all {n} chapters",
+		hx_read_less: "Show only the latest",
+		hx_sequel: "The sequel",
+		hx_spinoff: "Spin-off",
+		hx_sequel_of: "Sequel to “{title}”",
+		hx_spinoff_of: "Spin-off of “{title}”",
+		hx_continues_in: "Continues in: {title}",
+		hx_soon_text: "This story is not playable yet. The program is still being built.",
+		hx_switch_note: "“{title}” is paused at {n} % and stays on your shelf.",
+		hx_goal_q: "This story asks for {n} workouts per week. Your weekly goal is {g}.",
+		hx_goal_keep_longer: "If you keep {g} per week, it simply takes longer: about {n} instead of {w} weeks.",
+		hx_goal_keep_more: "Your goal of {g} stays higher than the story needs ({n} per week).",
+		hx_goal_yes: "Set goal to {n} for this story",
+		hx_goal_no: "Keep {g} per week",
+		hx_goal_after: "After the story your old weekly goal applies again.",
+		hx_next_title: "What's next?",
+		hx_next_sub: "The sequel is waiting.",
+		hx_ch_intro: "Single workouts you can repeat and improve. Tests only when you are rested – you can stop at any time.",
+		hx_cg_tests: "Tests",
+		hx_cg_conditioning: "Conditioning",
+		hx_cg_weights: "Kettlebell & weights",
+		hx_cg_skills: "Skills",
+		hx_cg_mobility: "Core & mobility",
+		hx_ch_new: "not tried yet",
+		hx_ch_count: "{n} times",
+		hx_ch_count1: "once",
+		hx_ch_start: "Start challenge",
+		hx_ch_mark: "The mark",
+		hx_ch_goal: "strong: {v}",
+		hx_ch_balanced: "both sides within 5 % of each other",
+		hx_ch_results: "Your results",
+		hx_ch_best: "Best",
+		hx_ch_last: "Last",
+		hx_ch_done_n: "Attempts",
+		hx_ch_passed_n: "{n} passed",
+		hx_ch_first: "Your first result – now you have something to beat.",
+		hx_ch_improved: "Better than ever before.",
+		hx_ch_passed: "Mark reached.",
+		hx_ch_again: "Saved. Next time a little more.",
+		hx_safe_hold: "Holds: keep breathing, don't strain. With untreated high blood pressure or heart problems, check with a doctor first.",
+		hx_safe_test: "Tests only when you are rested. Stop at any time – it is not a competition.",
+		hx_f_all: "All",
+		hx_f_got: "Earned",
+		hx_f_open: "Open",
+		hx_l_got: "earned",
+		hx_l_open: "open",
+		hx_l_secret: "secret",
+		hx_collection: "Collection: {have} of {of} ({pct} %) – secret and calendar badges are a bonus.",
+		hx_secret: "Secret",
+		hx_secret_text: "A special moment. You will find it when the time comes.",
+		hx_secret_badge: "secret badge",
+		hx_earned_on: "Earned on {d}",
+		hx_not_yet: "Not yet",
+		hx_hall_text: "Every badge of the catalog. There is nothing left to prove – only to keep going.",
+		hx_hall_line: "{n} workouts · {h} hours",
+		hx_hall_badges: "{n} badges",
+		hx_fin_title: "Your hero",
+		hx_fin_nogain: "No power gained this time.",
+		hx_m_badge: "New badge",
+		hx_m_upgrade: "Upgrade",
+		hx_m_rank: "New rank",
+		hx_m_return: "The Return",
+		hx_m_badges: "Badges",
+		hx_mw_powers: "Powers",
+		hx_mw_up1: "New upgrade",
+		hx_mw_ups: "{n} new upgrades",
+		hx_mw_badge1: "New badge",
+		hx_mw_badges: "{n} new badges",
+		hx_mw_next: "Next",
+		hx_mw_done: "Done",
+		hx_mw_step: "{i} of {n}",
+		hx_mw_again: "Show the moments again",
+		hx_m_story_end: "Story complete",
+		hx_m_story_badge: "The badge of this story is yours.",
+		hx_upgrade_line: "{power} {at}",
+		hx_upgrade_text: "“{name}” – upgrade {n} of 5.",
+		hx_week_report: "This week",
+		hx_week_reached: "Weekly goal reached",
+		hx_week_count: "{n} of {g} workouts",
+		hx_week_left: "{n} to go for the weekly goal",
+		hx_week_change: "Change",
+		hx_n_of: "{n} of {total}",
+		hx_week_nothing: "No change yet this week.",
+		hx_mode: "Hero mode",
+		hx_mode_hint: "Turns your training into a hero story: powers, ranks, badges, stories and challenges. Off = the app exactly as before. Your progress keeps being calculated either way.",
+		hx_tour_again: "Restart tutorial",
+		hx_intro_eyebrow: "New: hero mode",
+		hx_intro_title: "Do you want to play in hero mode?",
+		hx_intro_1: "Your training becomes a hero: four powers grow with what you really do, your rank rises from Civilian to Legend, and there are badges, stories and challenges.",
+		hx_intro_2: "Training and history stay exactly as they are. Nothing rewards overtraining, nothing is about weight or looks – and a break never costs you anything for good.",
+		hx_intro_3: "You can switch it on or off at any time under Settings → Other.",
+		hx_intro_yes: "Yes, play",
+		hx_intro_no: "Not now",
+		hx_intro_later: "Okay. You can turn hero mode on at any time under Settings → Other."
+	},
+	de: {
+		hx_level: "Level",
+		hx_none: "–",
+		hx_of: "von",
+		hx_close: "Schließen",
+		hx_cancel: "Abbrechen",
+		hx_save: "Speichern",
+		hx_dismiss: "Ausblenden",
+		hx_done: "beendet",
+		hx_active: "aktiv",
+		hx_soon: "Bald verfügbar",
+		hx_tab_story: "Story",
+		hx_tab_free: "Freies Training",
+		hx_info: "Erklärung",
+		hx_time: "Zeit",
+		hx_next_upgrade_short: "nächstes Upgrade",
+		hx_story_manage: "Story: pausieren, abbrechen, Trainingsplan",
+		hx_next_training: "Nächstes Training",
+		hx_outside: "Training außerhalb der Story",
+		hx_training: "Training",
+		hx_story_abort: "Story abbrechen",
+		hx_story_abort_c: "Abbrechen und Fortschritt verwerfen?",
+		hx_train_h: "Das Training",
+		hx_train_n: "{n} Trainings",
+		hx_train_ex: "Übungen ({n})",
+		hx_plan: "Trainingsplan",
+		hx_plan_show: "Trainingsplan ansehen",
+		hx_plan_hide: "Trainingsplan einklappen",
+		hx_plan_next: "als Nächstes",
+		hx_ch_flow: "Ablauf",
+		hx_all_challenges: "Alle Challenges",
+		hx_collection_h: "Sammlung",
+		hx_tab_dossier: "Profil",
+		hx_portrait_open: "Helden groß anzeigen",
+		hx_tab_stories: "Stories",
+		hx_tab_challenges: "Challenges",
+		hx_tab_badges: "Orden",
+		hx_how_scale_h: "Grafik",
+		hx_how_scale: "Die Zahl am äußeren Ring ist der Maßstab: das nächste Upgrade deiner stärksten Kraft.",
+		hx_p_strength: "Stärke",
+		hx_p_endurance: "Ausdauer",
+		hx_p_agility: "Agilität",
+		hx_p_willpower: "Willenskraft",
+		hx_powers: "Kräfte",
+		hx_tier_n: "Upgrade {n} von 5",
+		hx_upgrade_at: "Nächstes Upgrade bei {at} – noch {left}",
+		hx_upgrade_all: "Alle fünf Upgrades erreicht",
+		hx_all_upgrades: "Alle Upgrades erreicht",
+		hx_next_upgrade: "Nächstes Upgrade: {power} {at}",
+		hx_memory: "{power} kehrt zurück – doppelt so schnell bis {v}",
+		hx_pause_power: "Pausieren",
+		hx_resume_power: "Pausiert",
+		hx_paused_since: "Pausiert – sinkt nicht und wächst nicht",
+		hx_how_pause_h: "Pause",
+		hx_how_pause: "Verletzt oder im Urlaub? Pausiere eine Kraft, die du gerade nicht trainieren kannst – das gehört zu jeder Heldenreise.",
+		hx_how_h: "So wachsen deine Kräfte",
+		hx_how_strength: "Kraftsätze",
+		hx_how_endurance: "Intervalle, Cardio, Halteübungen und lange Sätze (über 15 Wdh.)",
+		hx_how_agility: "Yoga, Mobilität und einseitige Übungen",
+		hx_how_willpower: "Jedes erreichte Wochenziel",
+		hx_how_level_h: "Level",
+		hx_how_level: "Der Durchschnitt aller vier Kräfte.",
+		hx_rank_civilian: "Zivilist",
+		hx_rank_rookie: "Neuling",
+		hx_rank_rumor: "Gerücht",
+		hx_rank_headline: "Schlagzeile",
+		hx_rank_hero: "Held",
+		hx_rank_superhero: "Superheld",
+		hx_rank_icon: "Ikone",
+		hx_rank_legend: "Legende",
+		hx_rank_civilian_line: "Niemand weiß etwas.",
+		hx_rank_rookie_line: "Deine ersten Schritte. Noch unsicher – aber es sind deine.",
+		hx_rank_rumor_line: "Jemand will dich gesehen haben …",
+		hx_rank_headline_line: "Du stehst in der Zeitung.",
+		hx_rank_hero_line: "Die Stadt kennt deinen Namen.",
+		hx_rank_superhero_line: "Man kennt dich weit über die Stadt hinaus.",
+		hx_rank_icon_line: "Die Welt kennt dich.",
+		hx_rank_legend_line: "Man wird noch lange von dir erzählen.",
+		hx_rank_next: "Nächster Rang: {rank} ab Level {level}",
+		hx_rank_top: "Höchster Rang erreicht",
+		hx_style_vigilante: "Vigilante",
+		hx_style_vigilante_sub: "Keine Kräfte. Keine Erlaubnis. Keine Ausreden.",
+		hx_style_xclass: "X-Class",
+		hx_style_xclass_sub: "Anders sein ist deine Stärke.",
+		hx_style_starkeeper: "Star Keeper",
+		hx_style_starkeeper_sub: "Die Galaxie ist dein Trainingsplatz.",
+		hx_style_runewarrior: "Rune Warrior",
+		hx_style_runewarrior_sub: "In Sagen geschmiedet.",
+		hx_style_neonrebel: "Neon Rebel",
+		hx_style_neonrebel_sub: "Immer im Overdrive.",
+		hx_fig_m: "Männlich",
+		hx_fig_w: "Weiblich",
+		hx_figask_title: "Welche Figur möchtest du?",
+		hx_figask_text: "Die neutrale Figur gibt es nicht mehr. Dein Held ist jetzt männlich oder weiblich. Such dir eine aus. Im Profil kannst du sie jederzeit wechseln.",
+		hx_figask_go: "Diese Figur nehmen",
+		hx_edit: "Held bearbeiten",
+		hx_edit_title: "Dein Held",
+		hx_figure: "Figur",
+		hx_style: "Stil",
+		hx_style_hint: "Der Stil ist nur Aussehen. Wechsle ihn, wann du willst – es geht nichts verloren.",
+		hx_alias: "Alias",
+		hx_alias_ph: "Freiwillig – dein Heldenname",
+		hx_alias_hint: "Nur zum Spaß. Ohne Alias trägt dein Held deinen Namen.",
+		hx_dice: "Würfeln",
+		hx_setup_eyebrow: "Heldenmodus",
+		hx_setup_title: "Wer ist dein Held?",
+		hx_setup_go: "Los geht's",
+		hx_open_hero: "Deinen Helden öffnen",
+		hx_top_power: "Stärkste Kraft: {power}",
+		hx_bar_open: "Helden zeigen",
+		hx_bar_close: "Helden einklappen",
+		hx_peek_hint: "Tippen öffnet dein Profil.",
+		hx_story_active: "Deine Story",
+		hx_continue_pre: "Weiter in",
+		hx_continue: "Weiter",
+		hx_other: "Etwas anderes trainieren",
+		hx_training_of: "Training {n} von {total}",
+		hx_training_of_done: "{n} von {total} Trainings",
+		hx_weeks_left: "noch etwa {n} Wochen bei {g} pro Woche",
+		hx_weeks_left1: "noch etwa 1 Woche bei {g} pro Woche",
+		hx_no_story: "Keine aktive Story.",
+		hx_no_story_sub: "Such dir unten eine aus – dein Training wird zum Comic.",
+		hx_pick_story: "Story auswählen",
+		hx_idle_title: "{power}: seit {days} Tagen nicht trainiert",
+		hx_idle_soon: "Ab drei Wochen sinkt {power} langsam. Ein einziges passendes Training reicht, um sie zu halten.",
+		hx_idle_sinking: "Sie sinkt. Bleibt es so: Level {now} → in 2 Wochen {then}.",
+		hx_idle_sinking0: "Sie sinkt. Ein einziges passendes Training hält sie auf.",
+		hx_idle_templates: "Vorlagen",
+		hx_idle_pause: "Kraft pausieren",
+		hx_goal_left1: "Noch 1 Training, dann ist das Wochenziel geschafft.",
+		hx_goal_left: "Noch {n} Trainings, dann ist das Wochenziel geschafft.",
+		hx_goal_left_sub: "Jedes erreichte Wochenziel lässt deine Willenskraft wachsen.",
+		hx_pv_open: "Vorschau: Fenster",
+		hx_pv_tag: "Nur in der Testversion",
+		hx_pv_title: "Vorschau der Fenster",
+		hx_pv_text: "Öffnet die echten Fenster mit Beispieldaten. Nichts wird gespeichert, dein Held bleibt unverändert.",
+		hx_pv_look: "Gezeigt mit",
+		hx_pv_cb: "Die Rückkehr",
+		hx_pv_cb_away: "Cover: Held ist gefallen",
+		hx_pv_cb_hints: "Hinweise",
+		hx_pv_cb_moment: "Moment: Wochenziel erfüllt",
+		hx_pv_fin: "Nach dem Training",
+		hx_pv_ms: "Wegmarke {p} %",
+		hx_pv_end: "Story-Ende",
+		hx_pv_all: "Alles nacheinander",
+		hx_pv_more: "Weiteres",
+		hx_pv_n_where: "Diese Karten erscheinen auf der Startseite, unter der Heldenleiste. Hier tun die Knöpfe nichts.",
+		hx_pv_n_idle: "Eine Kraft liegt brach (ab 2 Wochen)",
+		hx_pv_n_idle2: "… und sinkt (ab 3 Wochen)",
+		hx_pv_n_break: "Gar kein Training (ab 2 Wochen)",
+		hx_pv_n_break2: "… und die Kräfte sinken (ab 3 Wochen, bis die Rückkehr beginnt)",
+		hx_pv_n_away: "Die Rückkehr: nach 4 Wochen oder 3 Leveln Verlust",
+		hx_pv_n_pending: "Die Rückkehr: erstes Training danach",
+		hx_break_title: "Seit {days} Tagen kein Training",
+		hx_break_soon: "Ab drei Wochen sinken deine Kräfte langsam. Ein einziges Training reicht, um sie zu halten.",
+		hx_break_text: "Deine Kräfte sinken jetzt langsam. Ein Training stoppt den Abbau.",
+		hx_return_title: "Die Rückkehr",
+		hx_return_show: "Cover ansehen",
+		hx_return_away: "{name} ist von Level {pre} auf {low} gefallen. Erfülle ein Wochenziel, und Level {pre} ist zurück.",
+		hx_return_pending: "Erstes Training geschafft! Noch {n} Trainings diese Woche, dann ist {name} zurück auf Level {pre}.",
+		hx_return_pending1: "Erstes Training geschafft! Noch ein Training diese Woche, dann ist {name} zurück auf Level {pre}.",
+		hx_anon: "Anonym",
+		hx_return_kind: "Nichts ist verloren. Jeder Held macht einmal Pause – es zählt, dass du wieder anfängst.",
+		hx_return_ok: "Ich bin zurück",
+		hx_return_done_h: "{name} ist zurück",
+		hx_return_done: "Level {from} → {to}. Kräfte und Level sind wieder dort, wo sie vor der Pause waren.",
+		hx_all_stories: "Alle Stories",
+		hx_shelf: "Dein Regal",
+		hx_shelf_empty: "Abgeschlossene und pausierte Stories stehen hier als Comics.",
+		hx_shelf_done: "beendet am {d} · {n} Trainings",
+		hx_shelf_min: "{n} Minuten",
+		hx_paused_at: "pausiert bei {n} %",
+		hx_playable: "{n} von {total} spielbar",
+		hx_sg_strength: "Kraft",
+		hx_sg_bodyweight: "Körpergewicht",
+		hx_sg_calisthenics: "Calisthenics",
+		hx_sg_skills: "Figuren",
+		hx_sg_rings: "Ringe",
+		hx_sg_kettlebell: "Kettlebell",
+		hx_sg_cardio: "HIIT & Ausdauer",
+		hx_sg_everyday: "Alltag & Gesundheit",
+		hx_sg_yoga: "Yoga & Mobilität",
+		hx_depart_go: "Training starten",
+		hx_pv_depart: "Aufbruch (vor dem ersten Training)",
+		hx_ms_0: "Aufbruch",
+		hx_ms_1: "Erkundung",
+		hx_ms_2: "Wendepunkt",
+		hx_ms_3: "Showdown",
+		hx_ms_4: "Rückkehr",
+		hx_story_start: "Story starten",
+		hx_story_resume: "Story fortsetzen",
+		hx_story_again: "Noch einmal spielen",
+		hx_story_is_active: "Das ist deine Story",
+		hx_story_pause: "Story pausieren",
+		hx_story_pause_c: "Diese Story pausieren?",
+		hx_story_facts: "{n} Trainings · {w} pro Woche · etwa {k} Wochen",
+		hx_per_week: "{n} pro Woche, etwa {w} Wochen",
+		hx_honest: "mit {g} pro Woche etwa {n} statt {w} Wochen",
+		hx_read_all: "Alle {n} Kapitel lesen",
+		hx_read_less: "Nur das neueste zeigen",
+		hx_sequel: "Die Fortsetzung",
+		hx_spinoff: "Spin-off",
+		hx_sequel_of: "Fortsetzung von „{title}“",
+		hx_spinoff_of: "Spin-off von „{title}“",
+		hx_continues_in: "Geht weiter in: {title}",
+		hx_soon_text: "Diese Story ist noch nicht spielbar. Das Programm dazu entsteht noch.",
+		hx_switch_note: "„{title}“ wird bei {n} % pausiert und bleibt in deinem Regal.",
+		hx_goal_q: "Diese Story verlangt {n} Trainings pro Woche. Dein Wochenziel ist {g}.",
+		hx_goal_keep_longer: "Bleibst du bei {g} pro Woche, dauert sie einfach länger: etwa {n} statt {w} Wochen.",
+		hx_goal_keep_more: "Dein Ziel von {g} bleibt höher, als die Story braucht ({n} pro Woche).",
+		hx_goal_yes: "Ziel für diese Story auf {n} setzen",
+		hx_goal_no: "Bei {g} pro Woche bleiben",
+		hx_goal_after: "Nach der Story gilt wieder dein altes Wochenziel.",
+		hx_next_title: "Wie geht es weiter?",
+		hx_next_sub: "Die Fortsetzung wartet.",
+		hx_ch_intro: "Einzelne Workouts zum Wiederholen und Verbessern. Tests nur ausgeruht – du kannst jederzeit abbrechen.",
+		hx_cg_tests: "Tests",
+		hx_cg_conditioning: "Kondition",
+		hx_cg_weights: "Kettlebell & Gewichte",
+		hx_cg_skills: "Können",
+		hx_cg_mobility: "Rumpf & Mobilität",
+		hx_ch_new: "noch nicht versucht",
+		hx_ch_count: "{n}-mal",
+		hx_ch_count1: "einmal",
+		hx_ch_start: "Challenge starten",
+		hx_ch_mark: "Die Marke",
+		hx_ch_goal: "stark: {v}",
+		hx_ch_balanced: "beide Seiten höchstens 5 % auseinander",
+		hx_ch_results: "Deine Ergebnisse",
+		hx_ch_best: "Bestwert",
+		hx_ch_last: "Zuletzt",
+		hx_ch_done_n: "Versuche",
+		hx_ch_passed_n: "{n} geschafft",
+		hx_ch_first: "Dein erstes Ergebnis – jetzt hast du etwas zu schlagen.",
+		hx_ch_improved: "Besser als je zuvor.",
+		hx_ch_passed: "Marke erreicht.",
+		hx_ch_again: "Gespeichert. Nächstes Mal ein bisschen mehr.",
+		hx_safe_hold: "Halteübungen: weiteratmen, nicht pressen. Bei unbehandeltem Bluthochdruck oder Herzproblemen vorher ärztlich abklären.",
+		hx_safe_test: "Tests nur ausgeruht. Abbrechen geht jederzeit – es ist kein Wettkampf.",
+		hx_f_all: "Alle",
+		hx_f_got: "Erhalten",
+		hx_f_open: "Offen",
+		hx_l_got: "erhalten",
+		hx_l_open: "offen",
+		hx_l_secret: "geheim",
+		hx_collection: "Sammlung: {have} von {of} ({pct} %) – geheime und Kalender-Orden sind Bonus.",
+		hx_secret: "Geheim",
+		hx_secret_text: "Ein besonderer Moment. Du findest ihn, wenn es so weit ist.",
+		hx_secret_badge: "geheimer Orden",
+		hx_earned_on: "Erhalten am {d}",
+		hx_not_yet: "Noch offen",
+		hx_hall_text: "Alle Orden des Katalogs. Es gibt nichts mehr zu beweisen – nur noch weiterzumachen.",
+		hx_hall_line: "{n} Trainings · {h} Stunden",
+		hx_hall_badges: "{n} Orden",
+		hx_fin_title: "Dein Held",
+		hx_fin_nogain: "Diesmal ist keine Kraft gewachsen.",
+		hx_m_badge: "Neuer Orden",
+		hx_m_upgrade: "Upgrade",
+		hx_m_rank: "Neuer Rang",
+		hx_m_return: "Die Rückkehr",
+		hx_m_badges: "Orden",
+		hx_mw_powers: "Kräfte",
+		hx_mw_up1: "Neues Upgrade",
+		hx_mw_ups: "{n} neue Upgrades",
+		hx_mw_badge1: "Neuer Orden",
+		hx_mw_badges: "{n} neue Orden",
+		hx_mw_next: "Weiter",
+		hx_mw_done: "Fertig",
+		hx_mw_step: "{i} von {n}",
+		hx_mw_again: "Momente noch einmal ansehen",
+		hx_m_story_end: "Story abgeschlossen",
+		hx_m_story_badge: "Der Orden dieser Story gehört dir.",
+		hx_upgrade_line: "{power} {at}",
+		hx_upgrade_text: "„{name}“ – Upgrade {n} von 5.",
+		hx_week_report: "Diese Woche",
+		hx_week_reached: "Wochenziel erreicht",
+		hx_week_count: "{n} von {g} Trainings",
+		hx_week_left: "noch {n} bis zum Wochenziel",
+		hx_week_change: "Veränderung",
+		hx_n_of: "{n} von {total}",
+		hx_week_nothing: "Diese Woche noch keine Veränderung.",
+		hx_mode: "Heldenmodus",
+		hx_mode_hint: "Macht aus deinem Training eine Heldengeschichte: Kräfte, Ränge, Orden, Stories und Challenges. Aus = die App genau wie bisher. Dein Fortschritt wird weiter berechnet.",
+		hx_tour_again: "Tutorial erneut starten",
+		hx_intro_eyebrow: "Neu: Heldenmodus",
+		hx_intro_title: "Möchtest du im Heldenmodus spielen?",
+		hx_intro_1: "Aus deinem Training wird ein Held: Vier Kräfte wachsen mit dem, was du wirklich tust, dein Rang steigt vom Zivilisten bis zur Legende, und es gibt Orden, Stories und Challenges.",
+		hx_intro_2: "Training und Verlauf bleiben genau, wie sie sind. Nichts belohnt Übertraining, nichts dreht sich um Gewicht oder Aussehen – und eine Pause kostet dich nie etwas für immer.",
+		hx_intro_3: "Du kannst ihn jederzeit unter Einstellungen → Sonstiges ein- oder ausschalten.",
+		hx_intro_yes: "Ja, spielen",
+		hx_intro_no: "Jetzt nicht",
+		hx_intro_later: "In Ordnung. Du kannst den Heldenmodus jederzeit unter Einstellungen → Sonstiges einschalten."
+	}
+};
 // src/ui/app.js
 var I18N = {
 	en: {
 		tab_training: "Training",
+		tab_hero: "Hero",
 		tab_history: "History",
 		tab_plans: "Settings",
 		loading: "Loading …",
@@ -1809,6 +16105,8 @@ var I18N = {
 		"tg.hiit.about": "Short, hard intervals – timed, with beeps or announcements. Bodyweight, kettlebell, bike, rower or running.",
 		"tg.ausdauer": "Endurance",
 		"tg.ausdauer.about": "Running and steady cardio – step by step to more stamina. Timed, runs on its own.",
+		"tg.alltag": "Everyday & health",
+		"tg.alltag.about": "Walking, hiking and a healthy back – gentle programs for everyday life, no gym needed.",
 		"tg.yoga": "Yoga & mobility",
 		"tg.yoga.about": "Flows, stretching and balance – runs on its own, every pose is announced. A mat is enough.",
 		"tg.other": "More",
@@ -1918,6 +16216,7 @@ var I18N = {
 	},
 	de: {
 		tab_training: "Training",
+		tab_hero: "Hero",
 		tab_history: "Verlauf",
 		tab_plans: "Einstellungen",
 		loading: "Lade …",
@@ -2077,6 +16376,8 @@ var I18N = {
 		"tg.hiit.about": "Kurze, harte Intervalle – zeitgesteuert, mit Signaltönen oder Ansagen. Körpergewicht, Kettlebell, Rad, Rudergerät oder Laufen.",
 		"tg.ausdauer": "Ausdauer",
 		"tg.ausdauer.about": "Laufen und Ausdauertraining – Schritt für Schritt zu mehr Kondition. Zeitgesteuert, läuft von selbst.",
+		"tg.alltag": "Alltag & Gesundheit",
+		"tg.alltag.about": "Gehen, Wandern und ein gesunder Rücken – sanfte Programme für den Alltag, ohne Studio.",
 		"tg.yoga": "Yoga & Mobilität",
 		"tg.yoga.about": "Flows, Dehnen und Gleichgewicht – läuft von selbst, jede Haltung wird angesagt. Eine Matte genügt.",
 		"tg.other": "Weitere",
@@ -2188,6 +16489,7 @@ var I18N = {
 var LANG = "en";
 var LOCALE = void 0;
 for (const [k, v] of Object.entries(EXTRA_I18N)) Object.assign(I18N[k], v);
+for (const [k, v] of Object.entries(HERO_I18N)) Object.assign(I18N[k], v);
 var setLanguage = (wanted) => {
 	const lang = wanted || navigator.languages && navigator.languages[0] || navigator.language || "en";
 	LANG = lang.toLowerCase().startsWith("de") ? "de" : "en";
@@ -2339,6 +16641,11 @@ var TrainerUI = class extends HTMLElement {
 		this.attachShadow({ mode: "open" });
 		this._tab = "training";
 		this._histTab = "overview";
+		this._hf = {
+			kind: "all",
+			group: "all",
+			sort: "recent"
+		};
 		this._stats = null;
 		this._ppEdit = null;
 		this._editing = null;
@@ -2369,21 +16676,137 @@ var TrainerUI = class extends HTMLElement {
 				returnFocus: el
 			})
 		});
+		this._hero = createHero({
+			t,
+			esc,
+			lang: () => LANG,
+			locale: () => LOCALE,
+			ws: (msg) => this._ws(msg),
+			toast: (m) => this._toast(m),
+			render: () => this._render(),
+			state: () => this._state,
+			caps: () => this._caps,
+			preview: (steps) => this._renderPreview(steps),
+			exercises: (workouts) => this._renderExercises(workouts),
+			emit: (name, detail) => this.dispatchEvent(new CustomEvent(name, {
+				detail,
+				bubbles: true,
+				composed: true
+			})),
+			goto: (tab, sub) => {
+				this._tab = tab;
+				if (tab === "plans" && sub) this._planTab = sub;
+				this._editing = null;
+				this._render();
+				window.scrollTo(0, 0);
+			}
+		});
+		this._hero.attach(this.shadowRoot);
 		this.shadowRoot.addEventListener("click", (e) => this._onClick(e));
+		let sw = null;
+		this.shadowRoot.addEventListener("pointerdown", (e) => {
+			sw = this._caps.weekNav && e.target.closest && e.target.closest(".week") && !e.target.closest("button") ? {
+				x: e.clientX,
+				y: e.clientY
+			} : null;
+		});
+		this.shadowRoot.addEventListener("pointerup", (e) => {
+			if (!sw) return;
+			const dx = e.clientX - sw.x, dy = e.clientY - sw.y;
+			sw = null;
+			if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) this._weekNav(dx > 0 ? 1 : -1);
+		});
+		this.shadowRoot.addEventListener("pointercancel", () => {
+			sw = null;
+		});
 		this.shadowRoot.addEventListener("error", (e) => {
 			if (e.target && e.target.tagName === "IMG") e.target.classList.add("broken");
 		}, true);
 		this.shadowRoot.addEventListener("input", (e) => this._onInput(e));
 		this.shadowRoot.addEventListener("change", (e) => this._onChange(e));
-		this.shadowRoot.addEventListener("focusout", () => setTimeout(() => this._dirty && this._render(), 50));
+		this._pressing = false;
+		const later = (ms) => setTimeout(() => {
+			if (this._dirty && !this._pressing) this._render();
+		}, ms);
+		this.shadowRoot.addEventListener("pointerdown", () => {
+			this._pressing = true;
+		}, true);
+		const release = () => {
+			if (!this._pressing) return;
+			this._pressing = false;
+			later(120);
+		};
+		this.shadowRoot.addEventListener("pointerup", release, true);
+		this.shadowRoot.addEventListener("pointercancel", release, true);
+		this.shadowRoot.addEventListener("focusout", () => later(50));
 	}
 	/** Mit dem Anschluss verbinden (HU: Trainer im Browser, TA: Home Assistant) */
 	connect(backend) {
+		if (this._unsub) this._unsub();
+		this._unsub = null;
+		this._subscribed = false;
+		this._state = this._stats = this._history = this._preview = this._previewKey = this._summary = this._templates = this._editing = null;
+		this._marked = null;
+		this._week = null;
+		this._closePrompt();
+		this._hero.reset();
 		this._backend = backend;
 		this._caps = backend.caps || {};
 		if (backend.imgBase) IMG_BASE = backend.imgBase;
 		this._render();
 		this._subscribe();
+	}
+	/** Ansicht wechseln (für das Tutorial): "training", "history:exercises", "plans:data", "hero:stories" … */
+	/** Wochenkarte: laufende Woche oder – nach dem Blättern – eine vergangene (caps.weekNav) */
+	_weekCard() {
+		if (!this._stats) return "";
+		return weekCard(this._stats, this._week, !!this._caps.weekNav);
+	}
+	/** In den Wochen blättern: d = 1 eine Woche zurück, −1 Richtung heute, to = 0 zur laufenden Woche */
+	async _weekNav(d, to = null) {
+		if (!this._caps.weekNav) return;
+		const cur = this._week ? this._week.offset : 0;
+		const next = to !== null ? to : Math.max(0, cur + d);
+		if (next === cur) return;
+		if (next === 0) this._week = null;
+		else {
+			const wk = await this._ws({
+				type: "week",
+				offset: next
+			});
+			if (!wk || !wk.offset) {
+				if (!cur) return;
+				this._week = null;
+			} else this._week = wk;
+		}
+		this._render();
+	}
+	show(view) {
+		this._week = null;
+		const [tab, sub] = String(view).split(":");
+		this._tab = tab === "hero" && !this._hero.on ? "training" : tab;
+		if (tab === "history") {
+			if (sub) this._histTab = sub;
+			this._loadHistory();
+		}
+		if (tab === "plans" && sub) this._planTab = sub;
+		if (tab === "hero" && sub) this._hero.sub = sub;
+		this._hero.dialog = null;
+		this._editing = null;
+		this._render();
+	}
+	/** Abschluss-Bildschirm schließen */
+	closeSummary() {
+		this._summary = null;
+		this._render();
+	}
+	/** Ab jetzt (einmal je Person) fragen, ob man im Heldenmodus spielen möchte */
+	askHero() {
+		this._caps.heroAsk = true;
+		if (this._state) {
+			this._hero.sync(this._state);
+			this._render();
+		}
 	}
 	get _effortMs() {
 		return this._caps && this._caps.effortMs || EFFORT_PROMPT_MS;
@@ -2410,7 +16833,10 @@ var TrainerUI = class extends HTMLElement {
 	connectedCallback() {
 		this._timer = setInterval(() => this._tickTimers(), 1e3);
 		this._onWake = () => {
-			if (document.visibilityState === "visible") this._refreshStats();
+			if (document.visibilityState === "visible") {
+				this._refreshStats();
+				if (this._state && !this._state.active) this._hero.load();
+			}
 		};
 		document.addEventListener("visibilitychange", this._onWake);
 		window.addEventListener("focus", this._onWake);
@@ -2442,6 +16868,7 @@ var TrainerUI = class extends HTMLElement {
 			}
 			const ended = prev && !profileChanged && prev.active && !state.active && state.last_session_id ? state.last_session_id : null;
 			this._state = state;
+			this._hero.sync(state);
 			if (ended && !(state.multi && state.can_control === false)) this._openSummary(ended);
 			FIGURE = state.figure === "w" ? "w" : "m";
 			if (!prev || prev.single_images !== state.single_images) SINGLE = new Set(state.single_images || []);
@@ -2533,6 +16960,10 @@ var TrainerUI = class extends HTMLElement {
 			this._render();
 			return;
 		}
+		if (a.startsWith("hx-")) {
+			await this._hero.click(a, d, el, e);
+			return;
+		}
 		if (a.startsWith("ed-")) {
 			this._planTab = "editor";
 			if (await this._editor.click(a, d, el)) this._renderEditor();
@@ -2547,7 +16978,11 @@ var TrainerUI = class extends HTMLElement {
 			this._tab = "plans";
 			this._planTab = "templates";
 			this._render();
+		} else if (a === "week-nav") {
+			await this._weekNav(Number(d.d || 0), d.to !== void 0 ? Number(d.to) : null);
+			return;
 		} else if (a === "tab") {
+			this._week = null;
 			this._tab = d.tab;
 			this._editing = null;
 			if (this._tab === "history") this._loadHistory();
@@ -2559,6 +16994,8 @@ var TrainerUI = class extends HTMLElement {
 		else if (a === "next") await this._service("next");
 		else if (a === "svc") await this._service(d.svc, d.keep ? { keep: d.keep === "1" } : {});
 		else if (a === "start") {
+			if (d.departed) this._hero.dialog = null;
+			else if (this._hero.depart(d.plan || null, d.workout || null)) return;
 			await this._service("start", d.plan ? {
 				plan_id: d.plan,
 				workout_id: d.workout
@@ -2615,8 +17052,12 @@ var TrainerUI = class extends HTMLElement {
 			this._planTab = d.tab;
 			this._importMsg = null;
 			this._render();
+		} else if (a === "hf-kind") {
+			this._hf.kind = d.v;
+			this._render();
 		} else if (a === "htab") {
 			this._histTab = d.tab;
+			this._heroMark(d.tab === "exercises" ? "deep_dive" : null);
 			this._render();
 		} else if (a === "toggle-session") {
 			this._openSessions.has(d.session) ? this._openSessions.delete(d.session) : this._openSessions.add(d.session);
@@ -2627,11 +17068,24 @@ var TrainerUI = class extends HTMLElement {
 				session_id: d.session
 			});
 			await this._loadHistory();
+		} else if (a === "plan-toggle") {
+			this._planOpen = this._planOpen || /* @__PURE__ */ new Set();
+			this._planOpen.has(d.plan) ? this._planOpen.delete(d.plan) : this._planOpen.add(d.plan);
+			this._render();
 		} else if (a === "tg-toggle") {
 			this._tgOpen = this._tgOpen || /* @__PURE__ */ new Set();
 			this._tgOpen.has(d.g) ? this._tgOpen.delete(d.g) : this._tgOpen.add(d.g);
 			this._render();
+		} else if (a === "fin-share") this._openShare();
+		else if (a === "share-close") {
+			if (d.backdrop && e.target !== el) return;
+			this._closeShare();
+			this._render();
+		} else if (a === "share-go") {
+			const sh = this._share;
+			if (sh && sh.file) navigator.share({ files: [sh.file] }).catch(() => {});
 		} else if (a === "fin-done") {
+			this._closeShare();
 			this._summary = null;
 			this._render();
 			window.scrollTo(0, 0);
@@ -2652,6 +17106,26 @@ var TrainerUI = class extends HTMLElement {
 						ok: false,
 						text: err.message || String(err)
 					};
+				}
+				this._render();
+			}
+		} else if (a === "plan-wo") {
+			const same = this._planWo && this._planWo.plan === d.plan && this._planWo.workout === d.workout;
+			const cur = this._planWo = same ? null : {
+				plan: d.plan,
+				workout: d.workout,
+				steps: null
+			};
+			this._render();
+			if (cur) {
+				try {
+					cur.steps = (await this._ws({
+						type: "preview",
+						plan_id: d.plan,
+						workout_id: d.workout
+					})).steps;
+				} catch (_) {
+					if (this._planWo === cur) this._planWo = null;
 				}
 				this._render();
 			}
@@ -2825,11 +17299,17 @@ var TrainerUI = class extends HTMLElement {
 			return;
 		}
 		if (this._editor.input(el)) return;
+		if (this._hero.input(el)) return;
 		if (el.dataset.field === "pp-name" && this._ppEdit) this._ppEdit.name = el.value;
 		else if (el.dataset.field && this._editing) this._editing[el.dataset.field] = el.value;
 	}
 	async _onChange(e) {
 		const el = e.target;
+		if (el.dataset.hf) {
+			this._hf[el.dataset.hf] = el.value;
+			this._render();
+			return;
+		}
 		if (el.dataset.field === "pp-dev") {
 			await this._ws({
 				type: "profile",
@@ -2885,8 +17365,12 @@ var TrainerUI = class extends HTMLElement {
 		const sess = (this._history?.sessions || []).find((s) => s.id === sessionId);
 		return sess && sess.sets.find((x) => x.id === setId);
 	}
+	/** Uhr der Anzeige: der Anschluss kann sie anhalten (Tutorial – nichts läuft weiter, während man liest) */
+	_nowMs() {
+		return this._backend && this._backend.now ? this._backend.now() : Date.now();
+	}
 	_tickTimers() {
-		const now = Date.now();
+		const now = this._nowMs();
 		this.shadowRoot.querySelectorAll("[data-until]").forEach((el) => {
 			el.textContent = mmss((new Date(el.dataset.until).getTime() - now) / 1e3);
 		});
@@ -2922,24 +17406,29 @@ var TrainerUI = class extends HTMLElement {
 		this._dirty = false;
 		this._rendered = true;
 		const scrollY0 = window.scrollY;
+		const dlg0 = this.shadowRoot.querySelector(".hx-dlg"), dlgTop0 = dlg0 ? dlg0.scrollTop : 0;
 		let body;
 		if (this._error) body = `<div class="msg err">${esc(this._error)}</div>`;
 		else if (!this._state) body = `<div class="muted pad">${t("loading")}</div>`;
+		else if (this._tab === "hero" && this._hero.on) body = this._hero.renderTab();
 		else if (this._tab === "history") body = this._renderHistory();
 		else if (this._tab === "plans") body = this._renderPlans();
 		else body = this._state.active ? this._renderActive(this._state.active) : this._summary ? this._renderSummary() : this._renderIdle();
 		const tab = (id, label) => `<button class="tab ${this._tab === id ? "on" : ""}" data-a="tab" data-tab="${id}">${label}</button>`;
 		const shell = this._caps.shell === "ha-card" ? "ha-card" : "div";
 		this.shadowRoot.innerHTML = renderIcons(`
-      <style>${STYLE}</style>
+      <style>${STYLE}${HERO_STYLE}</style>
       <${shell} class="card">
-        <div class="tabs">${tab("training", t("tab_training"))}${tab("history", t("tab_history"))}${tab("plans", t("tab_plans"))}</div>
-        <div class="body">${body}</div>${this._renderEffortPrompt()}
+        <div class="tabs">${tab("training", t("tab_training"))}${this._hero.on ? tab("hero", t("tab_hero")) : ""}${tab("history", t("tab_history"))}${tab("plans", t("tab_plans"))}</div>
+        <div class="body">${body}</div>${this._renderEffortPrompt()}${this._hero.renderDialog()}${this._renderShare()}
       </${shell}>`);
 		if (this._armed) this._applyArmed();
 		this._applyListSearch("plans");
 		this._applyListSearch("templates");
+		this._applyListSearch("hex");
 		if (window.scrollY !== scrollY0) window.scrollTo(0, scrollY0);
+		const dlg = dlgTop0 ? this.shadowRoot.querySelector(".hx-modal.still .hx-dlg") : null;
+		if (dlg) dlg.scrollTop = dlgTop0;
 		this._tickTimers();
 	}
 	_renderEditor() {
@@ -2960,6 +17449,7 @@ var TrainerUI = class extends HTMLElement {
 			loading: true,
 			id: sessionId
 		};
+		this._hero.homeTab = "story";
 		this._tab = "training";
 		try {
 			const res = await this._ws({
@@ -2974,6 +17464,7 @@ var TrainerUI = class extends HTMLElement {
 		window.scrollTo(0, 0);
 		const s = this._summary;
 		if (s && s.status === "finished" && !s.ended_early && this._caps.confetti) celebrate();
+		if (s && s.hero) this._hero.celebrate(s.hero);
 	}
 	_renderSummary() {
 		const s = this._summary;
@@ -3030,7 +17521,9 @@ var TrainerUI = class extends HTMLElement {
         </div>
         <div class="fin-tiles">${tiles}</div>
         ${records}${better}${vs ? `<div class="fin-sec">${vs}</div>` : ""}${muscles}${outlook}
+        ${this._hero.renderSummary(s.hero)}
         <div class="fin-sec fin-cont"><span>${esc(week)}</span>${streak ? `<span>${streak}</span>` : ""}<span>${esc(t("fin_total", { n: s.total }))}</span></div>
+        ${this._caps.share && !early ? `<button class="btn big fin-share" data-a="fin-share">⟦up⟧ ${t("sh_open")}</button>` : ""}
         <button class="btn primary big fin-done" data-a="fin-done">${t("fin_done")}</button>
       </div>`;
 	}
@@ -3038,17 +17531,17 @@ var TrainerUI = class extends HTMLElement {
 		const st = this._state;
 		if (!st.plans.length) return `<div class="pad"><p>${t("no_plan")}</p>
         <button class="btn primary" data-a="go-templates">${t("import_plan")}</button></div>`;
-		const progOpts = st.plans.map((p) => `<option value="${esc(p.id)}" ${p.id === st.program ? "selected" : ""}>${esc(p.name)}</option>`).join("");
+		const progOpts = st.plans.map((p) => {
+			const tag = this._hero.on ? this._hero.planLabel(p.id, p) : "";
+			return `<option value="${esc(p.id)}" ${p.id === st.program ? "selected" : ""}>${esc(p.name)}${tag && tag !== p.name ? ` – ${esc(tag)}` : ""}</option>`;
+		}).join("");
 		const pw = st.program_workouts || [];
 		const cur = pw.find((w) => st.next && w.workout_id === st.next.workout_id);
 		const after = cur ? pw[cur.position % pw.length] : null;
 		const woOpts = pw.map((w) => `<option value="${esc(w.workout_id)}" ${cur && w.workout_id === cur.workout_id ? "selected" : ""}>${esc(w.name)} (${w.position}/${w.count})</option>`).join("");
 		this._ensureStats();
-		return `
-      <div class="pad live">
-        ${this._renderWho(st)}
-        ${this._stats ? weekCard(this._stats) : ""}
-        <div class="startrow">
+		const people = this._renderWho(st);
+		const picker = `<div class="startrow">
           <label class="sel"><span class="lbl">${t("program")}</span><select data-field="program-select">${progOpts}</select></label>
           <label class="sel"><span class="lbl">${t("workout")}</span><select data-field="workout-select">${woOpts}</select></label>
           ${cur ? `<div class="wo-hint muted small"><span class="wo-pos">${t("wo_pos", {
@@ -3057,8 +17550,26 @@ var TrainerUI = class extends HTMLElement {
 		})}</span>${pw.length > 1 && after ? `<span class="wo-sep"> · </span><span>${esc(t("wo_after", { name: after.name }).replace(/^\s*·\s*/, ""))}</span>` : ""}<span class="wo-auto">${t("wo_auto")}</span></div>` : ""}
           <button class="btn primary" data-a="start" ${this._readOnly ? "disabled" : ""}>${t("start")}</button>
         </div>
-        ${this._renderPreview()}
-        ${this._caps.voice ? st.default_satellite ? `<div class="muted small">${esc(t("voice_via", { sat: st.default_satellite }))}</div>` : `<div class="muted small">${t("no_sat")}</div>` : ""}
+        ${this._renderPreview()}`;
+		const voice = this._caps.voice ? st.default_satellite ? `<div class="muted small">${esc(t("voice_via", { sat: st.default_satellite }))}</div>` : `<div class="muted small">${t("no_sat")}</div>` : "";
+		if (this._hero.on) {
+			const story = this._hero.view.story;
+			const free = `<div class="hx-outside">${picker}</div>`;
+			return `
+      <div class="pad live">
+        ${people}
+        ${this._weekCard()}
+        ${this._hero.renderBar()}${this._hero.renderHints()}
+        ${story ? `${this._hero.renderHomeTabs()}${this._hero.homeTab === "free" ? free : this._hero.renderStoryCard()}` : `${this._hero.renderStoryCard()}${free}`}
+        ${voice}
+      </div>`;
+		}
+		return `
+      <div class="pad live">
+        ${people}
+        ${this._weekCard()}
+        ${picker}
+        ${voice}
       </div>`;
 	}
 	_renderPreview(steps = this._preview) {
@@ -3268,11 +17779,36 @@ var TrainerUI = class extends HTMLElement {
 		const h = this._history;
 		if (!h) return `<div class="pad muted">${t("h_loading")}</div>`;
 		if (!h.sessions.length) return `<div class="pad muted">${t("h_empty")}</div>`;
-		const exRows = h.exercises.map((e) => {
+		const hf = this._hf;
+		const kinds = [
+			"strength",
+			"cardio",
+			"mobility"
+		].filter((k) => h.exercises.some((e) => e.kind === k));
+		const groups = [
+			"chest",
+			"back",
+			"shoulders",
+			"biceps",
+			"triceps",
+			"core",
+			"quads",
+			"hamstrings",
+			"glutes",
+			"calves"
+		].filter((g) => h.exercises.some((e) => (e.groups || []).includes(g)));
+		if (hf.kind !== "all" && !kinds.includes(hf.kind)) hf.kind = "all";
+		if (hf.group !== "all" && !groups.includes(hf.group)) hf.group = "all";
+		const exList = h.exercises.filter((e) => (hf.kind === "all" || e.kind === hf.kind) && (hf.group === "all" || (e.groups || []).includes(hf.group))).sort((a, b) => (hf.sort === "name" ? 0 : String(b.last_date || "").localeCompare(String(a.last_date || ""))) || a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+		const exTools = this._listTools("hex", `${kinds.length > 1 ? `<div class="hf-kinds" role="group" aria-label="${esc(t("hf_kind"))}">${["all", ...kinds].map((k) => `<button class="chip-btn ${hf.kind === k ? "on" : ""}" data-a="hf-kind" data-v="${k}" aria-pressed="${hf.kind === k}">${t(`hf_kind_${k}`)}</button>`).join("")}</div>` : ""}
+      <div class="hf-selects">${groups.length ? `<select data-hf="group" aria-label="${esc(t("hf_group"))}"><option value="all">${t("hf_group_all")}</option>${groups.map((g) => `<option value="${esc(g)}" ${hf.group === g ? "selected" : ""}>${esc(t(`mg.${g}`))}</option>`).join("")}</select>` : ""}
+        <select data-hf="sort" aria-label="${esc(t("hf_sort"))}"><option value="recent" ${hf.sort === "recent" ? "selected" : ""}>${t("hf_sort_recent")}</option>
+          <option value="name" ${hf.sort === "name" ? "selected" : ""}>${t("hf_sort_name")}</option></select></div>`);
+		const exRows = exList.map((e) => {
 			const last = e.last_sets.map(setValue).join(" · ");
 			const s = e.suggestion;
 			const next = s ? `${s.reps ? t("reps_n", { n: s.reps }) : ""}${s.weight_kg !== null && s.weight_kg !== void 0 ? ` · ${kg(s.weight_kg)}` : ""}` : "";
-			return `<tr><td><div class="exn">${thumbBtn(e.image, e.name, "thumb lg")}<div><b>${esc(e.name)}</b><div class="muted small">${esc(t("h_ex_meta", {
+			return `<tr data-q="${esc(e.name.toLowerCase())}"><td><div class="exn">${thumbBtn(e.image, e.name, "thumb lg")}<div><b>${esc(e.name)}</b><div class="muted small">${esc(t("h_ex_meta", {
 				n: e.sessions,
 				d: date(e.last_date)
 			}))}${bestText(e.bests)}</div></div></div></td>
@@ -3286,17 +17822,45 @@ var TrainerUI = class extends HTMLElement {
 			const open_q = s.sets.filter((x) => x.status === "unconfirmed").length;
 			return `<div class="sess">
           <div class="row between click" data-a="toggle-session" data-session="${esc(s.id)}">
-            <div><b>${esc(date(s.started_at))}</b> <span class="muted">${esc(time(s.started_at))}</span> · ${esc(s.workout_name)} <span class="muted">(${esc(s.plan_name)})</span></div>
+            <div><b>${esc(date(s.started_at))}</b> <span class="muted">${esc(time(s.started_at))}</span> · ${esc(s.workout_name)} <span class="muted">(${esc(s.plan_name)})</span>${this._heroTags(s)}</div>
             <div>${sessionDuration(s) ? `<span class="dur">⟦timer⟧ ${esc(sessionDuration(s))}</span> · ` : ""}${t("h_sets", { n: done })} ${open_q ? `<span class="badge warn">${t("h_unconfirmed", { n: open_q })}</span>` : ""}${s.status === "aborted" ? ` <span class="badge muted">${t("h_aborted")}</span>` : ""} ${open ? "▴" : "▾"}</div>
           </div>
           ${open ? `${this._renderSets(s.sets, s.id)}<button class="btn danger small" data-a="delete-session" data-session="${esc(s.id)}" data-ck="ses-${esc(s.id)}" data-confirm="${esc(t("c_delete"))}">${t("h_delete")}</button>` : ""}
         </div>`;
 		}).join("");
 		const htab = (id, label, count) => `<button class="subtab ${this._histTab === id ? "on" : ""}" data-a="htab" data-tab="${id}">${label} <span class="cnt">${count}</span></button>`;
-		const body = this._histTab === "overview" ? this._renderOverview() : this._histTab === "sessions" ? sessRows : `<table class="ex-table"><tr><th>${t("h_th_ex")}</th><th>${t("h_th_hist")} <span class="muted">${t("h_last8")}</span></th><th>${t("h_th_last")}</th><th>${t("h_th_next")}</th></tr>${exRows}</table>`;
+		const body = this._histTab === "overview" ? this._renderOverview() : this._histTab === "sessions" ? sessRows : `${exTools}<div data-list="hex"><table class="ex-table"><tr><th>${t("h_th_ex")}</th><th>${t("h_th_hist")} <span class="muted">${t("h_last8")}</span></th><th>${t("h_th_last")}</th><th>${t("h_th_next")}</th></tr>${exRows}</table>
+        ${exList.length ? `<div class="muted pad" data-nohit hidden>${t("hf_none")}</div>` : `<div class="muted pad">${t("hf_none")}</div>`}</div>`;
 		return `<div class="pad">
       <div class="subtabs">${htab("overview", t("h_tab_over"), "")}${htab("exercises", t("h_tab_ex"), h.exercises.length)}${htab("sessions", t("h_tab_sess"), h.sessions.length)}</div>
       ${body}</div>`;
+	}
+	/** Heldenmodus: kleine Markierungen am Training – Story-Name als Etikett, Rekord- und Orden-Symbol */
+	_heroTags(s) {
+		if (!this._hero.on) return "";
+		const plan = (this._state.plans || []).find((p) => p.id === s.plan_id);
+		const label = this._hero.planLabel(s.plan_id, plan);
+		const medals = (this._hero.view.session_badges || {})[s.id] || [];
+		return `${label ? ` <span class="badge info hx-tag">${esc(label)}</span>` : ""}${s.sets.some((x) => x.record) ? ` <span class="hx-mark rec" title="${esc(t("fin_records"))}">⟦trophy⟧</span>` : ""}${medals.length ? ` <span class="hx-mark" title="${esc(t("hx_tab_badges"))}">${this._hero.markIcon()}${medals.length > 1 ? medals.length : ""}</span>` : ""}`;
+	}
+	/** Heldenmodus: Etikett am Plan in „Meine Pläne“ – der Titel der Story (antippen öffnet sie) bzw. „Challenge“ */
+	_heroPlanTag(p) {
+		if (!this._hero.on) return "";
+		if (p.story) {
+			const active = this._hero.view.story && this._hero.view.story.id === p.story;
+			return ` <button class="badge info hx-plantag" data-a="hx-story" data-id="${esc(p.story)}">${esc(this._hero.planLabel(p.id, p))}${active ? ` · ${t("hx_active")}` : ""}</button>`;
+		}
+		if (p.challenge) return ` <button class="badge info hx-plantag" data-a="hx-challenge" data-id="${esc(p.challenge)}">Challenge</button>`;
+		return "";
+	}
+	/** Markierung für einen Orden (z. B. „Verlauf einer Übung angesehen“) – einmal je Sitzung senden reicht */
+	_heroMark(key) {
+		if (!key || !this._caps.hero || (this._marked = this._marked || /* @__PURE__ */ new Set()).has(key)) return;
+		this._marked.add(key);
+		this._ws({
+			type: "hero_mark",
+			key
+		}).catch(() => {});
 	}
 	async _loadTemplates() {
 		try {
@@ -3316,7 +17880,8 @@ var TrainerUI = class extends HTMLElement {
 		}
 		const groups = {};
 		this._tgOpen = this._tgOpen || /* @__PURE__ */ new Set();
-		this._templates.forEach((tp) => (groups[tp.group_key || tp.group] = groups[tp.group_key || tp.group] || []).push(tp));
+		const heroOn = this._hero.on;
+		this._templates.filter((tp) => !(heroOn && (tp.story || tp.challenge))).forEach((tp) => (groups[tp.group_key || tp.group] = groups[tp.group_key || tp.group] || []).push(tp));
 		return `${this._listTools("templates", `<div class="muted small">${t("p_tpl_intro")}</div>`)}<div data-list="templates">` + Object.entries(groups).map(([g, list]) => `<div class="tgroup ${this._tgOpen.has(g) ? "open" : ""}" data-group>
           <button class="tghead tg-toggle" data-a="tg-toggle" data-g="${esc(g)}" aria-expanded="${this._tgOpen.has(g)}"><span class="ico">${icon(ICON_OF[g] || "other", { ring: true })}</span>
             <span class="tg-txt"><span class="tgname">${esc(list[0].group_key ? t(`tg.${g}`) : g)} <span class="cnt">${list.length}</span></span>
@@ -3351,7 +17916,7 @@ var TrainerUI = class extends HTMLElement {
 	_listTools(kind, extra) {
 		this._q = this._q || {};
 		return `<div class="ltools"><label class="ed-search">⟦search⟧<input type="search" data-lsearch="${kind}" value="${esc(this._q[kind] || "")}"
-      placeholder="${esc(t(kind === "plans" ? "l_search_plans" : "l_search_tpl"))}" autocomplete="off"></label>${extra}</div>`;
+      placeholder="${esc(t(kind === "plans" ? "l_search_plans" : kind === "hex" ? "hf_search" : "l_search_tpl"))}" autocomplete="off"></label>${extra}</div>`;
 	}
 	_applyListSearch(kind) {
 		const q = ((this._q || {})[kind] || "").trim().toLowerCase();
@@ -3388,6 +17953,20 @@ var TrainerUI = class extends HTMLElement {
 			return `<span class="mt ${tierClass(r)} ${sec ? "sec" : ""}" title="${esc(tip)}">${esc(t(`mg.${g}`))}</span>`;
 		};
 		return `<div class="mtags">${primary.map((g) => tag(g, false)).join("")}${secondary.map((g) => tag(g, true)).join("")}</div>`;
+	}
+	/** Alle Übungen eines Programms, jede einmal, mit Bild und Namen (Reihenfolge wie im Plan) */
+	_renderExercises(workouts) {
+		const seen = /* @__PURE__ */ new Map();
+		const add = (id, name, image) => {
+			if (id && name && !seen.has(id)) seen.set(id, [name, image || null]);
+		};
+		for (const w of workouts || []) for (const s of w.steps || []) if (s.items) s.items.forEach((i) => add(i.exercise, i.name, this._imageFor(i.exercise, s)));
+		else if (s.exercise_names) (s.exercises || []).forEach((e, i) => add(e, s.exercise_names[i], (s.images || [])[i]));
+		else if (s.type === "set") add(s.exercise, s.exercise_name, s.image);
+		return {
+			count: seen.size,
+			html: [...seen.values()].map(([n, image]) => `<span class="exn">${thumbBtn(image, n)}<span>${esc(n)}</span></span>`).join("")
+		};
 	}
 	_imageFor(exercise, step) {
 		const i = (step.exercises || []).indexOf(exercise);
@@ -3426,10 +18005,10 @@ var TrainerUI = class extends HTMLElement {
 		if (!step || step.type !== "set") return;
 		this._prompt = {
 			setId: rec.id,
-			until: Date.now() + this._effortMs
+			until: this._nowMs() + this._effortMs
 		};
 		clearTimeout(this._promptTimer);
-		this._promptTimer = setTimeout(() => this._closePrompt(), this._effortMs);
+		if (!(this._backend && this._backend.frozen && this._backend.frozen())) this._promptTimer = setTimeout(() => this._closePrompt(), this._effortMs);
 	}
 	_closePrompt() {
 		clearTimeout(this._promptTimer);
@@ -3437,13 +18016,66 @@ var TrainerUI = class extends HTMLElement {
 		const el = this.shadowRoot.querySelector(".efp");
 		if (el) el.remove();
 	}
+	async _openShare() {
+		const s = this._summary;
+		if (!s || s.loading) return;
+		this._closeShare();
+		const sh = this._share = { loading: true };
+		this._render();
+		try {
+			const model = buildShareModel(s, {
+				t,
+				lang: LOCALE || LANG,
+				name: this._personName(),
+				date: s.started_at ? new Date(s.started_at) : /* @__PURE__ */ new Date(),
+				...this._hero.shareInputs()
+			});
+			const blob = await canvasBlob(await drawShareCard(model));
+			if (this._share !== sh) return;
+			const day = s.started_at ? new Date(s.started_at) : /* @__PURE__ */ new Date();
+			const name = `hero-upgrade-${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}.png`;
+			const file = typeof File === "function" ? new File([blob], name, { type: "image/png" }) : null;
+			Object.assign(sh, {
+				loading: false,
+				url: URL.createObjectURL(blob),
+				name,
+				file,
+				hero: model.variant === "hero",
+				canShare: !!(file && navigator.canShare && navigator.share && navigator.canShare({ files: [file] }))
+			});
+		} catch (err) {
+			if (this._share !== sh) return;
+			Object.assign(sh, {
+				loading: false,
+				failed: true
+			});
+			console.error(err);
+		}
+		this._render();
+	}
+	_closeShare() {
+		if (this._share && this._share.url) URL.revokeObjectURL(this._share.url);
+		this._share = null;
+	}
+	_renderShare() {
+		const sh = this._share;
+		if (!sh) return "";
+		const body = sh.loading ? `<div class="share-img wait muted">${t("sh_loading")}</div>` : sh.failed ? `<div class="share-img wait muted">${t("sh_failed")}</div>` : `<img class="share-img" src="${esc(sh.url)}" alt="${esc(t("sh_alt"))}">
+        <div class="share-hint">${t(sh.hero ? "sh_hint_hero" : "sh_hint_classic")}</div>
+        <div class="share-btns ${sh.canShare ? "" : "one"}"><a class="btn big" href="${esc(sh.url)}" download="${esc(sh.name)}">${t("sh_save")}</a>
+          ${sh.canShare ? `<button class="btn primary big" data-a="share-go">${t("sh_share")}</button>` : ""}</div>`;
+		return `<div class="share-modal" data-a="share-close" data-backdrop="1"><div class="share-sheet" role="dialog" aria-modal="true" aria-label="${esc(t("sh_title"))}">
+        <div class="share-grip" aria-hidden="true"></div>
+        <div class="share-head"><h2>${t("sh_title")}</h2><button class="share-x" data-a="share-close" aria-label="${esc(t("sh_close"))}">⟦x⟧</button></div>
+        ${body}</div></div>`;
+	}
 	_renderEffortPrompt() {
 		const p = this._prompt;
 		const a = this._state && this._state.active;
 		if (!p || !a || this._readOnly) return "";
 		const rec = a.sets.find((x) => x.id === p.setId);
 		if (!rec) return "";
-		const left = Math.max(0, p.until - Date.now());
+		const left = Math.max(0, p.until - this._nowMs());
 		const cur = rec.effort || null;
 		return `<div class="efp" role="dialog" aria-label="${esc(t("ef_last"))}">
       <button class="efp-x" data-a="efp-close" aria-label="${esc(t("ef_close"))}">⟦x⟧</button>
@@ -3465,7 +18097,6 @@ var TrainerUI = class extends HTMLElement {
 		this._state;
 		const tile = (label, value, sub = "") => `<div class="tile"><div class="tile-l">${label}</div><div class="tile-v">${value}</div>${sub ? `<div class="tile-s">${sub}</div>` : ""}</div>`;
 		const tiles = `<div class="tiles">
-      ${tile(t("tile_week"), `${s.week.done}<small>/${s.week.goal}</small>`)}
       ${tile(t("tile_streak"), `⟦streak⟧ ${s.streak_weeks}`, s.streak_weeks === 1 ? t("tile_week1") : t("tile_weeks", { n: s.streak_weeks }))}
       ${tile(t("tile_total"), s.total, s.first ? t("tile_since", { d: date(s.first) }) : "")}
       ${tile(t("tile_time"), `${s.time.week_min}<small> min</small>`, s.time.avg_min !== null ? t("tile_time_avg", { m: s.time.avg_min }) : "")}
@@ -3496,7 +18127,8 @@ var TrainerUI = class extends HTMLElement {
 			return t(since ? "rc_since_d" : "rc_d", { n: Math.round(h / 24) });
 		};
 		const recovery = s.recovery.length ? `<div class="rc">${s.recovery.map((r) => `<div class="rc-i ${tierClass(r)}"><b>${t(`mg.${r.group}`)}</b><span>${t(`rc_${r.status}`)}</span><small>${ago(r.hours, r.status)}</small></div>`).join("")}</div>` : "";
-		return `${weekCard(s)}${tiles}
+		if (recovery) this._heroMark("body_check");
+		return `${this._weekCard()}${tiles}
       <div class="lbl">${t("rec_title")}</div>${records}
       <div class="lbl">${t("vol_title")}</div>${volume}${unassigned}
       ${recovery ? `<div class="lbl">${t("rc_title")}</div>${recovery}${tierLegend(s.recovery_tier_hours)}` : ""}`;
@@ -3689,6 +18321,7 @@ var TrainerUI = class extends HTMLElement {
       <div class="row"><button class="chip-btn ${opts.glow !== false ? "on" : ""}" data-a="glow" data-on="1">${t("d_sound_on")}</button>
         <button class="chip-btn ${opts.glow !== false ? "" : "on"}" data-a="glow" data-on="0">${t("d_sound_off")}</button></div>
       <div class="muted small">${t("d_glow_hint")}</div>
+      ${this._hero.renderSettings()}
       ${this._renderBackup()}
       <div class="lbl">${t("d_install")}</div>
       <div class="muted small">${t("d_install_hint")}</div>
@@ -3714,22 +18347,33 @@ var TrainerUI = class extends HTMLElement {
 		const st = this._state;
 		const filter = this._planFilter || "all";
 		const shown = st.plans.filter((p) => filter === "all" || !p.template);
+		this._planOpen = this._planOpen || /* @__PURE__ */ new Set();
+		const LONG = 4;
 		const planHtml = (p) => `<div class="plan" data-q="${esc([
 			p.name,
 			p.description || "",
 			...p.workouts.map((w) => w.name)
 		].join(" ").toLowerCase())}">
-          <div class="row between"><div><b>${esc(p.name)}</b>${p.id === st.program ? ` <span class="badge ok">${t("p_active")}</span>` : ""}${p.description ? `<div class="muted small">${esc(p.description)}</div>` : ""}
+          <div class="row between"><div><b>${esc(p.name)}</b>${p.id === st.program ? ` <span class="badge ok">${t("p_active")}</span>` : ""}${this._heroPlanTag(p)}${p.description ? `<div class="muted small">${esc(p.description)}</div>` : ""}
             ${p.images_missing && p.images_missing.length ? `<div class="muted small">${esc(t("p_noimg", { list: p.images_missing.join(", ") }))}</div>` : ""}</div>
             <div class="row">
             ${this._caps.editor ? `<button class="btn small" data-a="ed-open" data-plan="${esc(p.id)}">${p.template ? `⟦copy⟧ ${t("ed_edit_copy")}` : `⟦editor⟧ ${t("ed_edit")}`}</button>` : ""}
             <button class="btn small danger" data-a="plan-delete" data-plan="${esc(p.id)}" data-name="${esc(p.name)}" data-ck="plan-${esc(p.id)}" data-confirm="${esc(t("c_delete"))}">${t("p_delete")}</button></div></div>
-          <ul class="list">${p.workouts.map((w) => {
-			const isNext = st.next && st.next.plan_id === p.id && st.next.workout_id === w.id;
-			return `<li><span>${esc(w.name)} ${isNext ? `<span class="badge info">${t("p_next_badge")}</span>` : ""}</span>
+          ${(() => {
+			const long = p.workouts.length > LONG, open = !long || this._planOpen.has(p.id);
+			const nextId = st.rotation_next && st.rotation_next[p.id];
+			const row = (w) => {
+				const isNext = st.next && st.next.plan_id === p.id && st.next.workout_id === w.id;
+				const pw = this._planWo, isOpen = !!pw && pw.plan === p.id && pw.workout === w.id;
+				return `<li class="${isOpen ? "open" : ""}"><button class="plan-wo" data-a="plan-wo" data-plan="${esc(p.id)}" data-workout="${esc(w.id)}" aria-expanded="${isOpen}"
+                  aria-label="${esc(t("tpl_open", { name: w.name }))}"><span class="tpl-chev" aria-hidden="true">›</span><span>${esc(w.name)} ${isNext ? `<span class="badge info">${t("p_next_badge")}</span>` : ""}</span></button>
                 <span>${isNext || this._readOnly ? "" : `<button class="btn small" data-a="next-workout" data-plan="${esc(p.id)}" data-workout="${esc(w.id)}">${t("p_set_next")}</button>`}
-                ${st.active || this._readOnly ? "" : `<button class="btn small primary" data-a="start" data-plan="${esc(p.id)}" data-workout="${esc(w.id)}">${t("p_start")}</button>`}</span></li>`;
-		}).join("")}</ul></div>`;
+                ${st.active || this._readOnly ? "" : `<button class="btn small primary" data-a="start" data-plan="${esc(p.id)}" data-workout="${esc(w.id)}">${t("p_start")}</button>`}</span></li>${isOpen ? `<li class="plan-wo-detail">${pw.steps ? this._renderPreview(pw.steps) : `<span class="muted small">${t("tpl_loading_one")}</span>`}</li>` : ""}`;
+			};
+			const upNext = p.workouts.find((w) => w.id === nextId) || p.workouts[0];
+			return `${long ? `<button class="plan-more" data-a="plan-toggle" data-plan="${esc(p.id)}" aria-expanded="${open}">
+                <span>${esc(t("p_workouts_n", { n: p.workouts.length }))}</span><span>${open ? `${t("p_collapse")} ▴` : `${t("p_show_all")} ▾`}</span></button>` : ""}<ul class="list">${(open ? p.workouts : [upNext]).map(row).join("")}</ul></div>`;
+		})()}`;
 		const order = [.../* @__PURE__ */ new Set([...(this._templates || []).map((x) => x.group_key), "other"])];
 		const byCat = {};
 		shown.forEach((p) => (byCat[p.category || "other"] = byCat[p.category || "other"] || []).push(p));
@@ -3790,9 +18434,10 @@ function bestText(b) {
 	if (b.duration) return ` · ⟦trophy⟧ ${b.duration} s`;
 	return "";
 }
-function weekCard(stats) {
-	const wk = stats && stats.week;
+function weekCard(stats, past = null, nav = false) {
+	const wk = past || stats && stats.week;
 	if (!wk) return "";
+	const off = past ? past.offset : 0;
 	const R = 42, C = 2 * Math.PI * R, n = Math.max(1, wk.goal), gap = n > 1 ? 5 : 0;
 	const seg = C / n - gap;
 	const ring = Array.from({ length: n }, (_, i) => `<circle r="${R}" cx="50" cy="50" class="${i < wk.done ? "on" : ""}"
@@ -3808,33 +18453,31 @@ function weekCard(stats) {
         <div class="wb-col">${h ? `<div style="height:${h}%"></div>` : `<i></i>`}</div>
         <span class="wb-d">${esc(name)}</span></div>`;
 	}).join("");
-	const vol = stats.volume || {};
-	const groups = Object.keys(vol).filter((g) => vol[g].week).sort((a, b) => vol[b].week - vol[a].week);
-	stats.streak_weeks && `${stats.streak_weeks === 1 ? t("wk_streak1") : t("wk_streak", { n: stats.streak_weeks })}`;
-	return `<div class="week">
-    <div class="wk-label">${t("wk_title")}</div>
-    <div class="wk-head">
-      <div class="wr">
-        <svg viewBox="0 0 100 100" class="wr-svg" role="img" aria-label="${esc(t("wk_aria", {
+	const streak = !off && stats.streak_weeks ? `<span class="wk-streak" title="${esc(t("wk_streak_lbl"))}">⟦streak⟧ ${stats.streak_weeks === 1 ? t("tile_week1") : t("tile_weeks", { n: stats.streak_weeks })}</span>` : `<span class="wk-streak none" aria-hidden="true">⟦streak⟧ &nbsp;</span>`;
+	const dm = (iso) => (/* @__PURE__ */ new Date(`${iso}T12:00:00`)).toLocaleDateString(LOCALE, {
+		day: "numeric",
+		month: "short"
+	});
+	const title = off === 0 ? t("wk_title") : off === 1 ? t("wk_last") : `${dm(wk.days[0].date)} – ${dm(wk.days[6].date)}`;
+	const hasPrev = past ? past.has_prev : !!(stats.first && stats.first.slice(0, 10) < wk.start);
+	const label = !nav ? `<div class="wk-label">${t("wk_title")}</div>` : `<div class="wk-navrow"><button class="wk-nav" data-a="week-nav" data-d="1" aria-label="${esc(t("wk_prev"))}" ${hasPrev ? "" : "disabled"}>‹</button>
+        ${off ? `<button class="wk-label wk-back" data-a="week-nav" data-to="0" title="${esc(t("wk_now"))}">${esc(title)}</button>` : `<div class="wk-label">${esc(title)}</div>`}
+        <button class="wk-nav" data-a="week-nav" data-d="-1" aria-label="${esc(t("wk_next"))}" ${off ? "" : "disabled"}>›</button></div>`;
+	const goal = off ? `<div class="wk-goal"><span class="wk-goal-l">${t("wk_goal_word")}</span><b class="wk-goal-n">${wk.goal}</b></div>` : `<div class="wk-goal" title="${esc(t("wk_goal"))}"><span class="wk-goal-l">${t("wk_goal_word")}</span>
+        <span class="wk-step"><button class="tbtn" data-a="goal" data-d="-1" aria-label="${t("wk_goal_less")}">−</button><b>${wk.goal}</b><button class="tbtn" data-a="goal" data-d="1" aria-label="${t("wk_goal_more")}">+</button></span></div>`;
+	return `<div class="week ${nav ? "nav" : ""}">
+    <div class="wk-top">${label}${goal}</div>
+    <div class="wk-row">
+      <div class="wk-ring">
+        <div class="wr">
+          <svg viewBox="0 0 100 100" class="wr-svg" role="img" aria-label="${esc(t("wk_aria", {
 		d: wk.done,
 		n: wk.goal
 	}))}">${ring}</svg>
-        <div class="wr-c"><b>${wk.done}</b><span>/${wk.goal}</span>${extra}</div>
+          <div class="wr-c"><b>${wk.done}</b><span>/${wk.goal}</span>${extra}</div>
+        </div>${streak}
       </div>
-      <div class="wk-info">
-        ${stats.streak_weeks ? `<div class="wk-streak"><span class="wk-streak-l">${t("wk_streak_lbl")}</span>
-          <b>${stats.streak_weeks === 1 ? t("tile_week1") : t("tile_weeks", { n: stats.streak_weeks })}</b></div>` : ""}
-      </div>
-      <div class="wk-goal" title="${esc(t("wk_goal"))}">
-        <span class="wk-step"><button class="tbtn" data-a="goal" data-d="-1" aria-label="${t("wk_goal_less")}">−</button><b>${wk.goal}</b><button class="tbtn" data-a="goal" data-d="1" aria-label="${t("wk_goal_more")}">+</button></span>
-        <span class="wk-goal-l">${t("wk_goal_short")}</span>
-      </div>
-    </div>
-    <div class="wk-body">
-      <div class="wk-cap">${t("wk_bars")}</div>
-      <div class="wk-bars">${bars}</div>
-      <div class="wk-foot"><span>${t("wk_total", { n: stats.total })}</span>
-        ${groups.length ? `<span class="wk-tags">${groups.map((g) => `<span>${esc(t(`mg.${g}`))}</span>`).join("")}</span>` : ""}</div>
+      <div class="wk-bars" title="${esc(t("wk_bars"))}">${bars}</div>
     </div></div>`;
 }
 function historyCharts(points) {
@@ -3876,6 +18519,14 @@ function spark(points, forced = null, compact = false) {
 }
 var STYLE = `
   :host { display: block; }
+  .hx-tag { margin-left: 4px; }
+  .hx-plantag { border: 0; font: inherit; font-size: .75em; color: inherit; cursor: pointer; }
+  .plan-more { display: flex; justify-content: space-between; gap: 8px; width: 100%; margin-top: 6px; padding: 6px 0; background: none; border: 0;
+    border-top: 1px solid var(--divider-color); color: var(--secondary-text-color); font: inherit; font-size: .85em; cursor: pointer; text-align: left; }
+  .plan-more:hover { color: var(--primary-text-color); }
+  .hx-mark { display: inline-flex; align-items: center; gap: 1px; margin-left: 4px; font-size: .85em; font-weight: 700; color: var(--primary-color); vertical-align: -1px; }
+  .hx-mark .pi { width: 1.1em; height: 1.1em; }
+  .hx-mark.rec { color: var(--ta-gold, #e0a800); }
   .card { overflow: clip; }
   .ico { line-height: 1; display: inline-flex; }
   .pi { width: 1.2em; height: 1.2em; vertical-align: -0.22em; flex: none; }
@@ -4044,6 +18695,10 @@ var STYLE = `
   /* Listen: Suche, Filter, Gruppen */
   .ltools { display: flex; flex-direction: column; gap: 8px; }
   .ltools .seg { gap: 6px; }
+  .hf-kinds { display: flex; flex-wrap: wrap; gap: 6px; }
+  .hf-selects { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hf-selects select { flex: 1 1 150px; min-width: 0; padding: 9px 10px; border-radius: 9px; border: 1px solid var(--divider-color); }
+  .ltools + [data-list="hex"] { margin-top: 10px; }
   [data-q][hidden], [data-group][hidden], [data-nohit][hidden] { display: none; }
   .tghead.small { padding: 8px 10px; gap: 10px; }
   .tghead.small .tgname { font-size: 1em; }
@@ -4138,6 +18793,12 @@ var STYLE = `
   .tpl-chev { flex: none; width: 1em; font-size: 1.3em; line-height: 1.1; color: var(--secondary-text-color);
               transition: transform .15s; }
   .tplw.open .tpl-chev { transform: rotate(90deg); }
+  /* Workout eines eigenen Plans: Name als Knopf, darunter aufgeklappt der Inhalt */
+  .plan-wo { flex: 1 1 150px; min-width: 0; display: flex; gap: 6px; align-items: flex-start; text-align: left; padding: 4px 0; border: 0;
+    background: none; color: inherit; font: inherit; cursor: pointer; }
+  .plan-wo:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+  .list li.open .tpl-chev { transform: rotate(90deg); }
+  .list li.plan-wo-detail { display: block; padding: 2px 0 12px 12px; border-bottom: 1px solid var(--divider-color); }
   .tplw.open .tpl { border-bottom: 0; }
   .tpl-detail { padding: 4px 4px 14px 12px; border-bottom: 1px solid var(--divider-color); display: flex;
                 flex-direction: column; gap: 8px; }
@@ -4246,9 +18907,11 @@ var STYLE = `
   .tbtn { border: 1px solid var(--divider-color); background: var(--card-background-color); color: var(--primary-text-color);
           border-radius: 8px; min-width: 32px; height: 28px; font: inherit; cursor: pointer; }
   /* Kacheln, Rekorde, Volumen, Erholung */
-  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  @container (max-width: 560px) { .tiles { grid-template-columns: 1fr 1fr; } }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  @container (max-width: 560px) { .tiles { gap: 6px; } .tiles .tile { padding: 10px; } }
   .tile { border: 1px solid var(--divider-color); border-radius: 12px; padding: 10px; }
+  /* Beschriftung, Zahl und Zusatz stehen in allen Kacheln auf gleicher Höhe, auch wenn eine Beschriftung zwei Zeilen braucht */
+  @supports (grid-template-rows: subgrid) { .tile { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; } }
   .tile-l { font-size: .8em; color: var(--secondary-text-color); }
   .tile-v { font-size: 1.7em; font-weight: 700; }
   .tile-v small { font-size: .55em; color: var(--secondary-text-color); font-weight: 500; }
@@ -4362,6 +19025,25 @@ var STYLE = `
               color: var(--secondary-text-color); font-size: .9em; }
   .fin-cont .pi { width: 1.1em; height: 1.1em; vertical-align: -0.18em; color: var(--primary-color); }
   .fin-done { width: 100%; }
+  .fin-share { width: 100%; border: 2px solid var(--primary-color); color: var(--primary-color); background: none; }
+  /* „Training teilen“: Fenster am unteren Rand mit der Vorschau des Bildes */
+  .share-modal { position: fixed; inset: 0; z-index: 2147482000; display: flex; align-items: flex-end; justify-content: center; background: rgb(0 0 0 / .6); }
+  .share-sheet { box-sizing: border-box; width: min(480px, 100%); max-height: 100%; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 14px;
+    padding: 10px 18px calc(22px + env(safe-area-inset-bottom, 0px)); border-radius: 18px 18px 0 0; border-top: 1px solid var(--divider-color);
+    background: var(--card-background-color); color: var(--primary-text-color); }
+  .share-grip { width: 40px; height: 5px; border-radius: 3px; background: var(--divider-color); }
+  .share-head { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+  .share-head h2 { margin: 0; font-size: 1.2em; }
+  .share-x { width: 44px; height: 44px; border: 0; background: none; color: var(--secondary-text-color); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .share-img { width: min(100%, 351px, 52vh); aspect-ratio: 1; border-radius: 10px; box-shadow: 0 10px 30px rgb(0 0 0 / .5); }
+  .share-img.wait { display: flex; align-items: center; justify-content: center; text-align: center; box-shadow: none; border: 1px dashed var(--divider-color); }
+  .share-hint { font-size: .85em; color: var(--secondary-text-color); text-align: center; }
+  .share-btns { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .share-btns.one { grid-template-columns: 1fr; }
+  .share-btns .btn { display: flex; align-items: center; justify-content: center; text-align: center; text-decoration: none; box-sizing: border-box;
+    color: var(--primary-text-color); }
+  .share-btns .btn.primary { color: var(--text-primary-color, #fff); }
+  @media (min-width: 760px) { .share-modal { align-items: center; } .share-sheet { border-radius: 18px; border: 1px solid var(--divider-color); } .share-grip { display: none; } }
   .side-now { align-self: center; display: inline-flex; align-items: baseline; gap: 6px; margin: 2px auto 4px; padding: 2px 12px;
               border-radius: 999px; font-size: .95em; font-weight: 700; color: var(--primary-color);
               border: 1px solid color-mix(in srgb, var(--primary-color) 45%, transparent); }
@@ -4517,10 +19199,40 @@ var STYLE = `
     .controls .btns > .btn { padding: 9px 4px; font-size: .84em; white-space: nowrap; min-width: 0; overflow: hidden;
                              text-overflow: ellipsis; }
   }
+  /* Wochenkarte: überall kompakt – oben die Überschrift und rechts klein das Wochenziel, darunter Ring und die Tage */
+  .week { display: flex; flex-direction: column; align-items: stretch; gap: 2px; padding: 8px 14px 10px; }
+  .wk-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 30px; }
+  .week.nav { touch-action: pan-y; } /* waagerechtes Wischen blättert durch die Wochen */
+  .wk-navrow { display: flex; align-items: center; gap: 2px; min-width: 0; margin-left: -6px; }
+  .wk-nav { width: 28px; height: 28px; flex: none; border: 0; border-radius: 8px; background: none; color: var(--secondary-text-color); font: inherit; font-size: 1.25em;
+    line-height: 1; cursor: pointer; padding: 0 0 2px; }
+  .wk-nav:disabled { opacity: .25; cursor: default; }
+  button.wk-back { border: 0; background: none; padding: 4px 2px; cursor: pointer; font-family: inherit; color: var(--primary-text-color); white-space: nowrap; }
+  .wk-goal-n { font-size: 1.05em; min-width: 1.2em; text-align: center; }
+  .week .wk-label { margin: 0; text-align: left; }
+  .week .wk-goal { margin: 0; flex-direction: row; align-items: center; gap: 6px; align-self: center; }
+  .week .wk-goal-l { order: 0; font-size: .72em; }
+  .week .wk-step { padding: 1px; gap: 2px; border-radius: 8px; }
+  .week .wk-step b { min-width: 1.3em; font-size: .92em; }
+  .week .wk-step .tbtn { width: 26px; min-width: 26px; height: 24px; padding: 0; border-radius: 6px; font-size: .95em; line-height: 1; }
+  .wk-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center; }
+  .wk-ring { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .week .wr { width: 64px; height: 64px; }
+  .week .wr-c b { font-size: 1.35em; }
+  .week .wr-c span { font-size: .85em; }
+  .week .wr-extra { bottom: 9px; }
+  .week .wk-streak { flex-direction: row; align-items: center; gap: 3px; font-size: .7em; color: var(--secondary-text-color); white-space: nowrap; }
+  .week .wk-streak .pi { width: 1.2em; height: 1.2em; }
+  .week .wk-streak.none { visibility: hidden; }
+  .week .wk-top { height: 30px; min-height: 30px; } /* mit und ohne −/+ gleich hoch */
+  .week .wk-bars { width: 100%; gap: 6px; }
+  .week .wb-col { height: 34px; max-width: 44px; }
+  .week .wb-n { height: .95em; font-size: .65em; }
+  .week .wb-d { width: 18px; height: 18px; font-size: .72em; }
 `;
 // src/card/card.js
 var DOMAIN = "training_assistant";
-var CARD_VERSION = "0.13.1";
+var CARD_VERSION = "0.14.0";
 var CAPS = {
 	voice: true,
 	linkUsers: true,

@@ -113,6 +113,16 @@ Belege: Die Rückenstudie (12 Wochen, wöchentlicher Kurs) fand Yoga bei chronis
 etwa so wirksam wie Physiotherapie; für die übrigen Abfolgen gibt es wenige kontrollierte Studien –
 es sind verbreitete, sichere Grundabfolgen.
 
+## Alltag & Gesundheit
+
+Sanfte Programme für den Alltag – Gehen, Wandern und ein gesunder Rücken. Zeitgesteuerte Teile laufen von selbst.
+
+| Vorlage | Wofür | Grundlage |
+|---|---|---|
+| Daily Walking 6 Weeks | 5 Spaziergänge pro Woche, von 15 auf 45 min | WHO-Empfehlung von 150 min moderater Bewegung pro Woche |
+| Hiking Fitness 8 Weeks | Beinkraft, Treppen-Intervalle und eine lange Wanderung von 1 auf 4 Stunden | verbreitete Empfehlungen zur Wandervorbereitung |
+| Back School 8 Weeks | 2×/Woche ~30 min: eingehen, mobilisieren, Rumpf kräftigen, richtig heben, entspannen | angelehnt an die „Neue Rückenschule“ (KddR) |
+
 ## Quellen
 
 - Schoenfeld, Grgic, Krieger (2019): *How many times per week should a muscle be trained to maximize muscle hypertrophy?*, [Semantic Scholar](https://www.semanticscholar.org/paper/How-many-times-per-week-should-a-muscle-be-trained-Schoenfeld-Grgic/5f3b9845fdfd15200bdac0f7b9b36da457c48025)

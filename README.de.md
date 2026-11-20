@@ -65,8 +65,8 @@ Beim Anzeigen der Karte wird nichts aus dem Internet geladen.
 
 ## Trainingspläne
 
-**Vorlagen:** 33 bewährte Programme werden mitgeliefert (Kraft & Hypertrophie, Bodyweight ohne
-Geräte, Calisthenics von Einstieg bis Fortgeschritten, Kettlebell, HIIT & Tabata, Ausdauer, Yoga & Mobilität). Die Vorlagen sind auf Englisch;
+**Vorlagen:** 36 bewährte Programme werden mitgeliefert (Kraft & Hypertrophie, Bodyweight ohne
+Geräte, Calisthenics von Einstieg bis Fortgeschritten, Kettlebell, HIIT & Tabata, Ausdauer, Yoga & Mobilität, Alltag & Gesundheit). Die Vorlagen sind auf Englisch;
 übernehmen in der Karte unter *Einstellungen → Vorlagen*, Übersicht und Quellen: [docs/vorlagen.md](docs/vorlagen.md).
 
 Eigene Pläne baut man im Editor der Karte (*Einstellungen → Editor*): Workouts, Blöcke und Übungen mit Bild,

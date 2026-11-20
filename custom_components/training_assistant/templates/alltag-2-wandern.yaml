@@ -1,0 +1,367 @@
+# Template: hiking fitness – 8 weeks toward a four-hour mountain day or the first stage of a multi-day hike.
+# Three sessions a week: leg strength for climbing and descending, stair intervals, and one long hike that grows
+# from one to four hours. Own program after common hike-training advice (alpine clubs, trail guides).
+schema_version: 1
+name: Hiking Fitness 8 Weeks
+description: >-
+  Fit for the mountains: 8 weeks, 3 sessions per week. Leg strength for climbing and descending
+  (step-ups, lunges, calf raises, glute bridge, side plank), stair intervals, and one long hike that grows
+  from one to four hours. The last week ends with a tour day. A chair, a staircase and a day pack.
+goal: endurance
+defaults:
+  rest_s: 60
+  progression: { type: "reps" }
+exercises:
+  hike: { name: Hike, aliases: [Wandern, Wanderung], equipment: other, image: Walking_Treadmill, muscles: [quads, glutes, calves] }
+  stair_climb: { name: Stair Climbing (brisk), aliases: [Treppensteigen zügig], equipment: bodyweight, image: Stairmaster,
+                 muscles: [quads, glutes, calves] }
+  step_up: { name: Step-up onto Chair, aliases: [Aufsteigen auf Stuhl], equipment: bodyweight, image: Dumbbell_Step_Ups, unilateral: true }
+  reverse_lunge: { name: Reverse Lunge, aliases: [Ausfallschritt rückwärts], equipment: bodyweight, image: Crossover_Reverse_Lunge, unilateral: true }
+  calf_raise: { name: Calf Raise, aliases: [Wadenheben], equipment: bodyweight, image: Standing_Calf_Raises }
+  glute_bridge: { name: Glute Bridge, aliases: [Hüftheben], equipment: bodyweight, image: Butt_Lift_Bridge }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge, unilateral: true }
+workouts:
+  - id: w1a
+    name: "Week 1 · Strength"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking or marching on the spot."
+      - type: "circuit"
+        name: "Legs for the mountain"
+        rounds: 2
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Slow and controlled. Step-ups: push through the heel of the upper foot."
+        exercises:
+          - { exercise: "step_up", reps: { min: 10, max: 15 }, per_side: true }
+          - { exercise: "reverse_lunge", reps: { min: 8, max: 12 }, per_side: true }
+          - { exercise: "calf_raise", reps: { min: 15, max: 25 } }
+          - { exercise: "glute_bridge", reps: { min: 12, max: 20 } }
+          - { exercise: "side_plank", duration_s: 25, per_side: true }
+      - type: "cooldown"
+  - id: w1b
+    name: "Week 1 · Stairs"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking."
+      - type: "interval"
+        name: "6 × stairs"
+        rounds: 6
+        work_s: 60
+        rest_s: 60
+        note: "Climb briskly, walk back down calmly in the rest. A hill works just as well."
+        exercises: ["stair_climb"]
+      - type: "cooldown"
+        duration_s: 300
+  - id: w1c
+    name: "Week 1 · Long hike"
+    blocks:
+      - type: "flow"
+        name: "60 minutes"
+        rest_s: 0
+        note: "Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly."
+        exercises:
+          - { exercise: "hike", duration_s: 3600 }
+  - id: w2a
+    name: "Week 2 · Strength"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking or marching on the spot."
+      - type: "circuit"
+        name: "Legs for the mountain"
+        rounds: 2
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Slow and controlled. Step-ups: push through the heel of the upper foot."
+        exercises:
+          - { exercise: "step_up", reps: { min: 10, max: 15 }, per_side: true }
+          - { exercise: "reverse_lunge", reps: { min: 8, max: 12 }, per_side: true }
+          - { exercise: "calf_raise", reps: { min: 15, max: 25 } }
+          - { exercise: "glute_bridge", reps: { min: 12, max: 20 } }
+          - { exercise: "side_plank", duration_s: 30, per_side: true }
+      - type: "cooldown"
+  - id: w2b
+    name: "Week 2 · Stairs"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking."
+      - type: "interval"
+        name: "6 × stairs"
+        rounds: 6
+        work_s: 75
+        rest_s: 60
+        note: "Climb briskly, walk back down calmly in the rest. A hill works just as well."
+        exercises: ["stair_climb"]
+      - type: "cooldown"
+        duration_s: 300
+  - id: w2c
+    name: "Week 2 · Long hike"
+    blocks:
+      - type: "flow"
+        name: "75 minutes"
+        rest_s: 0
+        note: "Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly."
+        exercises:
+          - { exercise: "hike", duration_s: 4500 }
+  - id: w3a
+    name: "Week 3 · Strength"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking or marching on the spot."
+      - type: "circuit"
+        name: "Legs for the mountain"
+        rounds: 2
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Slow and controlled. Step-ups: push through the heel of the upper foot."
+        exercises:
+          - { exercise: "step_up", reps: { min: 10, max: 15 }, per_side: true }
+          - { exercise: "reverse_lunge", reps: { min: 8, max: 12 }, per_side: true }
+          - { exercise: "calf_raise", reps: { min: 15, max: 25 } }
+          - { exercise: "glute_bridge", reps: { min: 12, max: 20 } }
+          - { exercise: "side_plank", duration_s: 35, per_side: true }
+      - type: "cooldown"
+  - id: w3b
+    name: "Week 3 · Stairs"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking."
+      - type: "interval"
+        name: "7 × stairs"
+        rounds: 7
+        work_s: 90
+        rest_s: 60
+        note: "Climb briskly, walk back down calmly in the rest. A hill works just as well."
+        exercises: ["stair_climb"]
+      - type: "cooldown"
+        duration_s: 300
+  - id: w3c
+    name: "Week 3 · Long hike"
+    blocks:
+      - type: "flow"
+        name: "90 minutes"
+        rest_s: 0
+        note: "Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly."
+        exercises:
+          - { exercise: "hike", duration_s: 5400 }
+  - id: w4a
+    name: "Week 4 · Strength"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking or marching on the spot."
+      - type: "circuit"
+        name: "Legs for the mountain"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Slow and controlled. Step-ups: push through the heel of the upper foot."
+        exercises:
+          - { exercise: "step_up", reps: { min: 10, max: 15 }, per_side: true }
+          - { exercise: "reverse_lunge", reps: { min: 8, max: 12 }, per_side: true }
+          - { exercise: "calf_raise", reps: { min: 15, max: 25 } }
+          - { exercise: "glute_bridge", reps: { min: 12, max: 20 } }
+          - { exercise: "side_plank", duration_s: 40, per_side: true }
+      - type: "cooldown"
+  - id: w4b
+    name: "Week 4 · Stairs"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking."
+      - type: "interval"
+        name: "7 × stairs"
+        rounds: 7
+        work_s: 90
+        rest_s: 60
+        note: "Climb briskly, walk back down calmly in the rest. A hill works just as well."
+        exercises: ["stair_climb"]
+      - type: "cooldown"
+        duration_s: 300
+  - id: w4c
+    name: "Week 4 · Long hike"
+    blocks:
+      - type: "flow"
+        name: "105 minutes"
+        rest_s: 0
+        note: "Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly."
+        exercises:
+          - { exercise: "hike", duration_s: 6300 }
+  - id: w5a
+    name: "Week 5 · Strength"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking or marching on the spot."
+      - type: "circuit"
+        name: "Legs for the mountain"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Slow and controlled. Step-ups: push through the heel of the upper foot."
+        exercises:
+          - { exercise: "step_up", reps: { min: 10, max: 15 }, per_side: true }
+          - { exercise: "reverse_lunge", reps: { min: 8, max: 12 }, per_side: true }
+          - { exercise: "calf_raise", reps: { min: 15, max: 25 } }
+          - { exercise: "glute_bridge", reps: { min: 12, max: 20 } }
+          - { exercise: "side_plank", duration_s: 40, per_side: true }
+      - type: "cooldown"
+  - id: w5b
+    name: "Week 5 · Stairs"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking."
+      - type: "interval"
+        name: "8 × stairs"
+        rounds: 8
+        work_s: 105
+        rest_s: 60
+        note: "Climb briskly, walk back down calmly in the rest. A hill works just as well."
+        exercises: ["stair_climb"]
+      - type: "cooldown"
+        duration_s: 300
+  - id: w5c
+    name: "Week 5 · Long hike"
+    blocks:
+      - type: "flow"
+        name: "2 hours"
+        rest_s: 0
+        note: "Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly."
+        exercises:
+          - { exercise: "hike", duration_s: 7200 }
+  - id: w6a
+    name: "Week 6 · Strength"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking or marching on the spot."
+      - type: "circuit"
+        name: "Legs for the mountain"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Slow and controlled. Step-ups: push through the heel of the upper foot."
+        exercises:
+          - { exercise: "step_up", reps: { min: 10, max: 15 }, per_side: true }
+          - { exercise: "reverse_lunge", reps: { min: 8, max: 12 }, per_side: true }
+          - { exercise: "calf_raise", reps: { min: 15, max: 25 } }
+          - { exercise: "glute_bridge", reps: { min: 12, max: 20 } }
+          - { exercise: "side_plank", duration_s: 40, per_side: true }
+      - type: "cooldown"
+  - id: w6b
+    name: "Week 6 · Stairs"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking."
+      - type: "interval"
+        name: "8 × stairs"
+        rounds: 8
+        work_s: 120
+        rest_s: 60
+        note: "Climb briskly, walk back down calmly in the rest. A hill works just as well."
+        exercises: ["stair_climb"]
+      - type: "cooldown"
+        duration_s: 300
+  - id: w6c
+    name: "Week 6 · Long hike"
+    blocks:
+      - type: "flow"
+        name: "150 minutes"
+        rest_s: 0
+        note: "Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly."
+        exercises:
+          - { exercise: "hike", duration_s: 9000 }
+  - id: w7a
+    name: "Week 7 · Strength"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking or marching on the spot."
+      - type: "circuit"
+        name: "Legs for the mountain"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Slow and controlled. Step-ups: push through the heel of the upper foot."
+        exercises:
+          - { exercise: "step_up", reps: { min: 10, max: 15 }, per_side: true }
+          - { exercise: "reverse_lunge", reps: { min: 8, max: 12 }, per_side: true }
+          - { exercise: "calf_raise", reps: { min: 15, max: 25 } }
+          - { exercise: "glute_bridge", reps: { min: 12, max: 20 } }
+          - { exercise: "side_plank", duration_s: 40, per_side: true }
+      - type: "cooldown"
+  - id: w7b
+    name: "Week 7 · Stairs"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking."
+      - type: "interval"
+        name: "8 × stairs"
+        rounds: 8
+        work_s: 120
+        rest_s: 60
+        note: "Climb briskly, walk back down calmly in the rest. A hill works just as well."
+        exercises: ["stair_climb"]
+      - type: "cooldown"
+        duration_s: 300
+  - id: w7c
+    name: "Week 7 · Long hike"
+    blocks:
+      - type: "flow"
+        name: "3 hours"
+        rest_s: 0
+        note: "Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly."
+        exercises:
+          - { exercise: "hike", duration_s: 10800 }
+  - id: w8a
+    name: "Week 8 · Strength"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking or marching on the spot."
+      - type: "circuit"
+        name: "Legs for the mountain"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Slow and controlled. Step-ups: push through the heel of the upper foot."
+        exercises:
+          - { exercise: "step_up", reps: { min: 10, max: 15 }, per_side: true }
+          - { exercise: "reverse_lunge", reps: { min: 8, max: 12 }, per_side: true }
+          - { exercise: "calf_raise", reps: { min: 15, max: 25 } }
+          - { exercise: "glute_bridge", reps: { min: 12, max: 20 } }
+          - { exercise: "side_plank", duration_s: 40, per_side: true }
+      - type: "cooldown"
+  - id: w8b
+    name: "Week 8 · Stairs"
+    blocks:
+      - type: "warmup"
+        duration_s: 300
+        note: "Five minutes of brisk walking."
+      - type: "interval"
+        name: "6 × stairs"
+        rounds: 6
+        work_s: 90
+        rest_s: 60
+        note: "Climb briskly, walk back down calmly in the rest. A hill works just as well."
+        exercises: ["stair_climb"]
+      - type: "cooldown"
+        duration_s: 300
+  - id: w8c
+    name: "Week 8 · Tour day"
+    blocks:
+      - type: "flow"
+        name: "4 hours"
+        rest_s: 0
+        note: "The tour day: four hours with a day pack, ups and downs. Breaks are part of it – pause the timer for them."
+        exercises:
+          - { exercise: "hike", duration_s: 14400 }

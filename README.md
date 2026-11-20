@@ -66,8 +66,8 @@ Nothing is loaded from the internet when the card is displayed.
 
 ## Training plans
 
-**Templates:** 33 proven programs are included (strength & hypertrophy, bodyweight without
-equipment, calisthenics from beginner to advanced, kettlebell, HIIT & Tabata, endurance, yoga & mobility). Add them in the card under
+**Templates:** 36 proven programs are included (strength & hypertrophy, bodyweight without
+equipment, calisthenics from beginner to advanced, kettlebell, HIIT & Tabata, endurance, yoga & mobility, everyday & health). Add them in the card under
 *Settings → Templates*; overview and sources: [docs/templates.md](docs/templates.md).
 
 Your own plans are built in the card's editor (*Settings → Editor*): workouts, blocks and exercises with pictures,

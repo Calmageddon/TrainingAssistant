@@ -1,0 +1,739 @@
+# Template: back school – 8 weeks, twice a week, about 30 minutes.
+# Inspired by the German "Neue Rückenschule" (KddR), the standard for back courses of the health insurers:
+# move, mobilise, strengthen the trunk, learn to lift, relax. Three stages: gentle (weeks 1-2), building (3-5),
+# stronger (6-8). Not a therapy – with acute pain or radiating pain see a doctor first.
+schema_version: 1
+name: Back School 8 Weeks
+description: >-
+  A strong, mobile back for everyday life: 8 weeks, 2 sessions per week, about 30 minutes. Walk in,
+  mobilise gently, strengthen the trunk (curl-up, bird dog, side plank, glute bridge, dead bug), learn to lift
+  with a light weight, then relax. Three stages from gentle to stronger. Inspired by the German
+  "Neue Rückenschule". With acute or radiating pain see a doctor first.
+goal: general
+defaults:
+  rest_s: 30
+  progression: { type: "none" }
+exercises:
+  brisk_walk: { name: Brisk Walk, aliases: [Zügiges Gehen], equipment: other, image: Walking_Treadmill, muscles: [] }
+  cat_cow: { name: Cat-Cow, aliases: [Katze-Kuh], equipment: bodyweight, image: Cat_Stretch }
+  pelvic_tilt: { name: Pelvic Tilt, aliases: [Beckenkippen], equipment: bodyweight, image: Pelvic_Tilt_Into_Bridge }
+  knee_to_chest: { name: Knee to Chest, aliases: [Knie zur Brust], equipment: bodyweight, image: One_Knee_To_Chest }
+  supine_twist: { name: Supine Twist, aliases: [Liegender Drehsitz], equipment: bodyweight, image: Lying_Crossover, unilateral: true }
+  child_pose: { name: Child's Pose, aliases: [Kind], equipment: bodyweight, image: Childs_Pose }
+  curl_up: { name: McGill Curl-Up, aliases: [Curl-up], equipment: bodyweight, image: false, muscles: [core],
+             note: "One leg bent, hands under the lower back. Lift head and shoulders only slightly." }
+  bird_dog: { name: Bird Dog, aliases: [Vierfüßlerstand diagonal], equipment: bodyweight, image: false,
+              muscles: [core, glutes, back], unilateral: true }
+  side_plank: { name: Side Plank, aliases: [Seitstütz], equipment: bodyweight, image: Side_Bridge, unilateral: true }
+  glute_bridge: { name: Glute Bridge, aliases: [Hüftheben], equipment: bodyweight, image: Butt_Lift_Bridge }
+  dead_bug: { name: Dead Bug, equipment: bodyweight, unilateral: true }
+  superman: { name: Superman, aliases: [Rückenstrecker liegend], equipment: bodyweight, image: Superman }
+  db_romanian_deadlift: { name: Dumbbell Romanian Deadlift, aliases: [Rumänisches Kreuzheben Kurzhantel], equipment: dumbbell, image: Stiff-Legged_Dumbbell_Deadlift }
+  savasana: { name: Final Relaxation, aliases: [Endentspannung, Savasana], equipment: bodyweight, image: false, muscles: [] }
+workouts:
+  - id: s01
+    name: "Week 1 · Session 1"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 2
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 6 }
+          - { exercise: "bird_dog", reps: 6, per_side: true }
+          - { exercise: "side_plank", duration_s: 15, per_side: true }
+          - { exercise: "glute_bridge", reps: 10 }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 2
+        reps: 10
+        weight_kg: 2
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 180 }
+  - id: s02
+    name: "Week 1 · Session 2"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 2
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 6 }
+          - { exercise: "bird_dog", reps: 6, per_side: true }
+          - { exercise: "side_plank", duration_s: 15, per_side: true }
+          - { exercise: "glute_bridge", reps: 10 }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 2
+        reps: 10
+        weight_kg: 2
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 180 }
+  - id: s03
+    name: "Week 2 · Session 1"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 2
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 6 }
+          - { exercise: "bird_dog", reps: 6, per_side: true }
+          - { exercise: "side_plank", duration_s: 15, per_side: true }
+          - { exercise: "glute_bridge", reps: 10 }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 2
+        reps: 10
+        weight_kg: 2
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 180 }
+  - id: s04
+    name: "Week 2 · Session 2"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 2
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 6 }
+          - { exercise: "bird_dog", reps: 6, per_side: true }
+          - { exercise: "side_plank", duration_s: 15, per_side: true }
+          - { exercise: "glute_bridge", reps: 10 }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 2
+        reps: 10
+        weight_kg: 2
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 180 }
+  - id: s05
+    name: "Week 3 · Session 1"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 8 }
+          - { exercise: "bird_dog", reps: 8, per_side: true }
+          - { exercise: "side_plank", duration_s: 25, per_side: true }
+          - { exercise: "glute_bridge", reps: 12 }
+          - { exercise: "dead_bug", reps: 8, per_side: true }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 2
+        reps: 10
+        weight_kg: 4
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 240 }
+  - id: s06
+    name: "Week 3 · Session 2"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 8 }
+          - { exercise: "bird_dog", reps: 8, per_side: true }
+          - { exercise: "side_plank", duration_s: 25, per_side: true }
+          - { exercise: "glute_bridge", reps: 12 }
+          - { exercise: "dead_bug", reps: 8, per_side: true }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 2
+        reps: 10
+        weight_kg: 4
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 240 }
+  - id: s07
+    name: "Week 4 · Session 1"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 8 }
+          - { exercise: "bird_dog", reps: 8, per_side: true }
+          - { exercise: "side_plank", duration_s: 25, per_side: true }
+          - { exercise: "glute_bridge", reps: 12 }
+          - { exercise: "dead_bug", reps: 8, per_side: true }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 2
+        reps: 10
+        weight_kg: 4
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 240 }
+  - id: s08
+    name: "Week 4 · Session 2"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 8 }
+          - { exercise: "bird_dog", reps: 8, per_side: true }
+          - { exercise: "side_plank", duration_s: 25, per_side: true }
+          - { exercise: "glute_bridge", reps: 12 }
+          - { exercise: "dead_bug", reps: 8, per_side: true }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 2
+        reps: 10
+        weight_kg: 4
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 240 }
+  - id: s09
+    name: "Week 5 · Session 1"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 8 }
+          - { exercise: "bird_dog", reps: 8, per_side: true }
+          - { exercise: "side_plank", duration_s: 25, per_side: true }
+          - { exercise: "glute_bridge", reps: 12 }
+          - { exercise: "dead_bug", reps: 8, per_side: true }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 2
+        reps: 10
+        weight_kg: 4
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 240 }
+  - id: s10
+    name: "Week 5 · Session 2"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 8 }
+          - { exercise: "bird_dog", reps: 8, per_side: true }
+          - { exercise: "side_plank", duration_s: 25, per_side: true }
+          - { exercise: "glute_bridge", reps: 12 }
+          - { exercise: "dead_bug", reps: 8, per_side: true }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 2
+        reps: 10
+        weight_kg: 4
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 240 }
+  - id: s11
+    name: "Week 6 · Session 1"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 10 }
+          - { exercise: "bird_dog", reps: 10, per_side: true }
+          - { exercise: "side_plank", duration_s: 35, per_side: true }
+          - { exercise: "glute_bridge", reps: 15 }
+          - { exercise: "dead_bug", reps: 10, per_side: true }
+          - { exercise: "superman", reps: 10 }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 3
+        reps: 10
+        weight_kg: 6
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 300 }
+  - id: s12
+    name: "Week 6 · Session 2"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 10 }
+          - { exercise: "bird_dog", reps: 10, per_side: true }
+          - { exercise: "side_plank", duration_s: 35, per_side: true }
+          - { exercise: "glute_bridge", reps: 15 }
+          - { exercise: "dead_bug", reps: 10, per_side: true }
+          - { exercise: "superman", reps: 10 }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 3
+        reps: 10
+        weight_kg: 6
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 300 }
+  - id: s13
+    name: "Week 7 · Session 1"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 10 }
+          - { exercise: "bird_dog", reps: 10, per_side: true }
+          - { exercise: "side_plank", duration_s: 35, per_side: true }
+          - { exercise: "glute_bridge", reps: 15 }
+          - { exercise: "dead_bug", reps: 10, per_side: true }
+          - { exercise: "superman", reps: 10 }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 3
+        reps: 10
+        weight_kg: 6
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 300 }
+  - id: s14
+    name: "Week 7 · Session 2"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 10 }
+          - { exercise: "bird_dog", reps: 10, per_side: true }
+          - { exercise: "side_plank", duration_s: 35, per_side: true }
+          - { exercise: "glute_bridge", reps: 15 }
+          - { exercise: "dead_bug", reps: 10, per_side: true }
+          - { exercise: "superman", reps: 10 }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 3
+        reps: 10
+        weight_kg: 6
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 300 }
+  - id: s15
+    name: "Week 8 · Session 1"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 10 }
+          - { exercise: "bird_dog", reps: 10, per_side: true }
+          - { exercise: "side_plank", duration_s: 35, per_side: true }
+          - { exercise: "glute_bridge", reps: 15 }
+          - { exercise: "dead_bug", reps: 10, per_side: true }
+          - { exercise: "superman", reps: 10 }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 3
+        reps: 10
+        weight_kg: 6
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 300 }
+  - id: s16
+    name: "Week 8 · Session 2"
+    blocks:
+      - type: "flow"
+        name: "Walk in"
+        rest_s: 0
+        note: "Five minutes of brisk walking – outside or through the flat."
+        exercises:
+          - { exercise: "brisk_walk", duration_s: 300 }
+      - type: "flow"
+        name: "Mobilise"
+        rest_s: 5
+        note: "Slow, small movements without pain. Breathe calmly."
+        exercises:
+          - { exercise: "cat_cow", duration_s: 60 }
+          - { exercise: "pelvic_tilt", duration_s: 60 }
+          - { exercise: "knee_to_chest", duration_s: 30, per_side: true }
+          - { exercise: "supine_twist", duration_s: 30, per_side: true }
+          - { exercise: "child_pose", duration_s: 60 }
+      - type: "circuit"
+        name: "Strong trunk"
+        rounds: 3
+        rest_after_exercise_s: 15
+        rest_after_round_s: 60
+        note: "Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve."
+        exercises:
+          - { exercise: "curl_up", reps: 10 }
+          - { exercise: "bird_dog", reps: 10, per_side: true }
+          - { exercise: "side_plank", duration_s: 35, per_side: true }
+          - { exercise: "glute_bridge", reps: 15 }
+          - { exercise: "dead_bug", reps: 10, per_side: true }
+          - { exercise: "superman", reps: 10 }
+      - type: "sets"
+        exercise: "db_romanian_deadlift"
+        sets: 3
+        reps: 10
+        weight_kg: 6
+        rest_s: 60
+        note: "Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start."
+      - type: "flow"
+        name: "Relax"
+        rest_s: 0
+        note: "Lie on your back. Tense one body part after another for five seconds, then let go completely."
+        exercises:
+          - { exercise: "savasana", duration_s: 300 }

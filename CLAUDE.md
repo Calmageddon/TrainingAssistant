@@ -137,7 +137,7 @@ Nutzer-sichtbare Texte gibt es auf Englisch und Deutsch:
 
 - `custom_components/training_assistant/templates/*.yaml` werden mit ausgeliefert und in der Karte
   unter Einstellungen → Vorlagen angeboten (nicht automatisch importiert). Dateiname beginnt mit Gruppe und Reihenfolge (z. B. `kraft-1-…`)
-  (`kraft-`, `bodyweight-`, `calisthenics-`, `kettlebell-`, `hiit-`, `yoga-`; Symbol in `TEMPLATE_GROUPS`, Titel übersetzt die Karte über `tg.<gruppe>`).
+  (`kraft-`, `bodyweight-`, `calisthenics-`, `kettlebell-`, `hiit-`, `ausdauer-`, `yoga-`, `alltag-`; die wachsenden Alltag-Vorlagen erzeugt `tools/build_everyday_templates.py`; Symbol in `TEMPLATE_GROUPS`, Titel übersetzt die Karte über `tg.<gruppe>`).
   Übersicht und Quellen: `docs/templates.md` / `docs/vorlagen.md`.
 - Eigene Namen, „angelehnt an“ bekannte Programme – keine Markennamen als Planname, keine kopierten Texte.
 - In YAML-Flow-Schreibweise `{ … }` Hinweise mit Komma in Anführungszeichen setzen (sonst Prüffehler).

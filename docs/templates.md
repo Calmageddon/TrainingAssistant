@@ -111,6 +111,16 @@ Evidence: the back care study (12 weeks, weekly class) found yoga about as effec
 therapy for chronic low back pain; for other sequences there are few controlled studies – they are
 common, safe foundation sequences.
 
+## Everyday & health
+
+Gentle programs for everyday life – walking, hiking and a healthy back. Timed parts run on their own.
+
+| Template | Purpose | Basis |
+|---|---|---|
+| Daily Walking 6 Weeks | 5 walks per week, from 15 to 45 min | WHO recommendation of 150 min of moderate activity per week |
+| Hiking Fitness 8 Weeks | leg strength, stair intervals and a long hike growing from 1 to 4 hours | common hike-training advice |
+| Back School 8 Weeks | 2×/week ~30 min: walk in, mobilise, strengthen the trunk, learn to lift, relax | inspired by the German "Neue Rückenschule" (KddR) |
+
 ## Sources
 
 - Schoenfeld, Grgic, Krieger (2019): *How many times per week should a muscle be trained to maximize muscle hypertrophy?*, [Semantic Scholar](https://www.semanticscholar.org/paper/How-many-times-per-week-should-a-muscle-be-trained-Schoenfeld-Grgic/5f3b9845fdfd15200bdac0f7b9b36da457c48025)
