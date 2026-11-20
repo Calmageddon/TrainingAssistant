@@ -327,7 +327,7 @@ def _validate(plan: Any) -> list[str]:
     seen: set[str] = set()
     for wi, w in enumerate(workouts or []):
         wpath = f"workouts/{wi}"
-        if not c.obj(w, wpath, {"id", "name", "blocks"}, {"id", "name", "note", "blocks"}):
+        if not c.obj(w, wpath, {"id", "name", "blocks"}, {"id", "name", "note", "day_type", "blocks"}):
             continue
         if "id" in w and c.ident(w["id"], f"{wpath}/id"):
             if w["id"] in seen:
@@ -335,6 +335,8 @@ def _validate(plan: Any) -> list[str]:
             seen.add(w["id"])
         if "name" in w:
             c.text(w["name"], f"{wpath}/name")
+        if "day_type" in w:
+            c.ident(w["day_type"], f"{wpath}/day_type")
         blocks = w.get("blocks")
         if not isinstance(blocks, list) or not blocks:
             c.err(f"{wpath}/blocks", "muss eine Liste mit mindestens einem Block sein")
@@ -459,7 +461,7 @@ def find_workout(plan: dict, workout_id: str) -> dict:
     raise KeyError(workout_id)
 
 
-HistoryLookup = Callable[[str], list[dict]]
+HistoryLookup = Callable[[str, int], list[dict]]
 
 
 def per_side(item: dict, catalog: dict) -> bool:
@@ -524,7 +526,8 @@ def flow_step(block: dict, bi: int, name: str | None, catalog: dict) -> dict[str
 def build_steps(plan: dict, workout_id: str, history: HistoryLookup | None = None) -> list[dict]:
     """Zerlegt ein Workout in eine flache Liste von Schritten.
 
-    `history(exercise_id)` liefert die Sätze der letzten Session mit dieser Übung.
+    `history(exercise_id, occurrence)` liefert die Sätze der letzten Session mit dieser Übung; `occurrence` = wievielter
+    Block dieses Workouts mit der Übung (0 = erster) – so bekommt bei 65 %/75 %/85 % jeder Block sein Gegenstück.
     Daraus werden Zielgewicht und Ziel-Wiederholungen vorgeschlagen.
 
     Offene Blöcke (Zirkel mit `time_cap_s`, Sätze mit `total_reps`) werden bis
@@ -539,6 +542,9 @@ def build_steps(plan: dict, workout_id: str, history: HistoryLookup | None = Non
     catalog = plan["exercises"]
     workout = find_workout(plan, workout_id)
     steps: list[dict] = []
+    # Wievielter Block mit dieser Übung (für history): vor jedem Block gesetzt, danach hochgezählt
+    blocks_with: dict[str, int] = {}
+    occurrence: dict[str, int] = {}
 
     def set_step(item: dict, block_idx: int, block: dict, **extra: Any) -> dict:
         ex_id = item["exercise"]
@@ -550,7 +556,7 @@ def build_steps(plan: dict, workout_id: str, history: HistoryLookup | None = Non
         if bounds is None:
             progression = {"type": "none"}
         plan_weight = item.get("weight_kg")
-        last = history(ex_id) if history else []
+        last = history(ex_id, occurrence.get(ex_id, 0)) if history else []
         sug = suggest(
             last,
             rep_range=bounds,
@@ -599,6 +605,10 @@ def build_steps(plan: dict, workout_id: str, history: HistoryLookup | None = Non
     for bi, block in enumerate(workout["blocks"]):
         btype = block["type"]
         name = block.get("name")
+        ids = {block["exercise"]} if btype == "sets" else {x["exercise"] for x in block["exercises"]} if btype == "circuit" else set()
+        occurrence = dict(blocks_with)  # set_step liest den aktuellen Stand (Closure)
+        for ex in ids:
+            blocks_with[ex] = blocks_with.get(ex, 0) + 1
         if btype in ("warmup", "cooldown"):
             steps.append(
                 {

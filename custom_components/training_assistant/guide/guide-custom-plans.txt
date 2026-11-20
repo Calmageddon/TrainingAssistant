@@ -42,6 +42,7 @@ C) Write it yourself
   defaults                 (optional) rest and progression for all exercises
   exercises                exercise catalog: ID → name, equipment, (image, muscles, unilateral)
   workouts                 workouts, suggested in rotation
+    └ day_type             (optional) day type: same day type = compared for suggestions
     └ blocks               sections in a fixed order
 
   Block types:
@@ -128,6 +129,7 @@ Top level:
   workouts:                  list
     - id: <snake_case>
       name: <text>
+      day_type: <snake_case>   (optional, e.g. volume / light – same day type = compared for suggestions)
       blocks: [<block>, ...]
 
 Block types (field "type"), all with optional name and note:

@@ -152,6 +152,12 @@ Timed sets and `reps: max` automatically run without progression. Fixed `reps` (
 don't work with `double`. Use `linear` (with weight), `reps` (bodyweight)
 or `none` there.
 
+Suggestions build on the last session of the same workout, otherwise on the last session with that exercise.
+Programs with fixed roles per day (e.g. volume, light and record day, each week a new workout) give their
+workouts a `day_type`: then each workout compares with the last workout of the same day type in this plan.
+If an exercise appears in several blocks of a workout (e.g. 65 %, 75 %, 85 %), each block compares with
+its counterpart.
+
 The suggestions become the target values when a workout starts. So the satellite asks
 "10 reps with 18 kilos as planned?" if everything went well last time.
 
@@ -197,6 +203,7 @@ Top level:
   workouts:                  list
     - id: <snake_case>
       name: <text>
+      day_type: <snake_case>   (optional, e.g. volume / light – same day type = compared for suggestions)
       blocks: [<block>, ...]
 
 Block types (field "type"), all with optional name and note:

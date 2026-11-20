@@ -292,6 +292,10 @@
         "note": {
           "type": "string"
         },
+        "day_type": {
+          "$ref": "#/$defs/id",
+          "description": "Day type (optional): workouts with the same day_type compare with each other for suggestions (e.g. volume, light, record day)."
+        },
         "blocks": {
           "type": "array",
           "minItems": 1,

@@ -32,6 +32,7 @@ def load(name="ganzkoerper.yaml"):
         (lambda p: p["workouts"][0]["blocks"][1].pop("rounds"), "time_cap_s"),
         (lambda p: p["workouts"][1]["blocks"][1].pop("sets"), "total_reps"),
         (lambda p: p["workouts"][0]["blocks"][1].update(foo=1), "unbekanntes Feld"),
+        (lambda p: p["workouts"][0].update(day_type="Schwerer Tag"), "day_type"),
         (lambda p: p["defaults"].update(progression={"type": "reps", "increment": 0}), "increment"),
         (lambda p: p["defaults"].update(progression={"type": "reps", "step": 1}), "unbekanntes Feld 'step'"),
         (lambda p: p["defaults"].update(progression={"type": "wave"}), "double, linear, reps oder none"),
@@ -69,7 +70,7 @@ def test_build_steps_circuit():
 def test_build_steps_uses_history():
     plan = load()
     hist = {"goblet_squat": [{"reps": 12, "weight_kg": 16, "status": "confirmed"}] * 3}
-    steps = build_steps(plan, "a", lambda ex: hist.get(ex, []))
+    steps = build_steps(plan, "a", lambda ex, _occ: hist.get(ex, []))
     goblet = next(s for s in steps if s.get("exercise") == "goblet_squat")
     assert goblet["target_weight"] == 18.5 and goblet["target_reps"] == 8
 
@@ -104,11 +105,11 @@ def test_feature_plan():
 
 def test_weight_step_and_last_reps():
     plan = load_fixture()
-    steps = build_steps(plan, "w3", lambda ex: [{"reps": 7, "status": "confirmed"}] if ex == "chin_up" else [])
+    steps = build_steps(plan, "w3", lambda ex, _occ: [{"reps": 7, "status": "confirmed"}] if ex == "chin_up" else [])
     dl = next(s for s in steps if s.get("exercise") == "bb_deadlift")
     assert dl["weight_step"] == 2  # increment_kg aus defaults.progression
     plan["defaults"]["progression"] = {"type": "none"}
-    steps = build_steps(plan, "w3", lambda ex: [{"reps": 7, "status": "confirmed"}] if ex == "chin_up" else [])
+    steps = build_steps(plan, "w3", lambda ex, _occ: [{"reps": 7, "status": "confirmed"}] if ex == "chin_up" else [])
     assert next(s for s in steps if s.get("exercise") == "bb_deadlift")["weight_step"] == 2.5  # Langhantel
     assert next(s for s in steps if s.get("exercise") == "chin_up")["last_reps"] == 7
 
@@ -205,7 +206,24 @@ def test_unilateral_field_and_per_side_default():
 def test_timed_progression_in_steps():
     plan = _sides_plan()
     last = [{"set_no": 1, "duration_s": 45, "target_duration": 45, "status": "confirmed"}]
-    steps = build_steps(plan, "a", lambda ex: last)
+    steps = build_steps(plan, "a", lambda ex, _occ: last)
     assert steps[0]["target_duration"] == 50 and steps[0]["suggestion_key"] == "time_add"  # über das Ende des Bereichs
     assert steps[3]["target_duration"] == 30 and steps[3]["suggestion_key"] == "fixed"  # progression none am Eintrag
     assert steps[0]["last_duration"] == 45
+
+
+def test_each_block_of_an_exercise_gets_its_own_history():
+    """day_type ist gültig; kommt eine Übung in mehreren Blöcken vor, bekommt jeder Block sein Gegenstück."""
+    plan = {
+        "schema_version": 1, "name": "Zyklen",
+        "defaults": {"progression": {"type": "linear", "increment_kg": 5}},
+        "exercises": {"squat": {"name": "Kniebeuge", "equipment": "barbell"}},
+        "workouts": [{"id": "a", "name": "A", "day_type": "fives_a", "blocks": [
+            {"type": "sets", "exercise": "squat", "sets": 1, "reps": 5},
+            {"type": "sets", "exercise": "squat", "sets": 1, "reps": 5},
+        ]}],
+    }
+    assert validate_plan(plan) == []
+    hist = {0: [{"reps": 5, "weight_kg": 60, "status": "confirmed"}], 1: [{"reps": 5, "weight_kg": 70, "status": "confirmed"}]}
+    steps = build_steps(plan, "a", lambda ex, occ: hist[occ])
+    assert [s["target_weight"] for s in steps if s["type"] == "set"] == [65, 75]

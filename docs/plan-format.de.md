@@ -152,6 +152,12 @@ Zeit-Sätze und `reps: max` laufen automatisch ohne Progression. Feste `reps` (z
 vertragen sich nicht mit `double`. Dort `linear` (mit Gewicht), `reps` (Körpergewicht)
 oder `none` angeben.
 
+Vorschläge bauen auf dem letzten Mal desselben Workouts auf, sonst auf dem letzten Training mit der Übung.
+Programme mit festen Rollen je Tag (z. B. Volumen-, Leicht- und Bestwerttag, jede Woche ein neues Workout) geben
+ihren Workouts eine `day_type` (Tagesart): Dann vergleicht sich jedes Workout mit dem letzten Workout derselben
+Tagesart in diesem Plan. Kommt eine Übung in mehreren Blöcken eines Workouts vor (z. B. 65 %, 75 %, 85 %), vergleicht
+sich jeder Block mit seinem Gegenstück.
+
 Die Vorschläge werden beim Start eines Trainings zu den Zielwerten. Der Satellit fragt also
 „10 mal 18 Kilo wie geplant?“, wenn letztes Mal alles geklappt hat.
 
@@ -197,6 +203,7 @@ Oberste Ebene:
   workouts:                  Liste
     - id: <snake_case>
       name: <Text>
+      day_type: <snake_case>   (optional, z. B. volumen / leicht – gleiche Tagesart = Vergleich für Vorschläge)
       blocks: [<Block>, ...]
 
 Block-Typen (Feld "type"), alle mit optional name und note:

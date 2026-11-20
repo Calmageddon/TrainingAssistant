@@ -757,24 +757,42 @@ class TrainingManager:
     # Verlauf und Vorschläge
     # ------------------------------------------------------------------
 
-    def last_sets(self, exercise_id: str, plan_id: str | None = None, workout_id: str | None = None) -> list[dict]:
+    def _day_type(self, plan_id: str | None, workout_id: str | None) -> str | None:
+        """Tagesart eines Workouts (`day_type` im Plan), sonst None."""
+        stored = self.data["plans"].get(plan_id) if plan_id else None
+        if not stored:
+            return None
+        w = next((x for x in stored["data"]["workouts"] if x["id"] == workout_id), None)
+        return (w or {}).get("day_type")
+
+    def last_sets(
+        self, exercise_id: str, plan_id: str | None = None, workout_id: str | None = None, occurrence: int = 0,
+    ) -> list[dict]:
         """Gültige Sätze der letzten Session mit dieser Übung (mit Wiederholungen oder Zeit – die Zeit-Progression
         braucht die Sätze nach Zeit; die Wdh.-Progression filtert selbst).
 
-        Mit plan_id/workout_id zuerst aus demselben Workout (gleiche Vorgaben, z. B. 6–8 statt 10 Wdh.),
-        nur wenn es dort noch keinen Verlauf gibt aus irgendeinem.
+        Mit plan_id/workout_id zuerst aus demselben Workout oder einem Workout derselben Tagesart (`day_type`) dieses
+        Plans (gleiche Vorgaben, z. B. 6–8 statt 10 Wdh.), nur wenn es dort noch keinen Verlauf gibt aus irgendeinem.
+        Dort bekommt der `occurrence`-te Block mit der Übung die Sätze aus dem entsprechenden Block (65 % vom 65 %).
         """
         if workout_id is not None:
+            day = self._day_type(plan_id, workout_id)
             for sess in reversed(self.data["sessions"]):
-                if sess["plan_id"] != plan_id or sess["workout_id"] != workout_id:
+                if sess["plan_id"] != plan_id:
+                    continue
+                if sess["workout_id"] != workout_id and (not day or self._day_type(plan_id, sess["workout_id"]) != day):
                     continue
                 sets = [
                     x for x in sess["sets"]
                     if x["exercise"] == exercise_id and x["status"] != SET_SKIPPED
                     and (x.get("reps") is not None or x.get("duration_s") is not None)
                 ]
-                if sets:
-                    return sets
+                if not sets:
+                    continue
+                blocks = sorted({x.get("block") for x in sets if x.get("block") is not None})
+                if len(blocks) > 1 and occurrence < len(blocks):
+                    return [x for x in sets if x.get("block") == blocks[occurrence]]
+                return sets
         for sess in reversed(self.data["sessions"]):
             sets = [
                 x for x in sess["sets"]
@@ -799,7 +817,7 @@ class TrainingManager:
 
     def preview(self, plan_id: str | None = None, workout_id: str | None = None) -> list[dict]:
         plan_id, workout_id = self._resolve_workout(plan_id, workout_id)
-        steps = build_steps(self._plan(plan_id), workout_id, lambda ex: self.last_sets(ex, plan_id, workout_id))
+        steps = build_steps(self._plan(plan_id), workout_id, lambda ex, occ: self.last_sets(ex, plan_id, workout_id, occ))
         self._attach_images(steps, plan_id)
         return steps
 
@@ -963,7 +981,7 @@ class TrainingManager:
         plan_id, workout_id = self._resolve_workout(plan_id, workout_id)
         plan = self._plan(plan_id)
         workout = find_workout(plan, workout_id)
-        steps = build_steps(plan, workout_id, lambda ex: self.last_sets(ex, plan_id, workout_id))
+        steps = build_steps(plan, workout_id, lambda ex, occ: self.last_sets(ex, plan_id, workout_id, occ))
         self._attach_images(steps, plan_id)
         state = new_session(
             lang=self.voice_lang,

@@ -65,6 +65,7 @@ C) Write it yourself
   defaults                 (optional) rest and progression for all exercises
   exercises                exercise catalog: ID → name, equipment, (image, muscles, unilateral)
   workouts                 workouts, suggested in rotation
+    └ day_type             (optional) day type: same day type = compared for suggestions
     └ blocks               sections in a fixed order
 
   Block types:
@@ -181,6 +182,7 @@ C) Selbst schreiben
   defaults                 (optional) Pause und Progression für alle Übungen
   exercises                Übungskatalog: ID → Name, Ausrüstung, (Bild, Muskeln, einseitig)
   workouts                 Workouts, werden reihum vorgeschlagen
+    └ day_type             (optional) Tagesart: gleiche Tagesart = Vergleich für Vorschläge
     └ blocks               Abschnitte in fester Reihenfolge
 
   Blocktypen:

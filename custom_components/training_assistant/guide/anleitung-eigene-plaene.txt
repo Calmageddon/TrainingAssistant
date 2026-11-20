@@ -42,6 +42,7 @@ C) Selbst schreiben
   defaults                 (optional) Pause und Progression für alle Übungen
   exercises                Übungskatalog: ID → Name, Ausrüstung, (Bild, Muskeln, einseitig)
   workouts                 Workouts, werden reihum vorgeschlagen
+    └ day_type             (optional) Tagesart: gleiche Tagesart = Vergleich für Vorschläge
     └ blocks               Abschnitte in fester Reihenfolge
 
   Blocktypen:
@@ -129,6 +130,7 @@ Oberste Ebene:
   workouts:                  Liste
     - id: <snake_case>
       name: <Text>
+      day_type: <snake_case>   (optional, z. B. volumen / leicht – gleiche Tagesart = Vergleich für Vorschläge)
       blocks: [<Block>, ...]
 
 Block-Typen (Feld "type"), alle mit optional name und note:
