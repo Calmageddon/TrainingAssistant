@@ -16,6 +16,10 @@ Deutsche Fassung jeweils darunter.
   Wanderung von 1 auf 4 Stunden) und Rückenschule 8 Wochen (mobilisieren, Rumpf kräftigen, richtig heben, entspannen –
   angelehnt an die „Neue Rückenschule“). Insgesamt 36 Vorlagen. Neue Übungsbilder für eigene Pläne: Spagat,
   Kettlebell-Snatch, Sit-up, Hampelmann-Sprung, Glute Kickback.
+- Template "7-Minute Circuit": the side plank now comes on both sides – left, a short switch, right.
+  *Deutsch:* Vorlage „7-Minuten-Zirkel“: Der Seitstütz kommt jetzt auf beiden Seiten – links, kurzer Wechsel, rechts.
+- 41 more exercise pictures for your own plans: handstand, planche, front and back lever, rings.
+  *Deutsch:* 41 weitere Übungsbilder für eigene Pläne: Handstand, Planche, Front und Back Lever, Ringe.
 
 ## 0.13.1 – 2026-11-18
 
