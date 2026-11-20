@@ -26354,7 +26354,7 @@
      "type": "interval",
      "block": 1,
      "block_type": "interval",
-     "rounds": 12,
+     "rounds": 13,
      "work_s": 30,
      "rest_s": 5,
      "exercises": [
@@ -26369,7 +26369,8 @@
       "high_knees",
       "lunge",
       "push_up_rotation",
-      "side_plank"
+      "side_plank_left",
+      "side_plank_right"
      ],
      "segments": [
       {
@@ -26439,7 +26440,13 @@
        "rest_s": 5
       },
       {
-       "exercise": "side_plank",
+       "exercise": "side_plank_left",
+       "side": null,
+       "work_s": 30,
+       "rest_s": 5
+      },
+      {
+       "exercise": "side_plank_right",
        "side": null,
        "work_s": 30,
        "rest_s": 0
@@ -26450,7 +26457,7 @@
      "type": "interval",
      "block": 2,
      "block_type": "interval",
-     "rounds": 12,
+     "rounds": 13,
      "work_s": 30,
      "rest_s": 5,
      "exercises": [
@@ -26465,7 +26472,8 @@
       "high_knees",
       "lunge",
       "push_up_rotation",
-      "side_plank"
+      "side_plank_left",
+      "side_plank_right"
      ],
      "segments": [
       {
@@ -26535,7 +26543,13 @@
        "rest_s": 5
       },
       {
-       "exercise": "side_plank",
+       "exercise": "side_plank_left",
+       "side": null,
+       "work_s": 30,
+       "rest_s": 5
+      },
+      {
+       "exercise": "side_plank_right",
        "side": null,
        "work_s": 30,
        "rest_s": 0
