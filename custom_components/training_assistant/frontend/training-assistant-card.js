@@ -1,4 +1,4 @@
-/* TrainingAssistant card 0.14.0 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
+/* TrainingAssistant card 0.15.0 – built from the shared UI (Hero Upgrade). Do not edit by hand. */
 // src/ui/texts.js
 var EXTRA_I18N = {
 	en: {
@@ -47,7 +47,16 @@ var EXTRA_I18N = {
 		d_restored: "Backup restored.",
 		d_saved: "Backup saved.",
 		d_install: "Use as an app",
-		d_install_hint: "Add Hero Upgrade to your home screen (Safari: Share → Add to Home Screen; Chrome: menu → Install app). It then opens full screen, works offline, and the browser keeps its data.",
+		in_title: "Install Hero Upgrade as an app",
+		in_fin_title: "Keep your history safe: install the app",
+		in_why: "It opens full screen and works offline. And your training history stays safe: in the browser, the data of a website can be deleted if you don't open it for a while (especially in Safari).",
+		in_ios: "In your browser, tap ⟦up⟧ <b>Share</b>, then <b>Add to Home Screen</b>.",
+		in_manual: "Open the browser menu (⋮) and choose <b>Install app</b> or <b>Add to Home screen</b>.",
+		in_go: "⟦down⟧ Install",
+		in_later: "Not now",
+		in_done: "⟦check⟧ Installed – Hero Upgrade runs as an app on this device.",
+		in_badge: "How it works:",
+		d_install_hint: "Add Hero Upgrade to your home screen (iPhone/iPad: Share → Add to Home Screen in your browser; Android and computer: browser menu → Install app). It then opens full screen, works offline, and the browser keeps its data.",
 		d_about: "About",
 		d_privacy: "Hero Upgrade has no accounts, no tracking and no cookies. Your workouts never leave your device.",
 		d_disclaimer: "Disclaimer",
@@ -378,7 +387,16 @@ var EXTRA_I18N = {
 		d_restored: "Sicherung geladen.",
 		d_saved: "Sicherung gespeichert.",
 		d_install: "Als App nutzen",
-		d_install_hint: "Lege Hero Upgrade auf den Home-Bildschirm (Safari: Teilen → Zum Home-Bildschirm; Chrome: Menü → App installieren). Dann öffnet es im Vollbild, läuft offline, und der Browser behält die Daten.",
+		in_title: "Hero Upgrade als App installieren",
+		in_fin_title: "Damit dein Verlauf sicher bleibt: als App installieren",
+		in_why: "Sie öffnet im Vollbild und läuft offline. Und dein Trainingsverlauf bleibt sicher: Im Browser können die Daten einer Seite gelöscht werden, wenn man sie eine Weile nicht öffnet (vor allem in Safari).",
+		in_ios: "Tippe in deinem Browser auf ⟦up⟧ <b>Teilen</b> und dann auf <b>Zum Home-Bildschirm</b>.",
+		in_manual: "Öffne das Browser-Menü (⋮) und wähle <b>App installieren</b> oder <b>Zum Startbildschirm hinzufügen</b>.",
+		in_go: "⟦down⟧ Installieren",
+		in_later: "Nicht jetzt",
+		in_done: "⟦check⟧ Installiert – Hero Upgrade läuft auf diesem Gerät als App.",
+		in_badge: "So geht's:",
+		d_install_hint: "Lege Hero Upgrade auf den Home-Bildschirm (iPhone/iPad: im Browser Teilen → Zum Home-Bildschirm; Android und Computer: Browser-Menü → App installieren). Dann öffnet es im Vollbild, läuft offline, und der Browser behält die Daten.",
 		d_about: "Über",
 		d_privacy: "Hero Upgrade hat keine Konten, kein Tracking und keine Cookies. Deine Trainings verlassen nie dein Gerät.",
 		d_disclaimer: "Haftungshinweis",
@@ -1596,7 +1614,8 @@ var Editor = class {
 var FRAME_MS = 800;
 var TAG = "hero-exercise-preview";
 var STYLE$1 = `
-  :host { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+  /* über den Fenstern der App (Heldenmodus, Teilen: 2147482000), unter Tour und Leuchtrand (2147483000) */
+  :host { position: fixed; inset: 0; z-index: 2147482500; display: flex; align-items: center; justify-content: center;
     padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
     background: rgba(0, 0, 0, .6); animation: fade .15s ease-out; }
   @keyframes fade { from { opacity: 0; } }
@@ -1874,6 +1893,89 @@ function medal(look, { size = 72, state = "got" } = {}) {
     <g clip-path="url(#${id}c)"><ellipse cx="50" cy="12" rx="58" ry="34" fill="#fff" opacity=".17"/>
       <path d="${inner}"${tf} fill="none" stroke="rgb(255 255 255 / .35)" stroke-width="2.4"/></g>${motif}`, defs);
 }
+// src/data/hero-anchors.json
+var hero_anchors_default = {
+	"neonrebel/m/0": [.531, .485],
+	"neonrebel/m/1": [.537, .494],
+	"neonrebel/m/2": [.537, .494],
+	"neonrebel/m/3": [.531, .491],
+	"neonrebel/m/4": [.532, .492],
+	"neonrebel/m/5": [.538, .493],
+	"neonrebel/m/6": [.535, .496],
+	"neonrebel/m/7": [.551, .517],
+	"neonrebel/w/0": [.451, .379],
+	"neonrebel/w/1": [.443, .369],
+	"neonrebel/w/2": [.505, .472],
+	"neonrebel/w/3": [.5, .452],
+	"neonrebel/w/4": [.515, .47],
+	"neonrebel/w/5": [.508, .469],
+	"neonrebel/w/6": [.532, .473],
+	"neonrebel/w/7": [.563, .495],
+	"runewarrior/m/0": [.512, .487],
+	"runewarrior/m/1": [.513, .495],
+	"runewarrior/m/2": [.516, .499],
+	"runewarrior/m/3": [.517, .498],
+	"runewarrior/m/4": [.502, .492],
+	"runewarrior/m/5": [.5, .492],
+	"runewarrior/m/6": [.5, .495],
+	"runewarrior/m/7": [.489, .495],
+	"runewarrior/w/0": [.505, .444],
+	"runewarrior/w/1": [.509, .448],
+	"runewarrior/w/2": [.528, .479],
+	"runewarrior/w/3": [.539, .485],
+	"runewarrior/w/4": [.52, .482],
+	"runewarrior/w/5": [.52, .479],
+	"runewarrior/w/6": [.521, .481],
+	"runewarrior/w/7": [.516, .479],
+	"starkeeper/m/0": [.499, .515],
+	"starkeeper/m/1": [.49, .505],
+	"starkeeper/m/2": [.489, .506],
+	"starkeeper/m/3": [.502, .517],
+	"starkeeper/m/4": [.464, .474],
+	"starkeeper/m/5": [.464, .472],
+	"starkeeper/m/6": [.485, .472],
+	"starkeeper/m/7": [.485, .472],
+	"starkeeper/w/0": [.479, .501],
+	"starkeeper/w/1": [.479, .501],
+	"starkeeper/w/2": [.479, .502],
+	"starkeeper/w/3": [.504, .518],
+	"starkeeper/w/4": [.513, .533],
+	"starkeeper/w/5": [.464, .472],
+	"starkeeper/w/6": [.485, .472],
+	"starkeeper/w/7": [.485, .473],
+	"vigilante/m/0": [.523, .5],
+	"vigilante/m/1": [.522, .498],
+	"vigilante/m/2": [.521, .508],
+	"vigilante/m/3": [.523, .51],
+	"vigilante/m/4": [.523, .51],
+	"vigilante/m/5": [.527, .514],
+	"vigilante/m/6": [.577, .566],
+	"vigilante/m/7": [.579, .567],
+	"vigilante/w/0": [.512, .466],
+	"vigilante/w/1": [.513, .475],
+	"vigilante/w/2": [.502, .478],
+	"vigilante/w/3": [.5, .492],
+	"vigilante/w/4": [.507, .478],
+	"vigilante/w/5": [.51, .479],
+	"vigilante/w/6": [.571, .564],
+	"vigilante/w/7": [.573, .564],
+	"xclass/m/0": [.516, .47],
+	"xclass/m/1": [.513, .47],
+	"xclass/m/2": [.513, .471],
+	"xclass/m/3": [.511, .476],
+	"xclass/m/4": [.511, .476],
+	"xclass/m/5": [.51, .475],
+	"xclass/m/6": [.514, .479],
+	"xclass/m/7": [.587, .56],
+	"xclass/w/0": [.5, .455],
+	"xclass/w/1": [.501, .458],
+	"xclass/w/2": [.494, .452],
+	"xclass/w/3": [.497, .461],
+	"xclass/w/4": [.496, .458],
+	"xclass/w/5": [.505, .47],
+	"xclass/w/6": [.502, .465],
+	"xclass/w/7": [.587, .56]
+};
 // src/ui/hero-art.js
 /** Ränge, für die es den freigestellten Helden schon als echtes Bild gibt: Stil → Figur → Ränge */
 var REAL_RANKS = {
@@ -2052,7 +2154,10 @@ var REAL_COVERS = [
 	"three_tempos",
 	"overgrown",
 	"lights_out",
-	"the_divide"
+	"the_divide",
+	"three_minutes",
+	"long_trail",
+	"back_school"
 ];
 /** Stories mit echtem Siegbild (victory.webp 800×1200 und victory-thumb.webp 300×450), ebenfalls aus import-story-covers.py */
 var REAL_VICTORIES = REAL_COVERS;
@@ -2090,12 +2195,14 @@ var HERO_LAYOUT = {
 		width: .8,
 		height: .1,
 		opacity: .55,
-		lift: .02
+		lift: .05,
+		shift: -.01
 	}, {
 		width: .42,
 		height: .03,
 		opacity: .8,
-		lift: .004
+		lift: .024,
+		shift: -.01
 	}]
 };
 /** Hall of Fame: wo der Held auf dem Podest steht (Anteile der Bildhöhe; Bild-Export: Fußlinie etwa 84 %, Höhe etwa 60 %) */
@@ -2494,6 +2601,16 @@ var NORM = (p) => ({
 	...p,
 	figure: p.figure === "w" ? "w" : "m"
 });
+/**
+* Kopf- und Fußmitte des freigestellten Helden als Anteil der Bildbreite ([kopf, füße], gemessen mit
+* scripts/measure-hero-anchors.py). Ragt etwas zur Seite (Umhang, Waffe), liegt die Figur nicht in der Bildmitte:
+* Die Füße stehen auf der Mitte des Hintergrunds, der Kopf sitzt in der Mitte des runden Ausschnitts.
+*/
+function heroAnchor(p) {
+	return hero_anchors_default[FILE.hero(NORM(p)).slice(5, -5)] || [.5, .5];
+}
+/** Kopf-Ausschnitt: Bildhöhe im Verhältnis zur Kreisgröße (nach der Höhe – Umhänge machen manche Bilder breiter) */
+var BUST_HEIGHT = 4.7;
 var pct = (v) => `${+(v * 100).toFixed(2)}%`;
 /** Eine Ebene: echtes Bild, wenn eingetragen, sonst der Platzhalter */
 function layer(kind, p, cls, style = "") {
@@ -2505,8 +2622,8 @@ function layer(kind, p, cls, style = "") {
 /** Heldenbild aus Ebenen (4:5): Hintergrund des Stils, Bodenschatten, darüber der Held an der festen Stelle */
 function rankImage(p) {
 	const L = HERO_LAYOUT, bottom = 1 - L.feet;
-	const fig = `position:absolute;left:50%;bottom:${pct(bottom)};height:${pct(L.height)};width:auto;max-width:none;transform:translateX(-50%)`;
-	const shadows = L.shadows.map((s) => `<span style="position:absolute;left:50%;bottom:${pct(bottom + s.lift - s.height / 2)};width:${pct(s.width)};height:${pct(s.height)};transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center, rgb(0 0 0 / ${s.opacity}) 0%, rgb(0 0 0 / ${(s.opacity * .45).toFixed(2)}) 45%, transparent 72%)"></span>`).join("");
+	const fig = `position:absolute;left:50%;bottom:${pct(bottom)};height:${pct(L.height)};width:auto;max-width:none;transform:translateX(-${pct(heroAnchor(p)[1])})`;
+	const shadows = L.shadows.map((s) => `<span style="position:absolute;left:${pct(.5 - s.shift)};bottom:${pct(bottom + s.lift - s.height / 2)};width:${pct(s.width)};height:${pct(s.height)};transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center, rgb(0 0 0 / ${s.opacity}) 0%, rgb(0 0 0 / ${(s.opacity * .45).toFixed(2)}) 45%, transparent 72%)"></span>`).join("");
 	return `<span class="hx-art hx-layers" role="img" aria-hidden="true" style="position:relative;display:block;overflow:hidden">${layer("bg", p, "hx-art")}${shadows}${layer("hero", p, "hx-fig", fig)}</span>`;
 }
 /**
@@ -2518,7 +2635,7 @@ function posterImage(kind, p) {
 	const q = NORM(p), hall = kind === "hall", id = `hxa${++uid}`, pal = STYLE_ART[q.style] || STYLE_ART.vigilante;
 	const title = wrap(String(p.title || "").toUpperCase(), 12, 2), lines = p.lines || [], alias = String(p.alias || "").toUpperCase();
 	const H = HALL_LAYOUT, R = RETURN_LAYOUT, cy = 450 * R.center, r = 150 * R.size;
-	const hero = hall ? `<span style="position:absolute;left:50%;bottom:${pct(1 - H.feet - .02)};width:46%;height:5%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center, rgb(0 0 0 / .55) 0%, rgb(0 0 0 / .25) 45%, transparent 72%)"></span>` + layer("hero", q, "hx-fig", `position:absolute;left:50%;bottom:${pct(1 - H.feet)};height:${pct(H.height)};width:auto;max-width:none;transform:translateX(-50%)`) : `<span style="position:absolute;left:50%;top:${pct(R.center)};width:${pct(R.size)};aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;background:linear-gradient(${pal.bg[0]}, ${pal.bg[1]})">${heroImage("hero", {
+	const hero = hall ? `<span style="position:absolute;left:50%;bottom:${pct(1 - H.feet - .02)};width:46%;height:5%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center, rgb(0 0 0 / .55) 0%, rgb(0 0 0 / .25) 45%, transparent 72%)"></span>` + layer("hero", q, "hx-fig", `position:absolute;left:50%;bottom:${pct(1 - H.feet)};height:${pct(H.height)};width:auto;max-width:none;transform:translateX(-${pct(heroAnchor(q)[1])})`) : `<span style="position:absolute;left:50%;top:${pct(R.center)};width:${pct(R.size)};aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;background:linear-gradient(${pal.bg[0]}, ${pal.bg[1]})">${heroImage("hero", {
 		...q,
 		bust: true
 	})}</span>`;
@@ -2563,7 +2680,7 @@ function heroImage(kind, p = {}) {
 	if (kind === "rank") return rankImage(NORM(p));
 	if (kind === "hero" || kind === "bg") {
 		const q = NORM(p), file = FILE[kind](q);
-		if (kind === "hero" && q.bust && HERO_ART_FILES.has(file)) return `<span class="hx-fig bust" style="display:block;width:100%;height:100%;overflow:hidden"><img src="${ART_BASE}/${file}" alt="" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;transform:scale(1.7);transform-origin:top center"></span>`;
+		if (kind === "hero" && q.bust && HERO_ART_FILES.has(file)) return `<span class="hx-fig bust" style="display:block;position:relative;width:100%;height:100%;overflow:hidden"><img src="${ART_BASE}/${file}" alt="" loading="lazy" decoding="async" style="position:absolute;top:0;left:50%;height:${BUST_HEIGHT * 100}%;width:auto;max-width:none;transform:translateX(-${pct(heroAnchor(q)[0])})"></span>`;
 		return layer(kind, q, kind === "bg" ? "hx-art" : "hx-fig");
 	}
 	if (kind === "milestone" && p.page) return milestonePage(p);
@@ -2689,7 +2806,8 @@ function buildShareModel(s, o) {
 		chip: `${t(`hx_rank_${o.ranks[m.rank] || o.ranks[0]}`)} · ${t("sh_level_chip", { n: m.level })}`.toUpperCase(),
 		style: t(`hx_style_${m.style}`).toUpperCase(),
 		bg: o.art("bg", look),
-		head: o.art("hero", look)
+		head: o.art("hero", look),
+		headX: heroAnchor(look)[0]
 	};
 	const def = m.story ? o.story(m.story.id) : null;
 	const stats = [{
@@ -3068,7 +3186,7 @@ function drawHero(ctx, p, model, img) {
 		ctx.arc(cx, cy, 48, 0, Math.PI * 2);
 		ctx.clip();
 		const H = 96 * HEAD_ZOOM, W = H * img.head.naturalWidth / img.head.naturalHeight;
-		ctx.drawImage(img.head, cx - W / 2, 30 - H * HEAD_TOP, W, H);
+		ctx.drawImage(img.head, cx - W * (h.headX ?? .5), 30 - H * HEAD_TOP, W, H);
 		ctx.restore();
 	}
 	ctx.strokeStyle = C.accent;
@@ -5165,7 +5283,7 @@ var DE = {
 		"Two alternating sessions (~20 min) with the foundation poses – mountain, downward dog, warriors, tree, child's pose, cat-cow, bridge. Runs on its own, every pose is announced. A mat is enough.": "Two alternating sessions (~20 min) with the foundation poses – mountain, downward dog, warriors, tree, child's pose, cat-cow, bridge. Runs on its own with a beep at every change. A mat is enough.",
 		"Two short sessions (~10 min) for hips and legs or shoulders and spine – after strength training or on rest days. Runs on its own, every pose is announced.": "Two short sessions (~10 min) for hips and legs or shoulders and spine – after strength training or on rest days. Runs on its own with a beep at every change."
 	},
-	de: /* @__PURE__ */ JSON.parse("{\"Beginner Strength 5×5\":\"Einsteiger-Kraft 5×5\",\"Classic barbell beginner program, 2 alternating workouts, 3×/week. +2.5 kg every session (deadlift +5 kg) as long as all 5×5 succeed. Inspired by StrongLifts 5×5.\":\"Klassisches Langhantel-Einsteigerprogramm, 2 Workouts im Wechsel, 3×/Woche. +2,5 kg pro Training (Kreuzheben +5 kg), solange alle 5×5 klappen. Angelehnt an StrongLifts 5×5.\",\"Back Squat\":\"Kniebeuge\",\"Bench Press\":\"Bankdrücken\",\"Barbell Row\":\"Langhantelrudern\",\"Overhead Press\":\"Schulterdrücken stehend\",\"Deadlift\":\"Kreuzheben\",\"Workout A\":\"Workout A\",\"5 easy minutes, then 2–3 light warm-up sets of squats.\":\"5 lockere Minuten, dann 2–3 leichte Aufwärmsätze Kniebeugen.\",\"Workout B\":\"Workout B\",\"Full Body at Home (Dumbbells)\":\"Ganzkörper zu Hause (Kurzhanteln)\",\"Two alternating full-body workouts, 3×/week, dumbbells and a bench/floor only. Double progression in the 8–12 or 10–15 rep range.\":\"Zwei Ganzkörper-Workouts im Wechsel, 3×/Woche, nur Kurzhanteln und Bank/Boden. Doppelte Progression im Bereich 8–12 bzw. 10–15 Wiederholungen.\",\"Goblet Squat\":\"Goblet Squat\",\"Dumbbell Bench Press\":\"Kurzhantel-Bankdrücken\",\"One-Arm Dumbbell Row\":\"Einarmiges Kurzhantelrudern\",\"Dumbbell Romanian Deadlift\":\"Rumänisches Kreuzheben mit Kurzhanteln\",\"Dumbbell Shoulder Press\":\"Kurzhantel-Schulterdrücken\",\"Split Squat\":\"Split Squat\",\"Push-Ups\":\"Liegestütze\",\"Dumbbell Floor Press\":\"Kurzhantel-Bodendrücken\",\"Glute Bridge\":\"Glute Bridge\",\"Lateral Raise\":\"Seitheben\",\"Dumbbell Curl\":\"Kurzhantel-Curl\",\"Plank\":\"Unterarmstütz\",\"Dead Bug\":\"Dead Bug\",\"Full Body A\":\"Ganzkörper A\",\"Shoulders & Core\":\"Schultern & Rumpf\",\"Full Body B\":\"Ganzkörper B\",\"Arms & Core\":\"Arme & Rumpf\",\"Tiered Program 4 Days\":\"Stufenprogramm 4 Tage\",\"Four workouts with a heavy main lift (5×3), a medium secondary lift (3×10) and a light volume exercise (3×15–25). For beginners after their first months. Inspired by GZCLP.\":\"Vier Workouts mit schwerer Hauptübung (5×3), mittlerer Nebenübung (3×10) und leichter Volumenübung (3×15–25). Für Einsteiger nach den ersten Monaten. Angelehnt an GZCLP.\",\"Lat Pulldown\":\"Latzug\",\"A1 – Squat\":\"A1 – Kniebeuge\",\"T1\":\"T1\",\"Last set as many clean reps as possible.\":\"Letzter Satz: so viele saubere Wiederholungen wie möglich.\",\"T2\":\"T2\",\"T3\":\"T3\",\"B1 – Overhead Press\":\"B1 – Schulterdrücken\",\"A2 – Bench Press\":\"A2 – Bankdrücken\",\"B2 – Deadlift\":\"B2 – Kreuzheben\",\"Upper/Lower 4 Days\":\"Oberkörper/Unterkörper 4 Tage\",\"Four workouts (Upper A, Lower A, Upper B, Lower B), every muscle group 2×/week, about 10–16 sets per muscle per week. Good for intermediates with 4 training days.\":\"Vier Workouts (Oberkörper A, Unterkörper A, Oberkörper B, Unterkörper B), jede Muskelgruppe 2×/Woche, etwa 10–16 Sätze pro Muskel und Woche. Gut für Fortgeschrittene mit 4 Trainingstagen.\",\"Triceps Pushdown\":\"Trizepsdrücken am Kabel\",\"Incline Dumbbell Press\":\"Schrägbankdrücken mit Kurzhanteln\",\"Chin-up\":\"Klimmzug im Untergriff\",\"Seated Cable Row\":\"Rudern am Kabel sitzend\",\"Face Pulls\":\"Face Pulls\",\"Hammer Curl\":\"Hammer-Curl\",\"Overhead Triceps Extension\":\"Trizepsstrecken über Kopf\",\"Romanian Deadlift\":\"Rumänisches Kreuzheben\",\"Leg Press\":\"Beinpresse\",\"Leg Curl\":\"Beinbeuger-Curl\",\"Calf Raise\":\"Wadenheben\",\"Bulgarian Split Squat\":\"Bulgarian Split Squat\",\"Hip Thrust\":\"Hip Thrust\",\"Leg Extension\":\"Beinstrecker\",\"Upper A\":\"Oberkörper A\",\"Arms & Shoulders\":\"Arme & Schultern\",\"Lower A\":\"Unterkörper A\",\"Upper B\":\"Oberkörper B\",\"Arms & Rear Delts\":\"Arme & hintere Schulter\",\"Lower B\":\"Unterkörper B\",\"Push/Pull/Legs\":\"Drücken/Ziehen/Beine\",\"Hypertrophy split with push, pull and leg days alternating, up to 6×/week. One heavy main lift per day, then volume with 8–12 or 15–20 reps. Inspired by the r/Fitness PPL.\":\"Muskelaufbau-Split mit Drück-, Zieh- und Beintagen im Wechsel, bis 6×/Woche. Pro Tag eine schwere Hauptübung, danach Volumen mit 8–12 bzw. 15–20 Wiederholungen. Angelehnt an den r/Fitness PPL.\",\"Push\":\"Drücken\",\"Pull\":\"Ziehen\",\"One heavy set, as clean as possible.\":\"Ein schwerer Satz, so sauber wie möglich.\",\"Biceps\":\"Bizeps\",\"Legs\":\"Beine\",\"7-Minute Circuit\":\"7-Minuten-Zirkel\",\"The scientifically described classic (Klika & Jordan, ACSM 2013) – 12 exercises of 30 s (side plank on both sides), 5 s to switch, 7 minutes per round, two rounds. Only a chair and a wall needed. Timed, beeps recommended.\":\"Der wissenschaftlich beschriebene Klassiker (Klika & Jordan, ACSM 2013) – 12 Übungen à 30 s (Seitstütz auf beiden Seiten), 5 s Wechsel, 7 Minuten pro Runde, zwei Runden. Nur Stuhl und Wand nötig. Zeitgesteuert mit Signaltönen.\",\"Side Plank, Left\":\"Seitstütz links\",\"Side Plank, Right\":\"Seitstütz rechts\",\"Jumping Jacks\":\"Hampelmann\",\"Wall Sit\":\"Wandsitzen\",\"Crunches\":\"Crunches\",\"Step-up onto Chair\":\"Aufsteigen auf einen Stuhl\",\"Bodyweight Squat\":\"Kniebeuge ohne Gewicht\",\"Triceps Dips on Chair\":\"Trizeps-Dips am Stuhl\",\"High Knees\":\"Kniehebelauf\",\"Lunges\":\"Ausfallschritte\",\"Push-up with Rotation\":\"Liegestütz mit Drehung\",\"Side Plank\":\"Seitstütz\",\"7-Minute Circuit (2 rounds)\":\"7-Minuten-Zirkel (2 Runden)\",\"Move around easily for 2–3 minutes.\":\"2–3 Minuten locker bewegen.\",\"Round 1\":\"Runde 1\",\"Round 2\":\"Runde 2\",\"Add a third round if you like.\":\"Wer mag, hängt eine dritte Runde an.\",\"Full-Body Strength, No Equipment\":\"Ganzkörper-Kraft ohne Geräte\",\"Two alternating strength workouts, 3×/week, only a chair and sofa. Reps increase from session to session; at the upper limit switch to the harder variation (hint on the exercise).\":\"Zwei Kraft-Workouts im Wechsel, 3×/Woche, nur Stuhl und Sofa. Die Wiederholungen steigen von Training zu Training; an der Obergrenze zur schwereren Variante wechseln (Hinweis bei der Übung).\",\"Harder – lower slowly (3 s), pause at the bottom, then split squat.\":\"Schwerer: langsam absenken (3 s), unten kurz halten, dann Split Squat.\",\"Levels – elevated → floor → feet elevated → archer.\":\"Stufen: erhöht → Boden → Füße erhöht → Archer.\",\"Reverse Lunge\":\"Ausfallschritt rückwärts\",\"Pike Push-up\":\"Pike-Liegestütz\",\"Hips high, head towards the floor – trains the shoulders.\":\"Hüfte hoch, Kopf Richtung Boden – trainiert die Schultern.\",\"Single-Leg Glute Bridge\":\"Einbeinige Glute Bridge\",\"Superman\":\"Superman\",\"Bulgarian Split Squat on Sofa\":\"Bulgarian Split Squat am Sofa\",\"Decline Push-up (Feet on Chair)\":\"Liegestütz mit Füßen auf dem Stuhl\",\"Hip Thrust on Sofa\":\"Hip Thrust am Sofa\",\"Strength Circuit A\":\"Kraftzirkel A\",\"Strength Circuit B\":\"Kraftzirkel B\",\"20-Minute Travel Circuit\":\"20-Minuten-Reisezirkel\",\"No equipment, 2 m² of space – as many rounds as possible in 20 minutes of squats, push-ups, lunges, mountain climbers and plank. Ideal for hotels and vacations.\":\"Ohne Geräte, 2 m² Platz – so viele Runden wie möglich in 20 Minuten mit Kniebeugen, Liegestützen, Ausfallschritten, Mountain Climbers und Unterarmstütz. Ideal für Hotel und Urlaub.\",\"Alternating Lunges\":\"Ausfallschritte im Wechsel\",\"Mountain Climbers\":\"Mountain Climbers\",\"20 Minutes – As Many Rounds as Possible\":\"20 Minuten – so viele Runden wie möglich\",\"3 minutes: jumping jacks, arm circles, slow squats.\":\"3 Minuten: Hampelmann, Armkreisen, langsame Kniebeugen.\",\"Circuit\":\"Zirkel\",\"Keep moving, rest only when needed. Goal – more rounds than last time.\":\"In Bewegung bleiben, Pause nur wenn nötig. Ziel: mehr Runden als beim letzten Mal.\",\"Calisthenics Level 0 (Starter)\":\"Calisthenics Stufe 0 (Einstieg)\",\"Getting started without prior experience, 3×/week: incline push-ups, rows at a table/bar, squats, glute bridges, pull-up prep and plank. Reps increase from session to session; at the upper limit the next variation follows.\":\"Einstieg ohne Vorerfahrung, 3×/Woche: erhöhte Liegestütze, Rudern am Tisch/an der Stange, Kniebeugen, Glute Bridges, Klimmzug-Vorbereitung und Unterarmstütz. Die Wiederholungen steigen von Training zu Training; an der Obergrenze folgt die nächste Variante.\",\"Incline Push-Up\":\"Erhöhter Liegestütz\",\"Hands on a table or bench. Next level – lower incline, then on the floor.\":\"Hände auf Tisch oder Bank. Nächste Stufe: niedriger, dann am Boden.\",\"Inverted Row\":\"Rudern unter dem Tisch\",\"The more upright the body, the easier. Next level – body flatter.\":\"Je aufrechter der Körper, desto leichter. Nächste Stufe: Körper flacher.\",\"Scapular Pull-up\":\"Schulterblatt-Klimmzug\",\"Arms straight, only pull the shoulder blades down.\":\"Arme gestreckt, nur die Schulterblätter nach unten ziehen.\",\"Pull-up Negative\":\"Negativer Klimmzug\",\"Jump up, then lower yourself under control for 3–5 seconds.\":\"Hochspringen, dann 3–5 Sekunden kontrolliert absenken.\",\"Starter A\":\"Einstieg A\",\"Arm circles, hip circles, 10 easy squats.\":\"Armkreisen, Hüftkreisen, 10 lockere Kniebeugen.\",\"Starter B\":\"Einstieg B\",\"Calisthenics Basics\":\"Calisthenics Grundlagen\",\"Full body 3×/week in pairs: pull-up + squat, dip + hinge, row + push-up, then a core triplet. 5–8 reps; at the upper limit switch to the next level. Inspired by the r/bodyweightfitness Recommended Routine.\":\"Ganzkörper 3×/Woche in Paaren: Klimmzug + Kniebeuge, Dip + Hüftstreckung, Rudern + Liegestütz, danach ein Rumpf-Dreier. 5–8 Wiederholungen; an der Obergrenze zur nächsten Stufe. Angelehnt an die Recommended Routine von r/bodyweightfitness.\",\"Pull-up (choose level)\":\"Klimmzug (Stufe wählen)\",\"Levels – negative pull-ups → band-assisted → pull-up → weighted.\":\"Stufen: negative Klimmzüge → mit Band → Klimmzug → mit Zusatzgewicht.\",\"Squat Progression\":\"Kniebeugen-Progression\",\"Levels – squat → split squat → Bulgarian split squat → shrimp/pistol.\":\"Stufen: Kniebeuge → Split Squat → Bulgarian Split Squat → Shrimp/Pistol.\",\"Dips (choose level)\":\"Dips (Stufe wählen)\",\"Levels – support hold → negative dips → parallel bar dips → weighted.\":\"Stufen: Stütz halten → negative Dips → Barrendips → mit Zusatzgewicht.\",\"Hinge Progression\":\"Hüftstreck-Progression\",\"Levels – glute bridge → single-leg → Nordic curl negative → Nordic curl.\":\"Stufen: Glute Bridge → einbeinig → Nordic Curl negativ → Nordic Curl.\",\"Levels – upright → flat → feet elevated → one-arm/archer.\":\"Stufen: aufrecht → flach → Füße erhöht → einarmig/Archer.\",\"Push-Ups (choose level)\":\"Liegestütze (Stufe wählen)\",\"Levels – wall → incline → knees → full → diamond → archer.\":\"Stufen: Wand → erhöht → auf Knien → normal → Diamant → Archer.\",\"Hanging Knee Raise\":\"Knieheben im Hang\",\"Basics\":\"Grundlagen\",\"Dynamic: arm/hip circles, squats, push-up plank, hanging from the bar.\":\"Dynamisch: Arm- und Hüftkreisen, Kniebeugen, Liegestützposition, an der Stange hängen.\",\"Pair 1 – Pull & Legs\":\"Paar 1 – Ziehen & Beine\",\"Pair 2 – Push & Hinge\":\"Paar 2 – Drücken & Hüfte\",\"Pair 3 – Row & Push-up\":\"Paar 3 – Rudern & Liegestütz\",\"Core\":\"Rumpf\",\"Calisthenics Advanced\":\"Calisthenics Fortgeschritten\",\"For advanced trainees (3×8 pull-ups and dips). Three workouts: pull & push, legs & core, skills (muscle-up, handstand push-up, L-sit). Rep progression, added weight optional.\":\"Für Fortgeschrittene (3×8 Klimmzüge und Dips). Drei Workouts: Ziehen & Drücken, Beine & Rumpf, Skills (Muscle-up, Handstand-Liegestütz, L-Sit). Progression über Wiederholungen, Zusatzgewicht optional.\",\"Pull-ups\":\"Klimmzüge\",\"Parallel Bar Dips\":\"Barrendips\",\"Archer Push-up\":\"Archer-Liegestütz\",\"Feet-Elevated Inverted Row\":\"Rudern unter der Stange, Füße erhöht\",\"Decline Push-up\":\"Liegestütz mit erhöhten Füßen\",\"Pistol Squat Progression\":\"Pistol-Squat-Progression\",\"Levels – onto a box → with support → free.\":\"Stufen: auf eine Box → mit Halt → frei.\",\"Nordic Curl (Negative)\":\"Nordic Curl (negativ)\",\"Lower as slowly as possible, catch yourself with your hands.\":\"So langsam wie möglich absenken, mit den Händen abfangen.\",\"Hanging Leg Raise\":\"Beinheben im Hang\",\"L-Sit\":\"L-Sit\",\"Levels – knees tucked → one leg straight → both straight.\":\"Stufen: Knie angezogen → ein Bein gestreckt → beide gestreckt.\",\"Muscle-up Practice\":\"Muscle-up-Übung\",\"Levels – explosive chest-to-bar pull-ups → negative muscle-ups → muscle-up.\":\"Stufen: explosive Klimmzüge bis zur Brust → negative Muscle-ups → Muscle-up.\",\"Handstand Push-up Progression\":\"Handstand-Liegestütz-Progression\",\"Levels – pike push-up → feet elevated → against the wall.\":\"Stufen: Pike-Liegestütz → Füße erhöht → an der Wand.\",\"Pull & Push\":\"Ziehen & Drücken\",\"Pair 1\":\"Paar 1\",\"Pair 2\":\"Paar 2\",\"Pair 3\":\"Paar 3\",\"Legs & Core\":\"Beine & Rumpf\",\"Skills\":\"Skills\",\"Warm up wrists and shoulders thoroughly.\":\"Handgelenke und Schultern gründlich aufwärmen.\",\"Volume\":\"Volumen\",\"Kettlebell Swing & Get-up\":\"Kettlebell Swing & Get-up\",\"100 one-arm swings (10×10) and 10 Turkish get-ups (5 per side), doable almost daily. Heavier bell only once everything feels easy. Inspired by Simple & Sinister.\":\"100 einarmige Swings (10×10) und 10 Turkish Get-ups (5 pro Seite), fast täglich machbar. Schwerere Kugel erst, wenn alles leicht fällt. Angelehnt an Simple & Sinister.\",\"One-Arm Kettlebell Swing\":\"Einarmiger Kettlebell Swing\",\"Turkish Get-up\":\"Turkish Get-up\",\"Swing & Get-up\":\"Swing & Get-up\",\"3× each: glute bridge, goblet squat hold with gentle rocking, halos.\":\"Je 3×: Glute Bridge, Goblet Squat halten mit leichtem Wippen, Halos.\",\"Switch hands after every set.\":\"Nach jedem Satz die Hand wechseln.\",\"Alternate left and right, so 5 per side. Slow and controlled.\":\"Links und rechts im Wechsel, also 5 pro Seite. Langsam und kontrolliert.\",\"Kettlebell Full Body\":\"Kettlebell Ganzkörper\",\"Full body with one kettlebell, A/B alternating, 3×/week. A with press ladders (1–2–3 per side, inspired by Rite of Passage) and swings, B with goblet squat, single-leg deadlift, get-ups and farmer's walk.\":\"Ganzkörper mit einer Kettlebell, A/B im Wechsel, 3×/Woche. A mit Drück-Leitern (1–2–3 pro Seite, angelehnt an Rite of Passage) und Swings, B mit Goblet Squat, einbeinigem Kreuzheben, Get-ups und Farmer's Walk.\",\"Clean & Press\":\"Clean & Press\",\"Kettlebell Row\":\"Kettlebell-Rudern\",\"Two-Arm Kettlebell Swing\":\"Beidarmiger Kettlebell Swing\",\"Kettlebell Single-Leg Deadlift\":\"Einbeiniges Kreuzheben mit Kettlebell\",\"One-Arm Farmer's Walk\":\"Einarmiger Farmer's Walk\",\"Full Body A – Ladders\":\"Ganzkörper A – Leitern\",\"Press Ladders\":\"Drück-Leitern\",\"One round = one ladder: 1, 2, 3 reps per side. More ladders (up to 5), then up to 5 rungs.\":\"Eine Runde = eine Leiter: 1, 2, 3 Wiederholungen pro Seite. Erst mehr Leitern (bis 5), dann bis 5 Sprossen.\",\"Full Body B – Legs & Core\":\"Ganzkörper B – Beine & Rumpf\",\"Alternate left and right.\":\"Links und rechts im Wechsel.\",\"Kettlebell Armor Building Complex\":\"Kettlebell Armor Building Complex\",\"2 cleans, 1 press, 3 front squats with two kettlebells, one round every minute for 20 minutes. Weight – something you can press 3–5×. Protocol by Dan John.\":\"2 Cleans, 1 Press, 3 Front Squats mit zwei Kettlebells, jede Minute eine Runde, 20 Minuten lang. Gewicht: etwas, das du 3–5× drücken kannst. Protokoll von Dan John.\",\"Double Kettlebell Clean\":\"Doppel-Kettlebell Clean\",\"Double Kettlebell Press\":\"Doppel-Kettlebell Press\",\"Double Kettlebell Front Squat\":\"Doppel-Kettlebell Front Squat\",\"Armor Building Complex\":\"Armor Building Complex\",\"A few easy rounds with half the weight.\":\"Ein paar lockere Runden mit halbem Gewicht.\",\"ABC – 20 minutes\":\"ABC – 20 Minuten\",\"One round every minute, rest for the remainder of the minute.\":\"Jede Minute eine Runde, den Rest der Minute Pause.\",\"Kettlebell Swing Intervals\":\"Kettlebell-Swing-Intervalle\",\"Short conditioning – 10× 30 s swings / 30 s rest, then 4× 20 s goblet squats / 10 s rest. Timed, ideal with the \\\"Signals\\\" blueprint for sounds or light.\":\"Kurzes Konditionstraining: 10× 30 s Swings / 30 s Pause, dann 4× 20 s Goblet Squats / 10 s Pause. Zeitgesteuert mit Signaltönen.\",\"Swing Intervals\":\"Swing-Intervalle\",\"Glute bridges, light swings, goblet squat hold.\":\"Glute Bridges, leichte Swings, Goblet Squat halten.\",\"Swings 30/30\":\"Swings 30/30\",\"Goblet Squats 20/10\":\"Goblet Squats 20/10\",\"Tabata Circuit, No Equipment\":\"Tabata-Zirkel ohne Geräte\",\"Four Tabata blocks (8× 20 s work / 10 s rest) with squats, push-ups, mountain climbers and lunges, 1 minute rest each – about 20 minutes of conditioning without equipment.\":\"Vier Tabata-Blöcke (8× 20 s Arbeit / 10 s Pause) mit Kniebeugen, Liegestützen, Mountain Climbers und Ausfallschritten, je 1 Minute Pause – etwa 20 Minuten Kondition ohne Geräte.\",\"Tabata ×4\":\"Tabata ×4\",\"Tabata 1 – Squats\":\"Tabata 1 – Kniebeugen\",\"Tabata 2 – Push-Ups\":\"Tabata 2 – Liegestütze\",\"Tabata 3 – Mountain Climbers\":\"Tabata 3 – Mountain Climbers\",\"Tabata 4 – Lunges\":\"Tabata 4 – Ausfallschritte\",\"Tabata Strength (Kettlebell)\":\"Tabata-Kraft (Kettlebell)\",\"Four Tabata blocks (8× 20 s / 10 s) with kettlebell swings, goblet squats, push-ups and mountain climbers – about 20 minutes. One kettlebell is enough.\":\"Vier Tabata-Blöcke (8× 20 s / 10 s) mit Kettlebell Swings, Goblet Squats, Liegestützen und Mountain Climbers – etwa 20 Minuten. Eine Kettlebell genügt.\",\"Tabata Strength ×4\":\"Tabata-Kraft ×4\",\"3 minutes: light swings, slow squats, arm circles.\":\"3 Minuten: leichte Swings, langsame Kniebeugen, Armkreisen.\",\"Tabata 1 – Swings\":\"Tabata 1 – Swings\",\"Tabata 2 – Goblet Squats\":\"Tabata 2 – Goblet Squats\",\"Tabata 3 – Push-Ups\":\"Tabata 3 – Liegestütze\",\"Tabata 4 – Mountain Climbers\":\"Tabata 4 – Mountain Climbers\",\"10×1 Intervals\":\"10×1-Intervalle\",\"10 × 1 minute hard (about 85–90 % of max heart rate), 1 minute easy – about 25 minutes including warm-up. Bike, rower, running or jump rope. Inspired by Little & Gibala 2010.\":\"10 × 1 Minute hart (etwa 85–90 % der maximalen Herzfrequenz), 1 Minute locker – etwa 25 Minuten mit Aufwärmen. Rad, Rudergerät, Laufen oder Springseil. Angelehnt an Little & Gibala 2010.\",\"Hard interval (bike, row, run)\":\"Hartes Intervall (Rad, Rudern, Laufen)\",\"10×1\":\"10×1\",\"5 minutes easy, the last minute a little faster.\":\"5 Minuten locker, die letzte Minute etwas schneller.\",\"10×1 minute\":\"10×1 Minute\",\"Hard but steady – you should be able to hold the pace for all ten. Easy minute: keep moving slowly.\":\"Hart, aber gleichmäßig – das Tempo soll für alle zehn reichen. Lockere Minute: langsam in Bewegung bleiben.\",\"4×4 Intervals\":\"4×4-Intervalle\",\"4 × 4 minutes hard (85–95 % of max heart rate), 3 minutes easy in between – about 40 minutes including warm-up. Strong evidence for endurance (VO2max). Inspired by Helgerud et al. 2007.\":\"4 × 4 Minuten hart (85–95 % der maximalen Herzfrequenz), dazwischen 3 Minuten locker – etwa 40 Minuten mit Aufwärmen. Gut belegt für die Ausdauer (VO2max). Angelehnt an Helgerud et al. 2007.\",\"4-minute interval (bike, row, run)\":\"4-Minuten-Intervall (Rad, Rudern, Laufen)\",\"4×4\":\"4×4\",\"10 minutes easy to moderate.\":\"10 Minuten locker bis mittel.\",\"4×4 minutes\":\"4×4 Minuten\",\"Hard enough that talking is difficult. Recovery: keep moving slowly.\":\"So hart, dass Sprechen schwerfällt. Erholung: langsam in Bewegung bleiben.\",\"30-20-10 Intervals\":\"30-20-10-Intervalle\",\"Three blocks of 5 × (30 s easy, 20 s moderate, 10 s sprint), 2 minutes rest between blocks – about 25 minutes. Running, bike or rower. Inspired by Gunnarsson & Bangsbo 2012.\":\"Drei Blöcke mit 5 × (30 s locker, 20 s mittel, 10 s Sprint), 2 Minuten Pause zwischen den Blöcken – etwa 25 Minuten. Laufen, Rad oder Rudergerät. Angelehnt an Gunnarsson & Bangsbo 2012.\",\"Easy\":\"Locker\",\"Moderate\":\"Mittel\",\"Sprint\":\"Sprint\",\"30-20-10\":\"30-20-10\",\"5 minutes easy.\":\"5 Minuten locker.\",\"Block 1\":\"Block 1\",\"Block 2\":\"Block 2\",\"Block 3\":\"Block 3\",\"Sprint Intervals 30/4\":\"Sprint-Intervalle 30/4\",\"5 × 30 seconds all-out, 4 minutes easy in between – about 35 minutes including warm-up. Very short, very hard. Best on a bike or rower. Inspired by the sprint interval studies of Gibala et al.\":\"5 × 30 Sekunden Vollgas, dazwischen 4 Minuten locker – etwa 35 Minuten mit Aufwärmen. Sehr kurz, sehr hart. Am besten auf Rad oder Rudergerät. Angelehnt an die Sprintintervall-Studien von Gibala et al.\",\"All-out sprint (bike, row)\":\"Vollgas-Sprint (Rad, Rudern)\",\"Sprint 30/4\":\"Sprint 30/4\",\"8 minutes easy, with two short accelerations.\":\"8 Minuten locker, mit zwei kurzen Steigerungen.\",\"5 × 30 s\":\"5 × 30 s\",\"All-out from the first second. Recovery: pedal or row very easily.\":\"Vollgas ab der ersten Sekunde. Erholung: ganz locker treten oder rudern.\",\"Yoga Basics\":\"Yoga Grundlagen\",\"Two alternating sessions (~20 min) with the foundation poses – mountain, downward dog, warriors, tree, child's pose, cat-cow, bridge. Runs on its own, every pose is announced. A mat is enough.\":\"Zwei Einheiten im Wechsel (~20 min) mit den Grundhaltungen – Berg, herabschauender Hund, Krieger, Baum, Kindhaltung, Katze-Kuh, Brücke. Läuft von selbst, mit Signalton bei jedem Wechsel. Eine Matte genügt.\",\"Cat-Cow\":\"Katze-Kuh\",\"Child's Pose\":\"Kindhaltung\",\"Mountain Pose\":\"Berg\",\"Standing Forward Fold\":\"Stehende Vorbeuge\",\"Half Lift\":\"Halbe Vorbeuge\",\"Downward-Facing Dog\":\"Herabschauender Hund\",\"Low Lunge\":\"Tiefer Ausfallschritt\",\"Warrior I\":\"Krieger I\",\"Warrior II\":\"Krieger II\",\"Triangle Pose\":\"Dreieck\",\"Tree Pose\":\"Baum\",\"Chair Pose\":\"Stuhl\",\"Cobra\":\"Kobra\",\"Bridge Pose\":\"Brücke\",\"Seated Forward Fold\":\"Sitzende Vorbeuge\",\"Butterfly\":\"Schmetterling\",\"Knees to Chest\":\"Knie zur Brust\",\"Supine Twist\":\"Drehung in Rückenlage\",\"Final Relaxation\":\"Endentspannung\",\"Basics A\":\"Grundlagen A\",\"Arrive\":\"Ankommen\",\"Breathe in – arch, breathe out – round.\":\"Einatmen – Hohlkreuz, ausatmen – Rundrücken.\",\"Standing poses\":\"Stehende Haltungen\",\"Floor\":\"Boden\",\"Basics B\":\"Grundlagen B\",\"Sun Salutation Flow\":\"Sonnengruß-Flow\",\"The classic sun salutation as a flowing sequence, 5 rounds (~15 min) – mountain, forward fold, plank, chaturanga, upward dog, downward dog. Ends with child's pose and relaxation.\":\"Der klassische Sonnengruß als fließende Abfolge, 5 Runden (~15 min) – Berg, Vorbeuge, Brett, Chaturanga, heraufschauender Hund, herabschauender Hund. Zum Schluss Kindhaltung und Entspannung.\",\"Chaturanga\":\"Chaturanga\",\"Upward-Facing Dog\":\"Heraufschauender Hund\",\"Sun Salutation\":\"Sonnengruß\",\"Warm-up\":\"Aufwärmen\",\"Sun salutation\":\"Sonnengruß\",\"One pose per breath – stay five breaths in downward dog.\":\"Eine Haltung pro Atemzug – im herabschauenden Hund fünf Atemzüge bleiben.\",\"Wind-down\":\"Ausklang\",\"Back Care Yoga\":\"Yoga für den Rücken\",\"Gentle yoga for the lower back (~20 min), 1–2×/week. \\\"Gentle\\\" for the first weeks, later \\\"Building\\\" with standing poses. Inspired by the Back to Health study programme. Pain is a stop signal.\":\"Sanftes Yoga für den unteren Rücken (~20 min), 1–2×/Woche. In den ersten Wochen „Sanft“, später „Aufbau“ mit stehenden Haltungen. Angelehnt an das Studienprogramm Back to Health. Schmerz ist ein Stoppsignal.\",\"Knee to Chest\":\"Knie zur Brust\",\"Pelvic Tilt\":\"Beckenkippen\",\"Sphinx\":\"Sphinx\",\"Bird Dog\":\"Vierfüßlerstand diagonal\",\"Legs Up the Wall\":\"Beine an die Wand\",\"Locust\":\"Heuschrecke\",\"Gentle\":\"Sanft\",\"Lying\":\"Im Liegen\",\"Move slowly, breathe calmly. Stop if anything hurts.\":\"Langsam bewegen, ruhig atmen. Aufhören, wenn etwas weh tut.\",\"Hands and knees\":\"Vierfüßlerstand\",\"Relaxation\":\"Entspannung\",\"Building\":\"Aufbau\",\"Standing\":\"Im Stehen\",\"Knees soft, back long. Use a wall for balance if needed.\":\"Knie locker, Rücken lang. Bei Bedarf an der Wand abstützen.\",\"Mobility for Lifters\":\"Mobilität für Kraftsportler\",\"Two short sessions (~10 min) for hips and legs or shoulders and spine – after strength training or on rest days. Runs on its own, every pose is announced.\":\"Zwei kurze Einheiten (~10 min) für Hüfte und Beine oder Schultern und Wirbelsäule – nach dem Krafttraining oder an Ruhetagen. Läuft von selbst, mit Signalton bei jedem Wechsel.\",\"World's Greatest Stretch\":\"World's Greatest Stretch\",\"Pigeon Pose\":\"Taube\",\"Half Split\":\"Halber Spagat\",\"Frog Stretch\":\"Frosch\",\"Happy Baby\":\"Glückliches Baby\",\"Thread the Needle\":\"Nadelöhr\",\"Puppy Pose\":\"Welpe\",\"Hips & Legs\":\"Hüfte & Beine\",\"Hips & legs\":\"Hüfte & Beine\",\"Shoulders & Spine\":\"Schultern & Wirbelsäule\",\"Shoulders & spine\":\"Schultern & Wirbelsäule\",\"Yin Yoga\":\"Yin Yoga\",\"Calm practice with long holds (2–4 min) for hips, back and legs (~35 min). Good in the evening or on rest days.\":\"Ruhige Praxis mit langem Halten (2–4 min) für Hüfte, Rücken und Beine (~35 min). Gut am Abend oder an Ruhetagen.\",\"Dragon\":\"Drache\",\"Caterpillar\":\"Raupe\",\"Shoelace\":\"Schnürsenkel\",\"Yin\":\"Yin\",\"Find a comfortable edge, not pain. Stay still and breathe.\":\"Eine angenehme Dehngrenze suchen, keinen Schmerz. Still bleiben und atmen.\",\"Balance & Strength Yoga\":\"Yoga für Gleichgewicht & Kraft\",\"Standing poses and core holds in two rounds (~25 min) – warriors I–III, tree, chair, boat, plank and side plank. Builds balance, leg and core strength.\":\"Stehende Haltungen und Rumpf-Halteübungen in zwei Runden (~25 min) – Krieger I–III, Baum, Stuhl, Boot, Brett und Seitstütz. Stärkt Gleichgewicht, Beine und Rumpf.\",\"Warrior III\":\"Krieger III\",\"Boat Pose\":\"Boot\",\"Balance & Strength\":\"Gleichgewicht & Kraft\",\"Full Body 3 Days (Gym)\":\"Ganzkörper 3 Tage (Studio)\",\"Three different full-body workouts (A, B, C), 3×/week with a day off in between, about 60 minutes. Barbell, dumbbells and machines. Every muscle group is trained in every session – good for beginners and anyone who can only train on three days.\":\"Drei verschiedene Ganzkörper-Workouts (A, B, C), 3×/Woche mit je einem Tag Pause, etwa 60 Minuten. Langhantel, Kurzhanteln und Geräte. Jede Muskelgruppe kommt in jedem Training dran – gut für Einsteiger und alle, die nur an drei Tagen trainieren können.\",\"5 easy minutes, then 2 light warm-up sets of squats.\":\"5 lockere Minuten, dann 2 leichte Aufwärmsätze Kniebeugen.\",\"Arms\":\"Arme\",\"Full Body C\":\"Ganzkörper C\",\"Shoulders & Calves\":\"Schultern & Waden\",\"Minimal Strength 2 Days\":\"Minimal-Kraft 2 Tage\",\"For little time: two short full-body workouts (~30 min), 2×/week, mostly machines and dumbbells. Only 1–2 sets per exercise – but each one hard, 1–2 reps short of failure. A proven minimum dose for strength and health.\":\"Für wenig Zeit: zwei kurze Ganzkörper-Workouts (~30 min), 2×/Woche, vor allem Geräte und Kurzhanteln. Nur 1–2 Sätze pro Übung – dafür jeder hart, 1–2 Wiederholungen vor dem Muskelversagen. Eine erprobte Mindestdosis für Kraft und Gesundheit.\",\"Machine Chest Press\":\"Brustpresse\",\"5 easy minutes, then one light set of the first exercise.\":\"5 lockere Minuten, dann ein leichter Satz der ersten Übung.\",\"Stop 1–2 reps before failure.\":\"1–2 Wiederholungen vor dem Muskelversagen aufhören.\",\"Exercise Snacks\":\"Bewegungs-Snacks\",\"Three mini workouts of 2–5 minutes – stairs, legs, upper body. No changing, no equipment: do one or more of them spread over the day, e.g. before lunch or after long sitting. Ideal for days without time for a real workout.\":\"Drei Mini-Workouts von 2–5 Minuten – Treppe, Beine, Oberkörper. Ohne Umziehen, ohne Geräte: eins oder mehrere über den Tag verteilt, z. B. vor dem Mittagessen oder nach langem Sitzen. Ideal für Tage ohne Zeit für ein richtiges Training.\",\"Stair Climbing (brisk)\":\"Treppensteigen (zügig)\",\"Hands on a table or windowsill.\":\"Hände auf einen Tisch oder die Fensterbank.\",\"Stair Snack\":\"Treppen-Snack\",\"Stairs\":\"Treppe\",\"Climb briskly, two steps at a time if you can – walk back down in the rest.\":\"Zügig hochsteigen, wenn möglich zwei Stufen auf einmal – in der Pause wieder hinuntergehen.\",\"Leg Snack\":\"Bein-Snack\",\"Upper Body Snack\":\"Oberkörper-Snack\",\"Upper Body\":\"Oberkörper\",\"Balance & Leg Strength\":\"Gleichgewicht & Beinkraft\",\"About 30 minutes, 3×/week: chair stands, calf and toe raises, side leg raises, then balance exercises on a timer. Always stand next to a sturdy chair or worktop. Inspired by the Otago Exercise Programme for fall prevention.\":\"Etwa 30 Minuten, 3×/Woche: Aufstehen vom Stuhl, Waden- und Zehenheben, Bein seitlich heben, dann Gleichgewichtsübungen nach Zeit. Immer neben einem stabilen Stuhl oder der Arbeitsplatte stehen. Angelehnt an das Otago-Programm zur Sturzvorbeugung.\",\"Sit to Stand\":\"Aufstehen vom Stuhl\",\"Arms crossed – use your hands only if you need to.\":\"Arme verschränkt – die Hände nur nehmen, wenn es nötig ist.\",\"Toe Raise\":\"Zehenheben\",\"Standing Side Leg Raise\":\"Bein seitlich heben im Stand\",\"Seated Knee Extension\":\"Knie strecken im Sitzen\",\"Standing Knee Curl\":\"Knie beugen im Stand\",\"Tandem Stand\":\"Fuß vor Fuß stehen\",\"Single-Leg Stand\":\"Einbeinstand\",\"Heel-to-Toe Walk\":\"Seiltänzergang\",\"Walking Backwards\":\"Rückwärtsgehen\",\"Sideways Walk\":\"Seitwärtsgehen\",\"Strength & Balance\":\"Kraft & Gleichgewicht\",\"March on the spot, circle your shoulders and ankles, turn your head slowly – holding on to the chair.\":\"Auf der Stelle gehen, Schultern und Fußgelenke kreisen, den Kopf langsam drehen – dabei am Stuhl festhalten.\",\"Hold on to the chair. Move slowly – about 3 seconds up and 3 seconds down.\":\"Am Stuhl festhalten. Langsam bewegen – etwa 3 Sekunden hoch und 3 Sekunden runter.\",\"Balance\":\"Gleichgewicht\",\"Stay next to the chair. Easier: hold on with both hands. Harder: one hand, then fingertips, then no hands.\":\"Neben dem Stuhl bleiben. Leichter: mit beiden Händen festhalten. Schwerer: eine Hand, dann Fingerspitzen, dann freihändig.\",\"Walk around calmly for a few minutes.\":\"Ein paar Minuten ruhig umhergehen.\",\"Core Stability Trio\":\"Rumpf-Trio\",\"Three back-friendly core exercises in about 10 minutes – daily or as a warm-up before strength training. Short holds of about 10 seconds, three rounds with fewer reps each time. Inspired by Stuart McGill's \\\"Big 3\\\".\":\"Drei rückenfreundliche Rumpfübungen in etwa 10 Minuten – täglich oder als Aufwärmen vor dem Krafttraining. Kurze Haltephasen von etwa 10 Sekunden, drei Runden mit jeweils weniger Wiederholungen. Angelehnt an die „Big 3“ von Stuart McGill.\",\"McGill Curl-Up\":\"McGill Curl-up\",\"One leg bent, hands under the lower back. Lift head and shoulders only slightly.\":\"Ein Bein angewinkelt, Hände unter dem unteren Rücken. Kopf und Schultern nur leicht anheben.\",\"Core Trio\":\"Rumpf-Trio\",\"Cat-cow on all fours and a few easy steps.\":\"Katze-Kuh im Vierfüßlerstand und ein paar lockere Schritte.\",\"Hold every rep for about 10 seconds – then relax briefly.\":\"Jede Wiederholung etwa 10 Sekunden halten – dann kurz lösen.\",\"Knees bent is fine.\":\"Mit angewinkelten Knien ist in Ordnung.\",\"Round 3\":\"Runde 3\",\"Run Starter 9 Weeks\":\"Laufeinstieg in 9 Wochen\",\"From walking to 30 minutes of running in 9 weeks: 3 runs per week with a rest day in between, about 30–40 minutes each. Runs on its own with a beep at every change between running and walking. If a run felt too hard, simply repeat it. Inspired by the NHS Couch to 5K plan.\":\"Vom Gehen zu 30 Minuten Laufen in 9 Wochen: 3 Läufe pro Woche mit je einem Ruhetag dazwischen, jeweils etwa 30–40 Minuten. Läuft von selbst, mit Signalton bei jedem Wechsel zwischen Laufen und Gehen. War ein Lauf zu schwer, einfach wiederholen. Angelehnt an den NHS-Plan „Couch to 5K“.\",\"Brisk Walk\":\"Zügiges Gehen\",\"Easy Run\":\"Lockeres Laufen\",\"Walk\":\"Gehen\",\"Run & Walk\":\"Laufen & Gehen\",\"Slow enough that you could still talk. About 28 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 28 Minuten.\",\"Slow enough that you could still talk. About 29 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 29 Minuten.\",\"Slow enough that you could still talk. About 25 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 25 Minuten.\",\"Slow enough that you could still talk. About 31 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 31 Minuten.\",\"Slow enough that you could still talk. About 30 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 30 Minuten.\",\"Slow enough that you could still talk. About 34 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 34 Minuten.\",\"Slow enough that you could still talk. About 33 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 33 Minuten.\",\"Slow enough that you could still talk. About 35 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 35 Minuten.\",\"Slow enough that you could still talk. About 38 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 38 Minuten.\",\"Slow enough that you could still talk. About 40 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 40 Minuten.\",\"Week 1 · Run 1\":\"Woche 1 · Lauf 1\",\"Week 1 · Run 2\":\"Woche 1 · Lauf 2\",\"Week 1 · Run 3\":\"Woche 1 · Lauf 3\",\"Week 2 · Run 1\":\"Woche 2 · Lauf 1\",\"Week 2 · Run 2\":\"Woche 2 · Lauf 2\",\"Week 2 · Run 3\":\"Woche 2 · Lauf 3\",\"Week 3 · Run 1\":\"Woche 3 · Lauf 1\",\"Week 3 · Run 2\":\"Woche 3 · Lauf 2\",\"Week 3 · Run 3\":\"Woche 3 · Lauf 3\",\"Week 4 · Run 1\":\"Woche 4 · Lauf 1\",\"Week 4 · Run 2\":\"Woche 4 · Lauf 2\",\"Week 4 · Run 3\":\"Woche 4 · Lauf 3\",\"Week 5 · Run 1\":\"Woche 5 · Lauf 1\",\"Week 5 · Run 2\":\"Woche 5 · Lauf 2\",\"Week 5 · Run 3\":\"Woche 5 · Lauf 3\",\"Week 6 · Run 1\":\"Woche 6 · Lauf 1\",\"Week 6 · Run 2\":\"Woche 6 · Lauf 2\",\"Week 6 · Run 3\":\"Woche 6 · Lauf 3\",\"Week 7 · Run 1\":\"Woche 7 · Lauf 1\",\"Week 7 · Run 2\":\"Woche 7 · Lauf 2\",\"Week 7 · Run 3\":\"Woche 7 · Lauf 3\",\"Week 8 · Run 1\":\"Woche 8 · Lauf 1\",\"Week 8 · Run 2\":\"Woche 8 · Lauf 2\",\"Week 8 · Run 3\":\"Woche 8 · Lauf 3\",\"Week 9 · Run 1\":\"Woche 9 · Lauf 1\",\"Week 9 · Run 2\":\"Woche 9 · Lauf 2\",\"Week 9 · Run 3\":\"Woche 9 · Lauf 3\",\"Week 1 · Walk 1\":\"Woche 1 · Spaziergang 1\",\"15 minutes\":\"15 Minuten\",\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\":\"Locker beginnen und ausklingen; dazwischen zügig gehen – etwas außer Atem, aber noch im Gespräch.\",\"Week 1 · Walk 2\":\"Woche 1 · Spaziergang 2\",\"Week 1 · Walk 3\":\"Woche 1 · Spaziergang 3\",\"Week 1 · Walk 4\":\"Woche 1 · Spaziergang 4\",\"Week 1 · Walk 5\":\"Woche 1 · Spaziergang 5\",\"Week 2 · Walk 1\":\"Woche 2 · Spaziergang 1\",\"20 minutes\":\"20 Minuten\",\"Week 2 · Walk 2\":\"Woche 2 · Spaziergang 2\",\"Week 2 · Walk 3\":\"Woche 2 · Spaziergang 3\",\"Week 2 · Walk 4\":\"Woche 2 · Spaziergang 4\",\"Week 2 · Walk 5\":\"Woche 2 · Spaziergang 5\",\"Week 3 · Walk 1\":\"Woche 3 · Spaziergang 1\",\"25 minutes\":\"25 Minuten\",\"Week 3 · Walk 2\":\"Woche 3 · Spaziergang 2\",\"Week 3 · Walk 3\":\"Woche 3 · Spaziergang 3\",\"Week 3 · Walk 4\":\"Woche 3 · Spaziergang 4\",\"Week 3 · Walk 5\":\"Woche 3 · Spaziergang 5\",\"Week 4 · Walk 1\":\"Woche 4 · Spaziergang 1\",\"30 minutes\":\"30 Minuten\",\"Week 4 · Walk 2\":\"Woche 4 · Spaziergang 2\",\"Week 4 · Walk 3\":\"Woche 4 · Spaziergang 3\",\"Week 4 · Walk 4\":\"Woche 4 · Spaziergang 4\",\"Week 4 · Walk 5\":\"Woche 4 · Spaziergang 5\",\"Week 5 · Walk 1\":\"Woche 5 · Spaziergang 1\",\"40 minutes\":\"40 Minuten\",\"Week 5 · Walk 2\":\"Woche 5 · Spaziergang 2\",\"Week 5 · Walk 3\":\"Woche 5 · Spaziergang 3\",\"Week 5 · Walk 4\":\"Woche 5 · Spaziergang 4\",\"Week 5 · Walk 5\":\"Woche 5 · Spaziergang 5\",\"Week 6 · Walk 1\":\"Woche 6 · Spaziergang 1\",\"45 minutes\":\"45 Minuten\",\"Week 6 · Walk 2\":\"Woche 6 · Spaziergang 2\",\"Week 6 · Walk 3\":\"Woche 6 · Spaziergang 3\",\"Week 6 · Walk 4\":\"Woche 6 · Spaziergang 4\",\"Week 6 · Walk 5\":\"Woche 6 · Spaziergang 5\",\"Daily Walking 6 Weeks\":\"Jeden Tag gehen 6 Wochen\",\"Walking as training: 6 weeks, 5 walks per week, from 15 to 45 minutes. Five easy minutes at the start and end, brisk walking in between. In week 4 you reach the 150 minutes per week the WHO recommends. No equipment – good shoes are enough.\":\"Gehen als Training: 6 Wochen, 5 Spaziergänge pro Woche, von 15 auf 45 Minuten. Fünf lockere Minuten am Anfang und Ende, dazwischen zügig gehen. In Woche 4 erreichst du die 150 Minuten pro Woche, die die WHO empfiehlt. Ohne Geräte – gute Schuhe genügen.\",\"Week 1 · Strength\":\"Woche 1 · Kraft\",\"Five minutes of brisk walking or marching on the spot.\":\"Fünf Minuten zügig gehen oder auf der Stelle marschieren.\",\"Legs for the mountain\":\"Beine für den Berg\",\"Slow and controlled. Step-ups: push through the heel of the upper foot.\":\"Langsam und kontrolliert. Step-ups: über die Ferse des oberen Fußes hochdrücken.\",\"Week 1 · Stairs\":\"Woche 1 · Treppe\",\"Five minutes of brisk walking.\":\"Fünf Minuten zügig gehen.\",\"6 × stairs\":\"6 × Treppe\",\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\":\"Zügig hinauf, in der Pause ruhig wieder hinunter. Ein Hügel geht genauso.\",\"60 minutes\":\"60 Minuten\",\"Week 1 · Long hike\":\"Woche 1 · Lange Wanderung\",\"Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly.\":\"Gleichmäßiges Tempo mit Tagesrucksack (3–5 kg), Steigungen, wo immer du welche findest. Regelmäßig trinken.\",\"Week 2 · Strength\":\"Woche 2 · Kraft\",\"Week 2 · Stairs\":\"Woche 2 · Treppe\",\"75 minutes\":\"75 Minuten\",\"Week 2 · Long hike\":\"Woche 2 · Lange Wanderung\",\"Week 3 · Strength\":\"Woche 3 · Kraft\",\"Week 3 · Stairs\":\"Woche 3 · Treppe\",\"7 × stairs\":\"7 × Treppe\",\"90 minutes\":\"90 Minuten\",\"Week 3 · Long hike\":\"Woche 3 · Lange Wanderung\",\"Week 4 · Strength\":\"Woche 4 · Kraft\",\"Week 4 · Stairs\":\"Woche 4 · Treppe\",\"105 minutes\":\"105 Minuten\",\"Week 4 · Long hike\":\"Woche 4 · Lange Wanderung\",\"Week 5 · Strength\":\"Woche 5 · Kraft\",\"Week 5 · Stairs\":\"Woche 5 · Treppe\",\"8 × stairs\":\"8 × Treppe\",\"2 hours\":\"2 Stunden\",\"Week 5 · Long hike\":\"Woche 5 · Lange Wanderung\",\"Week 6 · Strength\":\"Woche 6 · Kraft\",\"Week 6 · Stairs\":\"Woche 6 · Treppe\",\"150 minutes\":\"150 Minuten\",\"Week 6 · Long hike\":\"Woche 6 · Lange Wanderung\",\"Week 7 · Strength\":\"Woche 7 · Kraft\",\"Week 7 · Stairs\":\"Woche 7 · Treppe\",\"3 hours\":\"3 Stunden\",\"Week 7 · Long hike\":\"Woche 7 · Lange Wanderung\",\"Week 8 · Strength\":\"Woche 8 · Kraft\",\"Week 8 · Stairs\":\"Woche 8 · Treppe\",\"4 hours\":\"4 Stunden\",\"Week 8 · Tour day\":\"Woche 8 · Tourentag\",\"The tour day: four hours with a day pack, ups and downs. Breaks are part of it – pause the timer for them.\":\"Der Tourentag: vier Stunden mit Tagesrucksack, bergauf und bergab. Pausen gehören dazu – dafür den Timer anhalten.\",\"Hiking Fitness 8 Weeks\":\"Fit fürs Wandern 8 Wochen\",\"Fit for the mountains: 8 weeks, 3 sessions per week. Leg strength for climbing and descending (step-ups, lunges, calf raises, glute bridge, side plank), stair intervals, and one long hike that grows from one to four hours. The last week ends with a tour day. A chair, a staircase and a day pack.\":\"Fit für die Berge: 8 Wochen, 3 Einheiten pro Woche. Beinkraft für bergauf und bergab (Step-ups, Ausfallschritte, Wadenheben, Glute Bridge, Seitstütz), Treppen-Intervalle und eine lange Wanderung, die von einer auf vier Stunden wächst. Die letzte Woche endet mit einem Tourentag. Ein Stuhl, eine Treppe und ein Tagesrucksack.\",\"Week 1 · Session 1\":\"Woche 1 · Einheit 1\",\"Walk in\":\"Eingehen\",\"Five minutes of brisk walking – outside or through the flat.\":\"Fünf Minuten zügig gehen – draußen oder durch die Wohnung.\",\"Mobilise\":\"Mobilisieren\",\"Slow, small movements without pain. Breathe calmly.\":\"Langsame, kleine Bewegungen ohne Schmerz. Ruhig atmen.\",\"Strong trunk\":\"Starker Rumpf\",\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\":\"Jede Wiederholung von Curl-up und Bird Dog etwa 10 Sekunden halten. Den Rücken in seiner natürlichen Form lassen.\",\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\":\"Richtig heben: aus der Hüfte beugen, Rücken lang, Gewicht nah am Körper. Zwei Wasserflaschen genügen am Anfang.\",\"Relax\":\"Entspannen\",\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\":\"Auf dem Rücken liegen. Nacheinander jede Körperpartie fünf Sekunden anspannen, dann ganz loslassen.\",\"Week 1 · Session 2\":\"Woche 1 · Einheit 2\",\"Week 2 · Session 1\":\"Woche 2 · Einheit 1\",\"Week 2 · Session 2\":\"Woche 2 · Einheit 2\",\"Week 3 · Session 1\":\"Woche 3 · Einheit 1\",\"Week 3 · Session 2\":\"Woche 3 · Einheit 2\",\"Week 4 · Session 1\":\"Woche 4 · Einheit 1\",\"Week 4 · Session 2\":\"Woche 4 · Einheit 2\",\"Week 5 · Session 1\":\"Woche 5 · Einheit 1\",\"Week 5 · Session 2\":\"Woche 5 · Einheit 2\",\"Week 6 · Session 1\":\"Woche 6 · Einheit 1\",\"Week 6 · Session 2\":\"Woche 6 · Einheit 2\",\"Week 7 · Session 1\":\"Woche 7 · Einheit 1\",\"Week 7 · Session 2\":\"Woche 7 · Einheit 2\",\"Week 8 · Session 1\":\"Woche 8 · Einheit 1\",\"Week 8 · Session 2\":\"Woche 8 · Einheit 2\",\"Back School 8 Weeks\":\"Rückenschule 8 Wochen\",\"A strong, mobile back for everyday life: 8 weeks, 2 sessions per week, about 30 minutes. Walk in, mobilise gently, strengthen the trunk (curl-up, bird dog, side plank, glute bridge, dead bug), learn to lift with a light weight, then relax. Three stages from gentle to stronger. Inspired by the German \\\"Neue Rückenschule\\\". With acute or radiating pain see a doctor first.\":\"Ein starker, beweglicher Rücken für den Alltag: 8 Wochen, 2 Einheiten pro Woche, etwa 30 Minuten. Eingehen, sanft mobilisieren, den Rumpf kräftigen (Curl-up, Bird Dog, Seitstütz, Glute Bridge, Dead Bug), mit leichtem Gewicht richtig heben lernen, dann entspannen. Drei Abschnitte von sanft bis kräftigend. Angelehnt an die „Neue Rückenschule“. Bei akuten oder ausstrahlenden Schmerzen erst zum Arzt.\"}")
+	de: /* @__PURE__ */ JSON.parse("{\"Beginner Strength 5×5\":\"Einsteiger-Kraft 5×5\",\"Classic barbell beginner program, 2 alternating workouts, 3×/week. +2.5 kg every session (deadlift +5 kg) as long as all 5×5 succeed. Inspired by StrongLifts 5×5.\":\"Klassisches Langhantel-Einsteigerprogramm, 2 Workouts im Wechsel, 3×/Woche. +2,5 kg pro Training (Kreuzheben +5 kg), solange alle 5×5 klappen. Angelehnt an StrongLifts 5×5.\",\"Back Squat\":\"Kniebeuge\",\"Bench Press\":\"Bankdrücken\",\"Barbell Row\":\"Langhantelrudern\",\"Overhead Press\":\"Schulterdrücken stehend\",\"Deadlift\":\"Kreuzheben\",\"Workout A\":\"Workout A\",\"5 easy minutes, then 2–3 light warm-up sets of squats.\":\"5 lockere Minuten, dann 2–3 leichte Aufwärmsätze Kniebeugen.\",\"Workout B\":\"Workout B\",\"Full Body at Home (Dumbbells)\":\"Ganzkörper zu Hause (Kurzhanteln)\",\"Two alternating full-body workouts, 3×/week, dumbbells and a bench/floor only. Double progression in the 8–12 or 10–15 rep range.\":\"Zwei Ganzkörper-Workouts im Wechsel, 3×/Woche, nur Kurzhanteln und Bank/Boden. Doppelte Progression im Bereich 8–12 bzw. 10–15 Wiederholungen.\",\"Goblet Squat\":\"Goblet Squat\",\"Dumbbell Bench Press\":\"Kurzhantel-Bankdrücken\",\"One-Arm Dumbbell Row\":\"Einarmiges Kurzhantelrudern\",\"Dumbbell Romanian Deadlift\":\"Rumänisches Kreuzheben mit Kurzhanteln\",\"Dumbbell Shoulder Press\":\"Kurzhantel-Schulterdrücken\",\"Split Squat\":\"Split Squat\",\"Push-Ups\":\"Liegestütze\",\"Dumbbell Floor Press\":\"Kurzhantel-Bodendrücken\",\"Glute Bridge\":\"Glute Bridge\",\"Lateral Raise\":\"Seitheben\",\"Dumbbell Curl\":\"Kurzhantel-Curl\",\"Plank\":\"Unterarmstütz\",\"Dead Bug\":\"Dead Bug\",\"Full Body A\":\"Ganzkörper A\",\"Shoulders & Core\":\"Schultern & Rumpf\",\"Full Body B\":\"Ganzkörper B\",\"Arms & Core\":\"Arme & Rumpf\",\"Tiered Program 4 Days\":\"Stufenprogramm 4 Tage\",\"Four workouts with a heavy main lift (5×3), a medium secondary lift (3×10) and a light volume exercise (3×15–25). For beginners after their first months. Inspired by GZCLP.\":\"Vier Workouts mit schwerer Hauptübung (5×3), mittlerer Nebenübung (3×10) und leichter Volumenübung (3×15–25). Für Einsteiger nach den ersten Monaten. Angelehnt an GZCLP.\",\"Lat Pulldown\":\"Latzug\",\"A1 – Squat\":\"A1 – Kniebeuge\",\"T1\":\"T1\",\"Last set as many clean reps as possible.\":\"Letzter Satz: so viele saubere Wiederholungen wie möglich.\",\"T2\":\"T2\",\"T3\":\"T3\",\"B1 – Overhead Press\":\"B1 – Schulterdrücken\",\"A2 – Bench Press\":\"A2 – Bankdrücken\",\"B2 – Deadlift\":\"B2 – Kreuzheben\",\"Upper/Lower 4 Days\":\"Oberkörper/Unterkörper 4 Tage\",\"Four workouts (Upper A, Lower A, Upper B, Lower B), every muscle group 2×/week, about 10–16 sets per muscle per week. Good for intermediates with 4 training days.\":\"Vier Workouts (Oberkörper A, Unterkörper A, Oberkörper B, Unterkörper B), jede Muskelgruppe 2×/Woche, etwa 10–16 Sätze pro Muskel und Woche. Gut für Fortgeschrittene mit 4 Trainingstagen.\",\"Triceps Pushdown\":\"Trizepsdrücken am Kabel\",\"Incline Dumbbell Press\":\"Schrägbankdrücken mit Kurzhanteln\",\"Chin-up\":\"Klimmzug im Untergriff\",\"Seated Cable Row\":\"Rudern am Kabel sitzend\",\"Face Pulls\":\"Face Pulls\",\"Hammer Curl\":\"Hammer-Curl\",\"Overhead Triceps Extension\":\"Trizepsstrecken über Kopf\",\"Romanian Deadlift\":\"Rumänisches Kreuzheben\",\"Leg Press\":\"Beinpresse\",\"Leg Curl\":\"Beinbeuger-Curl\",\"Calf Raise\":\"Wadenheben\",\"Bulgarian Split Squat\":\"Bulgarian Split Squat\",\"Hip Thrust\":\"Hip Thrust\",\"Leg Extension\":\"Beinstrecker\",\"Upper A\":\"Oberkörper A\",\"Arms & Shoulders\":\"Arme & Schultern\",\"Lower A\":\"Unterkörper A\",\"Upper B\":\"Oberkörper B\",\"Arms & Rear Delts\":\"Arme & hintere Schulter\",\"Lower B\":\"Unterkörper B\",\"Push/Pull/Legs\":\"Drücken/Ziehen/Beine\",\"Hypertrophy split with push, pull and leg days alternating, up to 6×/week. One heavy main lift per day, then volume with 8–12 or 15–20 reps. Inspired by the r/Fitness PPL.\":\"Muskelaufbau-Split mit Drück-, Zieh- und Beintagen im Wechsel, bis 6×/Woche. Pro Tag eine schwere Hauptübung, danach Volumen mit 8–12 bzw. 15–20 Wiederholungen. Angelehnt an den r/Fitness PPL.\",\"Push\":\"Drücken\",\"Pull\":\"Ziehen\",\"One heavy set, as clean as possible.\":\"Ein schwerer Satz, so sauber wie möglich.\",\"Biceps\":\"Bizeps\",\"Legs\":\"Beine\",\"7-Minute Circuit\":\"7-Minuten-Zirkel\",\"The scientifically described classic (Klika & Jordan, ACSM 2013) – 12 exercises of 30 s (side plank on both sides), 5 s to switch, 7 minutes per round, two rounds. Only a chair and a wall needed. Timed, beeps recommended.\":\"Der wissenschaftlich beschriebene Klassiker (Klika & Jordan, ACSM 2013) – 12 Übungen à 30 s (Seitstütz auf beiden Seiten), 5 s Wechsel, 7 Minuten pro Runde, zwei Runden. Nur Stuhl und Wand nötig. Zeitgesteuert mit Signaltönen.\",\"Side Plank, Left\":\"Seitstütz links\",\"Side Plank, Right\":\"Seitstütz rechts\",\"Jumping Jacks\":\"Hampelmann\",\"Wall Sit\":\"Wandsitzen\",\"Crunches\":\"Crunches\",\"Step-up onto Chair\":\"Aufsteigen auf einen Stuhl\",\"Bodyweight Squat\":\"Kniebeuge ohne Gewicht\",\"Triceps Dips on Chair\":\"Trizeps-Dips am Stuhl\",\"High Knees\":\"Kniehebelauf\",\"Lunges\":\"Ausfallschritte\",\"Push-up with Rotation\":\"Liegestütz mit Drehung\",\"Side Plank\":\"Seitstütz\",\"7-Minute Circuit (2 rounds)\":\"7-Minuten-Zirkel (2 Runden)\",\"Move around easily for 2–3 minutes.\":\"2–3 Minuten locker bewegen.\",\"Round 1\":\"Runde 1\",\"Round 2\":\"Runde 2\",\"Add a third round if you like.\":\"Wer mag, hängt eine dritte Runde an.\",\"Full-Body Strength, No Equipment\":\"Ganzkörper-Kraft ohne Geräte\",\"Two alternating strength workouts, 3×/week, only a chair and sofa. Reps increase from session to session; at the upper limit switch to the harder variation (hint on the exercise).\":\"Zwei Kraft-Workouts im Wechsel, 3×/Woche, nur Stuhl und Sofa. Die Wiederholungen steigen von Training zu Training; an der Obergrenze zur schwereren Variante wechseln (Hinweis bei der Übung).\",\"Harder – lower slowly (3 s), pause at the bottom, then split squat.\":\"Schwerer: langsam absenken (3 s), unten kurz halten, dann Split Squat.\",\"Levels – elevated → floor → feet elevated → archer.\":\"Stufen: erhöht → Boden → Füße erhöht → Archer.\",\"Reverse Lunge\":\"Ausfallschritt rückwärts\",\"Pike Push-up\":\"Pike-Liegestütz\",\"Hips high, head towards the floor – trains the shoulders.\":\"Hüfte hoch, Kopf Richtung Boden – trainiert die Schultern.\",\"Single-Leg Glute Bridge\":\"Einbeinige Glute Bridge\",\"Superman\":\"Superman\",\"Bulgarian Split Squat on Sofa\":\"Bulgarian Split Squat am Sofa\",\"Decline Push-up (Feet on Chair)\":\"Liegestütz mit Füßen auf dem Stuhl\",\"Hip Thrust on Sofa\":\"Hip Thrust am Sofa\",\"Strength Circuit A\":\"Kraftzirkel A\",\"Strength Circuit B\":\"Kraftzirkel B\",\"20-Minute Travel Circuit\":\"20-Minuten-Reisezirkel\",\"No equipment, 2 m² of space – as many rounds as possible in 20 minutes of squats, push-ups, lunges, mountain climbers and plank. Ideal for hotels and vacations.\":\"Ohne Geräte, 2 m² Platz – so viele Runden wie möglich in 20 Minuten mit Kniebeugen, Liegestützen, Ausfallschritten, Mountain Climbers und Unterarmstütz. Ideal für Hotel und Urlaub.\",\"Alternating Lunges\":\"Ausfallschritte im Wechsel\",\"Mountain Climbers\":\"Mountain Climbers\",\"20 Minutes – As Many Rounds as Possible\":\"20 Minuten – so viele Runden wie möglich\",\"3 minutes: jumping jacks, arm circles, slow squats.\":\"3 Minuten: Hampelmann, Armkreisen, langsame Kniebeugen.\",\"Circuit\":\"Zirkel\",\"Keep moving, rest only when needed. Goal – more rounds than last time.\":\"In Bewegung bleiben, Pause nur wenn nötig. Ziel: mehr Runden als beim letzten Mal.\",\"Calisthenics Level 0 (Starter)\":\"Calisthenics Stufe 0 (Einstieg)\",\"Getting started without prior experience, 3×/week: incline push-ups, rows at a table/bar, squats, glute bridges, pull-up prep and plank. Reps increase from session to session; at the upper limit the next variation follows.\":\"Einstieg ohne Vorerfahrung, 3×/Woche: erhöhte Liegestütze, Rudern am Tisch/an der Stange, Kniebeugen, Glute Bridges, Klimmzug-Vorbereitung und Unterarmstütz. Die Wiederholungen steigen von Training zu Training; an der Obergrenze folgt die nächste Variante.\",\"Incline Push-Up\":\"Erhöhter Liegestütz\",\"Hands on a table or bench. Next level – lower incline, then on the floor.\":\"Hände auf Tisch oder Bank. Nächste Stufe: niedriger, dann am Boden.\",\"Inverted Row\":\"Rudern unter dem Tisch\",\"The more upright the body, the easier. Next level – body flatter.\":\"Je aufrechter der Körper, desto leichter. Nächste Stufe: Körper flacher.\",\"Scapular Pull-up\":\"Schulterblatt-Klimmzug\",\"Arms straight, only pull the shoulder blades down.\":\"Arme gestreckt, nur die Schulterblätter nach unten ziehen.\",\"Pull-up Negative\":\"Negativer Klimmzug\",\"Jump up, then lower yourself under control for 3–5 seconds.\":\"Hochspringen, dann 3–5 Sekunden kontrolliert absenken.\",\"Starter A\":\"Einstieg A\",\"Arm circles, hip circles, 10 easy squats.\":\"Armkreisen, Hüftkreisen, 10 lockere Kniebeugen.\",\"Starter B\":\"Einstieg B\",\"Calisthenics Basics\":\"Calisthenics Grundlagen\",\"Full body 3×/week in pairs: pull-up + squat, dip + hinge, row + push-up, then a core triplet. 5–8 reps; at the upper limit switch to the next level. Inspired by the r/bodyweightfitness Recommended Routine.\":\"Ganzkörper 3×/Woche in Paaren: Klimmzug + Kniebeuge, Dip + Hüftstreckung, Rudern + Liegestütz, danach ein Rumpf-Dreier. 5–8 Wiederholungen; an der Obergrenze zur nächsten Stufe. Angelehnt an die Recommended Routine von r/bodyweightfitness.\",\"Pull-up (choose level)\":\"Klimmzug (Stufe wählen)\",\"Levels – negative pull-ups → band-assisted → pull-up → weighted.\":\"Stufen: negative Klimmzüge → mit Band → Klimmzug → mit Zusatzgewicht.\",\"Squat Progression\":\"Kniebeugen-Progression\",\"Levels – squat → split squat → Bulgarian split squat → shrimp/pistol.\":\"Stufen: Kniebeuge → Split Squat → Bulgarian Split Squat → Shrimp/Pistol.\",\"Dips (choose level)\":\"Dips (Stufe wählen)\",\"Levels – support hold → negative dips → parallel bar dips → weighted.\":\"Stufen: Stütz halten → negative Dips → Barrendips → mit Zusatzgewicht.\",\"Hinge Progression\":\"Hüftstreck-Progression\",\"Levels – glute bridge → single-leg → Nordic curl negative → Nordic curl.\":\"Stufen: Glute Bridge → einbeinig → Nordic Curl negativ → Nordic Curl.\",\"Levels – upright → flat → feet elevated → one-arm/archer.\":\"Stufen: aufrecht → flach → Füße erhöht → einarmig/Archer.\",\"Push-Ups (choose level)\":\"Liegestütze (Stufe wählen)\",\"Levels – wall → incline → knees → full → diamond → archer.\":\"Stufen: Wand → erhöht → auf Knien → normal → Diamant → Archer.\",\"Hanging Knee Raise\":\"Knieheben im Hang\",\"Basics\":\"Grundlagen\",\"Dynamic: arm/hip circles, squats, push-up plank, hanging from the bar.\":\"Dynamisch: Arm- und Hüftkreisen, Kniebeugen, Liegestützposition, an der Stange hängen.\",\"Pair 1 – Pull & Legs\":\"Paar 1 – Ziehen & Beine\",\"Pair 2 – Push & Hinge\":\"Paar 2 – Drücken & Hüfte\",\"Pair 3 – Row & Push-up\":\"Paar 3 – Rudern & Liegestütz\",\"Core\":\"Rumpf\",\"Calisthenics Advanced\":\"Calisthenics Fortgeschritten\",\"For advanced trainees (3×8 pull-ups and dips). Three workouts: pull & push, legs & core, skills (muscle-up, handstand push-up, L-sit). Rep progression, added weight optional.\":\"Für Fortgeschrittene (3×8 Klimmzüge und Dips). Drei Workouts: Ziehen & Drücken, Beine & Rumpf, Skills (Muscle-up, Handstand-Liegestütz, L-Sit). Progression über Wiederholungen, Zusatzgewicht optional.\",\"Pull-ups\":\"Klimmzüge\",\"Parallel Bar Dips\":\"Barrendips\",\"Archer Push-up\":\"Archer-Liegestütz\",\"Feet-Elevated Inverted Row\":\"Rudern unter der Stange, Füße erhöht\",\"Decline Push-up\":\"Liegestütz mit erhöhten Füßen\",\"Pistol Squat Progression\":\"Pistol-Squat-Progression\",\"Levels – onto a box → with support → free.\":\"Stufen: auf eine Box → mit Halt → frei.\",\"Nordic Curl (Negative)\":\"Nordic Curl (negativ)\",\"Lower as slowly as possible, catch yourself with your hands.\":\"So langsam wie möglich absenken, mit den Händen abfangen.\",\"Hanging Leg Raise\":\"Beinheben im Hang\",\"L-Sit\":\"L-Sit\",\"Levels – knees tucked → one leg straight → both straight.\":\"Stufen: Knie angezogen → ein Bein gestreckt → beide gestreckt.\",\"Muscle-up Practice\":\"Muscle-up-Übung\",\"Levels – explosive chest-to-bar pull-ups → negative muscle-ups → muscle-up.\":\"Stufen: explosive Klimmzüge bis zur Brust → negative Muscle-ups → Muscle-up.\",\"Handstand Push-up Progression\":\"Handstand-Liegestütz-Progression\",\"Levels – pike push-up → feet elevated → against the wall.\":\"Stufen: Pike-Liegestütz → Füße erhöht → an der Wand.\",\"Pull & Push\":\"Ziehen & Drücken\",\"Pair 1\":\"Paar 1\",\"Pair 2\":\"Paar 2\",\"Pair 3\":\"Paar 3\",\"Legs & Core\":\"Beine & Rumpf\",\"Skills\":\"Skills\",\"Warm up wrists and shoulders thoroughly.\":\"Handgelenke und Schultern gründlich aufwärmen.\",\"Volume\":\"Volumen\",\"Kettlebell Swing & Get-up\":\"Kettlebell Swing & Get-up\",\"100 one-arm swings (10×10) and 10 Turkish get-ups (5 per side), doable almost daily. Heavier bell only once everything feels easy. Inspired by Simple & Sinister.\":\"100 einarmige Swings (10×10) und 10 Turkish Get-ups (5 pro Seite), fast täglich machbar. Schwerere Kugel erst, wenn alles leicht fällt. Angelehnt an Simple & Sinister.\",\"One-Arm Kettlebell Swing\":\"Einarmiger Kettlebell Swing\",\"Turkish Get-up\":\"Turkish Get-up\",\"Swing & Get-up\":\"Swing & Get-up\",\"3× each: glute bridge, goblet squat hold with gentle rocking, halos.\":\"Je 3×: Glute Bridge, Goblet Squat halten mit leichtem Wippen, Halos.\",\"Switch hands after every set.\":\"Nach jedem Satz die Hand wechseln.\",\"Alternate left and right, so 5 per side. Slow and controlled.\":\"Links und rechts im Wechsel, also 5 pro Seite. Langsam und kontrolliert.\",\"Kettlebell Full Body\":\"Kettlebell Ganzkörper\",\"Full body with one kettlebell, A/B alternating, 3×/week. A with press ladders (1–2–3 per side, inspired by Rite of Passage) and swings, B with goblet squat, single-leg deadlift, get-ups and farmer's walk.\":\"Ganzkörper mit einer Kettlebell, A/B im Wechsel, 3×/Woche. A mit Drück-Leitern (1–2–3 pro Seite, angelehnt an Rite of Passage) und Swings, B mit Goblet Squat, einbeinigem Kreuzheben, Get-ups und Farmer's Walk.\",\"Clean & Press\":\"Clean & Press\",\"Kettlebell Row\":\"Kettlebell-Rudern\",\"Two-Arm Kettlebell Swing\":\"Beidarmiger Kettlebell Swing\",\"Kettlebell Single-Leg Deadlift\":\"Einbeiniges Kreuzheben mit Kettlebell\",\"One-Arm Farmer's Walk\":\"Einarmiger Farmer's Walk\",\"Full Body A – Ladders\":\"Ganzkörper A – Leitern\",\"Press Ladders\":\"Drück-Leitern\",\"One round = one ladder: 1, 2, 3 reps per side. More ladders (up to 5), then up to 5 rungs.\":\"Eine Runde = eine Leiter: 1, 2, 3 Wiederholungen pro Seite. Erst mehr Leitern (bis 5), dann bis 5 Sprossen.\",\"Full Body B – Legs & Core\":\"Ganzkörper B – Beine & Rumpf\",\"Alternate left and right.\":\"Links und rechts im Wechsel.\",\"Kettlebell Armor Building Complex\":\"Kettlebell Armor Building Complex\",\"2 cleans, 1 press, 3 front squats with two kettlebells, one round every minute for 20 minutes. Weight – something you can press 3–5×. Protocol by Dan John.\":\"2 Cleans, 1 Press, 3 Front Squats mit zwei Kettlebells, jede Minute eine Runde, 20 Minuten lang. Gewicht: etwas, das du 3–5× drücken kannst. Protokoll von Dan John.\",\"Double Kettlebell Clean\":\"Doppel-Kettlebell Clean\",\"Double Kettlebell Press\":\"Doppel-Kettlebell Press\",\"Double Kettlebell Front Squat\":\"Doppel-Kettlebell Front Squat\",\"Armor Building Complex\":\"Armor Building Complex\",\"A few easy rounds with half the weight.\":\"Ein paar lockere Runden mit halbem Gewicht.\",\"ABC – 20 minutes\":\"ABC – 20 Minuten\",\"One round every minute, rest for the remainder of the minute.\":\"Jede Minute eine Runde, den Rest der Minute Pause.\",\"Kettlebell Swing Intervals\":\"Kettlebell-Swing-Intervalle\",\"Short conditioning – 10× 30 s swings / 30 s rest, then 4× 20 s goblet squats / 10 s rest. Timed, ideal with the \\\"Signals\\\" blueprint for sounds or light.\":\"Kurzes Konditionstraining: 10× 30 s Swings / 30 s Pause, dann 4× 20 s Goblet Squats / 10 s Pause. Zeitgesteuert mit Signaltönen.\",\"Swing Intervals\":\"Swing-Intervalle\",\"Glute bridges, light swings, goblet squat hold.\":\"Glute Bridges, leichte Swings, Goblet Squat halten.\",\"Swings 30/30\":\"Swings 30/30\",\"Goblet Squats 20/10\":\"Goblet Squats 20/10\",\"Tabata Circuit, No Equipment\":\"Tabata-Zirkel ohne Geräte\",\"Four Tabata blocks (8× 20 s work / 10 s rest) with squats, push-ups, mountain climbers and lunges, 1 minute rest each – about 20 minutes of conditioning without equipment.\":\"Vier Tabata-Blöcke (8× 20 s Arbeit / 10 s Pause) mit Kniebeugen, Liegestützen, Mountain Climbers und Ausfallschritten, je 1 Minute Pause – etwa 20 Minuten Kondition ohne Geräte.\",\"Tabata ×4\":\"Tabata ×4\",\"Tabata 1 – Squats\":\"Tabata 1 – Kniebeugen\",\"Tabata 2 – Push-Ups\":\"Tabata 2 – Liegestütze\",\"Tabata 3 – Mountain Climbers\":\"Tabata 3 – Mountain Climbers\",\"Tabata 4 – Lunges\":\"Tabata 4 – Ausfallschritte\",\"Tabata Strength (Kettlebell)\":\"Tabata-Kraft (Kettlebell)\",\"Four Tabata blocks (8× 20 s / 10 s) with kettlebell swings, goblet squats, push-ups and mountain climbers – about 20 minutes. One kettlebell is enough.\":\"Vier Tabata-Blöcke (8× 20 s / 10 s) mit Kettlebell Swings, Goblet Squats, Liegestützen und Mountain Climbers – etwa 20 Minuten. Eine Kettlebell genügt.\",\"Tabata Strength ×4\":\"Tabata-Kraft ×4\",\"3 minutes: light swings, slow squats, arm circles.\":\"3 Minuten: leichte Swings, langsame Kniebeugen, Armkreisen.\",\"Tabata 1 – Swings\":\"Tabata 1 – Swings\",\"Tabata 2 – Goblet Squats\":\"Tabata 2 – Goblet Squats\",\"Tabata 3 – Push-Ups\":\"Tabata 3 – Liegestütze\",\"Tabata 4 – Mountain Climbers\":\"Tabata 4 – Mountain Climbers\",\"10×1 Intervals\":\"10×1-Intervalle\",\"10 × 1 minute hard (about 85–90 % of max heart rate), 1 minute easy – about 25 minutes including warm-up. Bike, rower, running or jump rope. Inspired by Little & Gibala 2010.\":\"10 × 1 Minute hart (etwa 85–90 % der maximalen Herzfrequenz), 1 Minute locker – etwa 25 Minuten mit Aufwärmen. Rad, Rudergerät, Laufen oder Springseil. Angelehnt an Little & Gibala 2010.\",\"Hard interval (bike, row, run)\":\"Hartes Intervall (Rad, Rudern, Laufen)\",\"10×1\":\"10×1\",\"5 minutes easy, the last minute a little faster.\":\"5 Minuten locker, die letzte Minute etwas schneller.\",\"10×1 minute\":\"10×1 Minute\",\"Hard but steady – you should be able to hold the pace for all ten. Easy minute: keep moving slowly.\":\"Hart, aber gleichmäßig – das Tempo soll für alle zehn reichen. Lockere Minute: langsam in Bewegung bleiben.\",\"4×4 Intervals\":\"4×4-Intervalle\",\"4 × 4 minutes hard (85–95 % of max heart rate), 3 minutes easy in between – about 40 minutes including warm-up. Strong evidence for endurance (VO2max). Inspired by Helgerud et al. 2007.\":\"4 × 4 Minuten hart (85–95 % der maximalen Herzfrequenz), dazwischen 3 Minuten locker – etwa 40 Minuten mit Aufwärmen. Gut belegt für die Ausdauer (VO2max). Angelehnt an Helgerud et al. 2007.\",\"4-minute interval (bike, row, run)\":\"4-Minuten-Intervall (Rad, Rudern, Laufen)\",\"4×4\":\"4×4\",\"10 minutes easy to moderate.\":\"10 Minuten locker bis mittel.\",\"4×4 minutes\":\"4×4 Minuten\",\"Hard enough that talking is difficult. Recovery: keep moving slowly.\":\"So hart, dass Sprechen schwerfällt. Erholung: langsam in Bewegung bleiben.\",\"30-20-10 Intervals\":\"30-20-10-Intervalle\",\"Three blocks of 5 × (30 s easy, 20 s moderate, 10 s sprint), 2 minutes rest between blocks – about 25 minutes. Running, bike or rower. Inspired by Gunnarsson & Bangsbo 2012.\":\"Drei Blöcke mit 5 × (30 s locker, 20 s mittel, 10 s Sprint), 2 Minuten Pause zwischen den Blöcken – etwa 25 Minuten. Laufen, Rad oder Rudergerät. Angelehnt an Gunnarsson & Bangsbo 2012.\",\"Easy\":\"Locker\",\"Moderate\":\"Mittel\",\"Sprint\":\"Sprint\",\"30-20-10\":\"30-20-10\",\"5 minutes easy.\":\"5 Minuten locker.\",\"Block 1\":\"Block 1\",\"Block 2\":\"Block 2\",\"Block 3\":\"Block 3\",\"Sprint Intervals 30/4\":\"Sprint-Intervalle 30/4\",\"5 × 30 seconds all-out, 4 minutes easy in between – about 35 minutes including warm-up. Very short, very hard. Best on a bike or rower. Inspired by the sprint interval studies of Gibala et al.\":\"5 × 30 Sekunden Vollgas, dazwischen 4 Minuten locker – etwa 35 Minuten mit Aufwärmen. Sehr kurz, sehr hart. Am besten auf Rad oder Rudergerät. Angelehnt an die Sprintintervall-Studien von Gibala et al.\",\"All-out sprint (bike, row)\":\"Vollgas-Sprint (Rad, Rudern)\",\"Sprint 30/4\":\"Sprint 30/4\",\"8 minutes easy, with two short accelerations.\":\"8 Minuten locker, mit zwei kurzen Steigerungen.\",\"5 × 30 s\":\"5 × 30 s\",\"All-out from the first second. Recovery: pedal or row very easily.\":\"Vollgas ab der ersten Sekunde. Erholung: ganz locker treten oder rudern.\",\"Yoga Basics\":\"Yoga Grundlagen\",\"Two alternating sessions (~20 min) with the foundation poses – mountain, downward dog, warriors, tree, child's pose, cat-cow, bridge. Runs on its own, every pose is announced. A mat is enough.\":\"Zwei Einheiten im Wechsel (~20 min) mit den Grundhaltungen – Berg, herabschauender Hund, Krieger, Baum, Kindhaltung, Katze-Kuh, Brücke. Läuft von selbst, mit Signalton bei jedem Wechsel. Eine Matte genügt.\",\"Cat-Cow\":\"Katze-Kuh\",\"Child's Pose\":\"Kindhaltung\",\"Mountain Pose\":\"Berg\",\"Standing Forward Fold\":\"Stehende Vorbeuge\",\"Half Lift\":\"Halbe Vorbeuge\",\"Downward-Facing Dog\":\"Herabschauender Hund\",\"Low Lunge\":\"Tiefer Ausfallschritt\",\"Warrior I\":\"Krieger I\",\"Warrior II\":\"Krieger II\",\"Triangle Pose\":\"Dreieck\",\"Tree Pose\":\"Baum\",\"Chair Pose\":\"Stuhl\",\"Cobra\":\"Kobra\",\"Bridge Pose\":\"Brücke\",\"Seated Forward Fold\":\"Sitzende Vorbeuge\",\"Butterfly\":\"Schmetterling\",\"Knees to Chest\":\"Knie zur Brust\",\"Supine Twist\":\"Drehung in Rückenlage\",\"Final Relaxation\":\"Endentspannung\",\"Basics A\":\"Grundlagen A\",\"Arrive\":\"Ankommen\",\"Breathe in – arch, breathe out – round.\":\"Einatmen – Hohlkreuz, ausatmen – Rundrücken.\",\"Standing poses\":\"Stehende Haltungen\",\"Floor\":\"Boden\",\"Basics B\":\"Grundlagen B\",\"Sun Salutation Flow\":\"Sonnengruß-Flow\",\"The classic sun salutation as a flowing sequence, 5 rounds (~15 min) – mountain, forward fold, plank, chaturanga, upward dog, downward dog. Ends with child's pose and relaxation.\":\"Der klassische Sonnengruß als fließende Abfolge, 5 Runden (~15 min) – Berg, Vorbeuge, Brett, Chaturanga, heraufschauender Hund, herabschauender Hund. Zum Schluss Kindhaltung und Entspannung.\",\"Chaturanga\":\"Chaturanga\",\"Upward-Facing Dog\":\"Heraufschauender Hund\",\"Sun Salutation\":\"Sonnengruß\",\"Warm-up\":\"Aufwärmen\",\"Sun salutation\":\"Sonnengruß\",\"One pose per breath – stay five breaths in downward dog.\":\"Eine Haltung pro Atemzug – im herabschauenden Hund fünf Atemzüge bleiben.\",\"Wind-down\":\"Ausklang\",\"Back Care Yoga\":\"Yoga für den Rücken\",\"Gentle yoga for the lower back (~20 min), 1–2×/week. \\\"Gentle\\\" for the first weeks, later \\\"Building\\\" with standing poses. Inspired by the Back to Health study programme. Pain is a stop signal.\":\"Sanftes Yoga für den unteren Rücken (~20 min), 1–2×/Woche. In den ersten Wochen „Sanft“, später „Aufbau“ mit stehenden Haltungen. Angelehnt an das Studienprogramm Back to Health. Schmerz ist ein Stoppsignal.\",\"Knee to Chest\":\"Knie zur Brust\",\"Pelvic Tilt\":\"Beckenkippen\",\"Sphinx\":\"Sphinx\",\"Bird Dog\":\"Vierfüßlerstand diagonal\",\"Legs Up the Wall\":\"Beine an die Wand\",\"Locust\":\"Heuschrecke\",\"Gentle\":\"Sanft\",\"Lying\":\"Im Liegen\",\"Move slowly, breathe calmly. Stop if anything hurts.\":\"Langsam bewegen, ruhig atmen. Aufhören, wenn etwas weh tut.\",\"Hands and knees\":\"Vierfüßlerstand\",\"Relaxation\":\"Entspannung\",\"Building\":\"Aufbau\",\"Standing\":\"Im Stehen\",\"Knees soft, back long. Use a wall for balance if needed.\":\"Knie locker, Rücken lang. Bei Bedarf an der Wand abstützen.\",\"Mobility for Lifters\":\"Mobilität für Kraftsportler\",\"Two short sessions (~10 min) for hips and legs or shoulders and spine – after strength training or on rest days. Runs on its own, every pose is announced.\":\"Zwei kurze Einheiten (~10 min) für Hüfte und Beine oder Schultern und Wirbelsäule – nach dem Krafttraining oder an Ruhetagen. Läuft von selbst, mit Signalton bei jedem Wechsel.\",\"World's Greatest Stretch\":\"World's Greatest Stretch\",\"Pigeon Pose\":\"Taube\",\"Half Split\":\"Halber Spagat\",\"Frog Stretch\":\"Frosch\",\"Happy Baby\":\"Glückliches Baby\",\"Thread the Needle\":\"Nadelöhr\",\"Puppy Pose\":\"Welpe\",\"Hips & Legs\":\"Hüfte & Beine\",\"Hips & legs\":\"Hüfte & Beine\",\"Shoulders & Spine\":\"Schultern & Wirbelsäule\",\"Shoulders & spine\":\"Schultern & Wirbelsäule\",\"Yin Yoga\":\"Yin Yoga\",\"Calm practice with long holds (2–4 min) for hips, back and legs (~35 min). Good in the evening or on rest days.\":\"Ruhige Praxis mit langem Halten (2–4 min) für Hüfte, Rücken und Beine (~35 min). Gut am Abend oder an Ruhetagen.\",\"Dragon\":\"Drache\",\"Caterpillar\":\"Raupe\",\"Shoelace\":\"Schnürsenkel\",\"Yin\":\"Yin\",\"Find a comfortable edge, not pain. Stay still and breathe.\":\"Eine angenehme Dehngrenze suchen, keinen Schmerz. Still bleiben und atmen.\",\"Balance & Strength Yoga\":\"Yoga für Gleichgewicht & Kraft\",\"Standing poses and core holds in two rounds (~25 min) – warriors I–III, tree, chair, boat, plank and side plank. Builds balance, leg and core strength.\":\"Stehende Haltungen und Rumpf-Halteübungen in zwei Runden (~25 min) – Krieger I–III, Baum, Stuhl, Boot, Brett und Seitstütz. Stärkt Gleichgewicht, Beine und Rumpf.\",\"Warrior III\":\"Krieger III\",\"Boat Pose\":\"Boot\",\"Balance & Strength\":\"Gleichgewicht & Kraft\",\"Full Body 3 Days (Gym)\":\"Ganzkörper 3 Tage (Studio)\",\"Three different full-body workouts (A, B, C), 3×/week with a day off in between, about 60 minutes. Barbell, dumbbells and machines. Every muscle group is trained in every session – good for beginners and anyone who can only train on three days.\":\"Drei verschiedene Ganzkörper-Workouts (A, B, C), 3×/Woche mit je einem Tag Pause, etwa 60 Minuten. Langhantel, Kurzhanteln und Geräte. Jede Muskelgruppe kommt in jedem Training dran – gut für Einsteiger und alle, die nur an drei Tagen trainieren können.\",\"5 easy minutes, then 2 light warm-up sets of squats.\":\"5 lockere Minuten, dann 2 leichte Aufwärmsätze Kniebeugen.\",\"Arms\":\"Arme\",\"Full Body C\":\"Ganzkörper C\",\"Shoulders & Calves\":\"Schultern & Waden\",\"Minimal Strength 2 Days\":\"Minimal-Kraft 2 Tage\",\"For little time: two short full-body workouts (~30 min), 2×/week, mostly machines and dumbbells. Only 1–2 sets per exercise – but each one hard, 1–2 reps short of failure. A proven minimum dose for strength and health.\":\"Für wenig Zeit: zwei kurze Ganzkörper-Workouts (~30 min), 2×/Woche, vor allem Geräte und Kurzhanteln. Nur 1–2 Sätze pro Übung – dafür jeder hart, 1–2 Wiederholungen vor dem Muskelversagen. Eine erprobte Mindestdosis für Kraft und Gesundheit.\",\"Machine Chest Press\":\"Brustpresse\",\"5 easy minutes, then one light set of the first exercise.\":\"5 lockere Minuten, dann ein leichter Satz der ersten Übung.\",\"Stop 1–2 reps before failure.\":\"1–2 Wiederholungen vor dem Muskelversagen aufhören.\",\"Exercise Snacks\":\"Bewegungs-Snacks\",\"Three mini workouts of 2–5 minutes – stairs, legs, upper body. No changing, no equipment: do one or more of them spread over the day, e.g. before lunch or after long sitting. Ideal for days without time for a real workout.\":\"Drei Mini-Workouts von 2–5 Minuten – Treppe, Beine, Oberkörper. Ohne Umziehen, ohne Geräte: eins oder mehrere über den Tag verteilt, z. B. vor dem Mittagessen oder nach langem Sitzen. Ideal für Tage ohne Zeit für ein richtiges Training.\",\"Stair Climbing (brisk)\":\"Treppensteigen (zügig)\",\"Hands on a table or windowsill.\":\"Hände auf einen Tisch oder die Fensterbank.\",\"Stair Snack\":\"Treppen-Snack\",\"Stairs\":\"Treppe\",\"Climb briskly, two steps at a time if you can – walk back down in the rest.\":\"Zügig hochsteigen, wenn möglich zwei Stufen auf einmal – in der Pause wieder hinuntergehen.\",\"Leg Snack\":\"Bein-Snack\",\"Upper Body Snack\":\"Oberkörper-Snack\",\"Upper Body\":\"Oberkörper\",\"Balance & Leg Strength\":\"Gleichgewicht & Beinkraft\",\"About 30 minutes, 3×/week: chair stands, calf and toe raises, side leg raises, then balance exercises on a timer. Always stand next to a sturdy chair or worktop. Inspired by the Otago Exercise Programme for fall prevention.\":\"Etwa 30 Minuten, 3×/Woche: Aufstehen vom Stuhl, Waden- und Zehenheben, Bein seitlich heben, dann Gleichgewichtsübungen nach Zeit. Immer neben einem stabilen Stuhl oder der Arbeitsplatte stehen. Angelehnt an das Otago-Programm zur Sturzvorbeugung.\",\"Sit to Stand\":\"Aufstehen vom Stuhl\",\"Arms crossed – use your hands only if you need to.\":\"Arme verschränkt – die Hände nur nehmen, wenn es nötig ist.\",\"Toe Raise\":\"Zehenheben\",\"Standing Side Leg Raise\":\"Bein seitlich heben im Stand\",\"Seated Knee Extension\":\"Knie strecken im Sitzen\",\"Standing Knee Curl\":\"Knie beugen im Stand\",\"Tandem Stand\":\"Fuß vor Fuß stehen\",\"Single-Leg Stand\":\"Einbeinstand\",\"Heel-to-Toe Walk\":\"Seiltänzergang\",\"Walking Backwards\":\"Rückwärtsgehen\",\"Sideways Walk\":\"Seitwärtsgehen\",\"Strength & Balance\":\"Kraft & Gleichgewicht\",\"March on the spot, circle your shoulders and ankles, turn your head slowly – holding on to the chair.\":\"Auf der Stelle gehen, Schultern und Fußgelenke kreisen, den Kopf langsam drehen – dabei am Stuhl festhalten.\",\"Hold on to the chair. Move slowly – about 3 seconds up and 3 seconds down.\":\"Am Stuhl festhalten. Langsam bewegen – etwa 3 Sekunden hoch und 3 Sekunden runter.\",\"Balance\":\"Gleichgewicht\",\"Stay next to the chair. Easier: hold on with both hands. Harder: one hand, then fingertips, then no hands.\":\"Neben dem Stuhl bleiben. Leichter: mit beiden Händen festhalten. Schwerer: eine Hand, dann Fingerspitzen, dann freihändig.\",\"Walk around calmly for a few minutes.\":\"Ein paar Minuten ruhig umhergehen.\",\"Core Stability Trio\":\"Rumpf-Trio\",\"Three back-friendly core exercises in about 10 minutes – daily or as a warm-up before strength training. Short holds of about 10 seconds, three rounds with fewer reps each time. Inspired by Stuart McGill's \\\"Big 3\\\".\":\"Drei rückenfreundliche Rumpfübungen in etwa 10 Minuten – täglich oder als Aufwärmen vor dem Krafttraining. Kurze Haltephasen von etwa 10 Sekunden, drei Runden mit jeweils weniger Wiederholungen. Angelehnt an die „Big 3“ von Stuart McGill.\",\"McGill Curl-Up\":\"McGill Curl-up\",\"One leg bent, hands under the lower back. Lift head and shoulders only slightly.\":\"Ein Bein angewinkelt, Hände unter dem unteren Rücken. Kopf und Schultern nur leicht anheben.\",\"Core Trio\":\"Rumpf-Trio\",\"Cat-cow on all fours and a few easy steps.\":\"Katze-Kuh im Vierfüßlerstand und ein paar lockere Schritte.\",\"Hold every rep for about 10 seconds – then relax briefly.\":\"Jede Wiederholung etwa 10 Sekunden halten – dann kurz lösen.\",\"Knees bent is fine.\":\"Mit angewinkelten Knien ist in Ordnung.\",\"Round 3\":\"Runde 3\",\"Run Starter 9 Weeks\":\"Laufeinstieg in 9 Wochen\",\"From walking to 30 minutes of running in 9 weeks: 3 runs per week with a rest day in between, about 30–40 minutes each. Runs on its own with a beep at every change between running and walking. If a run felt too hard, simply repeat it. Inspired by the NHS Couch to 5K plan.\":\"Vom Gehen zu 30 Minuten Laufen in 9 Wochen: 3 Läufe pro Woche mit je einem Ruhetag dazwischen, jeweils etwa 30–40 Minuten. Läuft von selbst, mit Signalton bei jedem Wechsel zwischen Laufen und Gehen. War ein Lauf zu schwer, einfach wiederholen. Angelehnt an den NHS-Plan „Couch to 5K“.\",\"Brisk Walk\":\"Zügiges Gehen\",\"Easy Run\":\"Lockeres Laufen\",\"Walk\":\"Gehen\",\"Run & Walk\":\"Laufen & Gehen\",\"Slow enough that you could still talk. About 28 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 28 Minuten.\",\"Slow enough that you could still talk. About 29 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 29 Minuten.\",\"Slow enough that you could still talk. About 25 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 25 Minuten.\",\"Slow enough that you could still talk. About 31 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 31 Minuten.\",\"Slow enough that you could still talk. About 30 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 30 Minuten.\",\"Slow enough that you could still talk. About 34 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 34 Minuten.\",\"Slow enough that you could still talk. About 33 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 33 Minuten.\",\"Slow enough that you could still talk. About 35 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 35 Minuten.\",\"Slow enough that you could still talk. About 38 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 38 Minuten.\",\"Slow enough that you could still talk. About 40 minutes.\":\"So langsam, dass du dich noch unterhalten könntest. Etwa 40 Minuten.\",\"Week 1 · Run 1\":\"Woche 1 · Lauf 1\",\"Week 1 · Run 2\":\"Woche 1 · Lauf 2\",\"Week 1 · Run 3\":\"Woche 1 · Lauf 3\",\"Week 2 · Run 1\":\"Woche 2 · Lauf 1\",\"Week 2 · Run 2\":\"Woche 2 · Lauf 2\",\"Week 2 · Run 3\":\"Woche 2 · Lauf 3\",\"Week 3 · Run 1\":\"Woche 3 · Lauf 1\",\"Week 3 · Run 2\":\"Woche 3 · Lauf 2\",\"Week 3 · Run 3\":\"Woche 3 · Lauf 3\",\"Week 4 · Run 1\":\"Woche 4 · Lauf 1\",\"Week 4 · Run 2\":\"Woche 4 · Lauf 2\",\"Week 4 · Run 3\":\"Woche 4 · Lauf 3\",\"Week 5 · Run 1\":\"Woche 5 · Lauf 1\",\"Week 5 · Run 2\":\"Woche 5 · Lauf 2\",\"Week 5 · Run 3\":\"Woche 5 · Lauf 3\",\"Week 6 · Run 1\":\"Woche 6 · Lauf 1\",\"Week 6 · Run 2\":\"Woche 6 · Lauf 2\",\"Week 6 · Run 3\":\"Woche 6 · Lauf 3\",\"Week 7 · Run 1\":\"Woche 7 · Lauf 1\",\"Week 7 · Run 2\":\"Woche 7 · Lauf 2\",\"Week 7 · Run 3\":\"Woche 7 · Lauf 3\",\"Week 8 · Run 1\":\"Woche 8 · Lauf 1\",\"Week 8 · Run 2\":\"Woche 8 · Lauf 2\",\"Week 8 · Run 3\":\"Woche 8 · Lauf 3\",\"Week 9 · Run 1\":\"Woche 9 · Lauf 1\",\"Week 9 · Run 2\":\"Woche 9 · Lauf 2\",\"Week 9 · Run 3\":\"Woche 9 · Lauf 3\",\"Week 1 · Walk 1\":\"Woche 1 · Spaziergang 1\",\"15 minutes\":\"15 Minuten\",\"Start and finish easy; in between walk briskly – a little out of breath, but still able to talk.\":\"Locker beginnen und ausklingen; dazwischen zügig gehen – etwas außer Atem, aber noch im Gespräch.\",\"Week 1 · Walk 2\":\"Woche 1 · Spaziergang 2\",\"Week 1 · Walk 3\":\"Woche 1 · Spaziergang 3\",\"Week 1 · Walk 4\":\"Woche 1 · Spaziergang 4\",\"Week 1 · Walk 5\":\"Woche 1 · Spaziergang 5\",\"Week 2 · Walk 1\":\"Woche 2 · Spaziergang 1\",\"20 minutes\":\"20 Minuten\",\"Week 2 · Walk 2\":\"Woche 2 · Spaziergang 2\",\"Week 2 · Walk 3\":\"Woche 2 · Spaziergang 3\",\"Week 2 · Walk 4\":\"Woche 2 · Spaziergang 4\",\"Week 2 · Walk 5\":\"Woche 2 · Spaziergang 5\",\"Week 3 · Walk 1\":\"Woche 3 · Spaziergang 1\",\"25 minutes\":\"25 Minuten\",\"Week 3 · Walk 2\":\"Woche 3 · Spaziergang 2\",\"Week 3 · Walk 3\":\"Woche 3 · Spaziergang 3\",\"Week 3 · Walk 4\":\"Woche 3 · Spaziergang 4\",\"Week 3 · Walk 5\":\"Woche 3 · Spaziergang 5\",\"Week 4 · Walk 1\":\"Woche 4 · Spaziergang 1\",\"30 minutes\":\"30 Minuten\",\"Week 4 · Walk 2\":\"Woche 4 · Spaziergang 2\",\"Week 4 · Walk 3\":\"Woche 4 · Spaziergang 3\",\"Week 4 · Walk 4\":\"Woche 4 · Spaziergang 4\",\"Week 4 · Walk 5\":\"Woche 4 · Spaziergang 5\",\"Week 5 · Walk 1\":\"Woche 5 · Spaziergang 1\",\"40 minutes\":\"40 Minuten\",\"Week 5 · Walk 2\":\"Woche 5 · Spaziergang 2\",\"Week 5 · Walk 3\":\"Woche 5 · Spaziergang 3\",\"Week 5 · Walk 4\":\"Woche 5 · Spaziergang 4\",\"Week 5 · Walk 5\":\"Woche 5 · Spaziergang 5\",\"Week 6 · Walk 1\":\"Woche 6 · Spaziergang 1\",\"45 minutes\":\"45 Minuten\",\"Week 6 · Walk 2\":\"Woche 6 · Spaziergang 2\",\"Week 6 · Walk 3\":\"Woche 6 · Spaziergang 3\",\"Week 6 · Walk 4\":\"Woche 6 · Spaziergang 4\",\"Week 6 · Walk 5\":\"Woche 6 · Spaziergang 5\",\"Daily Walking 6 Weeks\":\"Jeden Tag gehen 6 Wochen\",\"Walking as training: 6 weeks, 5 walks per week, from 15 to 45 minutes. Five easy minutes at the start and end, brisk walking in between. In week 4 you reach the 150 minutes per week the WHO recommends. No equipment – good shoes are enough.\":\"Gehen als Training: 6 Wochen, 5 Spaziergänge pro Woche, von 15 auf 45 Minuten. Fünf lockere Minuten am Anfang und Ende, dazwischen zügig gehen. In Woche 4 erreichst du die 150 Minuten pro Woche, die die WHO empfiehlt. Ohne Geräte – gute Schuhe genügen.\",\"Hike\":\"Wandern\",\"Week 1 · Strength\":\"Woche 1 · Kraft\",\"Five minutes of brisk walking or marching on the spot.\":\"Fünf Minuten zügig gehen oder auf der Stelle marschieren.\",\"Legs for the mountain\":\"Beine für den Berg\",\"Slow and controlled. Step-ups: push through the heel of the upper foot.\":\"Langsam und kontrolliert. Step-ups: über die Ferse des oberen Fußes hochdrücken.\",\"Week 1 · Stairs\":\"Woche 1 · Treppe\",\"Five minutes of brisk walking.\":\"Fünf Minuten zügig gehen.\",\"6 × stairs\":\"6 × Treppe\",\"Climb briskly, walk back down calmly in the rest. A hill works just as well.\":\"Zügig hinauf, in der Pause ruhig wieder hinunter. Ein Hügel geht genauso.\",\"60 minutes\":\"60 Minuten\",\"Week 1 · Long hike\":\"Woche 1 · Lange Wanderung\",\"Steady pace with a day pack (3–5 kg), hills wherever you can find them. Drink regularly.\":\"Gleichmäßiges Tempo mit Tagesrucksack (3–5 kg), Steigungen, wo immer du welche findest. Regelmäßig trinken.\",\"Week 2 · Strength\":\"Woche 2 · Kraft\",\"Week 2 · Stairs\":\"Woche 2 · Treppe\",\"75 minutes\":\"75 Minuten\",\"Week 2 · Long hike\":\"Woche 2 · Lange Wanderung\",\"Week 3 · Strength\":\"Woche 3 · Kraft\",\"Week 3 · Stairs\":\"Woche 3 · Treppe\",\"7 × stairs\":\"7 × Treppe\",\"90 minutes\":\"90 Minuten\",\"Week 3 · Long hike\":\"Woche 3 · Lange Wanderung\",\"Week 4 · Strength\":\"Woche 4 · Kraft\",\"Week 4 · Stairs\":\"Woche 4 · Treppe\",\"105 minutes\":\"105 Minuten\",\"Week 4 · Long hike\":\"Woche 4 · Lange Wanderung\",\"Week 5 · Strength\":\"Woche 5 · Kraft\",\"Week 5 · Stairs\":\"Woche 5 · Treppe\",\"8 × stairs\":\"8 × Treppe\",\"2 hours\":\"2 Stunden\",\"Week 5 · Long hike\":\"Woche 5 · Lange Wanderung\",\"Week 6 · Strength\":\"Woche 6 · Kraft\",\"Week 6 · Stairs\":\"Woche 6 · Treppe\",\"150 minutes\":\"150 Minuten\",\"Week 6 · Long hike\":\"Woche 6 · Lange Wanderung\",\"Week 7 · Strength\":\"Woche 7 · Kraft\",\"Week 7 · Stairs\":\"Woche 7 · Treppe\",\"3 hours\":\"3 Stunden\",\"Week 7 · Long hike\":\"Woche 7 · Lange Wanderung\",\"Week 8 · Strength\":\"Woche 8 · Kraft\",\"Week 8 · Stairs\":\"Woche 8 · Treppe\",\"4 hours\":\"4 Stunden\",\"Week 8 · Tour day\":\"Woche 8 · Tourentag\",\"The tour day: four hours with a day pack, ups and downs. Breaks are part of it – pause the timer for them.\":\"Der Tourentag: vier Stunden mit Tagesrucksack, bergauf und bergab. Pausen gehören dazu – dafür den Timer anhalten.\",\"Hiking Fitness 8 Weeks\":\"Fit fürs Wandern 8 Wochen\",\"Fit for the mountains: 8 weeks, 3 sessions per week. Leg strength for climbing and descending (step-ups, lunges, calf raises, glute bridge, side plank), stair intervals, and one long hike that grows from one to four hours. The last week ends with a tour day. A chair, a staircase and a day pack.\":\"Fit für die Berge: 8 Wochen, 3 Einheiten pro Woche. Beinkraft für bergauf und bergab (Step-ups, Ausfallschritte, Wadenheben, Glute Bridge, Seitstütz), Treppen-Intervalle und eine lange Wanderung, die von einer auf vier Stunden wächst. Die letzte Woche endet mit einem Tourentag. Ein Stuhl, eine Treppe und ein Tagesrucksack.\",\"Week 1 · Session 1\":\"Woche 1 · Einheit 1\",\"Walk in\":\"Eingehen\",\"Five minutes of brisk walking – outside or through the flat.\":\"Fünf Minuten zügig gehen – draußen oder durch die Wohnung.\",\"Mobilise\":\"Mobilisieren\",\"Slow, small movements without pain. Breathe calmly.\":\"Langsame, kleine Bewegungen ohne Schmerz. Ruhig atmen.\",\"Strong trunk\":\"Starker Rumpf\",\"Hold every rep of curl-up and bird dog for about 10 seconds. Keep the back in its natural curve.\":\"Jede Wiederholung von Curl-up und Bird Dog etwa 10 Sekunden halten. Den Rücken in seiner natürlichen Form lassen.\",\"Lifting the right way: bend at the hips, back long, weight close to the body. Two water bottles are enough at the start.\":\"Richtig heben: aus der Hüfte beugen, Rücken lang, Gewicht nah am Körper. Zwei Wasserflaschen genügen am Anfang.\",\"Relax\":\"Entspannen\",\"Lie on your back. Tense one body part after another for five seconds, then let go completely.\":\"Auf dem Rücken liegen. Nacheinander jede Körperpartie fünf Sekunden anspannen, dann ganz loslassen.\",\"Week 1 · Session 2\":\"Woche 1 · Einheit 2\",\"Week 2 · Session 1\":\"Woche 2 · Einheit 1\",\"Week 2 · Session 2\":\"Woche 2 · Einheit 2\",\"Week 3 · Session 1\":\"Woche 3 · Einheit 1\",\"Week 3 · Session 2\":\"Woche 3 · Einheit 2\",\"Week 4 · Session 1\":\"Woche 4 · Einheit 1\",\"Week 4 · Session 2\":\"Woche 4 · Einheit 2\",\"Week 5 · Session 1\":\"Woche 5 · Einheit 1\",\"Week 5 · Session 2\":\"Woche 5 · Einheit 2\",\"Week 6 · Session 1\":\"Woche 6 · Einheit 1\",\"Week 6 · Session 2\":\"Woche 6 · Einheit 2\",\"Week 7 · Session 1\":\"Woche 7 · Einheit 1\",\"Week 7 · Session 2\":\"Woche 7 · Einheit 2\",\"Week 8 · Session 1\":\"Woche 8 · Einheit 1\",\"Week 8 · Session 2\":\"Woche 8 · Einheit 2\",\"Back School 8 Weeks\":\"Rückenschule 8 Wochen\",\"A strong, mobile back for everyday life: 8 weeks, 2 sessions per week, about 30 minutes. Walk in, mobilise gently, strengthen the trunk (curl-up, bird dog, side plank, glute bridge, dead bug), learn to lift with a light weight, then relax. Three stages from gentle to stronger. Inspired by the German \\\"Neue Rückenschule\\\". With acute or radiating pain see a doctor first.\":\"Ein starker, beweglicher Rücken für den Alltag: 8 Wochen, 2 Einheiten pro Woche, etwa 30 Minuten. Eingehen, sanft mobilisieren, den Rumpf kräftigen (Curl-up, Bird Dog, Seitstütz, Glute Bridge, Dead Bug), mit leichtem Gewicht richtig heben lernen, dann entspannen. Drei Abschnitte von sanft bis kräftigend. Angelehnt an die „Neue Rückenschule“. Bei akuten oder ausstrahlenden Schmerzen erst zum Arzt.\"}")
 }.de ?? {};
 var TPL = new Map(templates_default.map((t) => [t.id, t.plan]));
 var pad$1 = (n) => String(n).padStart(2, "0");
@@ -6099,6 +6217,12 @@ var FAMILY_PCT = [
 		95
 	]
 ];
+/** Steigerung je Zyklus bzw. Woche: Beine/Kreuzheben 5 kg, Oberkörper 2,5 kg */
+var LOWER = /* @__PURE__ */ new Set(["back_squat", "deadlift"]);
+var lin = (exercise) => ({
+	type: "linear",
+	increment_kg: LOWER.has(exercise) ? 5 : 2.5
+});
 function theFamily() {
 	const reps = [
 		[
@@ -6126,7 +6250,8 @@ function theFamily() {
 				name: T(`${p[0]} %`, `${p[0]} %`),
 				sets: 1,
 				reps: r[0],
-				rest_s: 120
+				rest_s: 120,
+				progression: lin(exercise)
 			},
 			{
 				type: "sets",
@@ -6134,16 +6259,18 @@ function theFamily() {
 				name: T(`${p[1]} %`, `${p[1]} %`),
 				sets: 1,
 				reps: r[1],
-				rest_s: 150
+				rest_s: 150,
+				progression: lin(exercise)
 			},
 			{
 				type: "sets",
 				exercise,
 				name: T(`${p[2]} % – as many as clean`, `${p[2]} % – so viele wie sauber`),
 				sets: 1,
-				reps: "max",
+				reps: r[2],
 				rest_s: 180,
-				note: T(`At least ${r[2]} clean reps, more if they are there. Stop one or two before your limit.`, `Mindestens ${r[2]} saubere Wiederholungen, mehr, wenn sie da sind. Hör ein bis zwei vor deiner Grenze auf.`)
+				progression: lin(exercise),
+				note: T(`At least ${r[2]} clean reps, more if they are there – enter what you did. Stop one or two before your limit.`, `Mindestens ${r[2]} saubere Wiederholungen, mehr, wenn sie da sind – trag ein, was du geschafft hast. Hör ein bis zwei vor deiner Grenze auf.`)
 			}
 		];
 	};
@@ -6154,18 +6281,25 @@ function theFamily() {
 		sets: 3,
 		reps: 5,
 		rest_s: 120,
+		progression: lin(exercise),
 		note: T(`Back to ${FAMILY_PCT[k][0]} % of your training max.`, `Zurück auf ${FAMILY_PCT[k][0]} % deines Trainingsmaximums.`)
 	});
 	const workouts = [];
 	for (let i = 0; i < 36; i++) {
-		const week = Math.floor(i / 3), k = week % 3, d = i % 3, cycle = Math.floor(week / 3) + 1;
+		const k = Math.floor(i / 3) % 3, d = i % 3;
 		const blocks = [{
 			type: "warmup",
 			note: WARMUP_BAR$1
 		}];
-		if (d === 0) blocks.push(...main("back_squat", k), ...main("bench_press", k), R("chin_up", 3, 5, 10, { rest_s: 90 }));
+		if (d === 0) blocks.push(...main("back_squat", k), ...main("bench_press", k), R("chin_up", 3, 5, 10, {
+			rest_s: 90,
+			progression: { type: "reps" }
+		}));
 		else if (d === 1) blocks.push(...main("deadlift", k), ...main("overhead_press", k), H("plank", 3, 30, 60, { rest_s: 60 }));
-		else blocks.push(volume("back_squat", k), volume("bench_press", k), R("barbell_row", 3, 8, 8, { rest_s: 90 }));
+		else blocks.push(volume("back_squat", k), volume("bench_press", k), R("barbell_row", 3, 8, 8, {
+			rest_s: 90,
+			progression: lin("barbell_row")
+		}));
 		blocks.push({ type: "cooldown" });
 		const w = {
 			id: `w${pad$1(i + 1)}`,
@@ -6178,16 +6312,24 @@ function theFamily() {
 				"Kreuzheben & Drücken",
 				"Volumen"
 			][d]),
+			day_type: `${[
+				"fives",
+				"threes",
+				"top"
+			][k]}_${[
+				"a",
+				"b",
+				"c"
+			][d]}`,
 			blocks
 		};
-		if (i === 0) w.note = T("Before you start: set a training max for each lift – about 90 % of the heaviest single you could do cleanly today. All percentages refer to it.", "Bevor du anfängst: Lege für jede Übung ein Trainingsmaximum fest – etwa 90 % des schwersten sauberen Einzelversuchs von heute. Alle Prozente beziehen sich darauf.");
-		else if (k === 0 && d === 0) w.note = T(`Cycle ${cycle}: raise the training max – 2.5 kg for bench and press, 5 kg for squat and deadlift.`, `Zyklus ${cycle}: Trainingsmaximum anheben – 2,5 kg bei Bank und Drücken, 5 kg bei Kniebeuge und Kreuzheben.`);
+		if (i === 0) w.note = T("Before you start: set a training max for each lift – about 90 % of the heaviest single you could do cleanly today. All percentages refer to it. In the first three weeks you enter the weights yourself; from then on the app adds 2.5 kg (bench, press) or 5 kg (squat, deadlift) per cycle.", "Bevor du anfängst: Lege für jede Übung ein Trainingsmaximum fest – etwa 90 % des schwersten sauberen Einzelversuchs von heute. Alle Prozente beziehen sich darauf. In den ersten drei Wochen trägst du die Gewichte selbst ein; danach legt die App je Zyklus 2,5 kg (Bank, Drücken) bzw. 5 kg (Kniebeuge, Kreuzheben) drauf.");
 		workouts.push(w);
 	}
 	return {
 		schema_version: 1,
 		name: T("Strength Cycles 12 Weeks", "Kraftzyklen 12 Wochen"),
-		description: T("Four lifts, four cycles of three weeks: 12 weeks, 3 workouts per week. Every main lift gets three rising sets by percentage of your training max (about 90 % of your best single); on the last one you do as many clean reps as you have. After each cycle the training max goes up a little. Set the weights yourself with − and +. Inspired by 5/3/1.", "Vier Grundübungen, vier Zyklen zu drei Wochen: 12 Wochen, 3 Trainings pro Woche. Jede Hauptübung bekommt drei ansteigende Sätze nach Prozent deines Trainingsmaximums (etwa 90 % deines besten Einzelversuchs); im letzten machst du so viele saubere Wiederholungen, wie da sind. Nach jedem Zyklus steigt das Trainingsmaximum ein wenig. Die Gewichte stellst du selbst mit − und + ein. Angelehnt an 5/3/1."),
+		description: T("Four lifts, four cycles of three weeks: 12 weeks, 3 workouts per week. Every main lift gets three rising sets by percentage of your training max (about 90 % of your best single); on the last one you do as many clean reps as you have. In the first cycle you set the weights yourself, after that the app raises them every cycle – 2.5 kg for bench and press, 5 kg for squat and deadlift. Inspired by 5/3/1.", "Vier Grundübungen, vier Zyklen zu drei Wochen: 12 Wochen, 3 Trainings pro Woche. Jede Hauptübung bekommt drei ansteigende Sätze nach Prozent deines Trainingsmaximums (etwa 90 % deines besten Einzelversuchs); im letzten machst du so viele saubere Wiederholungen, wie da sind. Im ersten Zyklus stellst du die Gewichte selbst ein, danach hebt die App sie jeden Zyklus an – 2,5 kg bei Bank und Drücken, 5 kg bei Kniebeuge und Kreuzheben. Angelehnt an 5/3/1."),
 		goal: "strength",
 		defaults: {
 			rest_s: 150,
@@ -6210,6 +6352,10 @@ function fortyNights() {
 		"2x5",
 		"1x10"
 	];
+	const prog = (ex) => ex === "chin_up" ? {
+		type: "linear",
+		increment_kg: 1
+	} : lin(ex);
 	const workouts = [];
 	for (let i = 0; i < 40; i++) {
 		const s = scheme[i % 5];
@@ -6217,27 +6363,29 @@ function fortyNights() {
 			type: "warmup",
 			note: T("A few easy minutes and one light set of each lift.", "Ein paar lockere Minuten und je ein leichter Satz jeder Übung.")
 		}];
-		for (const ex of lifts) if (s === "2x5") blocks.push(R(ex, 2, 5, 5, { rest_s: 120 }));
+		for (const ex of lifts) if (s === "2x5") blocks.push(R(ex, 2, 5, 5, {
+			rest_s: 120,
+			progression: prog(ex)
+		}));
 		else if (s === "1x10") blocks.push(R(ex, 1, 10, 10, {
 			rest_s: 120,
+			progression: prog(ex),
 			note: T("Light day: about three quarters of your usual weight, smooth and fast.", "Leichter Tag: etwa drei Viertel des üblichen Gewichts, flüssig und zügig.")
 		}));
-		else blocks.push({
-			type: "circuit",
-			name: T("5-3-2", "5-3-2"),
-			rounds: 1,
-			rest_after_exercise_s: 120,
-			rest_after_s: 120,
-			note: T("Three sets, getting shorter. Add a little weight for each one – still no grinding.", "Drei Sätze, immer kürzer. Für jeden etwas mehr Gewicht – trotzdem ohne Quälen."),
-			exercises: [
-				5,
-				3,
-				2
-			].map((reps) => ({
-				exercise: ex,
-				reps
-			}))
-		});
+		else [
+			5,
+			3,
+			2
+		].forEach((reps, n) => blocks.push({
+			type: "sets",
+			exercise: ex,
+			name: T(`5-3-2 · ${reps}`, `5-3-2 · ${reps}`),
+			sets: 1,
+			reps,
+			rest_s: 120,
+			progression: prog(ex),
+			...n === 0 ? { note: T("Three sets, getting shorter, each a little heavier – still no grinding.", "Drei Sätze, immer kürzer, jeder etwas schwerer – trotzdem ohne Quälen.") } : {}
+		}));
 		blocks.push(R("kb_swing", 2, 10, 10, {
 			rest_s: 90,
 			weight_kg: 16
@@ -6245,13 +6393,14 @@ function fortyNights() {
 		workouts.push({
 			id: `w${pad$1(i + 1)}`,
 			name: T(`Night ${i + 1} · ${s}`, `Nacht ${i + 1} · ${s}`),
+			day_type: `slot${i % 5 + 1}`,
 			blocks
 		});
 	}
 	return {
 		schema_version: 1,
 		name: T("Easy Strength 40 Workouts", "Leichte Kraft 40 Trainings"),
-		description: T("Forty workouts with the same five moves: press, chin-up, deadlift, swing and plank. 5 short workouts per week, about 8 weeks. Only a few sets, always with weights that feel easy – you never go to your limit. Add weight only when the bar feels light. You get strong by showing up, not by suffering. Inspired by “Easy Strength”.", "Vierzig Trainings mit denselben fünf Übungen: Drücken, Klimmzug im Untergriff, Kreuzheben, Swing und Unterarmstütz. 5 kurze Trainings pro Woche, etwa 8 Wochen. Nur wenige Sätze, immer mit Gewichten, die sich leicht anfühlen – du gehst nie an deine Grenze. Mehr Gewicht erst, wenn die Hantel leicht wirkt. Stark wirst du durchs Kommen, nicht durchs Leiden. Angelehnt an „Easy Strength“."),
+		description: T("Forty workouts with the same five moves: press, chin-up, deadlift, swing and plank. 5 short workouts per week, about 8 weeks. Only a few sets, always with weights that feel easy – you never go to your limit. In the first week you set the weights; after that the app adds a little each week (rate a set as hard and it waits, as easy and it adds more). You get strong by showing up, not by suffering. Inspired by “Easy Strength”.", "Vierzig Trainings mit denselben fünf Übungen: Drücken, Klimmzug im Untergriff, Kreuzheben, Swing und Unterarmstütz. 5 kurze Trainings pro Woche, etwa 8 Wochen. Nur wenige Sätze, immer mit Gewichten, die sich leicht anfühlen – du gehst nie an deine Grenze. In der ersten Woche stellst du die Gewichte ein; danach legt die App jede Woche etwas drauf (bewertest du einen Satz als schwer, wartet sie, als leicht, legt sie mehr drauf). Stark wirst du durchs Kommen, nicht durchs Leiden. Angelehnt an „Easy Strength“."),
 		goal: "strength",
 		defaults: {
 			rest_s: 120,
@@ -6272,22 +6421,43 @@ function clockwork() {
 		}];
 		if (d === 0) blocks.push(R("back_squat", 5, 5, 5, {
 			rest_s: 180,
-			note: T("Volume day: about 90 % of your best set of five. All five sets with the same weight.", "Volumentag: etwa 90 % deines besten Fünfersatzes. Alle fünf Sätze mit demselben Gewicht.")
-		}), R(press, 5, 5, 5, { rest_s: 150 }), R("deadlift", 1, 5, 5, { rest_s: 180 }));
+			progression: lin("back_squat"),
+			note: T("Volume day: the first time about 90 % of your best set of five. All five sets with the same weight.", "Volumentag: beim ersten Mal etwa 90 % deines besten Fünfersatzes. Alle fünf Sätze mit demselben Gewicht.")
+		}), R(press, 5, 5, 5, {
+			rest_s: 150,
+			progression: lin(press)
+		}), R("deadlift", 1, 5, 5, {
+			rest_s: 180,
+			progression: lin("deadlift")
+		}));
 		else if (d === 1) blocks.push(R("back_squat", 2, 5, 5, {
 			rest_s: 120,
-			note: T("Light day: about 80 % of the volume day. It should feel easy.", "Leichter Tag: etwa 80 % vom Volumentag. Es soll sich leicht anfühlen.")
-		}), R(other, 3, 5, 5, { rest_s: 120 }), {
+			progression: lin("back_squat"),
+			note: T("Light day: the first time about 80 % of the volume day. It should feel easy.", "Leichter Tag: beim ersten Mal etwa 80 % vom Volumentag. Es soll sich leicht anfühlen.")
+		}), R(other, 3, 5, 5, {
+			rest_s: 120,
+			progression: lin(other)
+		}), {
 			type: "sets",
 			exercise: "chin_up",
 			sets: 3,
 			reps: "max",
 			rest_s: 120
-		}, R("superman", 3, 10, 15, { rest_s: 60 }));
+		}, R("superman", 3, 10, 15, {
+			rest_s: 60,
+			progression: { type: "reps" }
+		}));
 		else blocks.push(R("back_squat", 1, 5, 5, {
 			rest_s: 240,
-			note: T("Record day: one set of five, a little heavier than last week. Warm up thoroughly in small steps.", "Bestwerttag: ein Fünfersatz, etwas schwerer als letzte Woche. Gründlich in kleinen Schritten aufwärmen.")
-		}), R(press, 1, 5, 5, { rest_s: 240 }), R("barbell_row", 3, 5, 5, { rest_s: 120 }));
+			progression: lin("back_squat"),
+			note: T("Record day: one heavy set of five – the app adds a little every week. Warm up thoroughly in small steps.", "Bestwerttag: ein schwerer Fünfersatz – die App legt jede Woche etwas drauf. Gründlich in kleinen Schritten aufwärmen.")
+		}), R(press, 1, 5, 5, {
+			rest_s: 240,
+			progression: lin(press)
+		}), R("barbell_row", 3, 5, 5, {
+			rest_s: 120,
+			progression: lin("barbell_row")
+		}));
 		blocks.push({ type: "cooldown" });
 		workouts.push({
 			id: `w${pad$1(i + 1)}`,
@@ -6300,13 +6470,18 @@ function clockwork() {
 				"Leicht",
 				"Bestwert"
 			][d]),
+			day_type: [
+				"volume",
+				"light",
+				"record"
+			][d],
 			blocks
 		});
 	}
 	return {
 		schema_version: 1,
 		name: T("Barbell Weekly Rhythm 12 Weeks", "Langhantel im Wochentakt 12 Wochen"),
-		description: T("For lifters who no longer improve from workout to workout: 12 weeks, 3 workouts per week with fixed roles. Day 1 is volume (five sets of five), day 2 is light, day 3 is one heavy set of five – a little more than the week before. Bench press and overhead press take turns every week. Set the weights yourself with − and +. Inspired by the Texas Method.", "Für alle, die nicht mehr von Training zu Training besser werden: 12 Wochen, 3 Trainings pro Woche mit festen Rollen. Tag 1 ist Volumen (fünf Sätze mit fünf), Tag 2 ist leicht, Tag 3 ein schwerer Fünfersatz – etwas mehr als in der Woche davor. Bankdrücken und Drücken wechseln sich wochenweise ab. Die Gewichte stellst du selbst mit − und + ein. Angelehnt an die Texas Method."),
+		description: T("For lifters who no longer improve from workout to workout: 12 weeks, 3 workouts per week with fixed roles. Day 1 is volume (five sets of five), day 2 is light, day 3 is one heavy set of five. Bench press and overhead press take turns every week. In the first week you set the weights; after that each day gets 2.5 kg (bench, press, row) or 5 kg (squat, deadlift) more than last time. Inspired by the Texas Method.", "Für alle, die nicht mehr von Training zu Training besser werden: 12 Wochen, 3 Trainings pro Woche mit festen Rollen. Tag 1 ist Volumen (fünf Sätze mit fünf), Tag 2 ist leicht, Tag 3 ein schwerer Fünfersatz. Bankdrücken und Drücken wechseln sich wochenweise ab. In der ersten Woche stellst du die Gewichte ein; danach bekommt jeder Tag 2,5 kg (Bank, Drücken, Rudern) bzw. 5 kg (Kniebeuge, Kreuzheben) mehr als beim letzten Mal. Angelehnt an die Texas Method."),
 		goal: "strength",
 		defaults: {
 			rest_s: 150,
@@ -13480,8 +13655,13 @@ var HeroUI = class {
 		if (!this.on) return "";
 		const { t, esc } = this.h, v = this.view, nu = v.next_upgrade;
 		const chips = POWERS.map((p) => `<span class="hx-pchip" style="--pc:${POWER_COLORS[p]}" title="${esc(t(`hx_p_${p}`))}">${heroIcon(POWER_ICONS[p])}<span class="hx-pchip-n">${esc(t(`hx_p_${p}`))}</span><b>${v.powers[p].value}</b></span>`).join("");
-		const up = nu ? `<span class="hx-up" style="--pc:${POWER_COLORS[nu.power]}"><span class="hx-up-h">${heroIcon(POWER_ICONS[nu.power])}<span>${t(`hx_p_${nu.power}`)}</span><b>${v.powers[nu.power].value}</b><i>/ ${nu.at}</i></span>
-          <span class="hx-prog"><i style="width:${Math.round(nu.progress * 100)}%"></i></span><span class="hx-fact">${t("hx_next_upgrade_short")}</span></span>` : `<span class="hx-up"><span class="hx-fact">${t("hx_all_upgrades")}</span></span>`;
+		const box = (p) => {
+			const st = v.powers[p], next = nu && nu.power === p;
+			const fact = next ? t("hx_next_upgrade_short") : st.paused ? t("hx_resume_power") : st.next === null ? t("hx_all_upgrades") : "";
+			return `<span class="hx-up ${next ? "next" : ""} ${st.paused ? "paused" : ""}" style="--pc:${POWER_COLORS[p]}"><span class="hx-up-h">${heroIcon(POWER_ICONS[p])}<span>${t(`hx_p_${p}`)}</span><b>${st.value}</b>${st.next !== null ? `<i>/ ${st.next}</i>` : ""}</span>
+          <span class="hx-prog"><i style="width:${st.next === null ? 100 : Math.round((st.progress || 0) * 100)}%"></i></span><span class="hx-fact">${fact || "&nbsp;"}</span></span>`;
+		};
+		const up = `<span class="hx-ups ${nu ? "" : "done"}">${POWERS.map(box).join("")}${nu ? "" : `<span class="hx-up next hx-up-all"><span class="hx-fact">${t("hx_all_upgrades")}</span></span>`}</span>`;
 		return `<div class="hx-barwrap ${this.barOpen ? "open" : ""}" data-hx-bar>
       <button class="hx-bar" data-a="hx-go" data-sub="dossier" aria-label="${esc(t("hx_open_hero"))}">
         ${this.heroBust()}
@@ -14339,6 +14519,7 @@ var HeroUI = class {
 				state: state2
 			})}</div>
         ${state2 === "secret" ? `<h3>${t("hx_secret")}</h3><p>${t("hx_secret_text")}</p>` : `<h3>${esc(this.L(def.name))}</h3><p>${esc(this.L(def.cond))}</p>${extra}`}
+        ${def.id === "home_base" && !earned && this.h.install ? this.h.install("badge") : ""}
         <div class="row hx-dlg-btns">${close}</div>`;
 			cls = "center";
 		} else if (d.type === "story" && v) {
@@ -14937,6 +15118,17 @@ var HERO_STYLE = `
   .hx-up-h b { font-weight: 800; margin-left: auto; font-variant-numeric: tabular-nums; }
   .hx-up-h i { font-style: normal; color: var(--secondary-text-color); font-variant-numeric: tabular-nums; }
   .hx-up .hx-fact { font-size: .72em; }
+  /* Schmal: nur das nächste Upgrade; ab 760 px Breite alle Kräfte nebeneinander */
+  .hx-ups { display: contents; }
+  .hx-ups > .hx-up:not(.next) { display: none; }
+  .hx-ups:not(.done) > .hx-up-all { display: none; }
+  .hx-up.paused { opacity: .55; }
+  @container (min-width: 760px) {
+    .hx-ups { display: flex; flex: 0 1 auto; gap: 0; min-width: 0; }
+    .hx-ups > .hx-up:not(.next) { display: flex; }
+    .hx-ups > .hx-up-all { display: none; }
+    .hx-ups > .hx-up { width: 150px; }
+  }
   .hx-rank { display: flex; flex-direction: column; }
   .hx-rank b { font-size: 1.15em; }
   /* Trainingsplan einer Story */
@@ -16688,6 +16880,7 @@ var TrainerUI = class extends HTMLElement {
 			caps: () => this._caps,
 			preview: (steps) => this._renderPreview(steps),
 			exercises: (workouts) => this._renderExercises(workouts),
+			install: (where) => this._renderInstall(where),
 			emit: (name, detail) => this.dispatchEvent(new CustomEvent(name, {
 				detail,
 				bubbles: true,
@@ -17233,7 +17426,13 @@ var TrainerUI = class extends HTMLElement {
 			this._restore = null;
 			this._render();
 		} else if (a === "rs-go") await this._importBackup();
-		else if (a === "disclaimer") this.dispatchEvent(new CustomEvent("hero-disclaimer", {
+		else if (a === "install-go") {
+			if (this._backend.install) await this._backend.install.prompt();
+			this._render();
+		} else if (a === "install-later") {
+			if (this._backend.install) this._backend.install.later();
+			this._render();
+		} else if (a === "disclaimer") this.dispatchEvent(new CustomEvent("hero-disclaimer", {
 			bubbles: true,
 			composed: true
 		}));
@@ -17522,6 +17721,7 @@ var TrainerUI = class extends HTMLElement {
         <div class="fin-tiles">${tiles}</div>
         ${records}${better}${vs ? `<div class="fin-sec">${vs}</div>` : ""}${muscles}${outlook}
         ${this._hero.renderSummary(s.hero)}
+        ${this._renderInstall("fin")}
         <div class="fin-sec fin-cont"><span>${esc(week)}</span>${streak ? `<span>${streak}</span>` : ""}<span>${esc(t("fin_total", { n: s.total }))}</span></div>
         ${this._caps.share && !early ? `<button class="btn big fin-share" data-a="fin-share">⟦up⟧ ${t("sh_open")}</button>` : ""}
         <button class="btn primary big fin-done" data-a="fin-done">${t("fin_done")}</button>
@@ -17559,6 +17759,7 @@ var TrainerUI = class extends HTMLElement {
       <div class="pad live">
         ${people}
         ${this._weekCard()}
+        ${this._renderInstall("card")}
         ${this._hero.renderBar()}${this._hero.renderHints()}
         ${story ? `${this._hero.renderHomeTabs()}${this._hero.homeTab === "free" ? free : this._hero.renderStoryCard()}` : `${this._hero.renderStoryCard()}${free}`}
         ${voice}
@@ -17568,6 +17769,7 @@ var TrainerUI = class extends HTMLElement {
       <div class="pad live">
         ${people}
         ${this._weekCard()}
+        ${this._renderInstall("card")}
         ${picker}
         ${voice}
       </div>`;
@@ -18305,7 +18507,9 @@ var TrainerUI = class extends HTMLElement {
 		if (!this._caps.data) return this._renderBackup();
 		const opts = this._options || {};
 		const theme = opts.theme || "auto";
+		const install = this._renderInstall("settings");
 		return `
+      ${install ? `<div class="lbl">${t("d_install")}</div>${install}` : ""}
       <div class="lbl">${t("d_theme")}</div>
       <div class="row">${[
 			"auto",
@@ -18323,11 +18527,27 @@ var TrainerUI = class extends HTMLElement {
       <div class="muted small">${t("d_glow_hint")}</div>
       ${this._hero.renderSettings()}
       ${this._renderBackup()}
-      <div class="lbl">${t("d_install")}</div>
-      <div class="muted small">${t("d_install_hint")}</div>
       <div class="lbl">${t("d_about")}</div>
       <div class="muted small">${t("d_privacy")}</div>
       <div class="row"><button class="btn small" data-a="disclaimer">${t("d_disclaimer")}</button></div>`;
+	}
+	_renderInstall(where) {
+		const ins = this._backend && this._backend.install;
+		if (!ins) return "";
+		const state = ins.state;
+		if (state === "installed") return where === "settings" ? `<div class="muted small">${t("in_done")}</div>` : "";
+		if ((where === "card" || where === "fin") && !ins.mobile && state !== "prompt") return "";
+		if (where === "card" && ins.snoozed) return "";
+		const how = state === "prompt" ? "" : `<div class="small">${t(state === "ios" ? "in_ios" : where === "settings" && !ins.mobile ? "d_install_hint" : "in_manual")}</div>`;
+		const btns = (state === "prompt" ? `<button class="btn primary small" data-a="install-go">${t("in_go")}</button>` : "") + (where === "card" ? `<button class="btn small" data-a="install-later">${t("in_later")}</button>` : "");
+		if (where === "settings" || where === "badge") return `<div class="install-box plain">${where === "badge" ? `<div class="lbl">${t("in_badge")}</div>` : `<div class="muted small">${t("in_why")}</div>`}${how}${btns ? `<div class="row">${btns}</div>` : ""}</div>`;
+		return `<div class="install-box ${where === "fin" ? "fin-sec" : ""}">
+        <div class="install-head">⟦phone⟧ <b>${t(where === "fin" ? "in_fin_title" : "in_title")}</b></div>
+        <div class="muted small">${t("in_why")}</div>${how}${btns ? `<div class="row">${btns}</div>` : ""}</div>`;
+	}
+	/** Chrome meldet die App als installierbar oder sie wurde installiert → Hinweise neu zeichnen */
+	installChanged() {
+		if (this._state) this._render();
 	}
 	setOptions(options) {
 		this._options = options;
@@ -19005,6 +19225,14 @@ var STYLE = `
   .fin-badge .pi { width: 56px; height: 56px; }
   @keyframes fin-pop { from { transform: scale(.4); opacity: 0; } 70% { transform: scale(1.1); } }
   @media (prefers-reduced-motion: reduce) { .fin-badge { animation: none; } }
+  /* Als App installieren: Karte im Training und im Abschluss (grün umrandet), schlicht in Einstellungen und Orden */
+  .install-box { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: 14px; text-align: left;
+                 border: 1.5px solid var(--primary-color); background: color-mix(in srgb, var(--primary-color) 9%, transparent); }
+  .install-box.plain { border: 0; background: none; padding: 0; }
+  .install-box .install-head { display: flex; align-items: center; gap: 8px; }
+  .install-box .install-head .pi { color: var(--primary-color); width: 22px; height: 22px; flex: none; }
+  .install-box .small .pi { width: 1.1em; height: 1.1em; vertical-align: -.2em; }
+  .install-box .row { margin-top: 2px; }
   .fin-meta { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; }
   .fin-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   @container (max-width: 560px) { .fin-tiles { grid-template-columns: 1fr 1fr; } }
@@ -19232,7 +19460,7 @@ var STYLE = `
 `;
 // src/card/card.js
 var DOMAIN = "training_assistant";
-var CARD_VERSION = "0.14.0";
+var CARD_VERSION = "0.15.0";
 var CAPS = {
 	voice: true,
 	linkUsers: true,

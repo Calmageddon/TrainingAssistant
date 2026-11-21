@@ -2,7 +2,12 @@
 
   { format: "training-log", version: 1, app, app_version, exported_at,
     plans:  [{ id, name, template, category, data }],
-    people: [{ id, name, figure, weekly_goal, goal_history, program, rotation, sessions: [...] }] }
+    people: [{ id, name, figure, weekly_goal, goal_history, program, rotation, sessions: [...], hero? }] }
+
+hero (optional): Daten des Heldenmodus aus Hero Upgrade, die sich nicht aus dem Verlauf berechnen lassen (Story-Durchgänge
+mit fertigen Stories, Orden-Daten, Figur, Stil …). TA hat (noch) keinen Heldenmodus, hebt sie aber je Person auf
+(profile["hero"]), führt sie wie HU zusammen (merge_hero) und schreibt sie beim Export wieder mit – so geht nichts
+verloren, und ein späterer Heldenmodus in TA findet das Regal mit fertigen Stories vor.
 
 Gleiches Format wie Hero Upgrade (src/core/backup.ts) – so lässt sich der Verlauf per Datei zwischen HU und TA tauschen.
 Sessions sind abgeschlossene Trainings mit allen Sätzen (gleicher Aufbau in beiden Apps), laufende gehören nie dazu.
@@ -40,8 +45,55 @@ def to_portable(plans: dict[str, Any], profiles: dict[str, Any], persons: dict[s
             "program": (persons.get(pid) or {}).get("program"),
             "rotation": dict((persons.get(pid) or {}).get("rotation") or {}),
             "sessions": copy.deepcopy((persons.get(pid) or {}).get("sessions") or []),
+            **({"hero": copy.deepcopy(prof["hero"])} if prof.get("hero") else {}),
         } for pid, prof in profiles.items()],
     }
+
+
+def merge_hero(target: dict[str, Any], incoming: Any) -> dict[str, Any]:
+    """Helden-Daten ergänzen wie Hero Upgrade (mergeHero in src/core/backup.ts, gemeinsame Testfälle).
+
+    Eigene Einstellungen bleiben; Story-Durchgänge kommen dazu (ein dort beendeter Durchgang gilt hier als beendet,
+    höchstens eine aktive Story – eine weitere wird pausiert); bei Orden und Markierungen gilt das frühere Datum.
+    """
+    if not isinstance(incoming, dict):
+        return target
+    for k in ("on", "asked", "figure", "style", "alias"):
+        if k not in target and k in incoming:
+            target[k] = incoming[k]
+    if target.get("runs") is None:
+        target["runs"] = []
+    runs: list[dict[str, Any]] = target["runs"]
+
+    def active() -> bool:
+        return any(not r.get("finished_at") and not r.get("paused_at") for r in runs)
+
+    for r in incoming.get("runs") if isinstance(incoming.get("runs"), list) else []:
+        if not isinstance(r, dict) or not isinstance(r.get("story"), str) or not r.get("started_at"):
+            continue
+        mine = next((x for x in runs if x.get("story") == r["story"] and x.get("started_at") == r["started_at"]), None)
+        if mine is not None:
+            if r.get("finished_at") and not mine.get("finished_at"):
+                mine.update(copy.deepcopy(r))
+            continue
+        run = copy.deepcopy(r)
+        run.pop("goal_prev", None)  # das Wochenziel dieses Geräts bleibt, wie es ist
+        if not run.get("finished_at") and not run.get("paused_at") and active():
+            run["paused_at"] = run["started_at"]  # nur eine aktive Story
+        runs.append(run)
+    runs.sort(key=lambda x: str(x.get("started_at")))
+    for key in ("badges", "marks"):
+        if target.get(key) is None:
+            target[key] = {}
+        t = target[key]
+        for bid, date in (incoming.get(key) or {}).items():
+            if isinstance(date, str) and (not t.get(bid) or date < t[bid]):
+                t[bid] = date
+    if incoming.get("power_pauses") and not target.get("power_pauses"):
+        target["power_pauses"] = copy.deepcopy(incoming["power_pauses"])
+    if (incoming.get("tutorial") or {}).get("done"):
+        target.setdefault("tutorial", {})["done"] = True
+    return target
 
 
 def _legacy_hu(file: dict[str, Any], now_iso: str) -> dict[str, Any]:

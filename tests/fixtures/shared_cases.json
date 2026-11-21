@@ -1,5 +1,305 @@
 {
  "_comment": "Erzeugt von Hero Upgrade (npm run cases). Nicht von Hand ändern.",
+ "merge_hero": [
+  {
+   "name": "empty_target",
+   "input": {
+    "target": {},
+    "incoming": {
+     "on": true,
+     "figure": "w",
+     "style": "neonrebel",
+     "alias": "Nova",
+     "runs": [
+      {
+       "story": "seven_minutes",
+       "started_at": "2026-11-01",
+       "finished_at": "2026-11-20"
+      }
+     ],
+     "badges": {
+      "first_step": "2026-11-01"
+     },
+     "marks": {
+      "home_base": "2026-11-02"
+     },
+     "tutorial": {
+      "done": true
+     }
+    }
+   },
+   "expect": {
+    "on": true,
+    "figure": "w",
+    "style": "neonrebel",
+    "alias": "Nova",
+    "runs": [
+     {
+      "story": "seven_minutes",
+      "started_at": "2026-11-01",
+      "finished_at": "2026-11-20"
+     }
+    ],
+    "badges": {
+     "first_step": "2026-11-01"
+    },
+    "marks": {
+     "home_base": "2026-11-02"
+    },
+    "tutorial": {
+     "done": true
+    }
+   }
+  },
+  {
+   "name": "incoming_null",
+   "input": {
+    "target": {
+     "figure": "m"
+    },
+    "incoming": null
+   },
+   "expect": {
+    "figure": "m"
+   }
+  },
+  {
+   "name": "keep_own_settings",
+   "input": {
+    "target": {
+     "on": false,
+     "figure": "m",
+     "alias": ""
+    },
+    "incoming": {
+     "on": true,
+     "figure": "w",
+     "style": "xclass",
+     "alias": "Nova",
+     "asked": true
+    }
+   },
+   "expect": {
+    "on": false,
+    "figure": "m",
+    "alias": "",
+    "asked": true,
+    "style": "xclass",
+    "runs": [],
+    "badges": {},
+    "marks": {}
+   }
+  },
+  {
+   "name": "second_active_paused",
+   "input": {
+    "target": {
+     "runs": [
+      {
+       "story": "eight_rounds",
+       "started_at": "2026-11-10"
+      }
+     ]
+    },
+    "incoming": {
+     "runs": [
+      {
+       "story": "seven_minutes",
+       "started_at": "2026-11-05",
+       "goal_prev": 2
+      }
+     ]
+    }
+   },
+   "expect": {
+    "runs": [
+     {
+      "story": "seven_minutes",
+      "started_at": "2026-11-05",
+      "paused_at": "2026-11-05"
+     },
+     {
+      "story": "eight_rounds",
+      "started_at": "2026-11-10"
+     }
+    ],
+    "badges": {},
+    "marks": {}
+   }
+  },
+  {
+   "name": "finished_elsewhere",
+   "input": {
+    "target": {
+     "runs": [
+      {
+       "story": "seven_minutes",
+       "started_at": "2026-11-05"
+      }
+     ]
+    },
+    "incoming": {
+     "runs": [
+      {
+       "story": "seven_minutes",
+       "started_at": "2026-11-05",
+       "finished_at": "2026-11-20",
+       "goal_prev": 3
+      }
+     ]
+    }
+   },
+   "expect": {
+    "runs": [
+     {
+      "story": "seven_minutes",
+      "started_at": "2026-11-05",
+      "finished_at": "2026-11-20",
+      "goal_prev": 3
+     }
+    ],
+    "badges": {},
+    "marks": {}
+   }
+  },
+  {
+   "name": "older_badge_wins",
+   "input": {
+    "target": {
+     "badges": {
+      "a": "2026-11-10",
+      "b": "2026-11-01"
+     },
+     "marks": {
+      "x": "2026-11-05"
+     }
+    },
+    "incoming": {
+     "badges": {
+      "a": "2026-11-03",
+      "b": "2026-11-09",
+      "c": "2026-11-12"
+     },
+     "marks": {
+      "x": "2026-11-01",
+      "y": "2026-11-02"
+     }
+    }
+   },
+   "expect": {
+    "badges": {
+     "a": "2026-11-03",
+     "b": "2026-11-01",
+     "c": "2026-11-12"
+    },
+    "marks": {
+     "x": "2026-11-01",
+     "y": "2026-11-02"
+    },
+    "runs": []
+   }
+  },
+  {
+   "name": "pauses_and_tutorial",
+   "input": {
+    "target": {
+     "power_pauses": {
+      "strength": [
+       {
+        "from": "2026-10-01",
+        "to": null
+       }
+      ]
+     }
+    },
+    "incoming": {
+     "power_pauses": {
+      "agility": [
+       {
+        "from": "2026-10-05",
+        "to": null
+       }
+      ]
+     },
+     "tutorial": {
+      "done": true
+     },
+     "runs": [
+      {
+       "story": 3
+      },
+      {
+       "story": "x",
+       "started_at": ""
+      }
+     ]
+    }
+   },
+   "expect": {
+    "power_pauses": {
+     "strength": [
+      {
+       "from": "2026-10-01",
+       "to": null
+      }
+     ]
+    },
+    "runs": [],
+    "badges": {},
+    "marks": {},
+    "tutorial": {
+     "done": true
+    }
+   }
+  },
+  {
+   "name": "sorted_runs",
+   "input": {
+    "target": {
+     "runs": [
+      {
+       "story": "b",
+       "started_at": "2026-11-10",
+       "finished_at": "2026-11-12"
+      }
+     ]
+    },
+    "incoming": {
+     "runs": [
+      {
+       "story": "a",
+       "started_at": "2026-10-01",
+       "finished_at": "2026-10-20"
+      },
+      {
+       "story": "c",
+       "started_at": "2026-11-15"
+      }
+     ]
+    }
+   },
+   "expect": {
+    "runs": [
+     {
+      "story": "a",
+      "started_at": "2026-10-01",
+      "finished_at": "2026-10-20"
+     },
+     {
+      "story": "b",
+      "started_at": "2026-11-10",
+      "finished_at": "2026-11-12"
+     },
+     {
+      "story": "c",
+      "started_at": "2026-11-15"
+     }
+    ],
+    "badges": {},
+    "marks": {}
+   }
+  }
+ ],
  "suggest": [
   {
    "name": "none",

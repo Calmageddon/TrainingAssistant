@@ -418,6 +418,9 @@ class TrainingHub:
             pdata = self.root["persons"][target]
             pdata.setdefault("sessions", [])
             added, skipped = bk.merge_sessions(pdata["sessions"], person["sessions"])
+            if person.get("hero"):  # Heldenmodus aus HU aufheben (fertige Stories …), beim Export wieder dabei
+                prof = self.root["profiles"][target]
+                prof["hero"] = bk.merge_hero(prof.get("hero") or {}, person["hero"])
             result["sessions_added"] += added
             result["sessions_skipped"] += skipped
             if created and person.get("program") in self.root["plans"]:

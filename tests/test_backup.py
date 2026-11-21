@@ -65,3 +65,19 @@ def test_export_roundtrip():
     assert again["app"] == "training-assistant"
     assert again["people"][0]["sessions"] == b["people"][0]["sessions"]
     assert [p["id"] for p in again["plans"]] == [p["id"] for p in b["plans"]]
+
+
+def test_hero_data_of_hu_survives_import_and_export():
+    """Heldenmodus-Daten aus HU (fertige Stories, Orden …) bleiben je Person erhalten und gehen beim Export wieder mit."""
+    b = bk.normalize(SAMPLE["portable"], NOW)
+    person = next(p for p in b["people"] if p.get("hero"))
+    person["hero"]["runs"] = [{"story": "seven_minutes", "started_at": "2026-11-01T08:00:00Z", "finished_at": "2026-11-20T08:00:00Z"}]
+    hero = bk.merge_hero({}, copy.deepcopy(person["hero"]))
+    assert hero["runs"][0]["finished_at"] == "2026-11-20T08:00:00Z"  # fertige Story im Regal
+    assert hero["badges"] == person["hero"]["badges"]
+    profiles = {person["id"]: {"id": person["id"], "name": person["name"], "hero": hero}}
+    out = bk.to_portable({}, profiles, {person["id"]: {"sessions": []}}, app="training-assistant", app_version="x", now_iso=NOW)
+    again = bk.normalize(json.loads(json.dumps(out)), NOW)
+    assert again["people"][0]["hero"] == hero
+    # zweimal einlesen ändert nichts (nichts doppelt)
+    assert bk.merge_hero(copy.deepcopy(hero), copy.deepcopy(person["hero"])) == hero

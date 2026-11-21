@@ -4,6 +4,25 @@ All notable changes to TrainingAssistant. Versions follow [Semantic Versioning](
 patch = fixes, minor = new features, major = stable milestone.
 Deutsche Fassung jeweils darunter.
 
+## 0.15.0 – 2026-11-21
+
+- New optional plan field `day_type` for workouts: workouts of the same day type (e.g. volume, light, record day)
+  compare with each other for suggestions, and if an exercise appears in several blocks (e.g. 65 %, 75 %, 85 %),
+  each block compares with its counterpart. So programs with fixed day roles progress automatically. Schema,
+  documentation, LLM prompt and guides updated; existing plans are unchanged.
+  *Deutsch:* Neues optionales Planfeld `day_type` (Tagesart) für Workouts: Workouts derselben Tagesart (z. B. Volumen-,
+  Leicht-, Bestwerttag) vergleichen sich für die Vorschläge miteinander, und kommt eine Übung in mehreren Blöcken vor
+  (z. B. 65 %, 75 %, 85 %), vergleicht sich jeder Block mit seinem Gegenstück. So steigern sich Programme mit festen
+  Tagesrollen automatisch. Schema, Doku, LLM-Prompt und Anleitungen ergänzt; bestehende Pläne bleiben, wie sie sind.
+- Backups from Hero Upgrade: the hero mode data (finished and running stories, badge dates, figure, style …) is now
+  kept per person and written back on export, merged the same way as in Hero Upgrade. Nothing is lost on the way
+  Hero Upgrade → TrainingAssistant → Hero Upgrade.
+  *Deutsch:* Sicherungen aus Hero Upgrade: Die Daten des Heldenmodus (fertige und laufende Stories, Orden-Daten, Figur,
+  Stil …) bleiben jetzt je Person erhalten und gehen beim Export wieder mit, zusammengeführt wie in Hero Upgrade. Auf
+  dem Weg Hero Upgrade → TrainingAssistant → Hero Upgrade geht nichts mehr verloren.
+- Card: the exercise picture now opens in front of other windows instead of behind them.
+  *Deutsch:* Karte: Das Übungsbild öffnet sich jetzt vor anderen Fenstern statt dahinter.
+
 ## 0.14.0 – 2026-11-21
 
 - New template group "Everyday & health" with three programs: Daily Walking 6 Weeks (from 15 to 45 minutes, 5 walks

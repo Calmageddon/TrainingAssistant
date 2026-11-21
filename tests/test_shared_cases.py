@@ -9,6 +9,7 @@ from pathlib import Path
 
 import pytest
 
+from custom_components.training_assistant.backup import merge_hero
 from custom_components.training_assistant.plan import build_steps, parse_plan_text, slugify
 from custom_components.training_assistant.progression import suggest, suggest_duration
 from custom_components.training_assistant.stats import e1rm, groups_for, new_record, recovery_tier
@@ -78,3 +79,10 @@ def test_build_steps(case):
             mine["segments"] = [{k: g.get(k) for k in w} for g, w in zip(got.get("segments") or [], want["segments"])]
         assert _norm(mine) == _norm(want), f"Schritt {n}"
         # Felder, die Python zusätzlich setzt, die TypeScript aber nicht kennt, sind erlaubt – fehlende nicht
+
+
+@pytest.mark.parametrize("case", CASES["merge_hero"], ids=lambda c: c["name"])
+def test_merge_hero(case):
+    import copy
+    i = case["input"]
+    assert _norm(merge_hero(copy.deepcopy(i["target"]), copy.deepcopy(i["incoming"]))) == _norm(case["expect"])
